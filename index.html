@@ -463,6 +463,91 @@
     .trust-pill-orange { background: var(--orange); border-color: var(--orange-dark); color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(249,115,22,0.35); }
     .trust-pill-orange:hover { background: var(--orange-dark); box-shadow: 0 6px 16px rgba(249,115,22,0.45); }
 
+    /* ===== ANIMATED GRADIENT ORB IN HERO ===== */
+    .hero::after {
+      animation: float-orb 12s ease-in-out infinite;
+    }
+    @keyframes float-orb {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+      50% { transform: translate(-60px, -40px) scale(1.3); opacity: 0.9; }
+    }
+
+    /* ===== STATS / COUNTERS SECTION ===== */
+    .stats-section {
+      background: linear-gradient(180deg, #ffffff 0%, var(--blue-soft) 100%);
+      padding: 48px 20px;
+      border-bottom: 1px solid rgba(37,99,235,0.08);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 12px 8px;
+      position: relative;
+    }
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 20%;
+      bottom: 20%;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(37,99,235,0.2), transparent);
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 9vw, 56px);
+      font-weight: 800;
+      color: var(--blue-dark);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variation-settings: "opsz" 144;
+      background: linear-gradient(135deg, var(--blue-mid) 0%, var(--blue-bright) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    .stat-number.stat-text {
+      font-size: clamp(22px, 5.5vw, 32px);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--orange) 0%, #ea580c 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label {
+      font-size: 14px;
+      color: var(--blue-dark);
+      font-weight: 500;
+      opacity: 0.75;
+    }
+    @media (min-width: 860px) {
+      .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 0 24px; }
+      .stats-section { padding: 64px calc(50% - 420px); }
+    }
+
+    /* ===== REVEAL ON SCROLL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hero::after { animation: none; }
+    }
+
     /* ===== SECTION COMMON ===== */
     section { padding: 56px 20px; }
 
@@ -1282,13 +1367,13 @@
     /* BRAND PRICING CARDS */
     .brand-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 14px;
       margin-bottom: 24px;
       align-items: start;
     }
     @media (min-width: 520px) {
-      .brand-grid { grid-template-columns: repeat(3,1fr); align-items: end; }
+      .brand-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; }
     }
 
     .brand-card {
@@ -1303,6 +1388,9 @@
       display: flex;
       flex-direction: column;
       gap: 0;
+      min-width: 0; /* allow grid to enforce equal widths even with long Russian text */
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     /* Featured (center) card — taller, glowing */
@@ -1359,12 +1447,27 @@
     }
     .brand-name {
       font-size: 22px; font-weight: 900; color: var(--blue-dark);
-      margin-bottom: 6px;
+      margin-bottom: 10px;
     }
     .brand-positioning {
       font-size: 12px; color: var(--gray-600); line-height: 1.5;
-      margin-bottom: 16px; min-height: 36px;
+      margin-bottom: 12px; min-height: 36px;
     }
+    /* Tagline — single-line differentiator pill */
+    .brand-tagline {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      background: rgba(37, 99, 235, 0.08);
+      padding: 5px 12px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+    .brand-card.brand-eco  .brand-tagline { background: rgba(22, 163, 74, 0.10); color: #15803d; }
+    .brand-card.brand-prem .brand-tagline { background: rgba(194, 65, 12, 0.10); color: #c2410c; }
+    .brand-card.brand-base .brand-tagline { background: rgba(37, 99, 235, 0.08); color: var(--blue-mid); }
     /* Strikethrough old price */
     .brand-old-price {
       font-size: 13px; color: var(--gray-600);
@@ -1383,6 +1486,34 @@
       margin-bottom: 10px;
     }
     .brand-warranty { font-size: 12px; color: var(--gray-600); margin-bottom: 16px; }
+
+    /* Average lifespan highlight — key differentiator */
+    .brand-lifespan {
+      font-size: 12px;
+      color: var(--gray-700);
+      margin: -8px 0 14px;
+      padding: 6px 10px;
+      background: rgba(37, 99, 235, 0.06);
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .brand-lifespan strong {
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+    .brand-card.brand-prem .brand-lifespan {
+      background: rgba(194, 65, 12, 0.08);
+    }
+    .brand-card.brand-prem .brand-lifespan strong {
+      color: #c2410c;
+    }
+    .brand-card.brand-eco .brand-lifespan {
+      background: rgba(22, 163, 74, 0.08);
+    }
+    .brand-card.brand-eco .brand-lifespan strong {
+      color: #15803d;
+    }
+
     .brand-features {
       list-style: none; padding: 0; margin: 0 0 18px;
       border-top: 1px solid var(--gray-200); padding-top: 14px;
@@ -1393,6 +1524,53 @@
       font-size: 12px; color: var(--gray-800); line-height: 1.4;
     }
     .brand-features li::before { content:'✓'; color:#16a34a; font-weight:900; flex-shrink:0; margin-top:1px; }
+
+    /* "More details" toggle — subtle, side-placed */
+    .brand-more-btn {
+      align-self: flex-start;
+      background: none;
+      border: none;
+      padding: 4px 0;
+      margin: -10px 0 12px;
+      font-family: 'Assistant', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue-bright);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: opacity 0.2s;
+    }
+    .brand-more-btn:hover { opacity: 0.7; }
+    .brand-more-btn .more-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.1);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    /* Extra details hidden by default, shown when .details-open */
+    .brand-features-extra {
+      max-height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding-top: 0;
+      border-top: none;
+      transition: max-height 0.35s ease, padding-top 0.35s ease, margin-bottom 0.35s ease;
+      gap: 7px;
+    }
+    .brand-card.details-open .brand-features-extra {
+      max-height: 300px;
+      padding-top: 12px;
+      margin-bottom: 14px;
+      border-top: 1px dashed var(--gray-200);
+    }
     .brand-select-btn {
       width: 100%;
       padding: 13px;
@@ -1798,12 +1976,34 @@
     <div class="trust-pill"><div class="dot"></div>הגעה מהירה</div>
     <div class="trust-pill"><div class="dot"></div>מחירים הוגנים</div>
     <div class="trust-pill"><div class="dot"></div>אחריות על העבודה</div>
-    <div class="trust-pill"><div class="dot"></div>1.8K לקוחות מרוצים</div>
+    <div class="trust-pill"><div class="dot"></div>17+ שנות ניסיון</div>
+  </div>
+</section>
+
+<!-- Stats Counters -->
+<section class="stats-section reveal">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number" data-target="17" data-suffix="+">0</div>
+      <div class="stat-label">שנות ניסיון</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="500" data-suffix="+">0</div>
+      <div class="stat-label">לקוחות מרוצים</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number stat-text">באותו יום</div>
+      <div class="stat-label">הגעה לרוב הקריאות</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number stat-text">⚡ מהיר</div>
+      <div class="stat-label">מענה בתוך דקות</div>
+    </div>
   </div>
 </section>
 
 <!-- Services -->
-<section class="services">
+<section class="services reveal">
 
   <div class="section-label">השירותים שלנו</div>
   <h2>הכל תחת קורת גג אחת</h2>
@@ -1869,7 +2069,7 @@
 </section>
 
 <!-- Calculator -->
-<section class="calculator" id="calculator">
+<section class="calculator reveal" id="calculator">
 
   <div class="calc-section-top">
     <div class="section-label">מחשבון מחירים</div>
@@ -2109,7 +2309,7 @@
 </section>
 
 <!-- Gallery -->
-<section class="gallery">
+<section class="gallery reveal">
 
   <div class="section-label">עבודות שביצענו</div>
   <h2>ראה בעצמך את האיכות</h2>
@@ -2138,7 +2338,7 @@
 
 
 <!-- Contact -->
-<section class="contact">
+<section class="contact reveal">
   <div class="section-label">צור קשר</div>
   <h2 style="color:white;">מוכן לשוחח? אנחנו כאן</h2>
   <p class="contact-desc">הדרך המהירה ביותר — וואטסאפ. אפשר גם להתקשר ישירות.</p>
@@ -2231,10 +2431,10 @@ const INCLUDES = {
   solar:       ['התקנה מקצועית','פינוי הדוד הישן','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
   electric:    ['התקנה מקצועית','פינוי הדוד הישן','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','וו תלייה','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
   boiler:      ['התקנה מקצועית','פינוי הדוד הישן','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','וו תלייה','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
-  kolat_copper:['התקנה מקצועית','פינוי הקולט הישן','זוויות ופקקים מותאמים','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','אחריות על העבודה'],
-  kolat_iron:  ['התקנה מקצועית','פינוי הקולט הישן','זוויות ופקקים מותאמים','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','אחריות על העבודה'],
-  system:      ['דוד שמש + קולט שמש תואם','התקנה מקצועית','פינוי דוד + קולט ישנים','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
-  system_std:  ['דוד שמש + קולט שמש תואם','התקנה לפי תקן מלא','מערבל מים','פינוי דוד + קולט ישנים','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
+  kolat_copper:['התקנה מקצועית','פינוי הקולט הישן','זוויות ופקקים מותאמים','רקורדים וגומיות חדשים','ציפוי מגן מאלומיניום','זכוכית מחוסמת','חוט שיזור לתפיסת הקולט','אחריות על העבודה'],
+  kolat_iron:  ['התקנה מקצועית','פינוי הקולט הישן','זוויות ופקקים מותאמים','רקורדים וגומיות חדשים','זכוכית מחוסמת','חוט שיזור לתפיסת הקולט','אחריות על העבודה'],
+  system:      ['דוד שמש + קולט שמש תואם','התקנה מקצועית','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
+  system_std:  ['דוד שמש + קולט שמש תואם','התקנה לפי תקן מלא','מערבל מים','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
 };
 
 const EXTRAS = {
@@ -2453,30 +2653,97 @@ function populateTiers() {
 
   // For system: regular shows non-std brands, standard shows _std brands
   const isStdSystem = (product === 'system' && sysType === 'standard');
+  const isCopperKolat = (product === 'kolat_copper');
   const order = isStdSystem
     ? ['yardan_std','chromagen_std','amisragaz_std']
-    : ['yardan','chromagen','amisragaz'].filter(k => {
-        const available = PRICES[product][volKey];
-        return available && available[k];
-      });
+    : isCopperKolat
+      ? ['yardan','amisragaz','chromagen'].filter(k => {
+          const available = PRICES[product][volKey];
+          return available && available[k];
+        })
+      : ['yardan','chromagen','amisragaz'].filter(k => {
+          const available = PRICES[product][volKey];
+          return available && available[k];
+        });
 
   const displayOrder = order;
 
-  const featuredKey = isStdSystem ? 'chromagen_std' : 'chromagen';
+  // For copper kolat, amisragaz is the recommended/featured middle card
+  const featuredKey = isStdSystem ? 'chromagen_std' : (isCopperKolat ? 'amisragaz' : 'chromagen');
 
+  // Lifespan data per brand (years)
+  const LIFESPAN = {
+    yardan:        '5-8',
+    yardan_std:    '5-8',
+    yardan_kolat:  '5-8',
+    amisragaz:     '8-12',
+    amisragaz_std: '8-12',
+    chromagen:     '15-18',
+    chromagen_std: '15-18',
+  };
+
+  // Short list shown by default — 4 items, parallel structure across tiers
+  const isSystemRegular = (sel.product === 'system' && sel.sysType !== 'standard');
   const FEATURES = {
-    yardan:        ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','אחריות על העבודה'],
-    yardan_std:    ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','התקנה לפי תקן ישראלי','מערבל מים'],
-    chromagen:     (sel.product === 'kolat_copper' || sel.product === 'kolat_iron')
-      ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','פינוי קולט ישן','מתקין מורשה רשמי','אחריות על העבודה']
-      : ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','מתקין מורשה רשמי','אחריות על העבודה'],
-    chromagen_std: ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','מתקין מורשה רשמי','התקנה לפי תקן ישראלי','מערבל מים'],
-    amisragaz:     (sel.product === 'kolat_copper' || sel.product === 'kolat_iron')
-      ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','פינוי קולט ישן','אחריות יותר ארוכה','אחריות על העבודה']
-      : ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','אחריות יותר ארוכה','אחריות על העבודה'],
-    amisragaz_std: ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','אחריות יותר ארוכה','התקנה לפי תקן ישראלי','מערבל מים'],
+    yardan:        isSystemRegular
+      ? ['דוד שמש + קולט שמש תואם','שסתומים ומקשרים חדשים','פינוי המערכת הישנה','אחריות על העבודה']
+      : ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','אחריות על העבודה'],
+    yardan_std:    ['דוד שמש + קולט שמש תואם','שסתומים ומקשרים חדשים','פינוי המערכת הישנה','התקנה לפי תקן ישראלי','מערבל מים'],
+    chromagen:     (sel.product === 'kolat_copper')
+      ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','ציפוי מגן מאלומיניום','מתקין מורשה רשמי']
+      : (sel.product === 'kolat_iron')
+        ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','פינוי קולט ישן','מתקין מורשה רשמי']
+        : isSystemRegular
+          ? ['דוד שמש + קולט שמש תואם','גוף חימום נגד אבנית','פינוי המערכת הישנה','מתקין מורשה רשמי']
+          : ['עבודה + חלקים מלאים','גוף חימום נגד אבנית','ציפוי אמייל נגד חלודה','מתקין מורשה רשמי'],
+    chromagen_std: ['דוד שמש + קולט שמש תואם','גוף חימום נגד אבנית','פינוי המערכת הישנה','מתקין מורשה רשמי','התקנה לפי תקן ישראלי','מערבל מים'],
+    amisragaz:     (sel.product === 'kolat_copper')
+      ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','ציפוי מגן מאלומיניום','אחריות יותר ארוכה']
+      : (sel.product === 'kolat_iron')
+        ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','פינוי קולט ישן','אחריות יותר ארוכה']
+        : isSystemRegular
+          ? ['דוד שמש + קולט שמש תואם','קולט חזק יותר','פינוי המערכת הישנה','אחריות יותר ארוכה']
+          : ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','אחריות יותר ארוכה'],
+    amisragaz_std: ['דוד שמש + קולט שמש תואם','קולט חזק יותר','פינוי המערכת הישנה','אחריות יותר ארוכה','התקנה לפי תקן ישראלי','מערבל מים'],
     yardan_kolat:  ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','פינוי קולט ישן','אחריות על העבודה'],
   };
+
+  // Short tagline per tier — single strong differentiator at top
+  const TAGLINE = {
+    yardan:        '💰 המחיר הנגיש ביותר',
+    yardan_std:    '💰 המחיר הנגיש ביותר',
+    yardan_kolat:  '💰 המחיר הנגיש ביותר',
+    amisragaz:     '⚖️ האיזון הטוב ביותר',
+    amisragaz_std: '⚖️ האיזון הטוב ביותר',
+    chromagen:     (sel.product === 'kolat_copper' || sel.product === 'kolat_iron')
+      ? '🏆 האיכות הגבוהה ביותר'
+      : '🏆 הכי עמיד לשנים',
+    chromagen_std: '🏆 הכי עמיד לשנים',
+  };
+
+  // "More details" — pulls the EXACT list the user will see in the final quote
+  function getExtraDetails(bKey, productType) {
+    // Pick the right INCLUDES bucket based on product
+    let key = productType;
+    if (productType === 'system') {
+      key = (sel.sysType === 'standard') ? 'system_std' : 'system';
+    }
+    let fullList = INCLUDES[key] || [];
+    // Yardan doesn't include aluminum coating in copper kolat — filter it out
+    if (productType === 'kolat_copper' && (bKey === 'yardan' || bKey === 'yardan_kolat')) {
+      fullList = fullList.filter(item => item !== 'ציפוי מגן מאלומיניום');
+    }
+    // Already shown in short list — skip these to avoid duplication
+    const shortList = FEATURES[bKey] || [];
+    const shownTexts = new Set(shortList);
+    return fullList.filter(item => {
+      // Hide items that are already covered by the short list (loose match)
+      for (const shown of shownTexts) {
+        if (item === shown) return false;
+      }
+      return true;
+    });
+  }
   function oldPrice(p) { return Math.round(p * 1.12 / 50) * 50; }
 
   displayOrder.forEach(bKey => {
@@ -2490,6 +2757,10 @@ function populateTiers() {
     const feats = (Array.isArray(featsRaw) ? featsRaw : (typeof featsRaw === 'object' ? FEATURES['amisragaz'] : FEATURES['amisragaz'])) || FEATURES['amisragaz'];
     const roofAdd = getRoofSurcharge();
     const displayPrice = data.price + roofAdd;
+    const isKolatProduct = (sel.product === 'kolat_copper' || sel.product === 'kolat_iron');
+    const lifespan = isKolatProduct ? '' : (LIFESPAN[featKey] || LIFESPAN[bKey] || '');
+    const tagline = TAGLINE[featKey] || TAGLINE[bKey] || '';
+    const extras = getExtraDetails(featKey, sel.product);
     const div = document.createElement('div');
     div.className = `brand-card ${info.cls}${isFeatured ? ' featured-card' : ''}`;
     div.innerHTML = `
@@ -2498,13 +2769,32 @@ function populateTiers() {
         <span class="brand-best-tag">${t(info.bestTag)}</span>
       </div>
       <div class="brand-name">${info.label}</div>
-      <div class="brand-positioning">${t(info.pos)}</div>
-      <div class="brand-old-price" style="${(bKey === 'chromagen' || bKey === 'chromagen_std') ? '' : 'display:none'}">₪${oldPrice(displayPrice).toLocaleString()}</div>
+      ${tagline ? `<div class="brand-tagline">${t(tagline)}</div>` : ''}
+      <div class="brand-old-price" style="${isFeatured ? '' : 'display:none'}">₪${oldPrice(displayPrice).toLocaleString()}</div>
       <div class="brand-price-preview"><span class="currency">₪</span>${displayPrice.toLocaleString()} <span>${t('כולל מע"מ')}</span></div>
-      <div class="brand-sale-tag" style="${(bKey === 'chromagen' || bKey === 'chromagen_std') ? '' : 'display:none'}">${t('✅ מבצע לזמן מוגבל')}</div>
+      <div class="brand-sale-tag" style="${isFeatured ? '' : 'display:none'}">${t('✅ מבצע לזמן מוגבל')}</div>
       <div class="brand-warranty">🛡️ ${t('אחריות יצרן')} ${data.warranty} ${t('שנים')}</div>
+      ${lifespan ? `<div class="brand-lifespan">⏱️ ${t('אורך חיים ממוצע')}: <strong>${lifespan} ${t('שנים')}</strong></div>` : ''}
       <ul class="brand-features">${feats.map(f=>`<li>${t(f)}</li>`).join('')}</ul>
+      ${extras.length ? `
+        <button type="button" class="brand-more-btn" aria-expanded="false">
+          <span class="more-label">${t('מה עוד כלול במחיר?')}</span>
+          <span class="more-icon">+</span>
+        </button>
+        <ul class="brand-features brand-features-extra">${extras.map(f=>`<li>${t(f)}</li>`).join('')}</ul>
+      ` : ''}
       <button class="brand-select-btn">${isFeatured ? t('החבילה המומלצת') : t('לבחירת החבילה')}</button>`;
+    // More-details toggle (scoped to this card)
+    const moreBtn = div.querySelector('.brand-more-btn');
+    if (moreBtn) {
+      moreBtn.onclick = (e) => {
+        e.stopPropagation();
+        const isOpen = div.classList.toggle('details-open');
+        moreBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        moreBtn.querySelector('.more-icon').textContent = isOpen ? '−' : '+';
+        moreBtn.querySelector('.more-label').textContent = t(isOpen ? 'הסתר פרטים' : 'מה עוד כלול במחיר?');
+      };
+    }
     div.onclick = () => {
       container.querySelectorAll('.brand-card').forEach(x => x.classList.remove('selected'));
       div.classList.add('selected');
@@ -2666,7 +2956,11 @@ function showResult() {
   const hdr = document.getElementById('res-header');
   if (hdr) hdr.style.background = info.hdr;
 
-  const incList = INCLUDES[inclKey] || INCLUDES[product];
+  let incList = INCLUDES[inclKey] || INCLUDES[product];
+  // Yardan doesn't get aluminum coating in copper kolat
+  if (product === 'kolat_copper' && (brand === 'yardan' || brand === 'yardan_kolat')) {
+    incList = incList.filter(item => item !== 'ציפוי מגן מאלומיניום');
+  }
   let incHtml = `<div class="includes-title">${t('✅ מה כלול במחיר:')}</div><ul class="includes-list">`;
   incList.forEach(item => { incHtml += `<li>${t(item)}</li>`; });
   incHtml += `<li>${t('אחריות יצרן: ')}<strong>${data.warranty} ${t('שנים')}</strong></li>`;
@@ -2757,9 +3051,52 @@ const TRANSLATIONS = {
   'שירות ב-24 שעות': 'Сервис 24 часа',
   '1.8K לקוחות מרוצים': '1.8K довольных клиентов',
   '1.8K לקוחות מרוצים ⭐': '1.8K довольных клиентов ⭐',
+  '17+ שנות ניסיון': '17+ лет опыта',
   'וואטסאפ מהיר': 'Быстрый WhatsApp',
   'מהיר': 'Быстро',
   'אחריות מלאה': 'Полная гарантия',
+  // STATS COUNTERS
+  'שנות ניסיון': 'Лет опыта',
+  'לקוחות מרוצים': 'Довольных клиентов',
+  'באותו יום': 'В тот же день',
+  'הגעה לרוב הקריאות': 'Выезд на большинство вызовов',
+  '⚡ מהיר': '⚡ Быстро',
+  'מענה בתוך דקות': 'Ответ в течение минут',
+  // PACKAGE TIER DIFFERENTIATORS
+  'אורך חיים ממוצע': 'Средний срок службы',
+  'מה עוד כלול במחיר?': 'Что ещё входит в цену?',
+  'הסתר פרטים': 'Скрыть',
+  // Taglines
+  '💰 המחיר הנגיש ביותר': '💰 Самая доступная цена',
+  '⚖️ האיזון הטוב ביותר': '⚖️ Лучший баланс',
+  '🏆 הכי עמיד לשנים': '🏆 Самый долговечный',
+  '🏆 האיכות הגבוהה ביותר': '🏆 Самое высокое качество',
+  // Chromagen-unique features
+  'גוף חימום נגד אבנית': 'ТЭН с защитой от накипи',
+  'ציפוי אמייל נגד חלודה': 'Эмалевое покрытие от коррозии',
+  // System regular
+  'פינוי המערכת הישנה': 'Вывоз старой системы',
+  'קולט חזק יותר': 'Более мощный коллектор',
+  // Kolat-specific features
+  'ציפוי מגן מאלומיניום': 'Алюминиевое защитное покрытие',
+  'זכוכית מחוסמת': 'Закалённое стекло',
+  // Extra details (from INCLUDES)
+  'התקנה מקצועית': 'Профессиональный монтаж',
+  'פינוי הדוד הישן': 'Вывоз старого бойлера',
+  'פינוי הקולט הישן': 'Вывоз старого коллектора',
+  'שסתום אל-חוזר וביטחון חדשים': 'Новый обратный клапан и предохранитель',
+  'ברז חדש (לפי הצורך)': 'Новый кран (при необходимости)',
+  'מקשרים מותאמים חדשים': 'Новые подходящие соединители',
+  'וו תלייה': 'Крюк для подвески',
+  'בדיקה כוללת לדוד בסוף העבודה': 'Полная проверка бойлера в конце работы',
+  'זוויות ופקקים מותאמים': 'Подходящие уголки и заглушки',
+  'רקורדים וגומיות חדשים': 'Новые американки и прокладки',
+  'חוט שיזור לתפיסת הקולט': 'Трос для крепления коллектора',
+  'דוד שמש + קולט שמש תואם': 'Солнечный бойлер + совместимый коллектор',
+  'פינוי דוד + קולט ישנים': 'Вывоз старого бойлера и коллектора',
+  'צינור נחושת עליון + בידוד': 'Верхняя медная труба + изоляция',
+  'התקנה לפי תקן מלא': 'Монтаж по полному стандарту',
+  'מערבל מים': 'Смеситель воды',
   // SERVICES
   'השירותים שלנו': 'Наши услуги',
   'הכל תחת קורת גג אחת': 'Всё под одной крышей',
@@ -3226,6 +3563,91 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (pair[0]) obs.observe(pair[0]);
   });
+})();
+</script>
+
+<!-- Scroll Reveal + Counter Animations -->
+<script>
+(function() {
+  'use strict';
+
+  // Respect reduced-motion
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('is-visible'); });
+    document.querySelectorAll('.stat-number[data-target]').forEach(function(el) {
+      el.textContent = el.getAttribute('data-target') + (el.getAttribute('data-suffix') || '');
+    });
+    return;
+  }
+
+  // --- Counter animation ---
+  function animateCounter(el) {
+    var target = parseInt(el.getAttribute('data-target'), 10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 1600;
+    var startTime = null;
+    function tick(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      // easeOutCubic
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var value = Math.floor(eased * target);
+      el.textContent = value + suffix;
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = target + suffix;
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // --- IntersectionObserver for reveal + counters ---
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          // Trigger counters inside this section
+          entry.target.querySelectorAll('.stat-number[data-target]').forEach(function(counter) {
+            if (!counter.dataset.animated) {
+              counter.dataset.animated = 'true';
+              animateCounter(counter);
+            }
+          });
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+  } else {
+    // Fallback: show everything immediately
+    document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('is-visible'); });
+    document.querySelectorAll('.stat-number[data-target]').forEach(animateCounter);
+  }
+
+  // --- Subtle parallax on hero background orb ---
+  var hero = document.querySelector('.hero');
+  if (hero) {
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          var scrollY = window.scrollY;
+          if (scrollY < 800) {
+            hero.style.setProperty('--hero-parallax', (scrollY * 0.3) + 'px');
+            hero.style.backgroundPosition = '0 ' + (scrollY * 0.2) + 'px, 100% calc(100% - ' + (scrollY * 0.15) + 'px), 0 0';
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
 })();
 </script>
 

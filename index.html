@@ -149,6 +149,57 @@
       html[lang="ru"] .brand-card.brand-eco  { order: 3; } /* yardan - right */
     }
 
+    /* ===== URGENCY BANNER (TOP) ===== */
+    .urgency-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(90deg, #dc2626 0%, #ea580c 100%);
+      color: white;
+      text-decoration: none;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      position: relative;
+      z-index: 998;
+      transition: filter 0.2s;
+      box-shadow: 0 2px 8px rgba(220,38,38,0.25);
+    }
+    .urgency-banner:hover { filter: brightness(1.08); }
+    .urgency-banner .urgency-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .urgency-banner .urgency-text strong { font-weight: 800; }
+    .urgency-banner .urgency-cta {
+      background: rgba(255,255,255,0.22);
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .urgency-pulse {
+      width: 8px; height: 8px;
+      background: #fbbf24;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 0 rgba(251,191,36,0.7);
+      animation: urgency-ping 1.5s ease-out infinite;
+    }
+    @keyframes urgency-ping {
+      0% { box-shadow: 0 0 0 0 rgba(251,191,36,0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(251,191,36,0); }
+      100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+    }
+    @media (max-width: 480px) {
+      .urgency-banner { font-size: 12.5px; padding: 9px 12px; gap: 8px; }
+      .urgency-banner .urgency-cta { font-size: 11.5px; padding: 3px 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .urgency-pulse { animation: none; }
+    }
+
     /* ===== STICKY WHATSAPP ===== */
     .sticky-wa {
       position: fixed;
@@ -531,6 +582,195 @@
       .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 0 24px; }
       .stats-section { padding: 64px calc(50% - 420px); }
     }
+
+    /* ===== COMMON REPAIRS SECTION ===== */
+    .repairs {
+      background: linear-gradient(180deg, var(--blue-soft) 0%, #ffffff 100%);
+      padding: 56px 20px;
+    }
+    .repairs h2 {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 5.5vw, 36px);
+      font-weight: 800;
+      color: var(--blue-dark);
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .repairs .section-desc {
+      max-width: 580px;
+      margin: 0 auto 32px;
+      text-align: center;
+      color: var(--gray-700);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .repairs-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+      max-width: 1100px;
+      margin: 0 auto 28px;
+    }
+    @media (min-width: 560px) { .repairs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+    @media (min-width: 900px) { .repairs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+
+    /* Stagger reveal animation for repair cards */
+    .repairs-grid .repair-card {
+      opacity: 0;
+      transform: translateY(28px) scale(0.96);
+      transition: opacity 0.55s cubic-bezier(.2,.8,.2,1), transform 0.55s cubic-bezier(.2,.8,.2,1);
+    }
+    .repairs.cards-in .repairs-grid .repair-card {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    /* Cascade delays for each card position */
+    .repairs.cards-in .repairs-grid .repair-card:nth-child(1) { transition-delay: 0.05s; }
+    .repairs.cards-in .repairs-grid .repair-card:nth-child(2) { transition-delay: 0.15s; }
+    .repairs.cards-in .repairs-grid .repair-card:nth-child(3) { transition-delay: 0.25s; }
+    .repairs.cards-in .repairs-grid .repair-card:nth-child(4) { transition-delay: 0.35s; }
+    .repairs.cards-in .repairs-grid .repair-card:nth-child(5) { transition-delay: 0.45s; }
+    .repairs.cards-in .repairs-grid .repair-card:nth-child(6) { transition-delay: 0.55s; }
+    /* Bottom CTA appears last */
+    .repairs .repairs-bottom {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease-out 0.7s, transform 0.5s ease-out 0.7s;
+    }
+    .repairs.cards-in .repairs-bottom {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .repairs-grid .repair-card,
+      .repairs .repairs-bottom {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    .repair-card {
+      background: white;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 18px;
+      padding: 20px 18px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(.4,0,.2,1);
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .repair-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(220,38,38,0.04) 100%);
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+    .repair-card:hover {
+      border-color: #dc2626;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(220,38,38,0.12);
+    }
+    .repair-card:hover::before { opacity: 1; }
+    .repair-icon {
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .repair-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--blue-dark);
+      letter-spacing: -0.01em;
+    }
+    .repair-desc {
+      font-size: 13px;
+      color: var(--gray-600);
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+    .repair-cta {
+      font-size: 13px;
+      font-weight: 700;
+      color: #dc2626;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.2s;
+    }
+    .repair-card:hover .repair-cta { gap: 8px; }
+
+    /* Two-button row for cards with both repair + quote action */
+    .repair-actions {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .repair-actions .repair-cta { margin-top: 0; }
+    .repair-quote-btn {
+      background: var(--blue-dark);
+      color: white;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 99px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(30,58,138,0.18);
+    }
+    .repair-quote-btn:hover {
+      background: var(--blue-mid);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(30,58,138,0.28);
+    }
+    .repair-quote-btn:active { transform: translateY(0); }
+
+    .repairs-bottom {
+      text-align: center;
+      max-width: 540px;
+      margin: 0 auto;
+      padding-top: 8px;
+    }
+    .repairs-bottom p {
+      color: var(--gray-700);
+      font-size: 14px;
+      margin: 0 0 14px;
+    }
+    .repairs-call-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--blue-dark);
+      color: white;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 99px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(30,58,138,0.25);
+    }
+    .repairs-call-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30,58,138,0.35);
+    }
+    .repairs-call-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
     /* ===== REVEAL ON SCROLL ===== */
     .reveal {
@@ -1700,6 +1940,8 @@
 
     /* NAV */
     .step-nav { display: flex; gap: 10px; margin-top: 20px; }
+    /* Hide step-nav entirely when it contains only a hidden (disabled) Continue button and no other visible children */
+    .step-nav:has(> .btn-next-step:disabled:only-child) { display: none; }
     .btn-next-step {
       flex: 1;
       background: linear-gradient(135deg, var(--blue-bright), var(--blue-mid));
@@ -1716,7 +1958,17 @@
     }
     .btn-next-step:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.35); }
     .btn-next-step:active:not(:disabled) { transform: translateY(0); }
-    .btn-next-step:disabled { background: var(--gray-200); color: var(--gray-600); box-shadow: none; cursor: not-allowed; }
+    /* Hide "Continue" button entirely when no selection has been made yet — cleaner UX */
+    .btn-next-step:disabled { display: none; }
+    /* Smooth appearance when it shows up */
+    .btn-next-step:not(:disabled) { animation: btn-fade-in 0.25s ease-out; }
+    @keyframes btn-fade-in {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-next-step:not(:disabled) { animation: none; }
+    }
     .btn-back-step {
       background: white; border: 2px solid var(--gray-200); border-radius: 14px;
       padding: 13px 20px; font-size: 14px; font-weight: 700;
@@ -1800,6 +2052,20 @@
       transition: border-color 0.2s;
     }
     .btn-reset:hover { border-color: var(--gray-400); }
+
+    /* "Back to brand selection" — secondary smaller button */
+    .btn-back-brands {
+      background: transparent; border: 1.5px dashed var(--blue-mid);
+      border-radius: 12px;
+      padding: 11px 18px; font-size: 13px; font-weight: 600;
+      font-family: 'Assistant', sans-serif; cursor: pointer; color: var(--blue-mid);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-back-brands:hover {
+      background: var(--blue-soft);
+      border-color: var(--blue-bright);
+      border-style: solid;
+    }
 
     @media (min-width: 600px) {
       .prod-grid { grid-template-columns: repeat(3, 1fr); }
@@ -1908,19 +2174,32 @@
       // Phone call clicks
       document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
         link.addEventListener('click', function() {
-          gtag('event', 'conversion', {'send_to': 'AW-18109334445/W-IUCLT9-6EcEK2HmrtD'});
+          gtag('event', 'conversion', {'send_to': 'AW-18109334445/mbkQCLP_oKEcEK2HmrtD'});
         });
       });
       // WhatsApp clicks
       document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp.com"]').forEach(function(link) {
         link.addEventListener('click', function() {
-          gtag('event', 'conversion', {'send_to': 'AW-18109334445/IyROCLf9-6EcEK2HmrtD'});
+          gtag('event', 'conversion', {'send_to': 'AW-18109334445/mbkQCLP_oKEcEK2HmrtD'});
+        });
+      });
+      // Form submissions (if any added in the future)
+      document.querySelectorAll('form').forEach(function(form) {
+        form.addEventListener('submit', function() {
+          gtag('event', 'conversion', {'send_to': 'AW-18109334445/mbkQCLP_oKEcEK2HmrtD'});
         });
       });
     });
   </script>
 </head>
 <body>
+
+<!-- Urgency Banner: Repair (top) -->
+<a href="tel:+972545642426" class="urgency-banner">
+  <span class="urgency-pulse"></span>
+  <span class="urgency-text">🔥 <strong>הדוד לא מחמם?</strong> הגעה באותו יום</span>
+  <span class="urgency-cta">התקשר עכשיו ←</span>
+</a>
 
 <!-- Sticky WhatsApp -->
 <a href="https://wa.me/972545642426?text=שלום,%20אני%20מעוניין%20בשירות%20דוד%20שמש" class="sticky-wa" target="_blank" rel="noopener">
@@ -1983,7 +2262,7 @@
     </div>
     <div class="stat-item">
       <div class="stat-number" data-target="500" data-suffix="+">0</div>
-      <div class="stat-label">לקוחות מרוצים</div>
+      <div class="stat-label">לקוחות מרוצים בשנה האחרונה</div>
     </div>
     <div class="stat-item">
       <div class="stat-number stat-text">באותו יום</div>
@@ -1996,69 +2275,68 @@
   </div>
 </section>
 
-<!-- Services -->
-<section class="services reveal">
+<!-- Common Repairs -->
+<section class="repairs reveal" id="repairs">
+  <div class="section-label">תיקונים נפוצים</div>
+  <h2>הבעיה שלך כאן? נתקן אותה היום.</h2>
+  <p class="section-desc">17+ שנות ניסיון בתיקון דודי שמש. בחר את הבעיה ושלח לנו הודעה — אנחנו חוזרים אליך תוך דקות.</p>
 
-  <div class="section-label">השירותים שלנו</div>
-  <h2>הכל תחת קורת גג אחת</h2>
-  <p class="section-desc">תיקון דודי שמש בפתח תקווה והמרכז — מטיפול בתקלות ועד התקנה מלאה. אנחנו מכסים את כל צרכי דוד השמש שלך.</p>
+  <div class="repairs-grid">
+    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20הדוד%20שמש%20שלי%20לא%20מחמם%20מים" target="_blank" rel="noopener">
+      <div class="repair-icon">🔥</div>
+      <div class="repair-title">הדוד לא מחמם</div>
+      <div class="repair-desc">לרוב מדובר בגוף חימום שרוף או תרמוסטט תקול</div>
+      <div class="repair-cta">תיקון מיידי ←</div>
+    </a>
 
-  <!-- Featured card -->
-  <div class="services-grid">
-    <div class="service-card featured">
-      <div class="service-icon">🔧</div>
-      <div style="flex:1;">
-        <div class="service-name" style="font-size:18px;">תיקון דוד שמש — השירות הכי מבוקש</div>
+    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20הדוד%20שמש%20שלי%20מטפטף%20או%20דולף" target="_blank" rel="noopener">
+      <div class="repair-icon">💧</div>
+      <div class="repair-title">דוד מטפטף או דולף</div>
+      <div class="repair-desc">טפטוף מהדוד בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק</div>
+      <div class="repair-actions">
+        <span class="repair-cta">תיקון מיידי ←</span>
+        <button type="button" class="repair-quote-btn" onclick="event.preventDefault();event.stopPropagation();goToQuote('solar');">הצעת מחיר לדוד</button>
       </div>
-      <a href="javascript:void(0)" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="service-featured-btn">לבדיקת מחיר →</a>
-    </div>
+    </a>
+
+    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20צריך%20החלפת%20גוף%20חימום%20בדוד%20שמש" target="_blank" rel="noopener">
+      <div class="repair-icon">⚡</div>
+      <div class="repair-title">החלפת גוף חימום</div>
+      <div class="repair-desc">החלפה תוך שעה במחיר הוגן עם חלקים מקוריים</div>
+      <div class="repair-cta">תיקון מיידי ←</div>
+    </a>
+
+    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20המתג%20של%20הדוד%20שמש%20לא%20עובד" target="_blank" rel="noopener">
+      <div class="repair-icon">🔌</div>
+      <div class="repair-title">המתג של הדוד לא עובד</div>
+      <div class="repair-desc">המתג שמדליק את החשמל בדוד תקול — צריך תיקון או החלפה</div>
+      <div class="repair-cta">תיקון מיידי ←</div>
+    </a>
+
+    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20אין%20מים%20חמים%20מהשמש%20בדוד%20שלי" target="_blank" rel="noopener">
+      <div class="repair-icon">☀️</div>
+      <div class="repair-title">אין מים מהשמש</div>
+      <div class="repair-desc">לרוב מדובר על שטיפת קולטים — פתרון מהיר ולא יקר</div>
+      <div class="repair-cta">תיקון מיידי ←</div>
+    </a>
+
+    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20הקולט%20שמש%20שלי%20דולף%20או%20מטפטף" target="_blank" rel="noopener">
+      <div class="repair-icon">💧</div>
+      <div class="repair-title">קולט דולף או מטפטף</div>
+      <div class="repair-desc">טפטוף מהקולט בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק</div>
+      <div class="repair-actions">
+        <span class="repair-cta">תיקון מיידי ←</span>
+        <button type="button" class="repair-quote-btn" onclick="event.preventDefault();event.stopPropagation();goToQuote('kolat_copper');">הצעת מחיר לקולט</button>
+      </div>
+    </a>
   </div>
 
-  <!-- Modern service cards -->
-  <div class="srv-grid">
-
-    <div class="srv-card">
-      <div class="srv-icon-wrap">🏠</div>
-      <div class="srv-title">התקנת כל סוגי הדודים</div>
-      <div class="srv-desc">התקנה מקצועית לכל סוגי הדודים והמערכות — מים חמים במהירות + אחריות מלאה</div>
-      <div class="srv-tags">
-        <span class="srv-tag">✓ שירות מהיר</span>
-        <span class="srv-tag">✓ חלקים איכותיים</span>
-      </div>
-    </div>
-
-    <div class="srv-card">
-      <div class="srv-icon-wrap">🌡️</div>
-      <div class="srv-title">החלפת גוף חימום וטרמוסטט</div>
-      <div class="srv-desc">פתרון מהיר לבעיות חימום — חוזרים למים חמים תוך זמן קצר</div>
-      <div class="srv-tags">
-        <span class="srv-tag">✓ שירות מהיר</span>
-        <span class="srv-tag">✓ חלקים איכותיים</span>
-      </div>
-    </div>
-
-    <div class="srv-card">
-      <div class="srv-icon-wrap">💧</div>
-      <div class="srv-title">תיקון נזילות</div>
-      <div class="srv-desc">עוצרים את הנזילה לפני שנגרם נזק יקר — איתור מדויק ותיקון נקי בלי כאבי ראש</div>
-      <div class="srv-tags">
-        <span class="srv-tag">✓ שירות מהיר</span>
-        <span class="srv-tag">✓ חלקים איכותיים</span>
-      </div>
-    </div>
-
-    <div class="srv-card">
-      <div class="srv-icon-wrap">🔍</div>
-      <div class="srv-title">תיקון הדוד</div>
-      <div class="srv-desc">דוד שמקצר? לא מחמם? מים פושרים? — איתור מדויק של הבעיה, הצעת פתרון והתקנה במקום</div>
-      <div class="srv-tags">
-        <span class="srv-tag">✓ שירות מהיר</span>
-        <span class="srv-tag">✓ חלקים איכותיים</span>
-      </div>
-    </div>
-
-
-
+  <div class="repairs-bottom">
+    <p>בעיה אחרת? אנחנו כאן לעזור.</p>
+    <a href="tel:+972545642426" class="repairs-call-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      התקשר אלינו עכשיו
+    </a>
   </div>
 </section>
 
@@ -2296,6 +2574,7 @@
           שלח לוואטסאפ לאישור
         </a>
         <button class="btn-reset" onclick="resetCalc()">🔄 התחל מחדש</button>
+        <button class="btn-back-brands" onclick="backToBrands()">↩ חזור לבחירת חברה</button>
       </div>
     </div>
 
@@ -2427,8 +2706,8 @@ const INCLUDES = {
   boiler:      ['התקנה מקצועית','פינוי הדוד הישן','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','וו תלייה','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
   kolat_copper:['התקנה מקצועית','פינוי הקולט הישן','זוויות ופקקים מותאמים','רקורדים וגומיות חדשים','ציפוי מגן מאלומיניום','זכוכית מחוסמת','חוט שיזור לתפיסת הקולט','אחריות על העבודה'],
   kolat_iron:  ['התקנה מקצועית','פינוי הקולט הישן','זוויות ופקקים מותאמים','רקורדים וגומיות חדשים','זכוכית מחוסמת','חוט שיזור לתפיסת הקולט','אחריות על העבודה'],
-  system:      ['דוד שמש + קולט שמש תואם','התקנה מקצועית','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
-  system_std:  ['דוד שמש + קולט שמש תואם','התקנה לפי תקן מלא','מערבל מים','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
+  system:      ['דוד שמש + קולט שמש תואם','התקנה מקצועית','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת למערכת בסוף העבודה'],
+  system_std:  ['דוד שמש + קולט שמש תואם','התקנה לפי תקן מלא','מערבל מים','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','צינור נחושת תחתון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת למערכת בסוף העבודה'],
 };
 
 const EXTRAS = {
@@ -2469,7 +2748,38 @@ function selectProd(prod) {
   sel.roofType = null; sel.tilePos = null; sel.access = new Set(); sel.brand = null;
   document.querySelectorAll('.prod-card').forEach(el => el.classList.remove('selected'));
   event.currentTarget.classList.add('selected');
-  document.getElementById('next-1').disabled = false;
+  // Keep next button hidden — auto-advance handles transition
+  // Auto-advance: go to system step or step 2
+  autoAdvance(() => {
+    if (sel.product === 'system') goStep('sys');
+    else goStep(2);
+  });
+}
+
+// Auto-advance helper — short delay so user sees their selection before transition
+function autoAdvance(fn) {
+  setTimeout(fn, 220);
+}
+
+// Jump to calculator and pre-select product (used by repair cards)
+function goToQuote(prod) {
+  // Clear state
+  sel.product = prod; sel.sysType = null; sel.volume = null;
+  sel.roofType = null; sel.tilePos = null; sel.access = new Set(); sel.brand = null;
+  // Highlight the matching prod-card
+  document.querySelectorAll('.prod-card').forEach(el => {
+    el.classList.remove('selected');
+    const onclickAttr = el.getAttribute('onclick') || '';
+    if (onclickAttr.indexOf("selectProd('" + prod + "')") !== -1) {
+      el.classList.add('selected');
+    }
+  });
+  // Enable "next" button on step 1
+  const nextBtn = document.getElementById('next-1');
+  if (nextBtn) nextBtn.disabled = false;
+  // Scroll to calculator
+  const calc = document.getElementById('calculator');
+  if (calc) calc.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ---- SYSTEM TYPE ----
@@ -2477,7 +2787,8 @@ function selectSysType(type) {
   sel.sysType = type;
   document.querySelectorAll('.sys-type-card').forEach(el => el.classList.remove('selected'));
   document.getElementById('sys-' + (type === 'regular' ? 'regular' : 'std') + '-card').classList.add('selected');
-  document.getElementById('next-sys').disabled = false;
+  // Keep next button hidden — auto-advance handles transition
+  autoAdvance(() => goStep(2));
 }
 
 function updateSysStdLabel(vol) {
@@ -2529,14 +2840,15 @@ function populateVolumes(prod) {
       container.querySelectorAll('.vol-card').forEach(x => x.classList.remove('selected'));
       div.classList.add('selected');
       if (prod === 'boiler' && (v === 120 || v === 150)) {
-        // Show sub-selection: regular vs slim
+        // Show sub-selection: regular vs slim — wait for user to pick
         sel.volume = null;
         document.getElementById('next-2').disabled = true;
         showBoilerSubSelect(v);
       } else {
         sel.volume = v;
-        document.getElementById('next-2').disabled = false;
+        // Keep next button hidden — auto-advance handles transition
         if (sel.product === 'system') updateSysStdLabel(v);
+        autoAdvance(() => goStep(3));
       }
     };
     container.appendChild(div);
@@ -2575,7 +2887,8 @@ function selectBoilerType(baseVol, slimKey, type) {
   document.querySelectorAll('#boiler-sub-select .roof-sub-card').forEach(x => x.classList.remove('selected'));
   document.getElementById(type === 'regular' ? 'boiler-reg-card' : 'boiler-slim-card').classList.add('selected');
   sel.volume = type === 'slim' ? slimKey : baseVol;
-  document.getElementById('next-2').disabled = false;
+  // Keep next button hidden — auto-advance handles transition
+  autoAdvance(() => goStep(3));
 }
 
 // ---- ROOF ----
@@ -2598,13 +2911,14 @@ function selectRoof(type) {
     accessSection.style.display = 'block';
     checkRoofNext();
   } else {
-    // indoor — hide access
+    // indoor — hide access, no sub-selection needed → auto-advance
     tileSub.style.display = 'none';
     accessSection.style.display = 'none';
     // clear any access selections
     sel.access = new Set();
     document.querySelectorAll('.access-card').forEach(x => x.classList.remove('selected'));
-    checkRoofNext();
+    // Keep next button hidden — auto-advance handles transition
+    autoAdvance(() => goStep(4));
   }
 }
 
@@ -2793,7 +3107,7 @@ function populateTiers() {
       container.querySelectorAll('.brand-card').forEach(x => x.classList.remove('selected'));
       div.classList.add('selected');
       sel.brand = bKey;
-      document.getElementById('next-4').disabled = false;
+      // Keep next button hidden — auto-advance to result handles transition
       setTimeout(() => { if (sel.brand === bKey) showResult(); }, 350);
     };
     container.appendChild(div);
@@ -3010,6 +3324,16 @@ function resetCalc() {
   goStep(1);
 }
 
+// Back to brand selection — keeps product/volume/roof, clears only brand
+function backToBrands() {
+  sel.brand = null;
+  document.getElementById('calc-result').classList.remove('visible');
+  document.querySelectorAll('.brand-card').forEach(el => el.classList.remove('selected'));
+  const next4 = document.getElementById('next-4');
+  if (next4) next4.disabled = true;
+  goStep(4);
+}
+
 
 // ============================================================
 // TRANSLATION SYSTEM — Hebrew ↔ Russian
@@ -3051,11 +3375,46 @@ const TRANSLATIONS = {
   'אחריות מלאה': 'Полная гарантия',
   // STATS COUNTERS
   'שנות ניסיון': 'Лет опыта',
+  'לקוחות מרוצים בשנה האחרונה': 'Довольных клиентов за последний год',
   'לקוחות מרוצים': 'Довольных клиентов',
   'באותו יום': 'В тот же день',
   'הגעה לרוב הקריאות': 'Выезд на большинство вызовов',
   '⚡ מהיר': '⚡ Быстро',
   'מענה בתוך דקות': 'Ответ в течение минут',
+  // URGENCY BANNER + REPAIRS SECTION
+  '🔥': '🔥',
+  'הדוד לא מחמם?': 'Бойлер не греет?',
+  'הגעה באותו יום': 'Выезд в тот же день',
+  'התקשר עכשיו ←': 'Позвонить сейчас ←',
+  'תיקונים נפוצים': 'Частые поломки',
+  'הבעיה שלך כאן? נתקן אותה היום.': 'Ваша проблема здесь? Решим её сегодня.',
+  '17+ שנות ניסיון בתיקון דודי שמש. בחר את הבעיה ושלח לנו הודעה — אנחנו חוזרים אליך תוך דקות.': '17+ лет опыта в ремонте бойлеров. Выберите проблему и напишите нам — ответим в течение нескольких минут.',
+  'הדוד לא מחמם': 'Бойлер не греет',
+  'לרוב מדובר בגוף חימום שרוף או תרמוסטט תקול': 'Чаще всего — сгоревший ТЭН или неисправный термостат',
+  'דוד מטפטף או דולף': 'Бойлер протекает',
+  'דליפה מהדוד או מהצנרת — צריך טיפול דחוף': 'Утечка из бойлера или труб — требует срочного ремонта',
+  'טפטוף מהדוד בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק': 'Капание из бойлера обычно означает необходимость замены — звоните, чтобы проверить',
+  'טפטוף מהקולט בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק': 'Капание из коллектора обычно означает необходимость замены — звоните, чтобы проверить',
+  'הצעת מחיר לדוד': 'Расчёт цены на бойлер',
+  'הצעת מחיר לקולט': 'Расчёт цены на коллектор',
+  'החלפת גוף חימום': 'Замена ТЭНа',
+  'החלפה תוך שעה במחיר הוגן עם חלקים מקוריים': 'Замена за час по справедливой цене с оригинальными деталями',
+  'תרמוסטט תקול': 'Неисправный термостат',
+  'המים יותר מדי חמים או קרים — סימן לתרמוסטט שצריך החלפה': 'Вода слишком горячая или холодная — признак неисправного термостата',
+  'החלפת אנודה': 'Замена анода',
+  'אנודה בלויה מאריכה את חיי הדוד ומונעת חלודה': 'Изношенный анод сокращает срок службы бойлера и приводит к коррозии',
+  'קולט סדוק או שבור': 'Треснувший или сломанный коллектор',
+  'סדק בקולט פוגע בחימום — מומלץ לטפל מהר': 'Трещина в коллекторе ухудшает нагрев — рекомендуется устранить быстро',
+  // New repair cards
+  'המתג של הדוד לא עובד': 'Выключатель бойлера не работает',
+  'המתג שמדליק את החשמל בדוד תקול — צריך תיקון או החלפה': 'Выключатель, включающий электричество в бойлере, неисправен — требуется ремонт или замена',
+  'אין מים מהשמש': 'Нет горячей воды от солнца',
+  'לרוב מדובר על שטיפת קולטים — פתרון מהיר ולא יקר': 'Чаще всего достаточно промывки коллекторов — быстро и недорого',
+  'קולט דולף או מטפטף': 'Коллектор протекает',
+  'דליפה מהקולט או מהצנרת — צריך טיפול דחוף': 'Утечка из коллектора или труб — требует срочного ремонта',
+  'תיקון מיידי ←': 'Срочный ремонт ←',
+  'בעיה אחרת? אנחנו כאן לעזור.': 'Другая проблема? Мы поможем.',
+  'התקשר אלינו עכשיו': 'Позвоните нам сейчас',
   // PACKAGE TIER DIFFERENTIATORS
   'אורך חיים ממוצע': 'Средний срок службы',
   'מה עוד כלול במחיר?': 'Что ещё входит в цену?',
@@ -3071,6 +3430,8 @@ const TRANSLATIONS = {
   // System regular
   'פינוי המערכת הישנה': 'Вывоз старой системы',
   'קולט חזק יותר': 'Более мощный коллектор',
+  'צינור נחושת תחתון + בידוד': 'Нижняя медная труба + изоляция',
+  'בדיקה כוללת למערכת בסוף העבודה': 'Полная проверка системы в конце работы',
   // Kolat-specific features
   'ציפוי מגן מאלומיניום': 'Алюминиевое защитное покрытие',
   'זכוכית מחוסמת': 'Закалённое стекло',
@@ -3254,6 +3615,7 @@ const TRANSLATIONS = {
   'אחריות יותר ארוכה': 'Расширенная гарантия',
   'שלח לוואטסאפ לאישור': 'Отправить в WhatsApp',
   '🔄 התחל מחדש': '🔄 Начать заново',
+  '↩ חזור לבחירת חברה': '↩ Назад к выбору компании',
   'חזור': 'Назад',
   'המשך': 'Далее',
   'המשך ': 'Далее ',
@@ -3610,6 +3972,10 @@ document.addEventListener('DOMContentLoaded', () => {
               animateCounter(counter);
             }
           });
+          // Trigger staggered card animation for repairs section
+          if (entry.target.classList.contains('repairs')) {
+            entry.target.classList.add('cards-in');
+          }
           revealObserver.unobserve(entry.target);
         }
       });
@@ -3620,7 +3986,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   } else {
     // Fallback: show everything immediately
-    document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('is-visible'); });
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      el.classList.add('is-visible');
+      if (el.classList.contains('repairs')) el.classList.add('cards-in');
+    });
     document.querySelectorAll('.stat-number[data-target]').forEach(animateCounter);
   }
 

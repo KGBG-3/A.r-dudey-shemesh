@@ -586,35 +586,40 @@
     /* ===== COMMON REPAIRS SECTION ===== */
     .repairs {
       background: linear-gradient(180deg, var(--blue-soft) 0%, #ffffff 100%);
-      padding: 56px 20px;
+      padding: 48px 16px;
     }
     .repairs h2 {
       font-family: var(--font-display);
-      font-size: clamp(26px, 5.5vw, 36px);
+      font-size: clamp(22px, 5.5vw, 36px);
       font-weight: 800;
       color: var(--blue-dark);
       letter-spacing: -0.02em;
-      margin: 0 0 12px;
+      margin: 0 0 10px;
       text-align: center;
       line-height: 1.2;
     }
     .repairs .section-desc {
       max-width: 580px;
-      margin: 0 auto 32px;
+      margin: 0 auto 24px;
       text-align: center;
       color: var(--gray-700);
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    @media (min-width: 700px) {
+      .repairs { padding: 64px 24px; }
+      .repairs h2 { margin-bottom: 12px; }
+      .repairs .section-desc { font-size: 15px; line-height: 1.6; margin-bottom: 32px; }
     }
     .repairs-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 12px;
+      gap: 10px;
       max-width: 1100px;
       margin: 0 auto 28px;
     }
-    @media (min-width: 560px) { .repairs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
-    @media (min-width: 900px) { .repairs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+    @media (min-width: 700px) { .repairs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+    @media (min-width: 980px) { .repairs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
 
     /* Stagger reveal animation for repair cards */
     .repairs-grid .repair-card {
@@ -655,13 +660,17 @@
     .repair-card {
       background: white;
       border: 1.5px solid var(--gray-200);
-      border-radius: 18px;
-      padding: 20px 18px;
+      border-radius: 14px;
+      padding: 14px 16px;
       text-decoration: none;
       color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      grid-template-areas:
+        "icon body arrow"
+        "icon body arrow";
+      align-items: center;
+      column-gap: 14px;
       transition: all 0.25s cubic-bezier(.4,0,.2,1);
       position: relative;
       overflow: hidden;
@@ -678,53 +687,62 @@
     }
     .repair-card:hover {
       border-color: #dc2626;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(220,38,38,0.12);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(220,38,38,0.12);
     }
+    .repair-card:active { transform: translateY(0); }
     .repair-card:hover::before { opacity: 1; }
     .repair-icon {
-      font-size: 32px;
+      grid-area: icon;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
       line-height: 1;
-      margin-bottom: 4px;
+      background: rgba(220, 38, 38, 0.06);
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .repair-body {
+      grid-area: body;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
     }
     .repair-title {
-      font-size: 17px;
+      font-size: 15.5px;
       font-weight: 800;
       color: var(--blue-dark);
       letter-spacing: -0.01em;
+      line-height: 1.25;
     }
     .repair-desc {
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--gray-600);
-      line-height: 1.5;
-      flex-grow: 1;
+      line-height: 1.4;
     }
-    .repair-cta {
-      font-size: 13px;
-      font-weight: 700;
+    .repair-arrow {
+      grid-area: arrow;
       color: #dc2626;
-      margin-top: 8px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: gap 0.2s;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+      transition: transform 0.2s;
+      flex-shrink: 0;
     }
-    .repair-card:hover .repair-cta { gap: 8px; }
+    .repair-card:hover .repair-arrow { transform: translateX(-4px); }
 
-    /* Two-button row for cards with both repair + quote action */
-    .repair-actions {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .repair-actions .repair-cta { margin-top: 0; }
+    /* Quote button — full-width row below the card content */
     .repair-quote-btn {
+      width: 100%;
+      margin-top: 12px;
       background: var(--blue-dark);
       color: white;
       border: none;
-      padding: 7px 14px;
+      padding: 10px 14px;
       border-radius: 99px;
       font-family: inherit;
       font-size: 12.5px;
@@ -733,6 +751,7 @@
       transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
       white-space: nowrap;
       box-shadow: 0 2px 8px rgba(30,58,138,0.18);
+      text-align: center;
     }
     .repair-quote-btn:hover {
       background: var(--blue-mid);
@@ -740,6 +759,87 @@
       box-shadow: 0 4px 12px rgba(30,58,138,0.28);
     }
     .repair-quote-btn:active { transform: translateY(0); }
+
+    /* Cards with quote button: simple flex column with grid header */
+    .repair-card.has-quote {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 14px 16px;
+      grid-template-columns: none;
+      grid-template-areas: none;
+    }
+    .repair-card.has-quote .repair-top {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      align-items: center;
+      column-gap: 14px;
+      width: 100%;
+    }
+    /* Reset grid-area inheritance from parent context */
+    .repair-card.has-quote .repair-icon,
+    .repair-card.has-quote .repair-body,
+    .repair-card.has-quote .repair-arrow {
+      grid-area: auto;
+    }
+
+    /* DESKTOP: Switch to original 3-column card layout */
+    @media (min-width: 700px) {
+      .repair-card {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "icon"
+          "body"
+          "arrow";
+        padding: 22px 20px 20px;
+        column-gap: 0;
+        row-gap: 6px;
+      }
+      .repair-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 28px;
+        margin-bottom: 6px;
+      }
+      .repair-title { font-size: 17px; }
+      .repair-desc { font-size: 13px; line-height: 1.5; flex-grow: 1; }
+      .repair-arrow {
+        justify-self: start;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+      .repair-arrow::after { content: ' תיקון מיידי'; font-size: 13px; font-weight: 700; }
+      .repair-arrow { display: inline-flex; flex-direction: row-reverse; gap: 4px; align-items: center; }
+      .repair-card:hover .repair-arrow { transform: none; gap: 8px; }
+      /* On desktop, cards with quote button use flex column with grid header */
+      .repair-card.has-quote {
+        display: flex;
+        flex-direction: column;
+        padding: 22px 20px 20px;
+      }
+      .repair-card.has-quote .repair-top {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "icon"
+          "body"
+          "arrow";
+        column-gap: 0;
+        row-gap: 6px;
+        width: 100%;
+      }
+      /* Restore grid-area for desktop layout */
+      .repair-card.has-quote .repair-icon { grid-area: icon; }
+      .repair-card.has-quote .repair-body { grid-area: body; }
+      .repair-card.has-quote .repair-arrow { grid-area: arrow; }
+      .repair-quote-btn {
+        width: auto;
+        margin-top: 12px;
+        align-self: start;
+        padding: 7px 14px;
+        font-size: 12.5px;
+      }
+    }
 
     .repairs-bottom {
       text-align: center;
@@ -2202,7 +2302,7 @@
 </a>
 
 <!-- Sticky WhatsApp -->
-<a href="https://wa.me/972545642426?text=שלום,%20אני%20מעוניין%20בשירות%20דוד%20שמש" class="sticky-wa" target="_blank" rel="noopener">
+<a href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="sticky-wa" target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   וואטסאפ מהיר
 </a>
@@ -2234,7 +2334,7 @@
     הצעת מחיר מלאה באתר — חלקים, עבודה, אחריות, בלי הפתעות
   </p>
   <div class="hero-btns">
-    <a href="https://wa.me/972545642426?text=שלום,%20אני%20מעוניין%20בשירות%20דוד%20שמש" class="btn-wa" target="_blank" rel="noopener">
+    <a href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       וואטסאפ
     </a>
@@ -2282,52 +2382,64 @@
   <p class="section-desc">17+ שנות ניסיון בתיקון דודי שמש. בחר את הבעיה ושלח לנו הודעה — אנחנו חוזרים אליך תוך דקות.</p>
 
   <div class="repairs-grid">
-    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20הדוד%20שמש%20שלי%20לא%20מחמם%20מים" target="_blank" rel="noopener">
+    <a class="repair-card" href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20שאינו%20מחמם%20מים,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
       <div class="repair-icon">🔥</div>
-      <div class="repair-title">הדוד לא מחמם</div>
-      <div class="repair-desc">לרוב מדובר בגוף חימום שרוף או תרמוסטט תקול</div>
-      <div class="repair-cta">תיקון מיידי ←</div>
-    </a>
-
-    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20הדוד%20שמש%20שלי%20מטפטף%20או%20דולף" target="_blank" rel="noopener">
-      <div class="repair-icon">💧</div>
-      <div class="repair-title">דוד מטפטף או דולף</div>
-      <div class="repair-desc">טפטוף מהדוד בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק</div>
-      <div class="repair-actions">
-        <span class="repair-cta">תיקון מיידי ←</span>
-        <button type="button" class="repair-quote-btn" onclick="event.preventDefault();event.stopPropagation();goToQuote('solar');">הצעת מחיר לדוד</button>
+      <div class="repair-body">
+        <div class="repair-title">הדוד לא מחמם</div>
+        <div class="repair-desc">לרוב גוף חימום שרוף או תרמוסטט תקול</div>
       </div>
+      <div class="repair-arrow">←</div>
     </a>
 
-    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20צריך%20החלפת%20גוף%20חימום%20בדוד%20שמש" target="_blank" rel="noopener">
-      <div class="repair-icon">⚡</div>
-      <div class="repair-title">החלפת גוף חימום</div>
-      <div class="repair-desc">החלפה תוך שעה במחיר הוגן עם חלקים מקוריים</div>
-      <div class="repair-cta">תיקון מיידי ←</div>
-    </a>
-
-    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20המתג%20של%20הדוד%20שמש%20לא%20עובד" target="_blank" rel="noopener">
-      <div class="repair-icon">🔌</div>
-      <div class="repair-title">המתג של הדוד לא עובד</div>
-      <div class="repair-desc">המתג שמדליק את החשמל בדוד תקול — צריך תיקון או החלפה</div>
-      <div class="repair-cta">תיקון מיידי ←</div>
-    </a>
-
-    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20אין%20מים%20חמים%20מהשמש%20בדוד%20שלי" target="_blank" rel="noopener">
+    <a class="repair-card" href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר.%20אין%20לי%20מים%20חמים%20מהשמש,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
       <div class="repair-icon">☀️</div>
-      <div class="repair-title">אין מים מהשמש</div>
-      <div class="repair-desc">לרוב מדובר על שטיפת קולטים — פתרון מהיר ולא יקר</div>
-      <div class="repair-cta">תיקון מיידי ←</div>
+      <div class="repair-body">
+        <div class="repair-title">אין מים מהשמש</div>
+        <div class="repair-desc">לרוב מדובר על שטיפת קולטים — פתרון מהיר</div>
+      </div>
+      <div class="repair-arrow">←</div>
     </a>
 
-    <a class="repair-card" href="https://wa.me/972545642426?text=שלום,%20הקולט%20שמש%20שלי%20דולף%20או%20מטפטף" target="_blank" rel="noopener">
-      <div class="repair-icon">💧</div>
-      <div class="repair-title">קולט דולף או מטפטף</div>
-      <div class="repair-desc">טפטוף מהקולט בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק</div>
-      <div class="repair-actions">
-        <span class="repair-cta">תיקון מיידי ←</span>
-        <button type="button" class="repair-quote-btn" onclick="event.preventDefault();event.stopPropagation();goToQuote('kolat_copper');">הצעת מחיר לקולט</button>
+    <a class="repair-card" href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר.%20אשמח%20להתייעץ%20איתך%20לגבי%20החלפת%20גוף%20חימום%20בדוד" target="_blank" rel="noopener">
+      <div class="repair-icon">⚡</div>
+      <div class="repair-body">
+        <div class="repair-title">החלפת גוף חימום</div>
+        <div class="repair-desc">החלפה תוך שעה עם חלקים מקוריים</div>
       </div>
+      <div class="repair-arrow">←</div>
+    </a>
+
+    <a class="repair-card" href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר.%20המתג%20של%20הדוד%20שלי%20לא%20עובד,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-icon">🔌</div>
+      <div class="repair-body">
+        <div class="repair-title">המתג של הדוד לא עובד</div>
+        <div class="repair-desc">המתג שמדליק את החשמל תקול — צריך תיקון</div>
+      </div>
+      <div class="repair-arrow">←</div>
+    </a>
+
+    <a class="repair-card has-quote" href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר.%20הדוד%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך%20לגבי%20החלפה" target="_blank" rel="noopener">
+      <div class="repair-top">
+        <div class="repair-icon">💧</div>
+        <div class="repair-body">
+          <div class="repair-title">דוד נוזל</div>
+          <div class="repair-desc">נזילה מהדוד בדרך כלל מסמלת החלפה</div>
+        </div>
+        <div class="repair-arrow">←</div>
+      </div>
+      <button type="button" class="repair-quote-btn" onclick="event.preventDefault();event.stopPropagation();goToQuote('solar');">הצעת מחיר לדוד</button>
+    </a>
+
+    <a class="repair-card has-quote" href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר.%20הקולט%20שמש%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך%20לגבי%20החלפה" target="_blank" rel="noopener">
+      <div class="repair-top">
+        <div class="repair-icon">💧</div>
+        <div class="repair-body">
+          <div class="repair-title">קולט נוזל</div>
+          <div class="repair-desc">נזילה מהקולט בדרך כלל מסמלת החלפה</div>
+        </div>
+        <div class="repair-arrow">←</div>
+      </div>
+      <button type="button" class="repair-quote-btn" onclick="event.preventDefault();event.stopPropagation();goToQuote('kolat_copper');">הצעת מחיר לקולט</button>
     </a>
   </div>
 
@@ -2616,7 +2728,7 @@
   <h2 style="color:white;">מוכן לשוחח? אנחנו כאן</h2>
   <p class="contact-desc">הדרך המהירה ביותר — וואטסאפ. אפשר גם להתקשר ישירות.</p>
   <div class="contact-btns">
-    <a href="https://wa.me/972545642426?text=שלום,%20אני%20מעוניין%20בשירות" class="btn-wa" target="_blank" rel="noopener" style="flex:1;">
+    <a href="https://wa.me/972545642426?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener" style="flex:1;">
       <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       וואטסאפ
     </a>
@@ -3284,7 +3396,7 @@ function showResult() {
 
   const roofLabel   = getRoofLabel();
   const accessLabel = getAccessLabel();
-  let waMsg = `שלום! קיבלתי הצעת מחיר דרך האתר:\n\n`;
+  let waMsg = `היי שלום, הגעתי מהאתר ואשמח לקבל הצעת מחיר:\n\n`;
   waMsg += `📋 *${PRODUCT_LABELS[product]}${volStr}*\n`;
   if (product === 'system') waMsg += `📐 *סוג מערכת:* ${isStd ? 'תקן מלא' : 'רגילה'}\n`;
   waMsg += `🏆 *חברה:* ${info.label} (${info.tier})\n`;
@@ -3294,7 +3406,7 @@ function showResult() {
   incList.forEach(i => { waMsg += `• ${i}\n`; });
   waMsg += `\n💰 *מחיר: ₪${totalPrice.toLocaleString()} כולל מע"מ*\n\n`;
   if (extras) waMsg += `⚠️ תוספות אפשריות: ${extras.join(' | ')}\n\n`;
-  waMsg += `אשמח לתאם ביקור ואישור מחיר סופי.`;
+  waMsg += `אשמח להתייעץ איתך ולתאם ביקור.`;
   safeSet('wa-result-btn', 'href', `https://wa.me/972545642426?text=${encodeURIComponent(waMsg)}`);
 
   ['step-1','step-sys','step-2','step-3','step-4'].forEach(id => {
@@ -3391,14 +3503,18 @@ const TRANSLATIONS = {
   '17+ שנות ניסיון בתיקון דודי שמש. בחר את הבעיה ושלח לנו הודעה — אנחנו חוזרים אליך תוך דקות.': '17+ лет опыта в ремонте бойлеров. Выберите проблему и напишите нам — ответим в течение нескольких минут.',
   'הדוד לא מחמם': 'Бойлер не греет',
   'לרוב מדובר בגוף חימום שרוף או תרמוסטט תקול': 'Чаще всего — сгоревший ТЭН или неисправный термостат',
+  'לרוב גוף חימום שרוף או תרמוסטט תקול': 'Чаще всего сгоревший ТЭН или термостат',
   'דוד מטפטף או דולף': 'Бойлер протекает',
   'דליפה מהדוד או מהצנרת — צריך טיפול דחוף': 'Утечка из бойлера или труб — требует срочного ремонта',
   'טפטוף מהדוד בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק': 'Капание из бойлера обычно означает необходимость замены — звоните, чтобы проверить',
+  'טפטוף מהדוד בדרך כלל מסמל החלפה': 'Капание из бойлера обычно означает замену',
   'טפטוף מהקולט בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק': 'Капание из коллектора обычно означает необходимость замены — звоните, чтобы проверить',
+  'טפטוף מהקולט בדרך כלל מסמל החלפה': 'Капание из коллектора обычно означает замену',
   'הצעת מחיר לדוד': 'Расчёт цены на бойлер',
   'הצעת מחיר לקולט': 'Расчёт цены на коллектор',
   'החלפת גוף חימום': 'Замена ТЭНа',
   'החלפה תוך שעה במחיר הוגן עם חלקים מקוריים': 'Замена за час по справедливой цене с оригинальными деталями',
+  'החלפה תוך שעה עם חלקים מקוריים': 'Замена за час с оригинальными деталями',
   'תרמוסטט תקול': 'Неисправный термостат',
   'המים יותר מדי חמים או קרים — סימן לתרמוסטט שצריך החלפה': 'Вода слишком горячая или холодная — признак неисправного термостата',
   'החלפת אנודה': 'Замена анода',
@@ -3408,10 +3524,17 @@ const TRANSLATIONS = {
   // New repair cards
   'המתג של הדוד לא עובד': 'Выключатель бойлера не работает',
   'המתג שמדליק את החשמל בדוד תקול — צריך תיקון או החלפה': 'Выключатель, включающий электричество в бойлере, неисправен — требуется ремонт или замена',
+  'המתג שמדליק את החשמל תקול — צריך תיקון': 'Выключатель электричества неисправен — требуется ремонт',
   'אין מים מהשמש': 'Нет горячей воды от солнца',
   'לרוב מדובר על שטיפת קולטים — פתרון מהיר ולא יקר': 'Чаще всего достаточно промывки коллекторов — быстро и недорого',
+  'לרוב מדובר על שטיפת קולטים — פתרון מהיר': 'Чаще всего нужна промывка коллекторов — быстрое решение',
   'קולט דולף או מטפטף': 'Коллектор протекает',
   'דליפה מהקולט או מהצנרת — צריך טיפול דחוף': 'Утечка из коллектора или труб — требует срочного ремонта',
+  // Renamed cards: "מטפטף" → "נוזל"
+  'דוד נוזל': 'Бойлер протекает',
+  'נזילה מהדוד בדרך כלל מסמלת החלפה': 'Утечка из бойлера обычно означает замену',
+  'קולט נוזל': 'Коллектор протекает',
+  'נזילה מהקולט בדרך כלל מסמלת החלפה': 'Утечка из коллектора обычно означает замену',
   'תיקון מיידי ←': 'Срочный ремонт ←',
   'בעיה אחרת? אנחנו כאן לעזור.': 'Другая проблема? Мы поможем.',
   'התקשר אלינו עכשיו': 'Позвоните нам сейчас',

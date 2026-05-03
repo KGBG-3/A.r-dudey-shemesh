@@ -1739,22 +1739,6 @@
       box-shadow: 0 8px 40px rgba(37,99,235,0.18);
       transform: scale(1.03);
       z-index: 2;
-      padding-top: 36px;
-    }
-    .brand-card.featured-card::after {
-      content: 'מומלץ';
-      position: absolute;
-      top: -14px;
-      right: 50%;
-      transform: translateX(50%);
-      background: var(--blue-bright);
-      color: white;
-      font-size: 12px;
-      font-weight: 800;
-      padding: 4px 16px;
-      border-radius: 99px;
-      white-space: nowrap;
-      box-shadow: 0 2px 8px rgba(37,99,235,0.35);
     }
 
     .brand-card:hover:not(.featured-card) { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 28px rgba(10,37,64,0.12); }
@@ -1772,19 +1756,16 @@
     .brand-base { border-color: #1d4ed8 !important; }
 
     /* Card internals */
-    .brand-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .brand-badge {
-      font-size: 10px; font-weight: 800; letter-spacing: .04em;
-      padding: 3px 11px; border-radius: 99px;
-    }
-    .brand-eco  .brand-badge { background:#dcfce7; color:#15803d; }
-    .brand-base .brand-badge { background:#dbeafe; color:#1d4ed8; }
-    .brand-prem .brand-badge { background:#ffedd5; color:#c2410c; }
+    .brand-top-row { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 12px; min-height: 22px; }
     .brand-best-tag {
-      font-size: 10px; font-weight: 800;
+      font-size: 11px; font-weight: 800;
       background: var(--orange); color: white;
-      padding: 3px 10px; border-radius: 99px;
+      padding: 4px 12px; border-radius: 99px;
     }
+    /* Color the best-tag according to brand tier */
+    .brand-card.brand-eco  .brand-best-tag { background: #dc2626; color: white; box-shadow: 0 2px 6px rgba(220,38,38,0.25); }
+    .brand-card.brand-base .brand-best-tag { background: #2563eb; color: white; box-shadow: 0 2px 6px rgba(37,99,235,0.25); }
+    .brand-card.brand-prem .brand-best-tag { background: linear-gradient(135deg,#f59e0b 0%,#ea580c 100%); color: white; box-shadow: 0 2px 8px rgba(234,88,12,0.35); }
     .brand-name {
       font-size: 22px; font-weight: 900; color: var(--blue-dark);
       margin-bottom: 10px;
@@ -1808,6 +1789,23 @@
     .brand-card.brand-eco  .brand-tagline { background: rgba(22, 163, 74, 0.10); color: #15803d; }
     .brand-card.brand-prem .brand-tagline { background: rgba(194, 65, 12, 0.10); color: #c2410c; }
     .brand-card.brand-base .brand-tagline { background: rgba(37, 99, 235, 0.08); color: var(--blue-mid); }
+
+    /* Social proof badge — shown only on featured card */
+    .brand-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #92400e;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 1px solid #fcd34d;
+      padding: 7px 12px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
     /* Strikethrough old price */
     .brand-old-price {
       font-size: 13px; color: var(--gray-600);
@@ -2770,44 +2768,48 @@
 // ============================================================
 const PRICES = {
   solar: {
-    80:  { chromagen:{price:3000,warranty:4}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
-    120: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2700,warranty:5}, yardan:{price:2600,warranty:4} },
-    150: { chromagen:{price:3300,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
-    200: { chromagen:{price:3600,warranty:4}, amisragaz:{price:3200,warranty:5}, yardan:{price:3100,warranty:4} },
+    80:  { chromagen:{price:3000,warranty:4}, amisragaz:{price:2850,warranty:5}, yardan:{price:2500,warranty:4} },
+    120: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2950,warranty:5}, yardan:{price:2600,warranty:4} },
+    150: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2950,warranty:5}, yardan:{price:2700,warranty:4} },
+    200: { chromagen:{price:3500,warranty:4}, amisragaz:{price:3350,warranty:5}, yardan:{price:3100,warranty:4} },
   },
   electric: {
-    30:  { chromagen:{price:2400,warranty:4}, amisragaz:{price:2300,warranty:5}, yardan:{price:2200,warranty:4} },
-    45:  { chromagen:{price:2600,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
-    60:  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2550,warranty:5}, yardan:{price:2450,warranty:4} },
-    80:  { chromagen:{price:2800,warranty:4}, amisragaz:{price:2650,warranty:5}, yardan:{price:2550,warranty:4} },
-    120: { chromagen:{price:3000,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
-    150: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
+    30:  { chromagen:{price:2400,warranty:4}, amisragaz:{price:2350,warranty:5}, yardan:{price:2200,warranty:4} },
+    45:  { chromagen:{price:2500,warranty:4}, amisragaz:{price:2450,warranty:5}, yardan:{price:2400,warranty:4} },
+    60:  { chromagen:{price:2600,warranty:4}, amisragaz:{price:2550,warranty:5}, yardan:{price:2450,warranty:4} },
+    80:  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2650,warranty:5}, yardan:{price:2550,warranty:4} },
+    120: { chromagen:{price:2900,warranty:4}, amisragaz:{price:2850,warranty:5}, yardan:{price:2700,warranty:4} },
+    150: { chromagen:{price:3000,warranty:4}, amisragaz:{price:2950,warranty:5}, yardan:{price:2800,warranty:4} },
   },
   boiler: {
-    80:        { chromagen:{price:3500,warranty:4}, amisragaz:{price:3200,warranty:5}, yardan:{price:3100,warranty:4} },
-    120:       { chromagen:{price:3700,warranty:4}, amisragaz:{price:3400,warranty:5}, yardan:{price:3300,warranty:4} },
-    '120slim': { chromagen:{price:4000,warranty:4}, amisragaz:{price:3700,warranty:5}, yardan:{price:3600,warranty:4} },
-    150:       { chromagen:{price:3700,warranty:4}, amisragaz:{price:3400,warranty:5}, yardan:{price:3300,warranty:4} },
-    '150slim': { chromagen:{price:4000,warranty:4}, amisragaz:{price:3700,warranty:5}, yardan:{price:3600,warranty:4} },
+    80:        { chromagen:{price:3400,warranty:4}, amisragaz:{price:3350,warranty:5}, yardan:{price:3100,warranty:4} },
+    120:       { chromagen:{price:3700,warranty:4}, amisragaz:{price:3450,warranty:5}, yardan:{price:3300,warranty:4} },
+    '120slim': { chromagen:{price:3700,warranty:4}, amisragaz:{price:3650,warranty:5}, yardan:{price:3600,warranty:4} },
+    150:       { chromagen:{price:3700,warranty:4}, amisragaz:{price:3450,warranty:5}, yardan:{price:3300,warranty:4} },
+    '150slim': { chromagen:{price:4000,warranty:4}, amisragaz:{price:3850,warranty:5}, yardan:{price:3600,warranty:4} },
   },
   kolat_copper: {
-    'small': { chromagen:{price:2700,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
-    'large': { chromagen:{price:2900,warranty:4}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
-    'xlarge': { chromagen:{price:3100,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
+    'small': { chromagen:{price:2700,warranty:4}, amisragaz:{price:2550,warranty:5}, yardan:{price:2300,warranty:4} },
+    'large': { chromagen:{price:2900,warranty:4}, amisragaz:{price:2750,warranty:5}, yardan:{price:2500,warranty:4} },
+    'xlarge': { chromagen:{price:3100,warranty:4}, amisragaz:{price:3050,warranty:5}, yardan:{price:2900,warranty:4} },
   },
   kolat_iron: {
-    'small': { chromagen:{price:3000,warranty:4}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
-    'large': { chromagen:{price:3200,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
-    'xlarge': { chromagen:{price:3100,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
+    'small': { chromagen:{price:3000,warranty:4}, amisragaz:{price:2750,warranty:5}, yardan:{price:2500,warranty:4} },
+    'large': { chromagen:{price:3200,warranty:4}, amisragaz:{price:2950,warranty:5}, yardan:{price:2700,warranty:4} },
+    'xlarge': { chromagen:{price:3100,warranty:4}, amisragaz:{price:3050,warranty:5}, yardan:{price:2900,warranty:4} },
   },
   system: {
+    120: {
+      chromagen:{price:4900,warranty:4}, amisragaz:{price:4350,warranty:5}, yardan:{price:4100,warranty:4},
+      chromagen_std:{price:5200,warranty:4}, amisragaz_std:{price:4650,warranty:5}, yardan_std:{price:4400,warranty:4},
+    },
     150: {
-      chromagen:{price:5100,warranty:4}, amisragaz:{price:4400,warranty:5}, yardan:{price:4300,warranty:4},
-      chromagen_std:{price:5500,warranty:4}, amisragaz_std:{price:5000,warranty:5}, yardan_std:{price:4900,warranty:4},
+      chromagen:{price:5100,warranty:4}, amisragaz:{price:4550,warranty:5}, yardan:{price:4300,warranty:4},
+      chromagen_std:{price:5400,warranty:4}, amisragaz_std:{price:4950,warranty:5}, yardan_std:{price:4900,warranty:4},
     },
     200: {
-      chromagen:{price:6150,warranty:4}, amisragaz:{price:5100,warranty:5}, yardan:{price:5000,warranty:4},
-      chromagen_std:{price:6500,warranty:4}, amisragaz_std:{price:5450,warranty:5}, yardan_std:{price:5350,warranty:4},
+      chromagen:{price:5950,warranty:4}, amisragaz:{price:5400,warranty:5}, yardan:{price:5000,warranty:4},
+      chromagen_std:{price:6150,warranty:4}, amisragaz_std:{price:5600,warranty:5}, yardan_std:{price:5350,warranty:4},
     },
   },
 };
@@ -2828,12 +2830,12 @@ const EXTRAS = {
 };
 
 const BRAND_INFO = {
-  yardan:        { label:'ירדן',     tier:'חסכוני',      cls:'brand-eco',  bestTag:'💚 הכי זול',      pos:'פתרון טוב למי שמחפש מחיר נגיש',   hdr:'linear-gradient(135deg,#15803d,#16a34a)' },
-  yardan_std:    { label:'ירדן',     tier:'חסכוני תקן',  cls:'brand-eco',  bestTag:'💚 תקן + זול',    pos:'תקן מלא במחיר הכי נגיש',           hdr:'linear-gradient(135deg,#15803d,#16a34a)' },
-  chromagen:     { label:'כרומגן',   tier:'פרימיום',     cls:'brand-prem', bestTag:'⭐ הכי טוב',      pos:'למי שרוצה ראש שקט לשנים',          hdr:'linear-gradient(135deg,#c2410c,#ea580c)' },
-  amisragaz:     { label:'אמישראגז', tier:'איזון חכם',   cls:'brand-base', bestTag:'🔵 הכי נמכר',     pos:'איזון חכם בין מחיר לאיכות',         hdr:'linear-gradient(135deg,#1a4a8a,#2563eb)' },
-  chromagen_std: { label:'כרומגן',   tier:'פרימיום תקן', cls:'brand-prem', bestTag:'⭐ תקן מלא',      pos:'מערכת מלאה לפי תקן ישראלי',        hdr:'linear-gradient(135deg,#c2410c,#ea580c)' },
-  amisragaz_std: { label:'אמישראגז', tier:'בסיס תקן',    cls:'brand-base', bestTag:'🔵 תקן מלא',      pos:'איזון חכם עם התקנה לפי תקן',       hdr:'linear-gradient(135deg,#1a4a8a,#2563eb)' },
+  yardan:        { label:'ירדן',     tier:'חסכוני',      cls:'brand-eco',  bestTag:'🔥 הכי נמכר',     pos:'פתרון טוב למי שמחפש מחיר נגיש',   hdr:'linear-gradient(135deg,#15803d,#16a34a)' },
+  yardan_std:    { label:'ירדן',     tier:'חסכוני תקן',  cls:'brand-eco',  bestTag:'🔥 הכי נמכר',     pos:'תקן מלא במחיר הכי נגיש',           hdr:'linear-gradient(135deg,#15803d,#16a34a)' },
+  chromagen:     { label:'כרומגן',   tier:'פרימיום',     cls:'brand-prem', bestTag:'⭐ הכי מומלץ',     pos:'למי שרוצה ראש שקט לשנים',          hdr:'linear-gradient(135deg,#c2410c,#ea580c)' },
+  amisragaz:     { label:'אמישראגז', tier:'ביניים',     cls:'brand-base', bestTag:'🔵 ביניים',         pos:'איזון בין מחיר לאיכות',             hdr:'linear-gradient(135deg,#1a4a8a,#2563eb)' },
+  chromagen_std: { label:'כרומגן',   tier:'פרימיום תקן', cls:'brand-prem', bestTag:'⭐ הכי מומלץ',     pos:'מערכת מלאה לפי תקן ישראלי',        hdr:'linear-gradient(135deg,#c2410c,#ea580c)' },
+  amisragaz_std: { label:'אמישראגז', tier:'ביניים תקן',  cls:'brand-base', bestTag:'🔵 ביניים',        pos:'איזון בין מחיר לאיכות עם תקן',      hdr:'linear-gradient(135deg,#1a4a8a,#2563eb)' },
 };
 
 const PRODUCT_LABELS = {
@@ -2841,7 +2843,7 @@ const PRODUCT_LABELS = {
   kolat_copper:'קולט שמש נחושת', kolat_iron:'קולט שמש ברזל', system:'מערכת מלאה'
 };
 
-const VOLUMES     = { solar:[80,120,150,200], electric:[30,45,60,80,120,150], boiler:[80,120,150], kolat_copper:['small','large','xlarge'], kolat_iron:['small','large','xlarge'], system:[150,200] };
+const VOLUMES     = { solar:[80,120,150,200], electric:[30,45,60,80,120,150], boiler:[80,120,150], kolat_copper:['small','large','xlarge'], kolat_iron:['small','large','xlarge'], system:[120,150,200] };
 const VOL_HINTS   = {30:'1 נפש',45:'1-2',60:'2',80:'2-3',120:'3-4',150:'4-5',200:'5-6','120slim':'3-4 (צר וארוך)','150slim':'4-5 (צר וארוך)','small':'קולט קטן','large':'קולט גדול','xlarge':'קולט גדול extra'};
 const VOL_ICON    = {30:'👤',45:'👤',60:'👥',80:'👥',120:'👨‍👩‍👧',150:'👨‍👩‍👧‍👦',200:'👨‍👩‍👧‍👦','120slim':'📐','150slim':'📐','small':'🔹','large':'🔷','xlarge':'🔶'};
 const VOL_POPULAR = {solar:150, electric:80, boiler:150, kolat_copper:'large', kolat_iron:'large', system:150};
@@ -3093,9 +3095,9 @@ function populateTiers() {
 
   // Lifespan data per brand (years)
   const LIFESPAN = {
-    yardan:        '5-8',
-    yardan_std:    '5-8',
-    yardan_kolat:  '5-8',
+    yardan:        '8-12',
+    yardan_std:    '8-12',
+    yardan_kolat:  '8-12',
     amisragaz:     '8-12',
     amisragaz_std: '8-12',
     chromagen:     '15-18',
@@ -3185,11 +3187,11 @@ function populateTiers() {
     div.className = `brand-card ${info.cls}${isFeatured ? ' featured-card' : ''}`;
     div.innerHTML = `
       <div class="brand-top-row">
-        <span class="brand-badge">${t(info.tier)}</span>
         <span class="brand-best-tag">${t(info.bestTag)}</span>
       </div>
       <div class="brand-name">${info.label}</div>
-      ${tagline ? `<div class="brand-tagline">${t(tagline)}</div>` : ''}
+      ${(!lifespan && tagline) ? `<div class="brand-tagline">${t(tagline)}</div>` : ''}
+      ${isFeatured ? `<div class="brand-social-proof">⭐ ${t('84% מהלקוחות שלנו בוחרים את זה')}</div>` : ''}
       <div class="brand-old-price" style="${isFeatured ? '' : 'display:none'}">₪${oldPrice(displayPrice).toLocaleString()}</div>
       <div class="brand-price-preview"><span class="currency">₪</span>${displayPrice.toLocaleString()} <span>${t('כולל מע"מ')}</span></div>
       <div class="brand-sale-tag" style="${isFeatured ? '' : 'display:none'}">${t('✅ מבצע לזמן מוגבל')}</div>
@@ -3684,6 +3686,17 @@ const TRANSLATIONS = {
   '💚 הכי זול': '💚 Самый дешёвый',
   '⭐ הכי טוב': '⭐ Лучший',
   '🔵 הכי נמכר': '🔵 Самый популярный',
+  '🔥 הכי נמכר': '🔥 Самый популярный',
+  '⭐ הכי מומלץ': '⭐ Самый рекомендуемый',
+  '84% מהלקוחות שלנו בוחרים את זה': '84% наших клиентов выбирают это',
+  '🔵 ביניים': '🔵 Средний',
+  'ביניים': 'Средний',
+  'ביניים תקן': 'Средний по стандарту',
+  '💚 תקן + זול': '💚 Стандарт + дешёвый',
+  '⭐ תקן מלא': '⭐ Полный стандарт',
+  '🔵 תקן מלא': '🔵 Полный стандарт',
+  'איזון בין מחיר לאיכות': 'Баланс цены и качества',
+  'איזון בין מחיר לאיכות עם תקן': 'Баланс цены и качества по стандарту',
   '⭐ תקן מלא': '⭐ Полный стандарт',
   '🔵 תקן מלא': '🔵 Полный стандарт',
   '💚 תקן + זול': '💚 Стандарт + дёшево',
@@ -3828,13 +3841,13 @@ function switchToHebrew() {
 }
 
 function updateDynamicLang() {
-  // Update CSS-generated content (recommended badge, etc.)
+  // Update CSS-generated content (recommended volume badge)
   const style = document.getElementById('dynamic-lang-style') || document.createElement('style');
   style.id = 'dynamic-lang-style';
   if (currentLang === 'ru') {
-    style.textContent = `.vol-card.recommended::after { content: 'Популярно' !important; } .brand-card.featured-card::after { content: 'Рекомендуем' !important; }`;
+    style.textContent = `.vol-card.recommended::after { content: 'Популярно' !important; }`;
   } else {
-    style.textContent = `.vol-card.recommended::after { content: 'פופולרי' !important; } .brand-card.featured-card::after { content: 'מומלץ' !important; }`;
+    style.textContent = `.vol-card.recommended::after { content: 'פופולרי' !important; }`;
   }
   if (!style.parentNode) document.head.appendChild(style);
 }

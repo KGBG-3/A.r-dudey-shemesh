@@ -80,6 +80,70 @@ section{padding:48px 0}
 .sticky-wa svg{width:30px;height:30px}
 @keyframes pulse-wa{0%,100%{box-shadow:0 4px 16px rgba(37,211,102,0.5)}50%{box-shadow:0 4px 24px rgba(37,211,102,0.8),0 0 0 6px rgba(37,211,102,0.12)}}
 @media(prefers-reduced-motion:reduce){.sticky-wa{animation:none}}
+/* ===== Language switcher ===== */
+.lang-switcher{display:inline-flex;align-items:center;gap:5px;background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:50px;padding:6px 13px;cursor:pointer;font-size:13px;font-weight:800;color:var(--blue-dark);font-family:inherit;transition:all .2s;margin-left:8px}
+.lang-switcher:hover{background:var(--blue-soft);border-color:var(--blue-bright)}
+.lang-flag{font-size:16px;line-height:1}
+.nav-actions{display:flex;align-items:center;gap:8px}
+html[lang="ru"]{direction:ltr}
+html[lang="ru"] body{direction:ltr}
+html[lang="ru"] .lp-nav,html[lang="ru"] section,html[lang="ru"] footer,html[lang="ru"] .lp-footer{direction:ltr;text-align:left}
+html[lang="ru"] .cta-row{direction:ltr}
+html[lang="ru"] .lang-switcher{margin-left:0;margin-right:8px}
+/* ===== Accessibility menu ===== */
+.a11y-toggle{position:fixed;bottom:86px;right:20px;z-index:9998;width:52px;height:52px;border-radius:50%;background:var(--blue-mid);color:white;border:0;cursor:pointer;box-shadow:0 4px 16px rgba(10,31,61,0.35);display:flex;align-items:center;justify-content:center;font-size:26px;line-height:1;transition:transform .2s;padding:0}
+.a11y-toggle:hover,.a11y-toggle:focus-visible{transform:scale(1.08);outline:none}
+.a11y-toggle:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.a11y-panel{position:fixed;bottom:148px;right:20px;z-index:9999;width:300px;max-width:calc(100vw - 40px);background:white;border-radius:18px;box-shadow:0 12px 40px rgba(10,31,61,0.25);padding:18px;display:none;direction:rtl;text-align:right;border:1px solid var(--gray-200)}
+html[lang="ru"] .a11y-panel{direction:ltr;text-align:left}
+.a11y-panel.open{display:block;animation:a11yFade .22s ease}
+@keyframes a11yFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.a11y-panel-title{font-size:15px;font-weight:800;color:var(--blue-dark);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:8px}
+.a11y-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.a11y-btn{background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:10px;padding:10px 8px;font-family:inherit;font-size:12px;font-weight:700;color:var(--blue-dark);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .18s;text-align:center;line-height:1.2}
+.a11y-btn-icon{font-size:18px;line-height:1}
+.a11y-btn:hover,.a11y-btn:focus-visible{border-color:var(--blue-bright);background:var(--blue-soft);outline:none}
+.a11y-btn.active{border-color:var(--blue-bright);background:#eff6ff;color:var(--blue-bright);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+.a11y-reset{width:100%;background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:10px;padding:9px;font-family:inherit;font-size:12px;font-weight:700;color:var(--gray-700);cursor:pointer;margin-bottom:10px;transition:all .18s}
+.a11y-reset:hover{background:var(--gray-200)}
+.a11y-statement-link{display:block;text-align:center;background:var(--blue-dark);color:white;border:0;padding:11px;border-radius:10px;font-size:13px;font-weight:700;width:100%;font-family:inherit;cursor:pointer;transition:background .18s}
+.a11y-statement-link:hover{background:var(--blue-mid)}
+.a11y-panel-close{position:absolute;top:8px;left:10px;width:28px;height:28px;background:var(--gray-100);border:0;border-radius:50%;font-size:18px;color:var(--gray-700);cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center}
+html[lang="ru"] .a11y-panel-close{left:auto;right:10px}
+/* a11y modes */
+body.a11y-text-large{font-size:120%}body.a11y-text-xlarge{font-size:145%}
+body.a11y-text-large p,body.a11y-text-large li,body.a11y-text-large span,body.a11y-text-large a,body.a11y-text-large button,body.a11y-text-large .sec-desc,body.a11y-text-large .gh-sub,body.a11y-text-large .promo-sub,body.a11y-text-large .cg-sub,body.a11y-text-large .urgent-sub,body.a11y-text-large .calc-sub,body.a11y-text-large .area-sub{font-size:1.18em !important}
+body.a11y-text-xlarge p,body.a11y-text-xlarge li,body.a11y-text-xlarge span,body.a11y-text-xlarge a,body.a11y-text-xlarge button,body.a11y-text-xlarge .sec-desc,body.a11y-text-xlarge .gh-sub,body.a11y-text-xlarge .promo-sub,body.a11y-text-xlarge .cg-sub,body.a11y-text-xlarge .urgent-sub,body.a11y-text-xlarge .calc-sub,body.a11y-text-xlarge .area-sub{font-size:1.4em !important}
+body.a11y-text-large .a11y-panel,body.a11y-text-large .a11y-panel *,body.a11y-text-xlarge .a11y-panel,body.a11y-text-xlarge .a11y-panel *{font-size:revert !important}
+.a11y-panel,.a11y-panel *{font-family:'Assistant',system-ui,sans-serif !important;letter-spacing:normal !important}
+.a11y-panel .a11y-panel-title{font-size:15px !important}
+.a11y-panel .a11y-btn{font-size:12px !important}
+.a11y-panel .a11y-btn-icon{font-size:18px !important}
+.a11y-panel .a11y-reset,.a11y-panel .a11y-statement-link{font-size:13px !important}
+body.a11y-readable-font *{font-family:'Arial','Helvetica',sans-serif !important;letter-spacing:.02em !important}
+body.a11y-high-contrast{background:#000 !important;color:#fff !important}
+body.a11y-high-contrast section,body.a11y-high-contrast .promo-hero,body.a11y-high-contrast .gh-hero,body.a11y-high-contrast .cg-hero,body.a11y-high-contrast .urgent-hero,body.a11y-high-contrast .calc-hero,body.a11y-high-contrast .area-hero,body.a11y-high-contrast .trust,body.a11y-high-contrast .final-cta,body.a11y-high-contrast .lp-nav,body.a11y-high-contrast .lp-footer,body.a11y-high-contrast footer{background:#000 !important}
+body.a11y-high-contrast h1,body.a11y-high-contrast h2,body.a11y-high-contrast h3,body.a11y-high-contrast p,body.a11y-high-contrast span,body.a11y-high-contrast li,body.a11y-high-contrast div,body.a11y-high-contrast .sec-title,body.a11y-high-contrast .sec-desc{color:#fff !important;background-color:transparent !important;text-shadow:none !important}
+body.a11y-high-contrast a:not(.a11y-statement-link),body.a11y-high-contrast .btn,body.a11y-high-contrast .nav-call{color:#ffeb3b !important}
+body.a11y-high-contrast .a11y-panel,body.a11y-high-contrast .a11y-panel *{background-color:#fff !important;color:#0a1f3d !important;border-color:var(--gray-200) !important}
+body.a11y-high-contrast .a11y-panel .a11y-btn.active{background:#eff6ff !important;color:#1d4ed8 !important;border-color:#1d4ed8 !important}
+body.a11y-high-contrast .a11y-panel .a11y-statement-link{background:#0a1f3d !important;color:#fff !important}
+body.a11y-high-contrast .a11y-toggle{background:#fff !important;color:#000 !important}
+body.a11y-high-contrast .privacy-box,body.a11y-high-contrast .privacy-box *{background-color:#fff !important;color:#0a1f3d !important}
+body.a11y-high-contrast img{filter:grayscale(100%) contrast(1.2)}
+body.a11y-highlight-links a{text-decoration:underline !important;text-decoration-thickness:2px !important;text-underline-offset:3px !important;background:#fff3cd !important;color:#7c2d12 !important;padding:1px 3px !important;border-radius:3px !important;box-shadow:0 0 0 2px #fbbf24 !important}
+body.a11y-pause-anim *,body.a11y-pause-anim *::before,body.a11y-pause-anim *::after{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important;transition-delay:0s !important}
+body.a11y-big-cursor,body.a11y-big-cursor *{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M8 4 L8 38 L17 30 L23 43 L29 40 L23 27 L36 27 Z' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 4 4,auto !important}
+a:focus-visible,button:focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:4px}
+/* ===== Privacy / Accessibility modal ===== */
+.lp-modal{display:none;position:fixed;inset:0;z-index:1000001;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:20px}
+.lp-modal.open{display:flex}
+.privacy-box{background:white;border-radius:20px;padding:28px 24px;max-width:480px;width:100%;max-height:82vh;overflow-y:auto;direction:rtl}
+html[lang="ru"] .privacy-box{direction:ltr}
+.privacy-box h3{font-size:18px;font-weight:900;color:var(--blue-dark);margin-bottom:14px}
+.privacy-box p{font-size:13px;color:var(--gray-600);line-height:1.7;margin-bottom:10px}
+.privacy-box strong{color:var(--blue-dark)}
+.privacy-close{display:block;margin-top:18px;background:var(--blue-dark);color:white;border:0;border-radius:50px;padding:11px;width:100%;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
 </style>
 </head>
 <body>
@@ -89,22 +153,25 @@ section{padding:48px 0}
     <div class="logo-icon">☀️</div>
     <div><div class="logo-text">א.ר דודי שמש</div><div class="logo-sub">תיקון · התקנה · תחזוקה</div></div>
   </a>
-  <a href="tel:+972545642426" class="nav-call">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-    התקשר
-  </a>
+  <div class="nav-actions">
+    <button class="lang-switcher" onclick="toggleLang()" aria-label="החלף שפה / Сменить язык"><span class="lang-flag">🌐</span> <span data-i18n="langlabel">RU</span></button>
+    <a href="tel:+972545642426" class="nav-call">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      <span data-i18n="nav_call">התקשר</span>
+    </a>
+  </div>
 </nav>
 
 <section class="urgent-hero">
   <div class="inner">
-    <div class="urgent-flag">🔴 שירות דחוף</div>
-    <h1>אין מים חמים?<br/>אנחנו מגיעים מהר</h1>
-    <p class="urgent-sub">דוד שלא מחמם, נזילה או תקלה פתאומית — אנחנו כאן לאבחון ותיקון מהיר.</p>
-    <div class="urgent-badge">⚡ הגעה באותו יום (בכפוף לזמינות)</div>
+    <div class="urgent-flag" data-i18n="urgent_flag">🔴 שירות דחוף</div>
+    <h1 data-i18n="urgent_h1">אין מים חמים?<br/>אנחנו מגיעים מהר</h1>
+    <p class="urgent-sub" data-i18n="urgent_sub">דוד שלא מחמם, נזילה או תקלה פתאומית — אנחנו כאן לאבחון ותיקון מהיר.</p>
+    <div class="urgent-badge" data-i18n="urgent_badge">⚡ הגעה באותו יום (בכפוף לזמינות)</div>
     <div class="cta-row">
       <a href="https://wa.me/972545642426?text=היי, יש לי תקלה דחופה בדוד שמש - אין מים חמים" class="btn btn-wa">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        וואטסאפ דחוף
+        <span data-i18n="btn_wa_urgent">וואטסאפ דחוף</span>
       </a>
       <a href="tel:+972545642426" class="btn btn-call-white">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
@@ -116,38 +183,38 @@ section{padding:48px 0}
 
 <section>
   <div class="wrap">
-    <h2 class="sec-title">תקלות שאנחנו פותרים</h2>
-    <p class="sec-desc">אבחון מהיר וטיפול מקצועי — ברוב המקרים מתקנים באותו ביקור.</p>
+    <h2 class="sec-title" data-i18n="prob_title">תקלות שאנחנו פותרים</h2>
+    <p class="sec-desc" data-i18n="prob_desc">אבחון מהיר וטיפול מקצועי — ברוב המקרים מתקנים באותו ביקור.</p>
     <div class="prob-grid">
-      <div class="prob-card"><div class="ic">🥶</div><div class="tx">הדוד לא מחמם<span>גוף חימום, תרמוסטט</span></div></div>
-      <div class="prob-card"><div class="ic">💧</div><div class="tx">נזילות מים<span>צנרת, אטמים, ברזים</span></div></div>
-      <div class="prob-card"><div class="ic">⚡</div><div class="tx">תקלות חשמל<span>גוף חימום שרוף, קצר</span></div></div>
-      <div class="prob-card"><div class="ic">🌡️</div><div class="tx">מים פושרים<span>קולט, ויסות חום</span></div></div>
+      <div class="prob-card"><div class="ic">🥶</div><div class="tx" data-i18n="prob_1">הדוד לא מחמם<span>גוף חימום, תרמוסטט</span></div></div>
+      <div class="prob-card"><div class="ic">💧</div><div class="tx" data-i18n="prob_2">נזילות מים<span>צנרת, אטמים, ברזים</span></div></div>
+      <div class="prob-card"><div class="ic">⚡</div><div class="tx" data-i18n="prob_3">תקלות חשמל<span>גוף חימום שרוף, קצר</span></div></div>
+      <div class="prob-card"><div class="ic">🌡️</div><div class="tx" data-i18n="prob_4">מים פושרים<span>קולט, ויסות חום</span></div></div>
     </div>
     <div class="steps">
-      <div class="step"><div class="step-num">1</div><div class="step-tx"><b>מתקשרים או שולחים וואטסאפ</b><span>מתארים את התקלה — אנחנו זמינים</span></div></div>
-      <div class="step"><div class="step-num">2</div><div class="step-tx"><b>מתאמים הגעה מהירה</b><span>לרוב באותו יום, בכפוף לזמינות</span></div></div>
-      <div class="step"><div class="step-num">3</div><div class="step-tx"><b>אבחון ותיקון במקום</b><span>מחיר ברור ומאושר מולך לפני הביצוע</span></div></div>
+      <div class="step"><div class="step-num">1</div><div class="step-tx"><b data-i18n="step_1_t">מתקשרים או שולחים וואטסאפ</b><span data-i18n="step_1_d">מתארים את התקלה — אנחנו זמינים</span></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-tx"><b data-i18n="step_2_t">מתאמים הגעה מהירה</b><span data-i18n="step_2_d">לרוב באותו יום, בכפוף לזמינות</span></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-tx"><b data-i18n="step_3_t">אבחון ותיקון במקום</b><span data-i18n="step_3_d">מחיר ברור ומאושר מולך לפני הביצוע</span></div></div>
     </div>
   </div>
 </section>
 
 <section class="trust">
   <div class="trust-grid">
-    <span class="trust-item">⭐ 17+ שנות ניסיון</span>
-    <span class="trust-item">⚡ הגעה מהירה</span>
-    <span class="trust-item">🛡️ אחריות על העבודה</span>
-    <span class="trust-item">📍 פתח תקווה והמרכז</span>
+    <span class="trust-item" data-i18n="trust_1">⭐ 17+ שנות ניסיון</span>
+    <span class="trust-item" data-i18n="trust_2">⚡ הגעה מהירה</span>
+    <span class="trust-item" data-i18n="trust_3">🛡️ אחריות על העבודה</span>
+    <span class="trust-item" data-i18n="trust_4">📍 פתח תקווה והמרכז</span>
   </div>
 </section>
 
 <section class="final-cta">
-  <h2>אין מים חמים? אל תחכה</h2>
-  <p>צור קשר עכשיו ונטפל בזה במהירות.</p>
+  <h2 data-i18n="final_h2">אין מים חמים? אל תחכה</h2>
+  <p data-i18n="final_p">צור קשר עכשיו ונטפל בזה במהירות.</p>
   <div class="cta-row">
     <a href="https://wa.me/972545642426?text=היי, יש לי תקלה דחופה בדוד שמש" class="btn btn-wa">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      שלח הודעה בוואטסאפ
+      <span data-i18n="btn_wa_send">שלח הודעה בוואטסאפ</span>
     </a>
     <a href="tel:+972545642426" class="btn btn-call-white">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
@@ -158,10 +225,172 @@ section{padding:48px 0}
 
 <footer class="lp-footer">
   <div class="fb">א.ר דודי שמש</div>
-  תיקון והתקנת דודי שמש באזור פתח תקווה והמרכז · מתקין מורשה כרומגן<br/>
-  © 2026 א.ר דודי שמש. כל הזכויות שמורות.
-  <br/><a href="https://ardudim.co.il/" class="back-link">חזרה לאתר הראשי ←</a>
+  <span data-i18n="ft_tagline">תיקון והתקנת דודי שמש באזור פתח תקווה והמרכז · מתקין מורשה כרומגן</span><br/>
+  <span data-i18n="ft_rights">© 2026 א.ר דודי שמש. כל הזכויות שמורות.</span>
+  <br/><a href="#" onclick="event.preventDefault();openModal('privacy')" data-i18n="ft_privacy">מדיניות פרטיות</a> · <a href="#" onclick="event.preventDefault();openModal('a11y')" data-i18n="ft_a11y">הצהרת נגישות</a>
+  <br/><a href="https://ardudim.co.il/" class="back-link" data-i18n="ft_back">חזרה לאתר הראשי ←</a>
 </footer>
+
+<!-- Accessibility toggle + panel -->
+<button class="a11y-toggle" onclick="toggleA11yPanel()" aria-label="תפריט נגישות" title="נגישות">
+  <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><circle cx="12" cy="3.5" r="2"/><path d="M21 7c-1.8.6-4.2 1-9 1s-7.2-.4-9-1l-.4 1.9C4 9.4 6.5 9.8 9 9.95V13l-1.8 6.7 1.9.5L11 14h2l1.9 6.2 1.9-.5L15 13V9.95c2.5-.15 5-.55 6.4-1.05L21 7z"/></svg>
+</button>
+<div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="אפשרויות נגישות">
+  <button class="a11y-panel-close" onclick="toggleA11yPanel()" aria-label="סגור">×</button>
+  <div class="a11y-panel-title"><span>♿</span> <span data-i18n="a11y_title">נגישות</span></div>
+  <div class="a11y-options">
+    <button class="a11y-btn" data-a11y="text-large"><span class="a11y-btn-icon">A+</span><span data-i18n="a11y_textlg">טקסט גדול</span></button>
+    <button class="a11y-btn" data-a11y="text-xlarge"><span class="a11y-btn-icon">A++</span><span data-i18n="a11y_textxl">טקסט ענק</span></button>
+    <button class="a11y-btn" data-a11y="high-contrast"><span class="a11y-btn-icon">◑</span><span data-i18n="a11y_contrast">ניגודיות</span></button>
+    <button class="a11y-btn" data-a11y="readable-font"><span class="a11y-btn-icon">Aa</span><span data-i18n="a11y_font">גופן קריא</span></button>
+    <button class="a11y-btn" data-a11y="highlight-links"><span class="a11y-btn-icon">🔗</span><span data-i18n="a11y_links">הדגשת קישורים</span></button>
+    <button class="a11y-btn" data-a11y="pause-anim"><span class="a11y-btn-icon">⏸</span><span data-i18n="a11y_anim">עצירת תנועה</span></button>
+    <button class="a11y-btn" data-a11y="big-cursor"><span class="a11y-btn-icon">🖱</span><span data-i18n="a11y_cursor">סמן גדול</span></button>
+    <button class="a11y-btn" onclick="resetA11y()"><span class="a11y-btn-icon">↺</span><span data-i18n="a11y_resetbtn">איפוס</span></button>
+  </div>
+  <button class="a11y-statement-link" onclick="openModal('a11y')" data-i18n="a11y_statement">הצהרת נגישות</button>
+</div>
+
+<!-- Privacy modal -->
+<div class="lp-modal" id="modal-privacy">
+  <div class="privacy-box">
+    <h3 data-i18n="privacy_title">מדיניות פרטיות</h3>
+    <p data-i18n="privacy_p1">אתר זה של א.ר דודי שמש נועד להציג מידע על שירותינו ולאפשר יצירת קשר. איננו אוספים מידע אישי באופן יזום.</p>
+    <p data-i18n="privacy_p2"><strong>יצירת קשר:</strong> כאשר אתם פונים אלינו בטלפון או בוואטסאפ, פרטיכם משמשים אך ורק למתן מענה לפנייתכם ולא מועברים לצד שלישי.</p>
+    <p data-i18n="privacy_p3"><strong>מדידה ופרסום:</strong> ייתכן שנשתמש בכלי מדידה של Google (כגון Google Ads ו-Analytics) כדי לשפר את השירות. כלים אלה עשויים להשתמש בעוגיות.</p>
+    <p data-i18n="privacy_p4">לשאלות בנושא פרטיות ניתן ליצור קשר בטלפון 054-564-2426.</p>
+    <button class="privacy-close" onclick="closeModal('privacy')" data-i18n="modal_close">סגור</button>
+  </div>
+</div>
+
+<!-- Accessibility statement modal -->
+<div class="lp-modal" id="modal-a11y">
+  <div class="privacy-box">
+    <h3 data-i18n="a11y_st_title">הצהרת נגישות</h3>
+    <p data-i18n="a11y_st_p1">אנו ב-א.ר דודי שמש רואים חשיבות רבה בהנגשת האתר לכלל המשתמשים, כולל אנשים עם מוגבלות.</p>
+    <p data-i18n="a11y_st_p2"><strong>אמצעי נגישות באתר:</strong> תפריט הנגישות מאפשר הגדלת טקסט, ניגודיות גבוהה, גופן קריא, הדגשת קישורים, עצירת אנימציות וסמן עכבר מוגדל.</p>
+    <p data-i18n="a11y_st_p3">האתר נבנה בהתאם להנחיות הנגישות המקובלות ונעשה מאמץ מתמשך לשפר את הנגישות.</p>
+    <p data-i18n="a11y_st_p4"><strong>נתקלתם בבעיית נגישות?</strong> נשמח לדעת ולתקן. צרו קשר בטלפון 054-564-2426.</p>
+    <button class="privacy-close" onclick="closeModal('a11y')" data-i18n="modal_close">סגור</button>
+  </div>
+</div>
+
+
+<script>
+var I18N = {
+  langlabel:{he:'RU',ru:'עב'},
+  a11y_title:{he:'נגישות',ru:'Доступность'},
+  a11y_textlg:{he:'טקסט גדול',ru:'Крупный текст'},
+  a11y_textxl:{he:'טקסט ענק',ru:'Очень крупный'},
+  a11y_contrast:{he:'ניגודיות',ru:'Контраст'},
+  a11y_font:{he:'גופן קריא',ru:'Читаемый шрифт'},
+  a11y_links:{he:'הדגשת קישורים',ru:'Выделить ссылки'},
+  a11y_anim:{he:'עצירת תנועה',ru:'Остановить анимацию'},
+  a11y_cursor:{he:'סמן גדול',ru:'Крупный курсор'},
+  a11y_resetbtn:{he:'איפוס',ru:'Сброс'},
+  a11y_statement:{he:'הצהרת נגישות',ru:'Декларация доступности'},
+  privacy_title:{he:'מדיניות פרטיות',ru:'Политика конфиденциальности'},
+  privacy_p1:{he:'אתר זה של א.ר דודי שמש נועד להציג מידע על שירותינו ולאפשר יצירת קשר. איננו אוספים מידע אישי באופן יזום.',ru:'Этот сайт А.Р Дуди Шемеш предназначен для информации о наших услугах и связи. Мы не собираем личные данные по своей инициативе.'},
+  privacy_p2:{he:'<strong>יצירת קשר:</strong> כאשר אתם פונים אלינו בטלפון או בוואטסאפ, פרטיכם משמשים אך ורק למתן מענה לפנייתכם ולא מועברים לצד שלישי.',ru:'<strong>Связь:</strong> когда вы обращаетесь к нам по телефону или WhatsApp, ваши данные используются только для ответа и не передаются третьим лицам.'},
+  privacy_p3:{he:'<strong>מדידה ופרסום:</strong> ייתכן שנשתמש בכלי מדידה של Google (כגון Google Ads ו-Analytics) כדי לשפר את השירות. כלים אלה עשויים להשתמש בעוגיות.',ru:'<strong>Аналитика и реклама:</strong> мы можем использовать инструменты Google (Google Ads и Analytics) для улучшения сервиса. Они могут использовать cookie.'},
+  privacy_p4:{he:'לשאלות בנושא פרטיות ניתן ליצור קשר בטלפון 054-564-2426.',ru:'По вопросам конфиденциальности звоните 054-564-2426.'},
+  a11y_st_title:{he:'הצהרת נגישות',ru:'Декларация доступности'},
+  a11y_st_p1:{he:'אנו ב-א.ר דודי שמש רואים חשיבות רבה בהנגשת האתר לכלל המשתמשים, כולל אנשים עם מוגבלות.',ru:'Мы в А.Р Дуди Шемеш придаём большое значение доступности сайта для всех, включая людей с инвалидностью.'},
+  a11y_st_p2:{he:'<strong>אמצעי נגישות באתר:</strong> תפריט הנגישות מאפשר הגדלת טקסט, ניגודיות גבוהה, גופן קריא, הדגשת קישורים, עצירת אנימציות וסמן עכבר מוגדל.',ru:'<strong>Средства доступности:</strong> меню позволяет увеличить текст, включить высокий контраст, читаемый шрифт, выделение ссылок, остановку анимаций и крупный курсор.'},
+  a11y_st_p3:{he:'האתר נבנה בהתאם להנחיות הנגישות המקובלות ונעשה מאמץ מתמשך לשפר את הנגישות.',ru:'Сайт создан в соответствии с принятыми рекомендациями по доступности, и мы постоянно работаем над улучшением.'},
+  a11y_st_p4:{he:'<strong>נתקלתם בבעיית נגישות?</strong> נשמח לדעת ולתקן. צרו קשר בטלפון 054-564-2426.',ru:'<strong>Столкнулись с проблемой доступности?</strong> Сообщите нам. Звоните 054-564-2426.'},
+  modal_close:{he:'סגור',ru:'Закрыть'},
+  nav_call:{he:'התקשר',ru:'Позвонить'},
+  btn_wa:{he:'וואטסאפ',ru:'WhatsApp'},
+  btn_wa_send:{he:'שלח הודעה בוואטסאפ',ru:'Написать в WhatsApp'},
+  ft_tagline:{he:'תיקון והתקנת דודי שמש באזור פתח תקווה והמרכז · מתקין מורשה כרומגן',ru:'Ремонт и установка солнечных бойлеров в Петах-Тикве и центре · Авторизованный установщик Chromagen'},
+  ft_rights:{he:'© 2026 א.ר דודי שמש. כל הזכויות שמורות.',ru:'© 2026 А.Р Дуди Шемеш. Все права защищены.'},
+  ft_privacy:{he:'מדיניות פרטיות',ru:'Политика конфиденциальности'},
+  ft_a11y:{he:'הצהרת נגישות',ru:'Декларация доступности'},
+  ft_back:{he:'חזרה לאתר הראשי ←',ru:'← На главный сайт'},
+  trust_1_default:{he:'⭐ מתקיני כרומגן מורשים',ru:'⭐ Авторизованные установщики Chromagen'},
+  trust_2_default:{he:'🏆 17+ שנות ניסיון',ru:'🏆 17+ лет опыта'},
+  trust_3_default:{he:'⚡ הגעה מהירה',ru:'⚡ Быстрый приезд'},
+  trust_4_default:{he:'📍 פתח תקווה והמרכז',ru:'📍 Петах-Тиква и центр'},
+  urgent_flag:{he:'🔴 שירות דחוף',ru:'🔴 Срочный сервис'},
+  urgent_h1:{he:'אין מים חמים?<br/>אנחנו מגיעים מהר',ru:'Нет горячей воды?<br/>Мы быстро приедем'},
+  urgent_sub:{he:'דוד שלא מחמם, נזילה או תקלה פתאומית — אנחנו כאן לאבחון ותיקון מהיר.',ru:'Бойлер не греет, протечка или внезапная поломка — мы здесь для быстрой диагностики и ремонта.'},
+  urgent_badge:{he:'⚡ הגעה באותו יום (בכפוף לזמינות)',ru:'⚡ Приезд в тот же день (по доступности)'},
+  prob_title:{he:'תקלות שאנחנו פותרים',ru:'Поломки, которые мы решаем'},
+  prob_desc:{he:'אבחון מהיר וטיפול מקצועי — ברוב המקרים מתקנים באותו ביקור.',ru:'Быстрая диагностика и профессиональный ремонт — в большинстве случаев ремонтируем за один визит.'},
+  prob_1:{he:'הדוד לא מחמם<span>גוף חימום, תרמוסטט</span>',ru:'Бойлер не греет<span>ТЭН, термостат</span>'},
+  prob_2:{he:'נזילות מים<span>צנרת, אטמים, ברזים</span>',ru:'Утечки воды<span>трубы, прокладки, краны</span>'},
+  prob_3:{he:'תקלות חשמל<span>גוף חימום שרוף, קצר</span>',ru:'Электронеисправности<span>сгоревший ТЭН, короткое замыкание</span>'},
+  prob_4:{he:'מים פושרים<span>קולט, ויסות חום</span>',ru:'Тёплая вода<span>коллектор, регулировка</span>'},
+  step_1_t:{he:'מתקשרים או שולחים וואטסאפ',ru:'Звоните или пишите в WhatsApp'},
+  step_1_d:{he:'מתארים את התקלה — אנחנו זמינים',ru:'Опишите проблему — мы на связи'},
+  step_2_t:{he:'מתאמים הגעה מהירה',ru:'Согласуем быстрый приезд'},
+  step_2_d:{he:'לרוב באותו יום, בכפוף לזמינות',ru:'Чаще всего в тот же день, по доступности'},
+  step_3_t:{he:'אבחון ותיקון במקום',ru:'Диагностика и ремонт на месте'},
+  step_3_d:{he:'מחיר ברור ומאושר מולך לפני הביצוע',ru:'Чёткая цена, согласованная с вами заранее'},
+  trust_1:{he:'⭐ 17+ שנות ניסיון',ru:'⭐ 17+ лет опыта'},
+  trust_2:{he:'⚡ הגעה מהירה',ru:'⚡ Быстрый приезд'},
+  trust_3:{he:'🛡️ אחריות על העבודה',ru:'🛡️ Гарантия на работу'},
+  trust_4:{he:'📍 פתח תקווה והמרכז',ru:'📍 Петах-Тиква и центр'},
+  final_h2:{he:'אין מים חמים? אל תחכה',ru:'Нет горячей воды? Не ждите'},
+  final_p:{he:'צור קשר עכשיו ונטפל בזה במהירות.',ru:'Свяжитесь с нами сейчас и мы быстро всё решим.'},
+  btn_wa_urgent:{he:'וואטסאפ דחוף',ru:'Срочный WhatsApp'}
+};
+var curLang = 'he';
+function applyLang(lang){
+  curLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang==='ru')?'ltr':'rtl';
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key = el.getAttribute('data-i18n');
+    if(I18N[key] && I18N[key][lang]!==undefined){ el.innerHTML = I18N[key][lang]; }
+  });
+  try{ localStorage.setItem('ardudim_lang', lang); }catch(e){}
+}
+function toggleLang(){ applyLang(curLang==='he'?'ru':'he'); }
+var A11Y_FEATURES=['text-large','text-xlarge','high-contrast','readable-font','highlight-links','pause-anim','big-cursor'];
+var A11Y_KEY='ardudim_a11y';
+function toggleA11yPanel(){ document.getElementById('a11yPanel').classList.toggle('open'); }
+function setA11y(feature){
+  var b=document.body, cls='a11y-'+feature;
+  if(feature==='text-large') b.classList.remove('a11y-text-xlarge');
+  if(feature==='text-xlarge') b.classList.remove('a11y-text-large');
+  b.classList.toggle(cls);
+  updateA11yBtns(); saveA11y();
+}
+function resetA11y(){
+  var b=document.body;
+  A11Y_FEATURES.forEach(function(f){ b.classList.remove('a11y-'+f); });
+  updateA11yBtns();
+  try{ localStorage.removeItem(A11Y_KEY); }catch(e){}
+}
+function updateA11yBtns(){
+  document.querySelectorAll('.a11y-btn[data-a11y]').forEach(function(btn){
+    var f=btn.getAttribute('data-a11y');
+    btn.classList.toggle('active', document.body.classList.contains('a11y-'+f));
+  });
+}
+function saveA11y(){
+  var on=A11Y_FEATURES.filter(function(f){ return document.body.classList.contains('a11y-'+f); });
+  try{ localStorage.setItem(A11Y_KEY, JSON.stringify(on)); }catch(e){}
+}
+function openModal(name){ document.getElementById('modal-'+name).classList.add('open'); }
+function closeModal(name){ document.getElementById('modal-'+name).classList.remove('open'); }
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.a11y-btn[data-a11y]').forEach(function(btn){
+    btn.addEventListener('click', function(){ setA11y(btn.getAttribute('data-a11y')); });
+  });
+  try{ var l=localStorage.getItem('ardudim_lang'); if(l==='ru') applyLang('ru'); }catch(e){}
+  try{
+    var saved=JSON.parse(localStorage.getItem(A11Y_KEY)||'[]');
+    saved.forEach(function(f){ if(A11Y_FEATURES.indexOf(f)>=0) document.body.classList.add('a11y-'+f); });
+    updateA11yBtns();
+  }catch(e){}
+  document.querySelectorAll('.lp-modal').forEach(function(m){
+    m.addEventListener('click', function(e){ if(e.target===m) m.classList.remove('open'); });
+  });
+});
+</script>
 
 <a href="https://wa.me/972545642426" class="sticky-wa" aria-label="וואטסאפ">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>

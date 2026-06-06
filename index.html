@@ -493,14 +493,29 @@ html[lang="ru"] .nav-links{direction:ltr}
 .hero-content .hero-sub{text-align:center;margin-left:auto;margin-right:auto}
 .hero-btns{align-items:center;justify-content:center}
 .hero-trust{justify-content:center}
-/* DESKTOP: text anchored to the right, paragraph still centered */
+/* DESKTOP: centered layout (eyebrow + big title + orange accent + buttons + 3 feature tags) */
 @media(min-width:860px){
-  .hero{min-height:100vh;display:flex;align-items:center;padding:96px 20px 104px !important;text-align:right}
-  .hero h1{text-align:right}
-  .hero-content{max-width:560px;margin-right:calc(50% - 420px);margin-left:auto;width:100%}
-  .hero-content .hero-sub{text-align:center}
-  .hero-content .hero-btns{justify-content:flex-start}
-  .hero-content .hero-trust{justify-content:flex-start}
+  .hero{min-height:100vh;display:flex;align-items:center;padding:96px 20px 104px !important;text-align:center}
+  .hero::before{background-image:linear-gradient(rgba(10,23,45,0.55),rgba(10,23,45,0.68)),url('https://ardudim.co.il/images/hero-bg.webp') !important;background-position:center center,center center !important;background-size:cover,cover !important}
+  .hero h1{text-align:center;font-size:clamp(44px,5.2vw,64px);margin-bottom:18px}
+  .hero h1 .h1-place,.hero h1 .h1-br1{display:none}
+  .hero h1 .accent{display:inline-block;font-size:clamp(22px,2.6vw,30px);font-style:normal;font-weight:700}
+  .hero h1 .accent::after{display:none}
+  .hero-content{max-width:760px;margin-left:auto;margin-right:auto;width:100%}
+  .hero-content .hero-sub{display:none}
+  .hero-content .hero-trust{display:none}
+  .hero-content .hero-btns{justify-content:center;margin-top:30px}
+  /* eyebrow above title */
+  .hero-content .hero-desktop-eyebrow{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 18px;max-width:520px}
+  .hero-desktop-eyebrow .hde-line{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);max-width:60px}
+  .hero-desktop-eyebrow .hde-text{color:rgba(255,255,255,0.92);font-size:16px;font-weight:600;letter-spacing:.01em;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,0.5)}
+  /* 3 feature tags row */
+  .hero-content .hero-desktop-features{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:36px;flex-wrap:wrap}
+  .hdf-item{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+  .hdf-icon{width:58px;height:58px;display:flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,0.3)}
+  .hdf-icon img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
+  .hdf-text{color:white;font-size:15px;font-weight:700;letter-spacing:-.01em;text-shadow:0 1px 6px rgba(0,0,0,0.5)}
+  .hdf-divider{width:1px;height:48px;background:linear-gradient(180deg,transparent,rgba(255,255,255,0.25),transparent)}
 }
 /* MOBILE: darker even overlay so centered text is readable over whole image */
 @media(max-width:859px){
@@ -512,6 +527,7 @@ html[lang="ru"] .nav-links{direction:ltr}
 }
 /* ===== Mobile hero elements (hidden on desktop) ===== */
 .hero-mobile-banner,.hero-mobile-sub,.hero-mobile-tags,.hero-mobile-features{display:none}
+.hero-desktop-eyebrow,.hero-desktop-features{display:none}
 @media(max-width:859px){
   /* image: vertical phone-optimized version + dark gradient for readability */
   .hero::before{background-image:linear-gradient(180deg,rgba(10,23,45,0.35) 0,rgba(10,23,45,0.30) 38%,rgba(10,23,45,0.78) 72%,rgba(10,23,45,0.95) 100%),url('https://ardudim.co.il/images/hero-bg-mobile.webp') !important;background-position:center top,center top !important;background-size:cover,cover !important}
@@ -619,7 +635,8 @@ html[lang="ru"] .nav-links{direction:ltr}
   <div class="hero-vignette"></div>
   <div class="hero-content">
   <div class="hero-mobile-banner">☀️ א.ר דודי שמש</div>
-  <h1><span class="h1-main">תיקון והתקנת דודי שמש</span><br class="h1-br1"/><span class="h1-place">בפתח תקווה והמרכז</span><br/><span class="accent">במהירות ובאמינות 🔧☀️</span></h1>
+  <div class="hero-desktop-eyebrow"><span class="hde-line"></span><span class="hde-text">שירות מהיר בכל גוש דן והמרכז</span><span class="hde-line"></span></div>
+  <h1><span class="h1-main">תיקון והתקנת דודי שמש</span><br class="h1-br1"/><span class="h1-place">בפתח תקווה והמרכז</span><br/><span class="accent">במהירות, באמינות ובמחיר הוגן</span></h1>
   <div class="hero-mobile-sub">
     <span class="hms-line"></span>
     <span class="hms-text">בפתח תקווה והמרכז</span>
@@ -638,10 +655,6 @@ html[lang="ru"] .nav-links{direction:ltr}
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       וואטסאפ
     </a>
-    <a href="javascript:void(0)" onclick="openCallModal()" class="btn-call">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-      התקשר
-    </a>
     <a href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-quote btn-quote-wide">לקבלת <strong>הצעת מחיר</strong> באתר</a>
   </div>
   <div class="hero-trust">
@@ -650,6 +663,22 @@ html[lang="ru"] .nav-links{direction:ltr}
     <div class="trust-pill"><div class="dot"></div>מחירים הוגנים</div>
     <div class="trust-pill"><div class="dot"></div>אחריות על העבודה</div>
     <div class="trust-pill"><div class="dot"></div>17+ שנות ניסיון</div>
+  </div>
+  <div class="hero-desktop-features">
+    <div class="hdf-item">
+      <div class="hdf-icon"><img src="images/tag-license.webp" alt="מתקין מורשה כרומגן" width="46" height="46" loading="lazy"></div>
+      <div class="hdf-text">מתקין מורשה כרומגן</div>
+    </div>
+    <div class="hdf-divider"></div>
+    <div class="hdf-item">
+      <div class="hdf-icon"><img src="images/tag-warranty.webp" alt="אחריות מלאה" width="46" height="46" loading="lazy"></div>
+      <div class="hdf-text">אחריות מלאה</div>
+    </div>
+    <div class="hdf-divider"></div>
+    <div class="hdf-item">
+      <div class="hdf-icon"><img src="images/tag-price.webp" alt="מחירים הוגנים" width="46" height="46" loading="lazy"></div>
+      <div class="hdf-text">מחירים הוגנים</div>
+    </div>
   </div>
   <div class="hero-mobile-features">
     <div class="hmf-item">
@@ -2290,6 +2319,8 @@ const TRANSLATIONS = {
   'בפתח תקווה והמרכז': 'в Петах-Тиква и Центре',
   'דודי שמש וחשמל': 'водонагревателей',
   'במהירות ובאמינות 🔧☀️': 'быстро и надёжно 🔧☀️',
+  'במהירות, באמינות ובמחיר הוגן': 'быстро, надёжно и по честной цене',
+  'שירות מהיר בכל גוש דן והמרכז': 'Быстрый сервис по всему Гуш-Дану и центру',
   'שירות מקצועי באזור פתח תקווה והסביבה': 'Профессиональный сервис в районе Петах-Тиква',
   'הצעת מחיר מלאה באתר — חלקים, עבודה, אחריות, בלי הפתעות': 'Полный расчёт цены на сайте — запчасти, работа, гарантия, без сюрпризов',
   'הגעה מהירה · מחירים הוגנים · אחריות על העבודה': 'Быстрый выезд · Честные цены · Гарантия',
@@ -2303,6 +2334,7 @@ const TRANSLATIONS = {
   'באתר': 'на сайте',
   '⭐ מורשה כרומגן': '⭐ Лицензия от Chromagen',
   '⭐ מתקין מורשה כרומגן': '⭐ Авторизованный монтажник Chromagen',
+  'מתקין מורשה כרומגן': 'Монтажник Chromagen',
   'שירות ב-24 שעות': 'Сервис 24 часа',
   '1.8K לקוחות מרוצים': '1.8K довольных клиентов',
   '1.8K לקוחות מרוצים ⭐': '1.8K довольных клиентов ⭐',

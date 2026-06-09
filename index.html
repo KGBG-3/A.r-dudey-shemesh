@@ -690,12 +690,12 @@ html[lang="ru"] .nav-links{direction:ltr}
 /* DESKTOP: centered layout (eyebrow + big title + orange accent + buttons + 3 feature tags) */
 @media(min-width:860px){
   .hero{min-height:100vh;display:flex;align-items:center;padding:96px 20px 104px !important;text-align:center}
-  .hero::before{background-image:linear-gradient(rgba(10,23,45,0.55),rgba(10,23,45,0.68)),url('https://ardudim.co.il/images/hero-bg.webp') !important;background-position:center center,center center !important;background-size:cover,cover !important}
-  .hero h1{text-align:center;font-size:clamp(44px,5.2vw,64px);margin-bottom:18px}
+  .hero::before{background-image:linear-gradient(270deg,rgba(5,15,35,.55) 0%,rgba(5,15,35,.25) 35%,rgba(5,15,35,0) 60%),linear-gradient(90deg,rgba(5,15,35,.55) 0%,rgba(5,15,35,.25) 35%,rgba(5,15,35,0) 60%),linear-gradient(rgba(5,15,35,.45),rgba(5,15,35,.45)),url('https://ardudim.co.il/images/hero-bg.webp') !important;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat !important;background-position:center center,center center,center center,center center !important;background-size:cover,cover,cover,cover !important}
+  .hero h1{text-align:center;font-size:clamp(3rem,5vw,5rem);line-height:1.1;font-weight:800;margin-bottom:18px;text-shadow:0 4px 20px rgba(0,0,0,.35)}
   .hero h1 .h1-place,.hero h1 .h1-br1{display:none}
   .hero h1 .accent{display:inline-block;font-size:clamp(22px,2.6vw,30px);font-style:normal;font-weight:700}
   .hero h1 .accent::after{display:none}
-  .hero-content{max-width:760px;margin-left:auto;margin-right:auto;width:100%}
+  .hero-content{max-width:900px;margin-left:auto;margin-right:auto;width:100%;transform:translateY(-40px)}
   .hero-content .hero-sub{display:none}
   .hero-content .hero-trust{display:none}
   .hero-content .hero-btns{justify-content:center;margin-top:30px}
@@ -711,6 +711,12 @@ html[lang="ru"] .nav-links{direction:ltr}
   .hdf-icon img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
   .hdf-text{color:white;font-size:15px;font-weight:700;letter-spacing:-.01em;text-shadow:0 1px 6px rgba(0,0,0,0.5)}
   .hdf-divider{width:1px;height:48px;background:linear-gradient(180deg,transparent,rgba(255,255,255,0.25),transparent)}
+  /* premium polish — desktop only */
+  .hero-content .hero-btns .btn-wa,.hero-content .hero-btns .btn-quote{padding:18px 34px;border-radius:16px;transition:all .25s ease}
+  .hero-content .hero-btns .btn-wa:hover,.hero-content .hero-btns .btn-quote:hover{transform:translateY(-2px)}
+  .hero-content .hero-desktop-features .hdf-item{background:rgba(0,24,68,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.25);border-radius:18px;padding:16px 20px}
+  .hero-content .hero-desktop-features{gap:18px}
+  .hero-content .hero-desktop-features .hdf-divider{display:none}
 }
 /* MOBILE: darker even overlay so centered text is readable over whole image */
 @media(max-width:859px){

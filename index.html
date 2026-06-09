@@ -271,33 +271,33 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
 
 /* ===== דסקטופ: כרטיסי תמחור קומפקטיים בסגנון SaaS ===== */
 @media(min-width:560px){
-  /* card height follows content — no stretch, no reserved space */
-  .brand-grid{gap:12px;align-items:start}
-  .brand-card{padding:0;overflow:hidden}
-  /* head: info (right) + product image (left). image aligns to top, no fixed height stretching the row */
-  .brand-head{display:flex;flex-direction:row;align-items:flex-start;gap:14px;margin-bottom:0;padding:12px 16px;border-bottom:1px solid var(--gray-200)}
-  .brand-head-info{flex:1 1 auto;justify-content:flex-start;gap:5px;padding:0;align-items:flex-start;min-width:0}
-  /* small product image on the left — sized by its own content, never reserves empty space */
-  .brand-prod-img-wrap{flex:0 0 76px;width:76px;height:auto;min-height:0;align-self:center;border-radius:12px;padding:6px;background:transparent}
-  .brand-prod-img{max-width:100%;max-height:64px;width:auto;height:auto}
-  .brand-logo-img{max-height:30px}
-  .brand-spec-tag{font-size:11.5px;padding:4px 10px}
-  /* price + warranty centered in the card */
-  .brand-price-block{border:0;padding:8px 14px 0;margin:0;width:100%;text-align:center}
-  .brand-price-preview{font-size:26px;margin-bottom:1px;justify-content:center;display:flex;align-items:baseline;gap:5px}
-  .brand-price-preview .currency{font-size:16px}
-  .brand-warranty{font-size:11.5px;margin-bottom:0;text-align:center}
+  /* narrower, centered stack — cards feel compact, not full-width */
+  .brand-grid{gap:10px;align-items:center;max-width:440px;margin-left:auto;margin-right:auto}
+  .brand-card{padding:0;overflow:hidden;width:100%}
+  /* head: logo+spec (right) + product image (left) */
+  .brand-head{display:flex;flex-direction:row;align-items:center;gap:10px;margin-bottom:0;padding:10px 14px;border-bottom:1px solid var(--gray-200)}
+  .brand-head-info{flex:1 1 auto;justify-content:flex-start;gap:4px;padding:0;align-items:flex-start;min-width:0}
+  /* product image on the left — content-sized, ~15-20% smaller */
+  .brand-prod-img-wrap{flex:0 0 62px;width:62px;height:auto;min-height:0;align-self:center;border-radius:12px;padding:4px;background:transparent}
+  .brand-prod-img{max-width:100%;max-height:52px;width:auto;height:auto}
+  .brand-logo-img{max-height:26px}
+  .brand-spec-tag{font-size:11px;padding:4px 9px}
+  /* price + warranty centered, close to head */
+  .brand-price-block{border:0;padding:6px 14px 0;margin:0;width:100%;text-align:center}
+  .brand-price-preview{font-size:23px;margin-bottom:1px;justify-content:center;display:flex;align-items:baseline;gap:4px}
+  .brand-price-preview .currency{font-size:15px}
+  .brand-warranty{font-size:11px;margin-bottom:0;text-align:center}
   /* remove the 84% / social-proof banner */
   .brand-social-proof{display:none !important}
   /* small "what's included" label, right-aligned above features */
-  .brand-incl-label{padding:0 14px;margin:9px 0 5px;text-align:right;font-size:11.5px}
-  /* features: 2 columns spread across the full card width, each item starts at its column's right edge */
-  .brand-features{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;row-gap:6px;border-top:0;padding:0 14px;margin:0;justify-items:start}
-  .brand-features li{font-size:12px;line-height:1.3;flex-direction:row;align-items:flex-start;text-align:right;gap:7px;width:100%}
-  .brand-features-extra{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;row-gap:6px;padding:0 14px;justify-items:start}
+  .brand-incl-label{padding:0 14px;margin:7px 0 4px;text-align:right;font-size:11px}
+  /* features: tight 2 columns */
+  .brand-features{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:5px;border-top:0;padding:0 14px;margin:0;justify-items:start}
+  .brand-features li{font-size:11.5px;line-height:1.25;flex-direction:row;align-items:flex-start;text-align:right;gap:6px;width:100%}
+  .brand-features-extra{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:5px;padding:0 14px;justify-items:start}
   /* "מה עוד כלול" centered at the bottom */
-  .brand-more-btn{margin:8px auto 0;padding:2px 16px 0;font-size:11.5px;align-self:center;justify-content:center}
-  .brand-select-btn{margin:10px 16px 12px;width:calc(100% - 32px);padding:11px;font-size:14px;border-radius:12px}
+  .brand-more-btn{margin:6px auto 0;padding:2px 14px 0;font-size:11px;align-self:center;justify-content:center}
+  .brand-select-btn{margin:8px 14px 10px;width:calc(100% - 28px);padding:9px;font-size:13.5px;border-radius:11px}
 }
 
 /* ===== עיצוב חדש לשלב 1: כרטיסי מוצר עם תמונות (כמו ההמחשה) ===== */

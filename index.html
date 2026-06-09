@@ -300,7 +300,51 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
   .brand-select-btn{margin:8px 14px 10px;width:calc(100% - 28px);padding:9px;font-size:13.5px;border-radius:11px}
 }
 
-/* ===== עיצוב חדש לשלב 1: כרטיסי מוצר עם תמונות (כמו ההמחשה) ===== */
+/* ===== תיקונים נפוצים — כרטיסי שירות פרימיום (תמונה משמאל, טקסט מימין) ===== */
+.repairs-grid-v2{display:grid;grid-template-columns:1fr;gap:18px;max-width:1180px;margin:0 auto 32px}
+@media(min-width:640px){.repairs-grid-v2{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.repairs-grid-v2{grid-template-columns:repeat(3,1fr)}}
+.repair-v2{display:flex;flex-direction:row;align-items:center;gap:18px;background:white;border:1px solid #e5e7eb;border-radius:24px;padding:18px;min-height:260px;text-decoration:none;color:inherit;box-shadow:0 10px 30px rgba(0,0,0,0.05);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s cubic-bezier(.2,.8,.2,1),border-color .3s;overflow:hidden}
+.repair-v2:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(10,37,64,0.13);border-color:#d1d5db}
+.repair-v2-img{flex:0 0 42%;max-width:42%;align-self:center;display:flex;align-items:center;justify-content:center}
+.repair-v2-img img{width:100%;height:auto;max-height:200px;object-fit:contain;display:block}
+.repair-v2-body{flex:1 1 auto;display:flex;flex-direction:column;align-items:flex-start;min-width:0;text-align:right}
+.repair-v2-title{font-size:clamp(22px,2.4vw,32px);font-weight:800;color:var(--blue-dark);line-height:1.15;letter-spacing:-.02em;margin:0 0 12px}
+.repair-v2-desc{font-size:14.5px;color:#4b5563;line-height:1.55;margin:0 0 16px}
+.repair-v2-line{width:50px;height:4px;border-radius:99px;margin:0 0 16px;background:var(--blue-bright)}
+.repair-v2.line-blue   .repair-v2-line{background:#2563eb}
+.repair-v2.line-orange .repair-v2-line{background:#ea580c}
+.repair-v2.line-green  .repair-v2-line{background:#16a34a}
+.repair-v2.line-purple .repair-v2-line{background:#7c3aed}
+.repair-v2-cta{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:#dc2626;transition:gap .2s}
+.repair-v2:hover .repair-v2-cta{gap:11px}
+.repair-v2-cta .arr{font-weight:900;font-size:17px}
+@media(max-width:639px){
+  .repair-v2{min-height:0;gap:14px;padding:16px;border-radius:20px}
+  .repair-v2-img{flex-basis:38%;max-width:38%}
+  .repair-v2-img img{max-height:130px}
+  .repair-v2-title{font-size:22px;margin-bottom:8px}
+  .repair-v2-desc{font-size:13.5px;margin-bottom:12px}
+  .repair-v2-line{margin-bottom:12px}
+}
+/* entrance animation reuse */
+.repairs-grid-v2 .repair-v2{opacity:0;transform:translateY(28px)}
+.repairs.cards-in .repairs-grid-v2 .repair-v2{opacity:1;transform:translateY(0);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s}
+.repairs.cards-in .repairs-grid-v2 .repair-v2:nth-child(1){transition-delay:.05s}
+.repairs.cards-in .repairs-grid-v2 .repair-v2:nth-child(2){transition-delay:.13s}
+.repairs.cards-in .repairs-grid-v2 .repair-v2:nth-child(3){transition-delay:.21s}
+.repairs.cards-in .repairs-grid-v2 .repair-v2:nth-child(4){transition-delay:.29s}
+.repairs.cards-in .repairs-grid-v2 .repair-v2:nth-child(5){transition-delay:.37s}
+.repairs.cards-in .repairs-grid-v2 .repair-v2:nth-child(6){transition-delay:.45s}
+@media(prefers-reduced-motion:reduce){.repairs-grid-v2 .repair-v2{opacity:1;transform:none}}
+.repairs-grid-v2 .repair-v2:hover{transform:translateY(-6px) !important}
+/* bottom CTA — large pill button */
+.repairs-cta-v2{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:64px;padding:0 40px;background:#0B2C6A;color:white;text-decoration:none;border-radius:999px;font-size:18px;font-weight:800;font-family:'Assistant',sans-serif;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(11,44,106,0.3)}
+.repairs-cta-v2:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(11,44,106,0.42)}
+.repairs-cta-v2 svg{width:22px;height:22px;flex-shrink:0}
+@media(max-width:639px){.repairs-cta-v2{height:58px;padding:0 28px;font-size:16px;width:100%}}
+
+
 .step-subtitle{font-size:14px;color:var(--gray-600);line-height:1.55;margin:-14px 0 22px}
 .prod-category-label{display:flex;align-items:center;gap:12px;border-bottom:0;padding-bottom:0}
 .prod-category-label::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--gray-200),transparent);border-radius:2px}
@@ -1084,76 +1128,76 @@ html[lang="ru"] .nav-links{direction:ltr}
 <!-- Common Repairs -->
 <section class="repairs" id="repairs">
   <div class="section-label">תיקונים נפוצים</div>
-  <h2>הבעיה שלך כאן? נתקן אותה היום.</h2>
-  <p class="section-desc">17+ שנות ניסיון בתיקון דודי שמש. בחר את הבעיה ושלח לנו הודעה — אנחנו חוזרים אליך תוך דקות.</p>
+  <h2>הבעיה שלך כאן – בחרו כדי שנפתור אותה.</h2>
+  <p class="section-desc">17+ שנות ניסיון בתיקון דודי שמש. בחרו את הבעיה שלכם ואנו נתאים פתרון מדויק.</p>
 
-  <div class="repairs-grid">
-    <a class="repair-card" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20שאינו%20מחמם%20מים,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-icon">🔥</div>
-      <div class="repair-body">
-        <div class="repair-title">הדוד לא מחמם</div>
-        <div class="repair-desc">לרוב גוף חימום שרוף או תרמוסטט תקול</div>
+  <div class="repairs-grid-v2">
+    <a class="repair-v2 line-blue" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הדוד%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-boiler-leak.webp" alt="דוד נוזל" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">דוד נוזל</div>
+        <div class="repair-v2-desc">נזילה מהדוד או מהחיבורים.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
       </div>
-      <div class="repair-arrow">←</div>
     </a>
 
-    <a class="repair-card" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20אין%20לי%20מים%20חמים%20מהשמש,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-icon">☀️</div>
-      <div class="repair-body">
-        <div class="repair-title">אין מים מהשמש</div>
-        <div class="repair-desc">לרוב מדובר על שטיפת קולטים — פתרון מהיר</div>
+    <a class="repair-v2 line-blue" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הקולט%20שמש%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-kolat-leak.webp" alt="קולט נוזל" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">קולט נוזל</div>
+        <div class="repair-v2-desc">נזילה מהקולטים או מהצנרת החיצונית.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
       </div>
-      <div class="repair-arrow">←</div>
     </a>
 
-    <a class="repair-card" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20אשמח%20להתייעץ%20איתך%20לגבי%20החלפת%20גוף%20חימום%20בדוד" target="_blank" rel="noopener">
-      <div class="repair-icon">⚡</div>
-      <div class="repair-body">
-        <div class="repair-title">החלפת גוף חימום</div>
-        <div class="repair-desc">החלפה תוך שעה עם חלקים מקוריים</div>
+    <a class="repair-v2 line-orange" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20שאינו%20מחמם%20מים,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-no-heat.webp" alt="הדוד לא מחמם" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">הדוד לא מחמם</div>
+        <div class="repair-v2-desc">לרוב מדובר בבעיה בטרמוסטט או בגוף החימום.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
       </div>
-      <div class="repair-arrow">←</div>
     </a>
 
-    <a class="repair-card" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20המתג%20של%20הדוד%20שלי%20לא%20עובד,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-icon">🔌</div>
-      <div class="repair-body">
-        <div class="repair-title">המתג של הדוד לא עובד</div>
-        <div class="repair-desc">המתג שמדליק את החשמל תקול — צריך תיקון</div>
+    <a class="repair-v2 line-blue" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20אין%20לי%20מים%20חמים%20מהשמש,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-no-sun.webp" alt="אין מים חמים מהשמש" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">אין מים חמים מהשמש</div>
+        <div class="repair-v2-desc">לרוב בעיה במערכת השמש או בקולטים.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
       </div>
-      <div class="repair-arrow">←</div>
     </a>
 
-    <a class="repair-card has-quote" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הדוד%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך%20לגבי%20החלפה" target="_blank" rel="noopener">
-      <div class="repair-top">
-        <div class="repair-icon">💧</div>
-        <div class="repair-body">
-          <div class="repair-title">דוד נוזל</div>
-          <div class="repair-desc">נזילה מהדוד בדרך כלל מסמלת החלפה</div>
-        </div>
-        <div class="repair-arrow">←</div>
+    <a class="repair-v2 line-green" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20ירידת%20לחץ%20או%20נזילה%20במערכת,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-pressure.webp" alt="ירידת לחץ או נזילה" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">ירידת לחץ או נזילה</div>
+        <div class="repair-v2-desc">ירידת לחץ במערכת או נזילה בצנרת או בחיבורים.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
       </div>
-      <button type="button" class="repair-quote-btn" onclick="event.preventDefault();event.stopPropagation();goToQuote('solar');">הצעת מחיר לדוד</button>
     </a>
 
-    <a class="repair-card has-quote" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הקולט%20שמש%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך%20לגבי%20החלפה" target="_blank" rel="noopener">
-      <div class="repair-top">
-        <div class="repair-icon">💧</div>
-        <div class="repair-body">
-          <div class="repair-title">קולט נוזל</div>
-          <div class="repair-desc">נזילה מהקולט בדרך כלל מסמלת החלפה</div>
-        </div>
-        <div class="repair-arrow">←</div>
+    <a class="repair-v2 line-purple" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20המתג%20של%20הדוד%20שלי%20לא%20עובד,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-switch.webp" alt="המתג של הדוד לא עובד" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">המתג של הדוד לא עובד</div>
+        <div class="repair-v2-desc">המתג שמזין את החשמל לדוד אינו פועל כראוי.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
       </div>
-      <button type="button" class="repair-quote-btn" onclick="event.preventDefault();event.stopPropagation();goToQuote('kolat_copper');">הצעת מחיר לקולט</button>
     </a>
   </div>
 
   <div class="repairs-bottom">
     <p>בעיה אחרת? אנחנו כאן לעזור.</p>
-    <a href="javascript:void(0)" onclick="openCallModal()" class="repairs-call-btn">
+    <a href="javascript:void(0)" onclick="openCallModal()" class="repairs-cta-v2">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-      התקשר אלינו עכשיו
+      התקשרו אלינו עכשיו
     </a>
   </div>
 </section>
@@ -2598,6 +2642,22 @@ const TRANSLATIONS = {
   'נזילה מהקולט בדרך כלל מסמלת החלפה': 'Утечка из коллектора обычно означает замену',
   'תיקון מיידי ←': 'Срочный ремонт ←',
   'בעיה אחרת? אנחנו כאן לעזור.': 'Другая проблема? Мы поможем.',
+  'התקשרו אלינו עכשיו': 'Позвоните нам сейчас',
+  'הבעיה שלך כאן – בחרו כדי שנפתור אותה.': 'Ваша проблема здесь — выберите, и мы её решим.',
+  '17+ שנות ניסיון בתיקון דודי שמש. בחרו את הבעיה שלכם ואנו נתאים פתרון מדויק.': '17+ лет опыта в ремонте солнечных бойлеров. Выберите проблему — и мы подберём точное решение.',
+  'תיקון מיידי': 'Срочный ремонт',
+  'דוד נוזל': 'Бойлер протекает',
+  'נזילה מהדוד או מהחיבורים.': 'Протечка из бойлера или соединений.',
+  'קולט נוזל': 'Коллектор протекает',
+  'נזילה מהקולטים או מהצנרת החיצונית.': 'Протечка из коллекторов или наружных труб.',
+  'הדוד לא מחמם': 'Бойлер не греет',
+  'לרוב מדובר בבעיה בטרמוסטט או בגוף החימום.': 'Чаще всего проблема в термостате или ТЭНе.',
+  'אין מים חמים מהשמש': 'Нет горячей воды от солнца',
+  'לרוב בעיה במערכת השמש או בקולטים.': 'Чаще всего проблема в солнечной системе или коллекторах.',
+  'ירידת לחץ או נזילה': 'Падение давления или протечка',
+  'ירידת לחץ במערכת או נזילה בצנרת או בחיבורים.': 'Падение давления в системе или протечка в трубах или соединениях.',
+  'המתג של הדוד לא עובד': 'Выключатель бойлера не работает',
+  'המתג שמזין את החשמל לדוד אינו פועל כראוי.': 'Выключатель, питающий бойлер, работает неправильно.',
   'התקשר אלינו עכשיו': 'Позвоните нам сейчас',
   // PACKAGE TIER DIFFERENTIATORS
   'אורך חיים ממוצע': 'Средний срок службы',

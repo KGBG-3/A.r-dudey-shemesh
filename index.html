@@ -319,13 +319,20 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
 .repair-v2-cta{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:#dc2626;transition:gap .2s}
 .repair-v2:hover .repair-v2-cta{gap:11px}
 .repair-v2-cta .arr{font-weight:900;font-size:17px}
+/* כפתור הצעת מחיר בתוך כרטיס (דוד/קולט נוזל) — מוביל למחשבון */
+.repair-v2-quote{display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:var(--blue-dark);color:white;border:0;padding:9px 18px;border-radius:99px;font-family:'Assistant',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer;transition:background .18s,transform .18s,box-shadow .18s;box-shadow:0 3px 12px rgba(10,31,61,0.2)}
+.repair-v2-quote:hover{background:var(--blue-mid);transform:translateY(-1px);box-shadow:0 5px 16px rgba(10,31,61,0.3)}
+.repair-v2-quote:active{transform:translateY(0)}
 @media(max-width:639px){
-  .repair-v2{min-height:0;gap:14px;padding:16px;border-radius:20px}
-  .repair-v2-img{flex-basis:38%;max-width:38%}
-  .repair-v2-img img{max-height:130px}
-  .repair-v2-title{font-size:22px;margin-bottom:8px}
-  .repair-v2-desc{font-size:13.5px;margin-bottom:12px}
-  .repair-v2-line{margin-bottom:12px}
+  .repairs-grid-v2{gap:12px}
+  .repair-v2{min-height:0;gap:12px;padding:13px;border-radius:18px}
+  .repair-v2-img{flex-basis:34%;max-width:34%}
+  .repair-v2-img img{max-height:96px}
+  .repair-v2-title{font-size:18px;margin-bottom:5px}
+  .repair-v2-desc{font-size:12.5px;line-height:1.45;margin-bottom:9px}
+  .repair-v2-line{width:42px;height:3px;margin-bottom:9px}
+  .repair-v2-cta{font-size:13.5px}
+  .repair-v2-quote{margin-top:9px;padding:7px 14px;font-size:12.5px}
 }
 /* entrance animation reuse */
 .repairs-grid-v2 .repair-v2{opacity:0;transform:translateY(28px)}
@@ -361,6 +368,18 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
 .prod-card.prod-card-full .prod-img-wrap{width:auto;height:110px;margin-bottom:0;flex-shrink:0}
 .prod-card.prod-card-full .prod-name{font-size:17px}
 .prod-card .prod-name{font-size:15px;margin-bottom:0}
+
+/* מובייל: כרטיסי מוצר קומפקטיים יותר במחשבון (שלב 1) */
+@media(max-width:599px){
+  .prod-grid{gap:9px;margin-bottom:18px}
+  .prod-card{padding:12px 8px;border-radius:14px}
+  .prod-img-wrap{height:88px;margin-bottom:6px;padding:2px}
+  .prod-card .prod-name{font-size:13px}
+  .prod-micro{font-size:10.5px;line-height:1.3}
+  .prod-card.prod-card-full{gap:12px;padding:12px 14px}
+  .prod-card.prod-card-full .prod-img-wrap{height:72px}
+  .prod-card.prod-card-full .prod-name{font-size:14px}
+}
 
 /* ===== שלב הגג: כרטיסים עם תמונות ===== */
 .roof-card{padding:0;overflow:hidden;background:white}
@@ -692,6 +711,8 @@ html[lang="ru"] .nav-links{direction:ltr}
   .hdf-icon img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
   .hdf-text{color:white;font-size:15px;font-weight:700;letter-spacing:-.01em;text-shadow:0 1px 6px rgba(0,0,0,0.5)}
   .hdf-divider{width:1px;height:48px;background:linear-gradient(180deg,transparent,rgba(255,255,255,0.25),transparent)}
+  /* anchor the whole hero block to the RIGHT side of the page, inner content stays centered */
+  .hero-content{margin-right:0;margin-left:auto}
 }
 /* MOBILE: darker even overlay so centered text is readable over whole image */
 @media(max-width:859px){
@@ -1139,6 +1160,7 @@ html[lang="ru"] .nav-links{direction:ltr}
         <div class="repair-v2-desc">נזילה מהדוד או מהחיבורים.</div>
         <div class="repair-v2-line"></div>
         <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <button type="button" class="repair-v2-quote" onclick="event.preventDefault();event.stopPropagation();goToQuote('solar');">הצעת מחיר לדוד חדש</button>
       </div>
     </a>
 
@@ -1149,6 +1171,7 @@ html[lang="ru"] .nav-links{direction:ltr}
         <div class="repair-v2-desc">נזילה מהקולטים או מהצנרת החיצונית.</div>
         <div class="repair-v2-line"></div>
         <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <button type="button" class="repair-v2-quote" onclick="event.preventDefault();event.stopPropagation();goToQuote('kolat_copper');">הצעת מחיר לקולט חדש</button>
       </div>
     </a>
 
@@ -2646,6 +2669,8 @@ const TRANSLATIONS = {
   'הבעיה שלך כאן – בחרו כדי שנפתור אותה.': 'Ваша проблема здесь — выберите, и мы её решим.',
   '17+ שנות ניסיון בתיקון דודי שמש. בחרו את הבעיה שלכם ואנו נתאים פתרון מדויק.': '17+ лет опыта в ремонте солнечных бойлеров. Выберите проблему — и мы подберём точное решение.',
   'תיקון מיידי': 'Срочный ремонт',
+  'הצעת מחיר לדוד חדש': 'Цена на новый бойлер',
+  'הצעת מחיר לקולט חדש': 'Цена на новый коллектор',
   'דוד נוזל': 'Бойлер протекает',
   'נזילה מהדוד או מהחיבורים.': 'Протечка из бойлера или соединений.',
   'קולט נוזל': 'Коллектор протекает',

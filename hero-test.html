@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HERO — בדיקה | א.ר דודי שמש</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,600;1,9..144,700&display=swap" rel="stylesheet" />
+  <style>
+  html{color-scheme:light}
+  :root{--blue-dark:#0a1f3d;--blue-deeper:#061530;--blue-mid:#1e3a8a;--blue-bright:#2563eb;--blue-accent:#3b82f6;--blue-light:#dbeafe;--blue-soft:#eff6ff;--orange:#f97316;--orange-dark:#ea580c;--orange-deep:#c2410c;--orange-glow:#fed7aa;--amber:#fbbf24;--white:#fff;--gray-50:#fafaf9;--gray-100:#f4f4f3;--gray-200:#e5e5e3;--gray-300:#d4d4d2;--gray-500:#71717a;--gray-600:#52525b;--gray-800:#27272a;--gray-900:#18181b;--whatsapp:#25d366;--whatsapp-dark:#128c7e;--shadow-xs:0 1px 2px rgba(10,31,61,0.06);--shadow-sm:0 1px 3px rgba(10,31,61,0.08),0 1px 2px rgba(10,31,61,0.04);--shadow-md:0 4px 20px rgba(10,31,61,0.08),0 2px 6px rgba(10,31,61,0.05);--shadow-lg:0 14px 40px rgba(10,31,61,0.12),0 4px 12px rgba(10,31,61,0.06);--shadow-xl:0 24px 60px rgba(10,31,61,0.18),0 8px 20px rgba(10,31,61,0.08);--shadow-orange:0 8px 28px rgba(249,115,22,0.38),0 2px 6px rgba(249,115,22,0.15);--shadow-glow-blue:0 0 0 4px rgba(37,99,235,0.15);--radius-xs:8px;--radius-sm:12px;--radius:18px;--radius-lg:24px;--font-display:'Fraunces',Georgia,serif;--font-body:'Assistant',system-ui,sans-serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img,svg,video,iframe{max-width:100%}html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}body{font-family:var(--font-body);font-weight:400;background:#eef4fb;color:var(--gray-800);direction:rtl;overflow-x:hidden;max-width:100%;width:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+  /* ===== NAV ===== */
+  nav{background:transparent;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:none;position:fixed;top:0;left:0;right:0;z-index:100;width:100%;max-width:100%;transition:background .3s ease,box-shadow .3s ease,padding .3s ease}
+nav.nav-scrolled{background:white;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:12px 20px}
+/* Transparent nav: white text over hero */
+nav:not(.nav-scrolled) .logo-text{color:white;text-shadow:0 1px 6px rgba(0,0,0,0.4)}
+nav:not(.nav-scrolled) .logo-sub{color:rgba(255,255,255,0.85);text-shadow:0 1px 4px rgba(0,0,0,0.4)}
+nav:not(.nav-scrolled) .nav-links a{color:white;text-shadow:0 1px 6px rgba(0,0,0,0.4)}
+nav:not(.nav-scrolled) .nav-hamburger span{background:white}
+nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.4);color:white}
+/* Hamburger button */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;background:transparent;border:0;cursor:pointer;padding:9px;flex-shrink:0;border-radius:10px;transition:background .2s}
+.nav-hamburger span{display:block;width:100%;height:2.5px;background:var(--blue-dark);border-radius:2px;transition:all .3s ease}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.nav-menu-overlay{display:none}
+/* Mobile: hamburger menu drawer */
+@media(max-width:859px){
+  .nav-hamburger{display:flex}
+  .nav-links{display:flex;position:fixed;top:0;right:-280px;width:260px;height:100vh;background:white;flex-direction:column;align-items:stretch;gap:0;padding:80px 0 20px;box-shadow:-4px 0 24px rgba(0,0,0,0.15);transition:right .32s cubic-bezier(.4,0,.2,1);z-index:201;justify-content:flex-start}
+  .nav-links.open{right:0}
+  .nav-links a{color:var(--blue-dark) !important;text-shadow:none !important;font-size:16px;font-weight:600;padding:16px 24px;border-bottom:1px solid var(--gray-100);text-align:right;transition:background .2s}
+  .nav-links a:hover{background:var(--blue-soft)}
+  .nav-menu-overlay.open{display:block;position:fixed;inset:0;background:rgba(10,23,45,0.5);z-index:200;animation:navFade .3s ease}
+  @keyframes navFade{from{opacity:0}to{opacity:1}}
+  html[lang="ru"] .nav-links{right:auto;left:-280px;transition:left .32s cubic-bezier(.4,0,.2,1);box-shadow:4px 0 24px rgba(0,0,0,0.15)}
+  html[lang="ru"] .nav-links.open{left:0;right:auto}
+}
+@media(min-width:860px){
+  .nav-links{display:flex}
+}.nav-logo{display:flex;align-items:center;gap:10px;min-width:0;overflow:hidden}.nav-logo .logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--orange) 0,var(--blue-mid) 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}.nav-logo .logo-text{font-size:20px;font-weight:800;color:var(--blue-dark);line-height:1.2}.nav-logo .logo-sub{font-size:11px;color:var(--gray-600);font-weight:400;white-space:nowrap}.nav-call{display:flex;align-items:center;gap:7px;background:var(--blue-mid);color:white;text-decoration:none;padding:10px 18px;border-radius:50px;font-size:15px;font-weight:700;transition:background .2s;white-space:nowrap;flex-shrink:0}.nav-call:hover{background:var(--blue-bright)}.nav-call svg{width:18px;height:18px}
+  /* Transparent nav: white text over hero */
+nav:not(.nav-scrolled) .logo-text{color:white;text-shadow:0 1px 6px rgba(0,0,0,0.4)}
+nav:not(.nav-scrolled) .logo-sub{color:rgba(255,255,255,0.85);text-shadow:0 1px 4px rgba(0,0,0,0.4)}
+nav:not(.nav-scrolled) .nav-links a{color:white;text-shadow:0 1px 6px rgba(0,0,0,0.4)}
+nav:not(.nav-scrolled) .nav-hamburger span{background:white}
+nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.4);color:white}
+/* Hamburger button */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;background:transparent;border:0;cursor:pointer;padding:9px;flex-shrink:0;border-radius:10px;transition:background .2s}
+.nav-hamburger span{display:block;width:100%;height:2.5px;background:var(--blue-dark);border-radius:2px;transition:all .3s ease}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.nav-menu-overlay{display:none}
+/* Mobile: hamburger menu drawer */
+@media(max-width:859px){
+  .nav-hamburger{display:flex}
+  .nav-links{display:flex;position:fixed;top:0;right:-280px;width:260px;height:100vh;background:white;flex-direction:column;align-items:stretch;gap:0;padding:80px 0 20px;box-shadow:-4px 0 24px rgba(0,0,0,0.15);transition:right .32s cubic-bezier(.4,0,.2,1);z-index:201;justify-content:flex-start}
+  .nav-links.open{right:0}
+  .nav-links a{color:var(--blue-dark) !important;text-shadow:none !important;font-size:16px;font-weight:600;padding:16px 24px;border-bottom:1px solid var(--gray-100);text-align:right;transition:background .2s}
+  .nav-links a:hover{background:var(--blue-soft)}
+  .nav-menu-overlay.open{display:block;position:fixed;inset:0;background:rgba(10,23,45,0.5);z-index:200;animation:navFade .3s ease}
+  @keyframes navFade{from{opacity:0}to{opacity:1}}
+  html[lang="ru"] .nav-links{right:auto;left:-280px;transition:left .32s cubic-bezier(.4,0,.2,1);box-shadow:4px 0 24px rgba(0,0,0,0.15)}
+  html[lang="ru"] .nav-links.open{left:0;right:auto}
+}
+@media(min-width:860px){
+  .nav-links{display:flex}
+}
+  /* ===== HERO BASE ===== */
+  .hero{background:#1e3a6e;padding:48px 20px 56px;position:relative;overflow:hidden;text-align:right}
+.hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(to left,rgba(10,23,45,0.92) 0,rgba(10,23,45,0.80) 30%,rgba(10,23,45,0.45) 60%,rgba(10,23,45,0.20) 100%),url('https://ardudim.co.il/images/hero-bg.webp');background-repeat:no-repeat,no-repeat;background-position:center center,center center;background-size:cover,cover;z-index:0;pointer-events:none}
+.hero>*{position:relative;z-index:1}.hero-dots-removed{display:none}.hero::after{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(37,99,235,0.25) 0,transparent 70%);pointer-events:none}.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at center, transparent 0%, rgba(6,21,48,0.25) 100%);pointer-events:none;z-index:0}.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(249,115,22,0.2);border:1px solid rgba(249,115,22,0.4);color:var(--orange-glow);padding:5px 14px;border-radius:50px;font-size:13px;font-weight:600;margin-bottom:20px}.hero h1{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:white;line-height:1.1;margin-bottom:20px;letter-spacing:-.02em;font-variation-settings:"opsz" 144;text-shadow:0 2px 16px rgba(0,0,0,0.65),0 1px 4px rgba(0,0,0,0.45)}.hero h1 .accent{color:var(--orange);font-style:italic;font-weight:600;position:relative;display:inline-block}.hero h1 .accent::after{content:'';position:absolute;bottom:-6px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange) 0,var(--amber) 100%);border-radius:2px;transform-origin:right;animation:underline-grow 1.2s cubic-bezier(.2,.8,.2,1) .6s both}@keyframes underline-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}.hero-sub{font-size:17px;color:rgba(255,255,255,0.95);line-height:1.65;margin:0 auto 36px;font-weight:400;max-width:520px;text-shadow:0 1px 8px rgba(0,0,0,0.6)}.hero-sub strong{color:white;font-weight:600}.hero-btns{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center}.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--whatsapp) 0,#1eb353 100%);color:white;text-decoration:none;padding:17px 24px;border-radius:var(--radius);font-size:17px;font-weight:700;box-shadow:0 8px 24px rgba(37,211,102,0.35),inset 0 1px 0 rgba(255,255,255,0.2);transition:all .3s cubic-bezier(.2,.8,.2,1);position:relative;overflow:hidden}.btn-wa::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 0,rgba(255,255,255,0.15) 50%,transparent 100%);transform:translateX(-100%);transition:transform .6s}.btn-wa:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(37,211,102,0.45),inset 0 1px 0 rgba(255,255,255,0.25)}.btn-wa:hover::before{transform:translateX(100%)}.btn-wa svg{width:24px;height:24px;position:relative;z-index:1}.btn-wa>*{position:relative;z-index:1}.btn-call{display:flex;align-items:center;justify-content:center;gap:10px;background:white;color:var(--blue-dark);text-decoration:none;padding:16px 24px;border-radius:var(--radius);font-size:17px;font-weight:700;transition:all .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 4px 14px rgba(10,31,61,0.08),inset 0 0 0 1.5px rgba(255,255,255,0.9)}.btn-call:hover{background:var(--blue-soft);transform:translateY(-3px);box-shadow:0 10px 26px rgba(10,31,61,0.15)}.btn-call svg{width:22px;height:22px;color:var(--blue-mid)}.btn-quote{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--orange);color:white;text-decoration:none;padding:16px 22px;border-radius:var(--radius);font-size:16px;font-weight:800;transition:all .2s;box-shadow:var(--shadow-orange);position:relative;overflow:hidden}.btn-quote::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);animation:shine 3s ease-in-out infinite;animation-delay:1s}@keyframes shine{0%{left:-100%}50%,100%{left:100%}}.btn-quote:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 10px 24px rgba(249,115,22,0.45)}.btn-quote-wide{font-size:15px;gap:6px;padding:16px 20px;letter-spacing:.01em}.btn-arrows{font-size:16px;font-weight:900;opacity:.9}.hero-trust{display:flex;gap:16px;margin-top:28px;flex-wrap:wrap}.trust-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.9);padding:7px 14px;border-radius:50px;font-size:13px;font-weight:500;transition:all .25s ease;}.trust-pill:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.35);transform:translateY(-1px)}.trust-pill .dot{width:8px;height:8px;background:var(--orange);border-radius:50%;flex-shrink:0;box-shadow:0 0 8px rgba(249,115,22,0.6)}.trust-pill-orange{background:var(--orange);border-color:var(--orange-dark);color:white;font-weight:700;box-shadow:0 4px 12px rgba(249,115,22,0.35)}.trust-pill-orange:hover{background:var(--orange-dark);box-shadow:0 6px 16px rgba(249,115,22,0.45)}
+  /* ===== HERO LAYOUT (desktop/mobile) ===== */
+  .hero-content{position:relative;z-index:1}
+/* MOBILE default: everything centered like the old hero */
+.hero{text-align:center}
+.hero h1{text-align:center}
+.hero-content .hero-sub{text-align:center;margin-left:auto;margin-right:auto}
+.hero-btns{align-items:center;justify-content:center}
+.hero-trust{justify-content:center}
+/* DESKTOP: split layout — text column on the right, photo (in bg) on the left, social-proof row, bottom glass-card features */
+@media(min-width:860px){
+  .hero{min-height:100vh;display:flex;align-items:center;padding:120px calc(50% - 600px) 56px !important;text-align:right;position:relative}
+  /* Brighter image: light gradient only on the RIGHT (behind text) so the left-side photo stays bright */
+  .hero::before{background-image:linear-gradient(270deg,rgba(7,18,40,.86) 0%,rgba(7,18,40,.72) 28%,rgba(7,18,40,.42) 48%,rgba(7,18,40,.12) 64%,rgba(7,18,40,0) 78%),linear-gradient(0deg,rgba(7,18,40,.55) 0%,rgba(7,18,40,.10) 30%,rgba(7,18,40,0) 55%),url('https://ardudim.co.il/images/hero-bg.webp') !important;background-repeat:no-repeat,no-repeat,no-repeat !important;background-position:center center,center center,center center !important;background-size:cover,cover,cover !important}
+  /* text column: right ~52% */
+  .hero-content{max-width:600px;margin:0 0 0 auto;width:100%;transform:none;padding-bottom:150px}
+  .hero h1{text-align:right;font-size:clamp(2.6rem,4.4vw,4.4rem);line-height:1.08;font-weight:800;margin-bottom:22px;text-shadow:0 4px 22px rgba(0,0,0,.45),0 1px 4px rgba(0,0,0,.4)}
+  .hero h1 .h1-main{display:block}
+  .hero h1 .h1-place,.hero h1 .h1-br1{display:none}
+  .hero h1 .accent{display:inline-block;color:var(--orange);font-style:normal;font-weight:800;font-size:inherit;position:relative;margin-top:4px}
+  .hero h1 .accent::after{content:'';display:block;position:absolute;bottom:-10px;right:0;width:100%;height:4px;background:linear-gradient(90deg,var(--orange) 0,var(--amber) 100%);border-radius:3px;transform-origin:right;animation:underline-grow 1.2s cubic-bezier(.2,.8,.2,1) .6s both}
+  /* subtitle paragraph — shown on desktop */
+  .hero-content .hero-sub{display:block;text-align:right;margin:30px 0 30px;max-width:520px;font-size:18px;line-height:1.7}
+  .hero-content .hero-trust{display:none}
+  .hero-content .hero-call-mobile{display:none}
+  /* eyebrow above title (right aligned, lines flank the text) */
+  .hero-content .hero-desktop-eyebrow{display:flex;align-items:center;justify-content:flex-start;gap:14px;margin:0 0 22px;max-width:520px}
+  .hero-desktop-eyebrow .hde-line{flex:0 0 auto;width:46px;height:2px;background:linear-gradient(90deg,var(--orange),transparent)}
+  .hero-desktop-eyebrow .hde-line:last-child{background:linear-gradient(90deg,transparent,var(--orange))}
+  .hero-desktop-eyebrow .hde-text{color:rgba(255,255,255,0.95);font-size:16px;font-weight:600;letter-spacing:.01em;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,0.55)}
+  .hde-pin{color:var(--orange);font-size:17px;line-height:1;margin-left:2px}
+  /* buttons row */
+  .hero-content .hero-btns{flex-direction:row;justify-content:flex-start;gap:14px;margin-top:6px}
+  .hero-content .hero-btns .btn-wa,.hero-content .hero-btns .btn-quote{padding:18px 30px;border-radius:14px;transition:all .25s ease;font-size:17px}
+  .hero-content .hero-btns .btn-wa:hover,.hero-content .hero-btns .btn-quote:hover{transform:translateY(-2px)}
+  /* social-proof row: avatars + text + stars */
+  .hero-content .hero-social{display:flex;align-items:center;gap:14px;margin-top:30px;flex-wrap:wrap}
+  .hero-avatars{display:flex;flex-direction:row-reverse;align-items:center}
+  .hero-avatars .hav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:white;border:2.5px solid rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.35);margin-right:-12px;flex-shrink:0}
+  .hero-avatars .hav:first-child{margin-right:0}
+  .hero-social-text{display:flex;flex-direction:column;gap:3px}
+  .hero-social-line{color:rgba(255,255,255,0.95);font-size:14px;font-weight:600;text-shadow:0 1px 6px rgba(0,0,0,0.5);line-height:1.3}
+  .hero-social-stars{color:#fbbf24;font-size:16px;letter-spacing:2px;line-height:1}
+  /* hide mobile-only desktop feature row (replaced by bottom card) */
+  .hero-content .hero-desktop-features{display:none}
+  /* ===== bottom full-width glass card with 3 features ===== */
+  .hero-bottom-card{display:flex;position:absolute;left:calc(50% - 600px);right:calc(50% - 600px);bottom:40px;z-index:2;background:rgba(10,23,45,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:22px;padding:24px 20px;box-shadow:0 16px 48px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.08)}
+  .hbc-item{flex:1;display:flex;align-items:center;gap:16px;padding:0 26px}
+  .hbc-item:not(:last-child){border-left:1px solid rgba(255,255,255,0.12)}
+  .hbc-icon{width:54px;height:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(249,115,22,0.14);border:1px solid rgba(249,115,22,0.3)}
+  .hbc-icon svg{width:30px;height:30px;stroke:var(--orange);fill:none;stroke-width:2}
+  .hbc-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .hbc-title{color:white;font-size:17px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+  .hbc-desc{color:rgba(255,255,255,0.75);font-size:13.5px;line-height:1.35}
+}
+/* mid-desktop (860-1200px): clamp side padding so calc() never goes negative */
+@media(min-width:860px) and (max-width:1239px){
+  .hero{padding-left:40px !important;padding-right:40px !important}
+  .hero-bottom-card{left:40px;right:40px}
+}
+/* hide the bottom card off desktop */
+@media(max-width:859px){.hero-bottom-card{display:none}}
+/* MOBILE: darker even overlay so centered text is readable over whole image */
+@media(max-width:859px){
+  .hero::before{background-image:linear-gradient(rgba(10,23,45,0.62),rgba(10,23,45,0.72)),url('https://ardudim.co.il/images/hero-bg.webp') !important;background-position:center center,center center !important;background-size:cover,cover !important}
+}
+@media(max-width:599px){
+  .hero-btns{width:100%;align-items:stretch}
+  .hero-btns>a,.hero-btns>button{width:100%;max-width:none;align-self:stretch;padding-top:17px !important;padding-bottom:17px !important;font-size:17px !important}
+}
+/* ===== Mobile hero elements (hidden on desktop) ===== */
+.hero-mobile-banner,.hero-mobile-sub,.hero-mobile-tags,.hero-mobile-features{display:none}
+.hero-desktop-eyebrow,.hero-desktop-features,.hero-social{display:none}
+@media(max-width:859px){
+  /* image: vertical phone-optimized version + dark gradient for readability */
+  .hero::before{background-image:linear-gradient(180deg,rgba(10,23,45,0.35) 0,rgba(10,23,45,0.30) 38%,rgba(10,23,45,0.78) 72%,rgba(10,23,45,0.95) 100%),url('https://ardudim.co.il/images/hero-bg-mobile.webp') !important;background-position:center top,center top !important;background-size:cover,cover !important}
+  .hero{padding:32px 20px 40px}
+  /* orange banner above heading */
+  .hero-mobile-banner{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:white;font-size:15px;font-weight:800;padding:11px 22px;border-radius:50px;margin:200px auto 20px;box-shadow:0 6px 20px rgba(234,88,12,0.4);text-align:center}
+  /* heading centered, big, white */
+  .hero h1{font-size:clamp(34px,11vw,46px);text-align:center;margin-bottom:18px;line-height:1.12}
+  .hero h1 br{display:initial}
+  /* hide the inline accent line on mobile (we use separate divider) */
+  .hero h1 .accent{display:none}
+  .hero h1 .h1-place,.hero h1 .h1-br1{display:none}
+  /* "בפתח תקווה והמרכז" with side lines */
+  .hero-mobile-sub{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 auto 16px;max-width:340px}
+  .hms-line{flex:1;height:1px;background:rgba(255,255,255,0.4)}
+  .hms-text{color:var(--amber);font-size:18px;font-weight:700;white-space:nowrap}
+  /* tags row: שירות מהיר • אחריות מלאה • 17+ */
+  .hero-mobile-tags{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 auto 24px;color:rgba(255,255,255,0.92);font-size:14px;font-weight:600}
+  .hmt-dot{color:var(--orange);font-size:14px}
+  /* hide desktop paragraph + trust pills on mobile */
+  .hero-content .hero-sub{display:none}
+  .hero-trust{display:none}
+  /* 4 feature cards */
+  .hero-mobile-features{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:28px;background:rgba(10,23,45,0.35);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:18px 10px}
+  .hmf-item{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+  .hmf-icon{font-size:26px;line-height:1;filter:saturate(1.1)}
+  .hmf-text{color:rgba(255,255,255,0.92);font-size:11.5px;font-weight:700;line-height:1.3}
+}
+  /* ===== KEYFRAMES ===== */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}.hero>*{animation:fadeUp .6s ease both;position:relative;z-index:1}.hero>*:nth-child(1){animation-delay:.05s}.hero>*:nth-child(2){animation-delay:.12s}.hero>*:nth-child(3){animation-delay:.2s}.hero>*:nth-child(4){animation-delay:.28s}.hero>*:nth-child(5){animation-delay:.35s}
+  /* preview-only: give page a neutral backdrop below hero so scroll/nav behavior is visible */
+  body{min-height:140vh}
+  .preview-spacer{height:60vh;display:flex;align-items:center;justify-content:center;color:var(--gray-500);font-size:14px;background:#eef4fb}
+  </style>
+</head>
+<body>
+<nav aria-label="ניווט ראשי">
+  <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="תפריט" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-logo">
+    <div class="logo-text">א.ר דודי שמש</div>
+  </div>
+  <div class="nav-links" id="nav-links">
+    <a href="#about" onclick="event.preventDefault();navGoto('about')">אודות</a>
+    <a href="#gallery" onclick="event.preventDefault();navGoto('gallery')">גלריה</a>
+    <a href="#reviews" onclick="event.preventDefault();navGoto('reviews')">ביקורות</a>
+    <a href="#repairs" onclick="event.preventDefault();navGoto('repairs')">תיקונים</a>
+    <a href="#calculator" onclick="event.preventDefault();navGoto('calculator')">מחשבון מחיר</a>
+    <a href="#contact" onclick="event.preventDefault();navGoto('contact')">צור קשר</a>
+  </div>
+  <div class="nav-menu-overlay" id="nav-menu-overlay" onclick="closeMobileMenu()"></div>
+  <div class="lang-wrapper">
+    <button class="lang-switcher" onclick="toggleLang()" id="lang-btn">
+      <span id="lang-label">RU</span>
+    </button>
+  </div>
+  <a href="javascript:void(0)" onclick="openCallModal()" class="nav-call">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+    התקשר
+  </a>
+</nav>
+<section class="hero" aria-label="כותרת ראשית">
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+  <div class="hero-mobile-banner">☀️ א.ר דודי שמש</div>
+  <div class="hero-desktop-eyebrow"><span class="hde-line"></span><span class="hde-text">שירות מהיר בכל גוש דן והמרכז</span><span class="hde-line"></span></div>
+  <h1><span class="h1-main">תיקון והתקנת דודי שמש</span><br class="h1-br1"/><span class="h1-place">בפתח תקווה והמרכז</span><br/><span class="accent">במהירות, באמינות ובמחיר הוגן</span></h1>
+  <div class="hero-mobile-sub">
+    <span class="hms-line"></span>
+    <span class="hms-text">בפתח תקווה והמרכז</span>
+    <span class="hms-line"></span>
+  </div>
+  <div class="hero-mobile-tags">
+    <span>שירות מהיר</span><span class="hmt-dot">•</span>
+    <span>אחריות מלאה</span><span class="hmt-dot">•</span>
+    <span>17+ שנות ניסיון</span>
+  </div>
+  <p class="hero-sub">
+    דודי שמש, דודי חשמל, קולטים ותקלות חימום — עם אחריות, מחיר הוגן ושירות משפחתי אמין
+  </p>
+  <div class="hero-btns">
+    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      וואטסאפ
+    </a>
+    <a href="javascript:void(0)" onclick="openCallModal()" class="btn-call hero-call-mobile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      התקשר
+    </a>
+    <a href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-quote btn-quote-wide">לקבלת <strong>הצעת מחיר</strong> באתר</a>
+  </div>
+  <div class="hero-social">
+    <div class="hero-avatars">
+      <span class="hav" style="background:#ec4899">ד</span>
+      <span class="hav" style="background:#0d9488">מ</span>
+      <span class="hav" style="background:#ea580c">א</span>
+      <span class="hav" style="background:#7c3aed">י</span>
+    </div>
+    <div class="hero-social-text">
+      <span class="hero-social-line">אלפי לקוחות מרוצים בגוש דן והמרכז</span>
+      <span class="hero-social-stars">★★★★★</span>
+    </div>
+  </div>
+  <div class="hero-trust">
+    <div class="trust-pill trust-pill-orange">⭐ מורשה כרומגן</div>
+    <div class="trust-pill"><div class="dot"></div>הגעה מהירה</div>
+    <div class="trust-pill"><div class="dot"></div>מחירים הוגנים</div>
+    <div class="trust-pill"><div class="dot"></div>אחריות על העבודה</div>
+    <div class="trust-pill"><div class="dot"></div>17+ שנות ניסיון</div>
+  </div>
+  <div class="hero-desktop-features">
+    <div class="hdf-item">
+      <div class="hdf-icon"><img src="images/tag-license.webp" alt="מתקין מורשה כרומגן" width="46" height="46" loading="lazy"></div>
+      <div class="hdf-text">מתקין מורשה כרומגן</div>
+    </div>
+    <div class="hdf-divider"></div>
+    <div class="hdf-item">
+      <div class="hdf-icon"><img src="images/tag-warranty.webp" alt="אחריות מלאה" width="46" height="46" loading="lazy"></div>
+      <div class="hdf-text">אחריות מלאה</div>
+    </div>
+    <div class="hdf-divider"></div>
+    <div class="hdf-item">
+      <div class="hdf-icon"><img src="images/tag-price.webp" alt="מחירים הוגנים" width="46" height="46" loading="lazy"></div>
+      <div class="hdf-text">מחירים הוגנים</div>
+    </div>
+  </div>
+  <div class="hero-mobile-features">
+    <div class="hmf-item">
+      <div class="hmf-icon">🏅</div>
+      <div class="hmf-text">מתקין מורשה<br/>כרומגן</div>
+    </div>
+    <div class="hmf-item">
+      <div class="hmf-icon">💰</div>
+      <div class="hmf-text">מחירים<br/>הוגנים</div>
+    </div>
+    <div class="hmf-item">
+      <div class="hmf-icon">⚡</div>
+      <div class="hmf-text">מענה<br/>מהיר</div>
+    </div>
+    <div class="hmf-item">
+      <div class="hmf-icon">🔧</div>
+      <div class="hmf-text">חלקים<br/>איכותיים</div>
+    </div>
+  </div>
+  </div>
+  <div class="hero-bottom-card">
+    <div class="hbc-item">
+      <div class="hbc-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      </div>
+      <div class="hbc-text">
+        <span class="hbc-title">הגעה מהירה</span>
+        <span class="hbc-desc">בכל גוש דן והמרכז</span>
+      </div>
+    </div>
+    <div class="hbc-item">
+      <div class="hbc-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <div class="hbc-text">
+        <span class="hbc-title">אחריות מלאה</span>
+        <span class="hbc-desc">על העבודה והחומרים</span>
+      </div>
+    </div>
+    <div class="hbc-item">
+      <div class="hbc-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      </div>
+      <div class="hbc-text">
+        <span class="hbc-title">הצעת מחיר שקופה</span>
+        <span class="hbc-desc">מחירים הוגנים ללא הפתעות</span>
+      </div>
+    </div>
+  </div>
+</section>
+  <div class="preview-spacer">⬆️ זהו סקשן ה-HERO בלבד — שאר האתר לא כלול כאן</div>
+
+  <script>
+  // nav transparent → solid on scroll (same behavior as live site)
+  (function(){
+    var nav=document.querySelector('nav');
+    function onScroll(){
+      if(window.scrollY>30){nav.classList.add('nav-scrolled');}
+      else{nav.classList.remove('nav-scrolled');}
+    }
+    window.addEventListener('scroll',onScroll,{passive:true});
+    onScroll();
+  })();
+  // stub functions referenced by nav/hero onclick so console stays clean
+  function toggleMobileMenu(){var l=document.getElementById('nav-links');if(l)l.classList.toggle('open');var h=document.querySelector('.nav-hamburger');if(h)h.classList.toggle('open');}
+  function navGoto(){}
+  function openCallModal(){alert('כפתור התקשרות — פעיל באתר המלא');}
+  </script>
+</body>
+</html>

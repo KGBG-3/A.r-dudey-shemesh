@@ -1630,8 +1630,8 @@ const PRICES = {
         chromagen_std:{price:5500,warranty:4}, amisragaz_std:{price:4800,warranty:5}, yardan_std:{price:4700,warranty:4},
       },
       200: {
-        chromagen:{price:5950,warranty:4}, amisragaz:{price:5250,warranty:5}, yardan:{price:5150,warranty:4},
-        chromagen_std:{price:6150,warranty:4}, amisragaz_std:{price:5450,warranty:5}, yardan_std:{price:5350,warranty:4},
+        chromagen:{price:6000,warranty:4}, amisragaz:{price:5250,warranty:5}, yardan:{price:5150,warranty:4},
+        chromagen_std:{price:6200,warranty:4}, amisragaz_std:{price:5450,warranty:5}, yardan_std:{price:5350,warranty:4},
       },
     },
     iron: {
@@ -1646,8 +1646,8 @@ const PRICES = {
     },
     iron_extra: {
       200: {
-        chromagen:{price:6500,warranty:4}, amisragaz:{price:6300,warranty:5}, yardan:{price:6200,warranty:4},
-        chromagen_std:{price:6900,warranty:4}, amisragaz_std:{price:6700,warranty:5}, yardan_std:{price:6600,warranty:4},
+        chromagen:{price:7200,warranty:4}, amisragaz:{price:6300,warranty:5}, yardan:{price:6200,warranty:4},
+        chromagen_std:{price:7600,warranty:4}, amisragaz_std:{price:6700,warranty:5}, yardan_std:{price:6600,warranty:4},
       },
     },
   },
@@ -1999,7 +1999,7 @@ function toggleAccess(el, key) {
 }
 
 // Helper: returns the price table for a product, transparently handling system's nested kolatType structure.
-// For system + iron: volumes 120 & 150 use the iron table; volume 200 uses iron_extra (CR12-B).
+// For system + iron: volumes 120 & 150 use the iron table; volume 200 uses iron_extra (2 collectors: CR11-B + CR7-B).
 function getProductPrices(product) {
   if (product === 'system') {
     const kt = sel.kolatType || 'copper';

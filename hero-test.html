@@ -10,7 +10,7 @@
   <style>
   html{color-scheme:light}
   :root{--blue-dark:#0a1f3d;--blue-deeper:#061530;--blue-mid:#1e3a8a;--blue-bright:#2563eb;--blue-accent:#3b82f6;--blue-light:#dbeafe;--blue-soft:#eff6ff;--orange:#f97316;--orange-dark:#ea580c;--orange-deep:#c2410c;--orange-glow:#fed7aa;--amber:#fbbf24;--white:#fff;--gray-50:#fafaf9;--gray-100:#f4f4f3;--gray-200:#e5e5e3;--gray-300:#d4d4d2;--gray-500:#71717a;--gray-600:#52525b;--gray-800:#27272a;--gray-900:#18181b;--whatsapp:#25d366;--whatsapp-dark:#128c7e;--shadow-xs:0 1px 2px rgba(10,31,61,0.06);--shadow-sm:0 1px 3px rgba(10,31,61,0.08),0 1px 2px rgba(10,31,61,0.04);--shadow-md:0 4px 20px rgba(10,31,61,0.08),0 2px 6px rgba(10,31,61,0.05);--shadow-lg:0 14px 40px rgba(10,31,61,0.12),0 4px 12px rgba(10,31,61,0.06);--shadow-xl:0 24px 60px rgba(10,31,61,0.18),0 8px 20px rgba(10,31,61,0.08);--shadow-orange:0 8px 28px rgba(249,115,22,0.38),0 2px 6px rgba(249,115,22,0.15);--shadow-glow-blue:0 0 0 4px rgba(37,99,235,0.15);--radius-xs:8px;--radius-sm:12px;--radius:18px;--radius-lg:24px;--font-display:'Fraunces',Georgia,serif;--font-body:'Assistant',system-ui,sans-serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img,svg,video,iframe{max-width:100%}html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}body{font-family:var(--font-body);font-weight:400;background:#eef4fb;color:var(--gray-800);direction:rtl;overflow-x:hidden;max-width:100%;width:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
-  /* ===== NAV ===== */
+  /* NAV */
   nav{background:transparent;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:none;position:fixed;top:0;left:0;right:0;z-index:100;width:100%;max-width:100%;transition:background .3s ease,box-shadow .3s ease,padding .3s ease}
 nav.nav-scrolled{background:white;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:12px 20px}
 /* Transparent nav: white text over hero */
@@ -40,7 +40,7 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
 }
 @media(min-width:860px){
   .nav-links{display:flex}
-}.nav-logo{display:flex;align-items:center;gap:10px;min-width:0;overflow:hidden}.nav-logo .logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--orange) 0,var(--blue-mid) 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}.nav-logo .logo-text{font-size:20px;font-weight:800;color:var(--blue-dark);line-height:1.2}.nav-logo .logo-sub{font-size:11px;color:var(--gray-600);font-weight:400;white-space:nowrap}.nav-call{display:flex;align-items:center;gap:7px;background:var(--blue-mid);color:white;text-decoration:none;padding:10px 18px;border-radius:50px;font-size:15px;font-weight:700;transition:background .2s;white-space:nowrap;flex-shrink:0}.nav-call:hover{background:var(--blue-bright)}.nav-call svg{width:18px;height:18px}
+}.nav-logo{display:flex;align-items:center;gap:10px;min-width:0;overflow:hidden}.nav-logo .logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--orange) 0,var(--blue-mid) 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}.nav-logo .logo-text{font-size:20px;font-weight:800;color:var(--blue-dark);line-height:1.2}.nav-logo .logo-sub{font-size:11px;color:var(--gray-600);font-weight:400;white-space:nowrap}.nav-call{display:none;align-items:center;gap:7px;background:var(--blue-mid);color:white;text-decoration:none;padding:10px 18px;border-radius:50px;font-size:15px;font-weight:700;transition:background .2s;white-space:nowrap;flex-shrink:0}.nav-call:hover{background:var(--blue-bright)}.nav-call svg{width:18px;height:18px}.btn-quote .btn-tag-icon{width:20px;height:20px;flex-shrink:0}
   /* Transparent nav: white text over hero */
 nav:not(.nav-scrolled) .logo-text{color:white;text-shadow:0 1px 6px rgba(0,0,0,0.4)}
 nav:not(.nav-scrolled) .logo-sub{color:rgba(255,255,255,0.85);text-shadow:0 1px 4px rgba(0,0,0,0.4)}
@@ -69,11 +69,11 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
 @media(min-width:860px){
   .nav-links{display:flex}
 }
-  /* ===== HERO BASE ===== */
+  /* HERO BASE */
   .hero{background:#1e3a6e;padding:48px 20px 56px;position:relative;overflow:hidden;text-align:right}
 .hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(to left,rgba(10,23,45,0.92) 0,rgba(10,23,45,0.80) 30%,rgba(10,23,45,0.45) 60%,rgba(10,23,45,0.20) 100%),url('https://ardudim.co.il/images/hero-bg.webp');background-repeat:no-repeat,no-repeat;background-position:center center,center center;background-size:cover,cover;z-index:0;pointer-events:none}
 .hero>*{position:relative;z-index:1}.hero-dots-removed{display:none}.hero::after{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(37,99,235,0.25) 0,transparent 70%);pointer-events:none}.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at center, transparent 0%, rgba(6,21,48,0.25) 100%);pointer-events:none;z-index:0}.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(249,115,22,0.2);border:1px solid rgba(249,115,22,0.4);color:var(--orange-glow);padding:5px 14px;border-radius:50px;font-size:13px;font-weight:600;margin-bottom:20px}.hero h1{font-family:var(--font-display);font-size:clamp(32px,8vw,52px);font-weight:700;color:white;line-height:1.1;margin-bottom:20px;letter-spacing:-.02em;font-variation-settings:"opsz" 144;text-shadow:0 2px 16px rgba(0,0,0,0.65),0 1px 4px rgba(0,0,0,0.45)}.hero h1 .accent{color:var(--orange);font-style:italic;font-weight:600;position:relative;display:inline-block}.hero h1 .accent::after{content:'';position:absolute;bottom:-6px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange) 0,var(--amber) 100%);border-radius:2px;transform-origin:right;animation:underline-grow 1.2s cubic-bezier(.2,.8,.2,1) .6s both}@keyframes underline-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}.hero-sub{font-size:17px;color:rgba(255,255,255,0.95);line-height:1.65;margin:0 auto 36px;font-weight:400;max-width:520px;text-shadow:0 1px 8px rgba(0,0,0,0.6)}.hero-sub strong{color:white;font-weight:600}.hero-btns{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center}.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--whatsapp) 0,#1eb353 100%);color:white;text-decoration:none;padding:17px 24px;border-radius:var(--radius);font-size:17px;font-weight:700;box-shadow:0 8px 24px rgba(37,211,102,0.35),inset 0 1px 0 rgba(255,255,255,0.2);transition:all .3s cubic-bezier(.2,.8,.2,1);position:relative;overflow:hidden}.btn-wa::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 0,rgba(255,255,255,0.15) 50%,transparent 100%);transform:translateX(-100%);transition:transform .6s}.btn-wa:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(37,211,102,0.45),inset 0 1px 0 rgba(255,255,255,0.25)}.btn-wa:hover::before{transform:translateX(100%)}.btn-wa svg{width:24px;height:24px;position:relative;z-index:1}.btn-wa>*{position:relative;z-index:1}.btn-call{display:flex;align-items:center;justify-content:center;gap:10px;background:white;color:var(--blue-dark);text-decoration:none;padding:16px 24px;border-radius:var(--radius);font-size:17px;font-weight:700;transition:all .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 4px 14px rgba(10,31,61,0.08),inset 0 0 0 1.5px rgba(255,255,255,0.9)}.btn-call:hover{background:var(--blue-soft);transform:translateY(-3px);box-shadow:0 10px 26px rgba(10,31,61,0.15)}.btn-call svg{width:22px;height:22px;color:var(--blue-mid)}.btn-quote{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--orange);color:white;text-decoration:none;padding:16px 22px;border-radius:var(--radius);font-size:16px;font-weight:800;transition:all .2s;box-shadow:var(--shadow-orange);position:relative;overflow:hidden}.btn-quote::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);animation:shine 3s ease-in-out infinite;animation-delay:1s}@keyframes shine{0%{left:-100%}50%,100%{left:100%}}.btn-quote:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 10px 24px rgba(249,115,22,0.45)}.btn-quote-wide{font-size:15px;gap:6px;padding:16px 20px;letter-spacing:.01em}.btn-arrows{font-size:16px;font-weight:900;opacity:.9}.hero-trust{display:flex;gap:16px;margin-top:28px;flex-wrap:wrap}.trust-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.9);padding:7px 14px;border-radius:50px;font-size:13px;font-weight:500;transition:all .25s ease;}.trust-pill:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.35);transform:translateY(-1px)}.trust-pill .dot{width:8px;height:8px;background:var(--orange);border-radius:50%;flex-shrink:0;box-shadow:0 0 8px rgba(249,115,22,0.6)}.trust-pill-orange{background:var(--orange);border-color:var(--orange-dark);color:white;font-weight:700;box-shadow:0 4px 12px rgba(249,115,22,0.35)}.trust-pill-orange:hover{background:var(--orange-dark);box-shadow:0 6px 16px rgba(249,115,22,0.45)}
-  /* ===== HERO LAYOUT (desktop/mobile) ===== */
+  /* HERO LAYOUT */
   .hero-content{position:relative;z-index:1}
 /* MOBILE default: everything centered like the old hero */
 .hero{text-align:center}
@@ -81,51 +81,51 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
 .hero-content .hero-sub{text-align:center;margin-left:auto;margin-right:auto}
 .hero-btns{align-items:center;justify-content:center}
 .hero-trust{justify-content:center}
-/* DESKTOP: split layout — text column on the right, photo (in bg) on the left, social-proof row, bottom glass-card features */
+/* DESKTOP: split layout — text column center-right, photo (in bg) on the left, social-proof row, FULL-WIDTH bottom glass-card features */
 @media(min-width:860px){
-  .hero{min-height:100vh;display:flex;align-items:center;padding:120px calc(50% - 600px) 56px !important;text-align:right;position:relative}
+  .hero{min-height:100vh;display:flex;align-items:center;padding:96px calc(50% - 600px) 150px !important;text-align:right;position:relative}
   /* Brighter image: light gradient only on the RIGHT (behind text) so the left-side photo stays bright */
-  .hero::before{background-image:linear-gradient(270deg,rgba(7,18,40,.86) 0%,rgba(7,18,40,.72) 28%,rgba(7,18,40,.42) 48%,rgba(7,18,40,.12) 64%,rgba(7,18,40,0) 78%),linear-gradient(0deg,rgba(7,18,40,.55) 0%,rgba(7,18,40,.10) 30%,rgba(7,18,40,0) 55%),url('https://ardudim.co.il/images/hero-bg.webp') !important;background-repeat:no-repeat,no-repeat,no-repeat !important;background-position:center center,center center,center center !important;background-size:cover,cover,cover !important}
-  /* text column: right ~52% */
-  .hero-content{max-width:600px;margin:0 0 0 auto;width:100%;transform:none;padding-bottom:150px}
-  .hero h1{text-align:right;font-size:clamp(2.6rem,4.4vw,4.4rem);line-height:1.08;font-weight:800;margin-bottom:22px;text-shadow:0 4px 22px rgba(0,0,0,.45),0 1px 4px rgba(0,0,0,.4)}
-  .hero h1 .h1-main{display:block}
-  .hero h1 .h1-place,.hero h1 .h1-br1{display:none}
-  .hero h1 .accent{display:inline-block;color:var(--orange);font-style:normal;font-weight:800;font-size:inherit;position:relative;margin-top:4px}
-  .hero h1 .accent::after{content:'';display:block;position:absolute;bottom:-10px;right:0;width:100%;height:4px;background:linear-gradient(90deg,var(--orange) 0,var(--amber) 100%);border-radius:3px;transform-origin:right;animation:underline-grow 1.2s cubic-bezier(.2,.8,.2,1) .6s both}
+  .hero::before{background-image:linear-gradient(270deg,rgba(7,18,40,.88) 0%,rgba(7,18,40,.74) 26%,rgba(7,18,40,.42) 46%,rgba(7,18,40,.12) 62%,rgba(7,18,40,0) 76%),linear-gradient(0deg,rgba(7,18,40,.50) 0%,rgba(7,18,40,.08) 28%,rgba(7,18,40,0) 52%),url('https://ardudim.co.il/images/hero-bg.webp') !important;background-repeat:no-repeat,no-repeat,no-repeat !important;background-position:center center,center center,center center !important;background-size:cover,cover,cover !important}
+  /* text column: occupies the right ~half, content aligned right */
+  .hero-content{max-width:560px;margin:0 0 0 auto;width:100%;transform:none;padding-bottom:0}
+  .hero h1{text-align:right;font-size:clamp(3rem,5.2vw,5.4rem);line-height:1.04;font-weight:800;margin-bottom:22px;text-shadow:0 4px 26px rgba(0,0,0,.5),0 1px 4px rgba(0,0,0,.45)}
+  .hero h1 .h1-white{display:block;color:#fff}
+  .hero h1 .h1-orange{display:inline-block;color:var(--orange);font-weight:800;font-size:1.16em;position:relative;margin-top:8px;text-shadow:0 4px 26px rgba(0,0,0,.5),0 2px 10px rgba(249,115,22,.3)}
+  .hero h1 .h1-orange::after{content:'';display:block;position:absolute;bottom:-14px;right:0;width:44%;height:5px;background:linear-gradient(90deg,var(--orange) 0,var(--amber) 100%);border-radius:3px;transform-origin:right;animation:underline-grow 1.2s cubic-bezier(.2,.8,.2,1) .6s both}
   /* subtitle paragraph — shown on desktop */
-  .hero-content .hero-sub{display:block;text-align:right;margin:30px 0 30px;max-width:520px;font-size:18px;line-height:1.7}
+  .hero-content .hero-sub{display:block;text-align:right;margin:34px 0 32px;max-width:480px;margin-left:auto;font-size:18px;line-height:1.7;color:rgba(255,255,255,0.92)}
   .hero-content .hero-trust{display:none}
   .hero-content .hero-call-mobile{display:none}
   /* eyebrow above title (right aligned, lines flank the text) */
-  .hero-content .hero-desktop-eyebrow{display:flex;align-items:center;justify-content:flex-start;gap:14px;margin:0 0 22px;max-width:520px}
-  .hero-desktop-eyebrow .hde-line{flex:0 0 auto;width:46px;height:2px;background:linear-gradient(90deg,var(--orange),transparent)}
+  .hero-content .hero-desktop-eyebrow{display:flex;align-items:center;justify-content:flex-start;gap:14px;margin:0 0 26px;max-width:520px}
+  .hero-desktop-eyebrow .hde-line{flex:0 0 auto;width:42px;height:2px;background:linear-gradient(90deg,var(--orange),transparent)}
   .hero-desktop-eyebrow .hde-line:last-child{background:linear-gradient(90deg,transparent,var(--orange))}
-  .hero-desktop-eyebrow .hde-text{color:rgba(255,255,255,0.95);font-size:16px;font-weight:600;letter-spacing:.01em;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,0.55)}
-  .hde-pin{color:var(--orange);font-size:17px;line-height:1;margin-left:2px}
-  /* buttons row */
+  .hero-desktop-eyebrow .hde-text{color:rgba(255,255,255,0.95);font-size:16px;font-weight:600;letter-spacing:.01em;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,0.55);display:inline-flex;align-items:center;gap:7px}
+  .hde-pin{color:var(--orange);font-size:18px;line-height:1}
+  /* buttons row — orange quote first (right), green WA second (left) */
   .hero-content .hero-btns{flex-direction:row;justify-content:flex-start;gap:14px;margin-top:6px}
-  .hero-content .hero-btns .btn-wa,.hero-content .hero-btns .btn-quote{padding:18px 30px;border-radius:14px;transition:all .25s ease;font-size:17px}
+  .hero-content .hero-btns .btn-wa,.hero-content .hero-btns .btn-quote{padding:18px 28px;border-radius:14px;transition:all .25s ease;font-size:17px;white-space:nowrap}
   .hero-content .hero-btns .btn-wa:hover,.hero-content .hero-btns .btn-quote:hover{transform:translateY(-2px)}
-  /* social-proof row: avatars + text + stars */
+  .hero-content .hero-btns .btn-quote .btn-tag-icon{width:20px;height:20px;flex-shrink:0}
+  /* social-proof row: avatars + (text over stars) */
   .hero-content .hero-social{display:flex;align-items:center;gap:14px;margin-top:30px;flex-wrap:wrap}
-  .hero-avatars{display:flex;flex-direction:row-reverse;align-items:center}
-  .hero-avatars .hav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:white;border:2.5px solid rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.35);margin-right:-12px;flex-shrink:0}
+  .hero-avatars{display:flex;flex-direction:row-reverse;align-items:center;order:2}
+  .hero-avatars .hav{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2.5px solid rgba(255,255,255,0.92);box-shadow:0 2px 8px rgba(0,0,0,0.4);margin-right:-13px;flex-shrink:0;background:var(--gray-200)}
   .hero-avatars .hav:first-child{margin-right:0}
-  .hero-social-text{display:flex;flex-direction:column;gap:3px}
-  .hero-social-line{color:rgba(255,255,255,0.95);font-size:14px;font-weight:600;text-shadow:0 1px 6px rgba(0,0,0,0.5);line-height:1.3}
-  .hero-social-stars{color:#fbbf24;font-size:16px;letter-spacing:2px;line-height:1}
+  .hero-social-text{display:flex;flex-direction:column;gap:5px;order:1;align-items:flex-end}
+  .hero-social-line{color:rgba(255,255,255,0.95);font-size:14.5px;font-weight:600;text-shadow:0 1px 6px rgba(0,0,0,0.5);line-height:1.3}
+  .hero-social-stars{color:var(--orange);font-size:17px;letter-spacing:3px;line-height:1}
   /* hide mobile-only desktop feature row (replaced by bottom card) */
   .hero-content .hero-desktop-features{display:none}
-  /* ===== bottom full-width glass card with 3 features ===== */
-  .hero-bottom-card{display:flex;position:absolute;left:calc(50% - 600px);right:calc(50% - 600px);bottom:40px;z-index:2;background:rgba(10,23,45,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:22px;padding:24px 20px;box-shadow:0 16px 48px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.08)}
-  .hbc-item{flex:1;display:flex;align-items:center;gap:16px;padding:0 26px}
-  .hbc-item:not(:last-child){border-left:1px solid rgba(255,255,255,0.12)}
-  .hbc-icon{width:54px;height:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(249,115,22,0.14);border:1px solid rgba(249,115,22,0.3)}
+  /* ===== FULL-WIDTH bottom glass card with 3 features ===== */
+  .hero-bottom-card{display:flex;position:absolute;left:calc(50% - 600px);right:calc(50% - 600px);bottom:36px;z-index:2;background:rgba(8,18,38,0.42);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.14);border-radius:22px;padding:22px 14px;box-shadow:0 16px 48px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08)}
+  .hbc-item{flex:1;display:flex;align-items:center;justify-content:center;gap:16px;padding:0 30px}
+  .hbc-item:not(:last-child){border-left:1px solid rgba(255,255,255,0.14)}
+  .hbc-icon{width:56px;height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(249,115,22,0.14);border:1.5px solid rgba(249,115,22,0.45)}
   .hbc-icon svg{width:30px;height:30px;stroke:var(--orange);fill:none;stroke-width:2}
-  .hbc-text{display:flex;flex-direction:column;gap:3px;min-width:0}
-  .hbc-title{color:white;font-size:17px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
-  .hbc-desc{color:rgba(255,255,255,0.75);font-size:13.5px;line-height:1.35}
+  .hbc-text{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:right}
+  .hbc-title{color:white;font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+  .hbc-desc{color:rgba(255,255,255,0.72);font-size:13.5px;line-height:1.35}
 }
 /* mid-desktop (860-1200px): clamp side padding so calc() never goes negative */
 @media(min-width:860px) and (max-width:1239px){
@@ -151,12 +151,11 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
   .hero{padding:32px 20px 40px}
   /* orange banner above heading */
   .hero-mobile-banner{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:white;font-size:15px;font-weight:800;padding:11px 22px;border-radius:50px;margin:200px auto 20px;box-shadow:0 6px 20px rgba(234,88,12,0.4);text-align:center}
-  /* heading centered, big, white */
+  /* heading centered, big, white line + orange line */
   .hero h1{font-size:clamp(34px,11vw,46px);text-align:center;margin-bottom:18px;line-height:1.12}
   .hero h1 br{display:initial}
-  /* hide the inline accent line on mobile (we use separate divider) */
-  .hero h1 .accent{display:none}
-  .hero h1 .h1-place,.hero h1 .h1-br1{display:none}
+  .hero h1 .h1-white{display:block;color:#fff}
+  .hero h1 .h1-orange{display:inline-block;color:var(--orange);font-weight:800;margin-top:4px}
   /* "בפתח תקווה והמרכז" with side lines */
   .hero-mobile-sub{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 auto 16px;max-width:340px}
   .hms-line{flex:1;height:1px;background:rgba(255,255,255,0.4)}
@@ -173,11 +172,12 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
   .hmf-icon{font-size:26px;line-height:1;filter:saturate(1.1)}
   .hmf-text{color:rgba(255,255,255,0.92);font-size:11.5px;font-weight:700;line-height:1.3}
 }
-  /* ===== KEYFRAMES ===== */
+  /* desktop nav-call visibility */
+  @media(min-width:860px){nav{padding:14px calc(50% - 420px)}.nav-call{display:flex}}
+  /* KEYFRAMES */
   @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}.hero>*{animation:fadeUp .6s ease both;position:relative;z-index:1}.hero>*:nth-child(1){animation-delay:.05s}.hero>*:nth-child(2){animation-delay:.12s}.hero>*:nth-child(3){animation-delay:.2s}.hero>*:nth-child(4){animation-delay:.28s}.hero>*:nth-child(5){animation-delay:.35s}
-  /* preview-only: give page a neutral backdrop below hero so scroll/nav behavior is visible */
   body{min-height:140vh}
-  .preview-spacer{height:60vh;display:flex;align-items:center;justify-content:center;color:var(--gray-500);font-size:14px;background:#eef4fb}
+  .preview-spacer{height:60vh;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:14px;background:#eef4fb}
   </style>
 </head>
 <body>
@@ -202,17 +202,17 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
       <span id="lang-label">RU</span>
     </button>
   </div>
-  <a href="javascript:void(0)" onclick="openCallModal()" class="nav-call">
+  <a href="tel:0545642426" class="nav-call">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-    התקשר
+    054-564-2426
   </a>
 </nav>
 <section class="hero" aria-label="כותרת ראשית">
   <div class="hero-vignette"></div>
   <div class="hero-content">
   <div class="hero-mobile-banner">☀️ א.ר דודי שמש</div>
-  <div class="hero-desktop-eyebrow"><span class="hde-line"></span><span class="hde-text">שירות מהיר בכל גוש דן והמרכז</span><span class="hde-line"></span></div>
-  <h1><span class="h1-main">תיקון והתקנת דודי שמש</span><br class="h1-br1"/><span class="h1-place">בפתח תקווה והמרכז</span><br/><span class="accent">במהירות, באמינות ובמחיר הוגן</span></h1>
+  <div class="hero-desktop-eyebrow"><span class="hde-line"></span><span class="hde-text"><svg class="hde-pin" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>שירות מהיר בכל גוש דן והמרכז</span><span class="hde-line"></span></div>
+  <h1><span class="h1-white">תיקון והתקנת</span><br/><span class="h1-orange">דודי שמש</span></h1>
   <div class="hero-mobile-sub">
     <span class="hms-line"></span>
     <span class="hms-text">בפתח תקווה והמרכז</span>
@@ -227,22 +227,25 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
     דודי שמש, דודי חשמל, קולטים ותקלות חימום — עם אחריות, מחיר הוגן ושירות משפחתי אמין
   </p>
   <div class="hero-btns">
+    <a href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-quote btn-quote-wide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-tag-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      קבל הצעת מחיר
+    </a>
     <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      וואטסאפ
+      שלח הודעה בוואטסאפ
     </a>
     <a href="javascript:void(0)" onclick="openCallModal()" class="btn-call hero-call-mobile">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
       התקשר
     </a>
-    <a href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-quote btn-quote-wide">לקבלת <strong>הצעת מחיר</strong> באתר</a>
   </div>
   <div class="hero-social">
     <div class="hero-avatars">
-      <span class="hav" style="background:#ec4899">ד</span>
-      <span class="hav" style="background:#0d9488">מ</span>
-      <span class="hav" style="background:#ea580c">א</span>
-      <span class="hav" style="background:#7c3aed">י</span>
+      <img class="hav" src="https://randomuser.me/api/portraits/men/32.jpg" alt="לקוח" width="42" height="42" loading="lazy" />
+      <img class="hav" src="https://randomuser.me/api/portraits/men/54.jpg" alt="לקוח" width="42" height="42" loading="lazy" />
+      <img class="hav" src="https://randomuser.me/api/portraits/women/44.jpg" alt="לקוחה" width="42" height="42" loading="lazy" />
+      <img class="hav" src="https://randomuser.me/api/portraits/men/68.jpg" alt="לקוח" width="42" height="42" loading="lazy" />
     </div>
     <div class="hero-social-text">
       <span class="hero-social-line">אלפי לקוחות מרוצים בגוש דן והמרכז</span>
@@ -322,21 +325,16 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
   </div>
 </section>
   <div class="preview-spacer">⬆️ זהו סקשן ה-HERO בלבד — שאר האתר לא כלול כאן</div>
-
   <script>
-  // nav transparent → solid on scroll (same behavior as live site)
   (function(){
     var nav=document.querySelector('nav');
-    function onScroll(){
-      if(window.scrollY>30){nav.classList.add('nav-scrolled');}
-      else{nav.classList.remove('nav-scrolled');}
-    }
-    window.addEventListener('scroll',onScroll,{passive:true});
-    onScroll();
+    function onScroll(){ if(window.scrollY>30){nav.classList.add('nav-scrolled');}else{nav.classList.remove('nav-scrolled');} }
+    window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
   })();
-  // stub functions referenced by nav/hero onclick so console stays clean
   function toggleMobileMenu(){var l=document.getElementById('nav-links');if(l)l.classList.toggle('open');var h=document.querySelector('.nav-hamburger');if(h)h.classList.toggle('open');}
+  function closeMobileMenu(){var l=document.getElementById('nav-links');if(l)l.classList.remove('open');}
   function navGoto(){}
+  function toggleLang(){}
   function openCallModal(){alert('כפתור התקשרות — פעיל באתר המלא');}
   </script>
 </body>

@@ -1591,7 +1591,7 @@ html[lang="ru"] .nav-links{direction:ltr}
   <span class="section-label">יש לך שאלה?</span>
   <h2>שאלות נפוצות</h2>
   <p class="section-desc">ריכזנו את התשובות לשאלות שאנחנו נשאלים הכי הרבה. לא מצאתם תשובה? שלחו לנו הודעה בוואטסאפ ונענה מיד.</p>
-  <div style="max-width:700px">
+  <div style="max-width:700px;margin:0 auto">
     <div class="faq-item">
       <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">למה אין לי מים חמים מהדוד שמש?<span class="faq-arrow">▼</span></button>
       <div class="faq-a">כשאין מים חמים מהשמש, הבעיה כמעט תמיד בקולטים — קולטים מלוכלכים שצריכים שטיפה או קולט תקול שדורש החלפה. אנחנו מאבחנים את הבעיה ומתקנים אותה ביום ההגעה.</div>
@@ -1672,25 +1672,25 @@ html[lang="ru"] .nav-links{direction:ltr}
 // ============================================================
 const PRICES = {
   solar: {
-    80:  { chromagen:{price:3100,warranty:4}, amisragaz:{price:2700,warranty:5}, yardan:{price:2600,warranty:4} },
-    120: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
-    150: { chromagen:{price:3200,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
-    200: { chromagen:{price:3700,warranty:4}, amisragaz:{price:3200,warranty:5}, yardan:{price:3100,warranty:4} },
+    80:  { chromagen:{price:3100,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
+    120: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
+    150: { chromagen:{price:3200,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
+    200: { chromagen:{price:3700,warranty:4}, amisragaz:{price:3300,warranty:5}, yardan:{price:3200,warranty:4} },
   },
   electric: {
-    30:  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2200,warranty:5}, yardan:{price:2100,warranty:4} },
-    45:  { chromagen:{price:2800,warranty:4}, amisragaz:{price:2300,warranty:5}, yardan:{price:2200,warranty:4} },
-    60:  { chromagen:{price:2900,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
-    80:  { chromagen:{price:3000,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
-    120: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2700,warranty:5}, yardan:{price:2600,warranty:4} },
-    150: { chromagen:{price:3200,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
+    30:  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2300,warranty:5}, yardan:{price:2200,warranty:4} },
+    45:  { chromagen:{price:2800,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
+    60:  { chromagen:{price:2900,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
+    80:  { chromagen:{price:3000,warranty:4}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
+    120: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
+    150: { chromagen:{price:3200,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
   },
   boiler: {
-    80:        { chromagen:{price:3600,warranty:4}, amisragaz:{price:3200,warranty:5}, yardan:{price:3100,warranty:4} },
-    120:       { chromagen:{price:3800,warranty:4}, amisragaz:{price:3300,warranty:5}, yardan:{price:3200,warranty:4} },
-    '120slim': { chromagen:{price:3900,warranty:4}, amisragaz:{price:3500,warranty:5}, yardan:{price:3400,warranty:4} },
-    150:       { chromagen:{price:3800,warranty:4}, amisragaz:{price:3300,warranty:5}, yardan:{price:3200,warranty:4} },
-    '150slim': { chromagen:{price:4100,warranty:4}, amisragaz:{price:3700,warranty:5}, yardan:{price:3600,warranty:4} },
+    80:        { chromagen:{price:3600,warranty:4}, amisragaz:{price:3300,warranty:5}, yardan:{price:3200,warranty:4} },
+    120:       { chromagen:{price:3800,warranty:4}, amisragaz:{price:3400,warranty:5}, yardan:{price:3300,warranty:4} },
+    '120slim': { chromagen:{price:3900,warranty:4}, amisragaz:{price:3600,warranty:5}, yardan:{price:3500,warranty:4} },
+    150:       { chromagen:{price:3800,warranty:4}, amisragaz:{price:3400,warranty:5}, yardan:{price:3300,warranty:4} },
+    '150slim': { chromagen:{price:4100,warranty:4}, amisragaz:{price:3800,warranty:5}, yardan:{price:3700,warranty:4} },
   },
   kolat_copper: {
     'mini':   { chromagen:{price:2400,warranty:4}, amisragaz:{price:2200,warranty:5}, yardan:{price:2100,warranty:4} },

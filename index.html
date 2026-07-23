@@ -1707,10 +1707,10 @@ const PRICES = {
     'xlarge': { chromagen:{price:3000,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
   },
   kolat_iron: {
-    'mini':  { chromagen:{price:2600,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
-    'small': { chromagen:{price:2900,warranty:4}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
-    'large': { chromagen:{price:3100,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
-    'xlarge': { chromagen:{price:3300,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
+    'mini':  { chromagen:{price:2600,warranty:4}, amisragaz:{price:2400,warranty:4}, yardan:{price:2300,warranty:4} },
+    'small': { chromagen:{price:2900,warranty:4}, amisragaz:{price:2600,warranty:4}, yardan:{price:2500,warranty:4} },
+    'large': { chromagen:{price:3100,warranty:4}, amisragaz:{price:2800,warranty:4}, yardan:{price:2700,warranty:4} },
+    'xlarge': { chromagen:{price:3300,warranty:4}, amisragaz:{price:3000,warranty:4}, yardan:{price:2900,warranty:4} },
   },
   system: {
     copper: {
@@ -1729,18 +1729,18 @@ const PRICES = {
     },
     iron: {
       120: {
-        chromagen:{price:5200,warranty:4}, amisragaz:{price:4400,warranty:5}, yardan:{price:4300,warranty:4},
-        chromagen_std:{price:5400,warranty:4}, amisragaz_std:{price:4600,warranty:5}, yardan_std:{price:4500,warranty:4},
+        chromagen:{price:5200,warranty:4}, amisragaz:{price:4400,warranty:4}, yardan:{price:4300,warranty:4},
+        chromagen_std:{price:5400,warranty:4}, amisragaz_std:{price:4600,warranty:4}, yardan_std:{price:4500,warranty:4},
       },
       150: {
-        chromagen:{price:5400,warranty:4}, amisragaz:{price:4600,warranty:5}, yardan:{price:4500,warranty:4},
-        chromagen_std:{price:5600,warranty:4}, amisragaz_std:{price:4800,warranty:5}, yardan_std:{price:4700,warranty:4},
+        chromagen:{price:5400,warranty:4}, amisragaz:{price:4600,warranty:4}, yardan:{price:4500,warranty:4},
+        chromagen_std:{price:5600,warranty:4}, amisragaz_std:{price:4800,warranty:4}, yardan_std:{price:4700,warranty:4},
       },
     },
     iron_extra: {
       200: {
-        chromagen:{price:7200,warranty:4}, amisragaz:{price:6300,warranty:5}, yardan:{price:6200,warranty:4},
-        chromagen_std:{price:7600,warranty:4}, amisragaz_std:{price:6700,warranty:5}, yardan_std:{price:6600,warranty:4},
+        chromagen:{price:7200,warranty:4}, amisragaz:{price:6300,warranty:4}, yardan:{price:6200,warranty:4},
+        chromagen_std:{price:7600,warranty:4}, amisragaz_std:{price:6700,warranty:4}, yardan_std:{price:6600,warranty:4},
       },
     },
   },
@@ -1784,6 +1784,11 @@ const INCLUDES = {
   system:      ['דוד שמש + קולט שמש תואם','התקנה מקצועית','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת למערכת בסוף העבודה'],
   system_std:  ['דוד שמש + קולט שמש תואם','התקנה לפי תקן מלא','מערבל מים','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','צינור נחושת תחתון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת למערכת בסוף העבודה'],
 };
+
+function warrantyLabel(brandKey, w) {
+  const split = (sel.product === 'system' && (sel.kolatType || 'copper') === 'copper' && String(sel.volume) === '150' && brandKey && brandKey.indexOf('chromagen') === 0);
+  return split ? t('6 שנים לקולט · 4 שנים לדוד') : (w + ' ' + t('שנים'));
+}
 
 const EXTRAS = {
   system: ['תוספת צנרת מים וחשמל – ₪60 למטר','מעמד מגולוון חדש – ₪300'],
@@ -2189,11 +2194,19 @@ function populateTiers() {
     amisragaz:     (sel.product === 'kolat_copper')
       ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','ציפוי מגן מאלומיניום','אחריות יותר ארוכה']
       : (sel.product === 'kolat_iron')
-        ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','פינוי קולט ישן','אחריות יותר ארוכה']
+        ? ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','פינוי קולט ישן','זכוכית מחוסמת']
         : isSystemRegular
-          ? ['דוד שמש + קולט שמש תואם','קולט חזק יותר','פינוי המערכת הישנה','אחריות יותר ארוכה']
+          ? ((sel.kolatType||'copper')==='copper'
+              ? (String(sel.volume)==='150'
+                  ? ['דוד שמש + קולט שמש תואם','קולט חזק יותר','פינוי המערכת הישנה','אחריות יותר ארוכה']
+                  : ['דוד שמש + קולט שמש תואם','שסתומים ומקשרים חדשים','פינוי המערכת הישנה','אחריות יותר ארוכה'])
+              : ['דוד שמש + קולט שמש תואם','שסתומים ומקשרים חדשים','פינוי המערכת הישנה','אחריות על העבודה'])
           : ['עבודה + חלקים מלאים','שסתומים ומקשרים חדשים','פינוי דוד ישן','אחריות יותר ארוכה'],
-    amisragaz_std: ['דוד שמש + קולט שמש תואם','קולט חזק יותר','פינוי המערכת הישנה','אחריות יותר ארוכה','התקנה לפי תקן ישראלי','מערבל מים'],
+    amisragaz_std: ((sel.kolatType||'copper')==='copper'
+      ? (String(sel.volume)==='150'
+          ? ['דוד שמש + קולט שמש תואם','קולט חזק יותר','פינוי המערכת הישנה','אחריות יותר ארוכה','התקנה לפי תקן ישראלי','מערבל מים']
+          : ['דוד שמש + קולט שמש תואם','שסתומים ומקשרים חדשים','פינוי המערכת הישנה','אחריות יותר ארוכה','התקנה לפי תקן ישראלי','מערבל מים'])
+      : ['דוד שמש + קולט שמש תואם','שסתומים ומקשרים חדשים','פינוי המערכת הישנה','אחריות על העבודה','התקנה לפי תקן ישראלי','מערבל מים']),
     yardan_kolat:  ['עבודה + חלקים מלאים','זוויות ומקשרים חדשים','פינוי קולט ישן','אחריות על העבודה'],
   };
 
@@ -2326,7 +2339,7 @@ function populateTiers() {
         ${hasPromo ? `<div class="brand-old-price">₪${basePrice.toLocaleString()}</div>` : ''}
         <div class="brand-price-preview"><span class="currency">₪</span>${displayPrice.toLocaleString()} <span>${t('כולל מע"מ')}</span></div>
         ${hasPromo ? `<div class="brand-sale-tag">🔥 ${t('מבצע עד')} ${PROMOTION.endDateLabel}</div>` : ''}
-        <div class="brand-warranty">🛡️ ${t('אחריות יצרן')} ${data.warranty} ${t('שנים')}</div>
+        <div class="brand-warranty">🛡️ ${t('אחריות יצרן')} ${warrantyLabel(bKey, data.warranty)}</div>
       </div>
       <div class="brand-incl-label">${t('מה כלול:')}</div>
       <ul class="brand-features brand-features-short">${feats.map(f=>`<li>${t(f)}</li>`).join('')}</ul>
@@ -2621,7 +2634,7 @@ function showResult() {
   }
   let incHtml = `<div class="includes-title">${t('✅ מה כלול במחיר:')}</div><ul class="includes-list">`;
   incList.forEach(item => { incHtml += `<li>${t(item)}</li>`; });
-  incHtml += `<li>${t('אחריות יצרן: ')}<strong>${data.warranty} ${t('שנים')}</strong></li>`;
+  incHtml += `<li>${t('אחריות יצרן: ')}<strong>${warrantyLabel(sel.brand, data.warranty)}</strong></li>`;
   incHtml += '</ul>';
   safeSet('res-includes', 'innerHTML', incHtml);
 
@@ -2644,7 +2657,7 @@ function showResult() {
   waMsg += `🏆 *חברה:* ${info.label} (${info.tier})\n`;
   waMsg += `🏠 *גג:* ${roofLabel}\n`;
   waMsg += `🔑 *גישה:* ${accessLabel}\n`;
-  waMsg += `🛡️ *אחריות:* ${data.warranty} שנים\n\n✅ *כולל:*\n`;
+  waMsg += `🛡️ *אחריות:* ${(sel.product === 'system' && (sel.kolatType || 'copper') === 'copper' && String(sel.volume) === '150' && sel.brand && sel.brand.indexOf('chromagen') === 0) ? '6 שנים לקולט · 4 שנים לדוד' : data.warranty + ' שנים'}\n\n✅ *כולל:*\n`;
   incList.forEach(i => { waMsg += `• ${i}\n`; });
   if (hasPromo) {
     waMsg += `\n🔥 *מחיר רגיל:* ~₪${basePrice.toLocaleString()}~\n`;
@@ -2697,6 +2710,7 @@ function backToBrands() {
 // TRANSLATION SYSTEM — Hebrew ↔ Russian
 // ============================================================
 const TRANSLATIONS = {
+  '6 שנים לקולט · 4 שנים לדוד': '6 лет на коллектор · 4 года на бойлер',
   // Grouped card layout
   'הציוד': 'Оборудование',
   'ההתקנה': 'Монтаж',

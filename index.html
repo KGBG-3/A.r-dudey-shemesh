@@ -784,6 +784,12 @@ html[lang="ru"] .nav-links{direction:ltr}
   .hmf-icon{font-size:26px;line-height:1;filter:saturate(1.1)}
   .hmf-text{color:rgba(255,255,255,0.92);font-size:11.5px;font-weight:700;line-height:1.3}
 }
+.brand-groups{border-top:1px solid var(--gray-200);padding-top:10px;margin:0 0 14px}
+.feat-group{margin-bottom:9px}
+.feat-group:last-child{margin-bottom:0}
+.feat-group-title{font-size:11.5px;font-weight:800;color:var(--blue-mid);margin:0 0 4px;text-align:right}
+.feat-group .brand-features{display:flex;flex-direction:column;gap:5px;border-top:0;padding-top:0;margin:0}
+.feat-group .brand-features li{font-size:12px;line-height:1.35}
 </style>
 
   <!-- Google tag (gtag.js) - Google Ads -->
@@ -2240,6 +2246,46 @@ function populateTiers() {
   }
   function oldPrice(p) { return Math.round(p * 1.12 / 50) * 50; }
 
+  // ---- Grouped card layout: bucket every included item into 4 labeled groups ----
+  const GROUP_META = [
+    {k:'equip',  icon:'📦',  title:'הציוד'},
+    {k:'install',icon:'🔧',  title:'ההתקנה'},
+    {k:'parts',  icon:'🔩',  title:'חלקים וצנרת'},
+    {k:'trust',  icon:'🛡️', title:'שקט נפשי'},
+  ];
+  const ITEM_GROUP = {
+    'דוד שמש + קולט שמש תואם':'equip','מערבל מים':'equip','גוף חימום נגד אבנית':'equip','ציפוי אמייל נגד חלודה':'equip','ציפוי מגן מאלומיניום':'equip','זכוכית מחוסמת':'equip','קולט חזק יותר':'equip',
+    'התקנה מקצועית':'install','התקנה לפי תקן ישראלי':'install','התקנה לפי תקן מלא':'install','התקנה מלאה לפי תקן ישראלי':'install','התקנה מקצועית + כל החלקים':'install','עבודה + חלקים מלאים':'install',
+    'פינוי הדוד הישן':'install','פינוי דוד ישן':'install','פינוי המערכת הישנה':'install','פינוי הקולט הישן':'install','פינוי קולט ישן':'install',
+    'בדיקה כוללת לדוד בסוף העבודה':'install','בדיקה כוללת למערכת בסוף העבודה':'install',
+    'שסתום אל-חוזר וביטחון חדשים':'parts','ברז חדש (לפי הצורך)':'parts','מקשרים מותאמים חדשים':'parts','שסתומים ומקשרים חדשים':'parts','שסתומים, ברז ומקשרים — הכל חדש':'parts',
+    'זוויות ומקשרים חדשים':'parts','זוויות ופקקים מותאמים':'parts','זוויות, פקקים ומקשרים חדשים':'parts','רקורדים וגומיות חדשים':'parts','וו תלייה':'parts',
+    'צינור נחושת עליון + בידוד':'parts','צינור נחושת תחתון + בידוד':'parts','צנרת נחושת עליונה ותחתונה + בידוד':'parts','חוט שיזור לתפיסת הקולט':'parts',
+    'אחריות על העבודה':'trust','אחריות יותר ארוכה':'trust','מתקין מורשה רשמי':'trust',
+  };
+  const MERGE_RULES = [
+    {from:['התקנה לפי תקן ישראלי','התקנה לפי תקן מלא'], to:'התקנה מלאה לפי תקן ישראלי'},
+    {from:['התקנה מקצועית','עבודה + חלקים מלאים'], to:'התקנה מקצועית + כל החלקים'},
+    {from:['שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים'], to:'שסתומים, ברז ומקשרים — הכל חדש'},
+    {from:['שסתומים ומקשרים חדשים','שסתומים, ברז ומקשרים — הכל חדש'], to:'שסתומים, ברז ומקשרים — הכל חדש'},
+    {from:['צינור נחושת עליון + בידוד','צינור נחושת תחתון + בידוד'], to:'צנרת נחושת עליונה ותחתונה + בידוד'},
+    {from:['פינוי דוד ישן','פינוי הדוד הישן'], to:'פינוי הדוד הישן'},
+    {from:['פינוי קולט ישן','פינוי הקולט הישן'], to:'פינוי הקולט הישן'},
+    {from:['זוויות ומקשרים חדשים','זוויות ופקקים מותאמים'], to:'זוויות, פקקים ומקשרים חדשים'},
+  ];
+  function buildFeatureGroups(items) {
+    let arr = [...new Set(items)];
+    MERGE_RULES.forEach(r => {
+      if (r.from.every(x => arr.includes(x))) {
+        arr = arr.filter(x => !r.from.includes(x));
+        if (!arr.includes(r.to)) arr.push(r.to);
+      }
+    });
+    const buckets = {equip:[],install:[],parts:[],trust:[]};
+    arr.forEach(it => { buckets[ITEM_GROUP[it] || 'install'].push(it); });
+    return GROUP_META.map(g => ({icon:g.icon, title:g.title, items:buckets[g.k]})).filter(g => g.items.length);
+  }
+
   displayOrder.forEach(bKey => {
     if (!available || !available[bKey]) return;
     const data = available[bKey];
@@ -2280,27 +2326,8 @@ function populateTiers() {
         ${hasPromo ? `<div class="brand-sale-tag">🔥 ${t('מבצע עד')} ${PROMOTION.endDateLabel}</div>` : ''}
         <div class="brand-warranty">🛡️ ${t('אחריות יצרן')} ${data.warranty} ${t('שנים')}</div>
       </div>
-      <div class="brand-incl-label">${t('מה כלול:')}</div>
-      <ul class="brand-features">${feats.map(f=>`<li>${t(f)}</li>`).join('')}</ul>
-      ${extras.length ? `
-        <button type="button" class="brand-more-btn" aria-expanded="false">
-          <span class="more-label">${t('מה עוד כלול במחיר?')}</span>
-          <span class="more-icon">+</span>
-        </button>
-        <ul class="brand-features brand-features-extra">${extras.map(f=>`<li>${t(f)}</li>`).join('')}</ul>
-      ` : ''}
+      <div class="brand-groups">${buildFeatureGroups(feats.concat(extras)).map(g=>`<div class="feat-group"><div class="feat-group-title">${g.icon} ${t(g.title)}</div><ul class="brand-features">${g.items.map(f=>`<li>${t(f)}</li>`).join('')}</ul></div>`).join('')}</div>
       <button class="brand-select-btn">${isFeatured ? t('בחר בחבילה המומלצת ⭐') : t('לבחירת החבילה')}</button>`;
-    // More-details toggle (scoped to this card)
-    const moreBtn = div.querySelector('.brand-more-btn');
-    if (moreBtn) {
-      moreBtn.onclick = (e) => {
-        e.stopPropagation();
-        const isOpen = div.classList.toggle('details-open');
-        moreBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        moreBtn.querySelector('.more-icon').textContent = isOpen ? '−' : '+';
-        moreBtn.querySelector('.more-label').textContent = t(isOpen ? 'הסתר פרטים' : 'מה עוד כלול במחיר?');
-      };
-    }
     div.onclick = () => {
       container.querySelectorAll('.brand-card').forEach(x => x.classList.remove('selected'));
       div.classList.add('selected');
@@ -2649,6 +2676,16 @@ function backToBrands() {
 // TRANSLATION SYSTEM — Hebrew ↔ Russian
 // ============================================================
 const TRANSLATIONS = {
+  // Grouped card layout
+  'הציוד': 'Оборудование',
+  'ההתקנה': 'Монтаж',
+  'חלקים וצנרת': 'Детали и трубы',
+  'שקט נפשי': 'Спокойствие',
+  'התקנה מלאה לפי תקן ישראלי': 'Полный монтаж по израильскому стандарту',
+  'התקנה מקצועית + כל החלקים': 'Профессиональный монтаж + все детали',
+  'שסתומים, ברז ומקשרים — הכל חדש': 'Клапаны, кран и фитинги — всё новое',
+  'צנרת נחושת עליונה ותחתונה + בידוד': 'Медные трубы сверху и снизу + изоляция',
+  'זוויות, פקקים ומקשרים חדשים': 'Уголки, заглушки и фитинги — новые',
   // Price disclaimer
   'המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.': 'Цены на сайте могут периодически обновляться; действительной считается цена, подтверждённая представителем компании при согласовании работы.',
   'המחירים המוצגים באתר כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.': 'Указанные на сайте цены включают НДС и действительны на момент публикации. Компания оставляет за собой право изменять цены в любое время без предварительного уведомления; окончательной и обязательной является цена, подтверждённая представителем компании. Возможны опечатки.',

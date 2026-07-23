@@ -784,7 +784,9 @@ html[lang="ru"] .nav-links{direction:ltr}
   .hmf-icon{font-size:26px;line-height:1;filter:saturate(1.1)}
   .hmf-text{color:rgba(255,255,255,0.92);font-size:11.5px;font-weight:700;line-height:1.3}
 }
-.brand-groups{border-top:1px solid var(--gray-200);padding-top:10px;margin:0 0 14px}
+.brand-groups{max-height:0;overflow:hidden;border-top:0;padding-top:0;margin:0;transition:max-height .45s ease,padding-top .45s ease,margin-bottom .45s ease}
+.brand-card.details-open .brand-groups{max-height:720px;border-top:1px dashed var(--gray-200);padding-top:10px;margin:0 0 14px}
+.brand-card.details-open .brand-features-short{display:none}
 .feat-group{margin-bottom:9px}
 .feat-group:last-child{margin-bottom:0}
 .feat-group-title{font-size:11.5px;font-weight:800;color:var(--blue-mid);margin:0 0 4px;text-align:right}
@@ -2326,8 +2328,27 @@ function populateTiers() {
         ${hasPromo ? `<div class="brand-sale-tag">🔥 ${t('מבצע עד')} ${PROMOTION.endDateLabel}</div>` : ''}
         <div class="brand-warranty">🛡️ ${t('אחריות יצרן')} ${data.warranty} ${t('שנים')}</div>
       </div>
-      <div class="brand-groups">${buildFeatureGroups(feats.concat(extras)).map(g=>`<div class="feat-group"><div class="feat-group-title">${g.icon} ${t(g.title)}</div><ul class="brand-features">${g.items.map(f=>`<li>${t(f)}</li>`).join('')}</ul></div>`).join('')}</div>
+      <div class="brand-incl-label">${t('מה כלול:')}</div>
+      <ul class="brand-features brand-features-short">${feats.map(f=>`<li>${t(f)}</li>`).join('')}</ul>
+      ${extras.length ? `
+        <button type="button" class="brand-more-btn" aria-expanded="false">
+          <span class="more-label">${t('מה עוד כלול במחיר?')}</span>
+          <span class="more-icon">+</span>
+        </button>
+        <div class="brand-groups">${buildFeatureGroups(feats.concat(extras)).map(g=>`<div class="feat-group"><div class="feat-group-title">${g.icon} ${t(g.title)}</div><ul class="brand-features">${g.items.map(f=>`<li>${t(f)}</li>`).join('')}</ul></div>`).join('')}</div>
+      ` : ''}
       <button class="brand-select-btn">${isFeatured ? t('בחר בחבילה המומלצת ⭐') : t('לבחירת החבילה')}</button>`;
+    // More-details toggle (scoped to this card)
+    const moreBtn = div.querySelector('.brand-more-btn');
+    if (moreBtn) {
+      moreBtn.onclick = (e) => {
+        e.stopPropagation();
+        const isOpen = div.classList.toggle('details-open');
+        moreBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        moreBtn.querySelector('.more-icon').textContent = isOpen ? '−' : '+';
+        moreBtn.querySelector('.more-label').textContent = t(isOpen ? 'הסתר פרטים' : 'מה עוד כלול במחיר?');
+      };
+    }
     div.onclick = () => {
       container.querySelectorAll('.brand-card').forEach(x => x.classList.remove('selected'));
       div.classList.add('selected');

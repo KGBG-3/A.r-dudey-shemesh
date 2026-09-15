@@ -791,6 +791,35 @@ html[lang="ru"] .nav-links{direction:ltr}
 .feat-group-title{font-size:11.5px;font-weight:800;color:var(--blue-mid);margin:0 0 4px;text-align:right}
 .feat-group .brand-features{display:flex;flex-direction:column;gap:5px;border-top:0;padding-top:0;margin:0}
 .feat-group .brand-features li{font-size:12px;line-height:1.35}
+
+/* ===== COOKIE BANNER ===== */
+.cookie-banner{display:none;position:fixed;bottom:0;left:0;right:0;z-index:9990;background:var(--blue-deeper);color:rgba(255,255,255,0.72);border-top:1px solid rgba(255,255,255,0.10);box-shadow:0 -10px 34px rgba(6,21,48,0.38);padding:14px 16px calc(14px + env(safe-area-inset-bottom));font-size:12.5px;line-height:1.55;text-align:right;animation:cookie-slide-up .35s cubic-bezier(.2,.8,.2,1) both}
+.cookie-banner.show{display:block}
+.cookie-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(249,115,22,0.55),transparent)}
+.cookie-banner p{margin:0 0 10px;max-width:780px}
+.cookie-banner strong{color:#fff;font-weight:700}
+.cookie-banner a{color:var(--orange-glow);text-decoration:underline;text-underline-offset:2px;cursor:pointer;font-weight:600}
+.cookie-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cookie-accept,.cookie-decline{font-family:var(--font-body);font-size:13px;font-weight:700;border-radius:99px;cursor:pointer;padding:9px 20px;transition:background .2s,color .2s,transform .2s,box-shadow .2s;white-space:nowrap;line-height:1.2}
+.cookie-accept{background:var(--orange);color:#fff;border:0;box-shadow:0 3px 12px rgba(249,115,22,0.35)}
+.cookie-accept:hover{background:var(--orange-dark);transform:translateY(-1px)}
+.cookie-accept:active{transform:translateY(0)}
+.cookie-decline{background:transparent;color:rgba(255,255,255,0.62);border:1px solid rgba(255,255,255,0.22)}
+.cookie-decline:hover{background:rgba(255,255,255,0.08);color:#fff}
+@keyframes cookie-slide-up{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.cookie-banner{animation:none}}
+html[lang="ru"] .cookie-banner{text-align:left}
+body.cookie-open .sticky-wa{bottom:calc(90px + var(--cookie-h,0px));transition:bottom .3s cubic-bezier(.2,.8,.2,1)}
+body.cookie-open .a11y-toggle{bottom:calc(24px + var(--cookie-h,0px));transition:bottom .3s cubic-bezier(.2,.8,.2,1)}
+@media(min-width:760px){
+.cookie-banner{left:20px;right:20px;bottom:20px;max-width:940px;margin:0 auto;border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius);padding:16px 22px;font-size:13px;box-shadow:0 18px 50px rgba(6,21,48,0.45)}
+.cookie-banner::before{left:22px;right:22px;border-radius:99px}
+.cookie-banner.show{display:flex;align-items:center;justify-content:space-between;gap:22px}
+.cookie-banner p{margin:0;flex:1}
+.cookie-btns{flex-shrink:0}
+}
+.brand-price-vat{font-size:11.5px;font-weight:600;color:var(--gray-500);line-height:1.2;margin-top:3px;text-align:center;letter-spacing:-.01em}
+.res-price-vat{font-size:12.5px;font-weight:600;color:rgba(255,255,255,0.82);margin-top:7px;letter-spacing:-.01em}
 </style>
 
   <!-- Google tag (gtag.js) - Google Ads -->
@@ -1399,7 +1428,7 @@ html[lang="ru"] .nav-links{direction:ltr}
         <div class="sys-type-card" id="sys-std-card" onclick="selectSysType('standard')">
           <div class="sys-type-icon">⭐</div>
           <div class="sys-type-name">מערכת תקן</div>
-          <div class="sys-type-price" id="sys-std-extra-label">+₪400–₪600</div>
+          <div class="sys-type-price" id="sys-std-extra-label">+₪200–₪400</div>
           <div class="sys-type-desc">התקנה לפי תקן ישראלי + מערבל מים · נדרש לקבלת טופס 4</div>
         </div>
       </div>
@@ -1525,8 +1554,9 @@ html[lang="ru"] .nav-links{direction:ltr}
           <div class="res-price-row">
             <span class="res-price-label">המחיר שלך:</span>
             <span class="res-price-val" id="res-total"></span>
-            <span class="res-vat">כולל מע"מ</span>
+            <span class="res-vat">+ מע"מ</span>
           </div>
+          <div class="res-price-vat" id="res-total-vat"></div>
         </div>
       </div>
 
@@ -1545,7 +1575,7 @@ html[lang="ru"] .nav-links{direction:ltr}
       </div>
 
       <div class="result-note">
-        ⚠️ <strong>שים לב:</strong> המחיר כולל את כל החלקים, העבודה והמע"מ. בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.<br/>
+        ⚠️ <strong>שים לב:</strong> כל המחירים באתר הם לפני מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.<br/>
         המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.
       </div>
 
@@ -1665,7 +1695,7 @@ html[lang="ru"] .nav-links{direction:ltr}
     <a href="https://wa.me/972559976041">💬 וואטסאפ</a>
   </div>
   <div class="ft-legal">
-    המחירים המוצגים באתר כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.<br/>
+    המחירים המוצגים באתר אינם כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.<br/>
     © 2026 א.ר דודי שמש. כל הזכויות שמורות.<br/>
     <a href="#privacy" onclick="event.preventDefault(); openPrivacy()">מדיניות פרטיות</a> · <a href="#accessibility" onclick="event.preventDefault(); openA11yStatement()">הצהרת נגישות</a>
   </div>
@@ -1677,71 +1707,75 @@ html[lang="ru"] .nav-links{direction:ltr}
 // ============================================================
 const PRICES = {
   solar: {
-    80:  { chromagen:{price:3100,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
-    120: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
-    150: { chromagen:{price:3200,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
-    200: { chromagen:{price:3700,warranty:4}, amisragaz:{price:3300,warranty:5}, yardan:{price:3200,warranty:4} },
+    80:  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
+    120: { chromagen:{price:2700,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
+    150: { chromagen:{price:2800,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
+    200: { chromagen:{price:3200,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
   },
   electric: {
-    30:  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2300,warranty:5}, yardan:{price:2200,warranty:4} },
-    45:  { chromagen:{price:2800,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
-    60:  { chromagen:{price:2900,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
-    80:  { chromagen:{price:3000,warranty:4}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
-    120: { chromagen:{price:3100,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
-    150: { chromagen:{price:3200,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
+    30:  { chromagen:{price:2300,warranty:4}, amisragaz:{price:2000,warranty:5}, yardan:{price:1900,warranty:4} },
+    45:  { chromagen:{price:2400,warranty:4}, amisragaz:{price:2100,warranty:5}, yardan:{price:2000,warranty:4} },
+    60:  { chromagen:{price:2500,warranty:4}, amisragaz:{price:2200,warranty:5}, yardan:{price:2100,warranty:4} },
+    80:  { chromagen:{price:2600,warranty:4}, amisragaz:{price:2300,warranty:5}, yardan:{price:2200,warranty:4} },
+    120: { chromagen:{price:2700,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
+    150: { chromagen:{price:2800,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
   },
   boiler: {
-    80:        { chromagen:{price:3600,warranty:4}, amisragaz:{price:3400,warranty:5}, yardan:{price:3300,warranty:4} },
-    120:       { chromagen:{price:3800,warranty:4}, amisragaz:{price:3500,warranty:5}, yardan:{price:3400,warranty:4} },
-    '120slim': { chromagen:{price:3900,warranty:4}, amisragaz:{price:3700,warranty:5}, yardan:{price:3600,warranty:4} },
-    150:       { chromagen:{price:3800,warranty:4}, amisragaz:{price:3500,warranty:5}, yardan:{price:3400,warranty:4} },
-    '150slim': { chromagen:{price:4100,warranty:4}, amisragaz:{price:3900,warranty:5}, yardan:{price:3800,warranty:4} },
+    80:        { chromagen:{price:3100,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
+    120:       { chromagen:{price:3300,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
+    '120slim': { chromagen:{price:3400,warranty:4}, amisragaz:{price:3200,warranty:5}, yardan:{price:3100,warranty:4} },
+    150:       { chromagen:{price:3300,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
+    '150slim': { chromagen:{price:3500,warranty:4}, amisragaz:{price:3400,warranty:5}, yardan:{price:3300,warranty:4} },
   },
   kolat_copper: {
-    'mini':   { chromagen:{price:2400,warranty:4}, amisragaz:{price:2200,warranty:5}, yardan:{price:2100,warranty:4} },
-    'small':  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
-    'large':  { chromagen:{price:2800,warranty:6}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
-    'xlarge': { chromagen:{price:3000,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
+    'mini':   { chromagen:{price:2100,warranty:4}, amisragaz:{price:1900,warranty:5}, yardan:{price:1800,warranty:4} },
+    'small':  { chromagen:{price:2300,warranty:4}, amisragaz:{price:2200,warranty:5}, yardan:{price:2100,warranty:4} },
+    'large':  { chromagen:{price:2400,warranty:6}, amisragaz:{price:2300,warranty:5}, yardan:{price:2200,warranty:4} },
+    'xlarge': { chromagen:{price:2600,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
   },
   kolat_iron: {
-    'mini':  { chromagen:{price:2600,warranty:4}, amisragaz:{price:2400,warranty:4}, yardan:{price:2300,warranty:4} },
-    'small': { chromagen:{price:2900,warranty:4}, amisragaz:{price:2600,warranty:4}, yardan:{price:2500,warranty:4} },
-    'large': { chromagen:{price:3100,warranty:4}, amisragaz:{price:2800,warranty:4}, yardan:{price:2700,warranty:4} },
-    'xlarge': { chromagen:{price:3300,warranty:4}, amisragaz:{price:3000,warranty:4}, yardan:{price:2900,warranty:4} },
+    'mini':  { chromagen:{price:2300,warranty:4}, amisragaz:{price:2100,warranty:4}, yardan:{price:2000,warranty:4} },
+    'small': { chromagen:{price:2500,warranty:4}, amisragaz:{price:2300,warranty:4}, yardan:{price:2200,warranty:4} },
+    'large': { chromagen:{price:2700,warranty:4}, amisragaz:{price:2400,warranty:4}, yardan:{price:2300,warranty:4} },
+    'xlarge': { chromagen:{price:2800,warranty:4}, amisragaz:{price:2600,warranty:4}, yardan:{price:2500,warranty:4} },
   },
   system: {
     copper: {
       120: {
-        chromagen:{price:5000,warranty:4}, amisragaz:{price:4400,warranty:5}, yardan:{price:4300,warranty:4},
-        chromagen_std:{price:5300,warranty:4}, amisragaz_std:{price:4700,warranty:5}, yardan_std:{price:4600,warranty:4},
+        chromagen:{price:4300,warranty:4}, amisragaz:{price:3800,warranty:5}, yardan:{price:3700,warranty:4},
+        chromagen_std:{price:4500,warranty:4}, amisragaz_std:{price:4000,warranty:5}, yardan_std:{price:3900,warranty:4},
       },
       150: {
-        chromagen:{price:5200,warranty:4}, amisragaz:{price:4600,warranty:5}, yardan:{price:4500,warranty:4},
-        chromagen_std:{price:5500,warranty:4}, amisragaz_std:{price:5000,warranty:5}, yardan_std:{price:4900,warranty:4},
+        chromagen:{price:4500,warranty:4}, amisragaz:{price:3900,warranty:5}, yardan:{price:3800,warranty:4},
+        chromagen_std:{price:4700,warranty:4}, amisragaz_std:{price:4300,warranty:5}, yardan_std:{price:4200,warranty:4},
       },
       200: {
-        chromagen:{price:6000,warranty:4}, amisragaz:{price:5450,warranty:5}, yardan:{price:5350,warranty:4},
-        chromagen_std:{price:6200,warranty:4}, amisragaz_std:{price:5650,warranty:5}, yardan_std:{price:5550,warranty:4},
+        chromagen:{price:5100,warranty:4}, amisragaz:{price:4700,warranty:5}, yardan:{price:4600,warranty:4},
+        chromagen_std:{price:5300,warranty:4}, amisragaz_std:{price:4800,warranty:5}, yardan_std:{price:4700,warranty:4},
       },
     },
     iron: {
       120: {
-        chromagen:{price:5200,warranty:4}, amisragaz:{price:4600,warranty:4}, yardan:{price:4500,warranty:4},
-        chromagen_std:{price:5400,warranty:4}, amisragaz_std:{price:4800,warranty:4}, yardan_std:{price:4700,warranty:4},
+        chromagen:{price:4500,warranty:4}, amisragaz:{price:3900,warranty:4}, yardan:{price:3800,warranty:4},
+        chromagen_std:{price:4600,warranty:4}, amisragaz_std:{price:4100,warranty:4}, yardan_std:{price:4000,warranty:4},
       },
       150: {
-        chromagen:{price:5400,warranty:4}, amisragaz:{price:4800,warranty:4}, yardan:{price:4700,warranty:4},
-        chromagen_std:{price:5600,warranty:4}, amisragaz_std:{price:5000,warranty:4}, yardan_std:{price:4900,warranty:4},
+        chromagen:{price:4600,warranty:4}, amisragaz:{price:4100,warranty:4}, yardan:{price:4000,warranty:4},
+        chromagen_std:{price:4800,warranty:4}, amisragaz_std:{price:4300,warranty:4}, yardan_std:{price:4200,warranty:4},
       },
     },
     iron_extra: {
       200: {
-        chromagen:{price:7200,warranty:4}, amisragaz:{price:6500,warranty:4}, yardan:{price:6400,warranty:4},
-        chromagen_std:{price:7600,warranty:4}, amisragaz_std:{price:6900,warranty:4}, yardan_std:{price:6800,warranty:4},
+        chromagen:{price:6200,warranty:4}, amisragaz:{price:5600,warranty:4}, yardan:{price:5500,warranty:4},
+        chromagen_std:{price:6500,warranty:4}, amisragaz_std:{price:5900,warranty:4}, yardan_std:{price:5800,warranty:4},
       },
     },
   },
 };
+
+const VAT_RATE = 0.18;
+function withVat(p) { return Math.round(p * (1 + VAT_RATE)); }
+function vatLine(p) { return `(₪${withVat(p).toLocaleString()} ${t('כולל מע"מ')})`; }
 
 const INCLUDES = {
   solar:       ['התקנה מקצועית','פינוי הדוד הישן','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
@@ -1759,8 +1793,8 @@ function warrantyLabel(brandKey, w) {
 }
 
 const EXTRAS = {
-  system: ['תוספת צנרת מים וחשמל – ₪60 למטר','מעמד מגולוון חדש – ₪300'],
-  solar:  ['מעמד מגולוון חדש – ₪300 (אם נדרש)'],
+  system: ['תוספת צנרת מים וחשמל – ₪60 למטר + מע"מ','מעמד מגולוון חדש – ₪300 + מע"מ'],
+  solar:  ['מעמד מגולוון חדש – ₪300 + מע"מ (אם נדרש)'],
 };
 
 const BRAND_INFO = {
@@ -1782,7 +1816,7 @@ const VOL_HINTS   = {30:'1 נפש',45:'1-2 נפשות',60:'2 נפשות',80:'3 �
 const VOL_ICON    = {30:'👤',45:'👤',60:'👥',80:'👥',120:'👨‍👩‍👧',150:'👨‍👩‍👧‍👦',200:'👨‍👩‍👧‍👦','120slim':'📐','150slim':'📐','mini':'🔸','small':'🔹','large':'🔷','xlarge':'🔶'};
 const VOL_POPULAR = {solar:150, electric:80, boiler:150, kolat_copper:'large', kolat_iron:'small', system:150};
 
-const ROOF_SURCHARGE   = { flat:0, tile_inside:100, tile_outside:100, indoor:0 };
+const ROOF_SURCHARGE   = { flat:0, tile_inside:200, tile_outside:200, indoor:0 };
 const ACCESS_SURCHARGE = { ladder:0, key:0, none:0 };
 
 let sel = { product:null, sysType:null, kolatType:null, volume:null, roofType:null, tilePos:null, access:new Set(), brand:null };
@@ -2292,7 +2326,8 @@ function populateTiers() {
       </div>
       ${isFeatured ? `<div class="brand-social-proof">⭐ ${t('84% מהלקוחות שלנו בוחרים את זה')}</div>` : ''}
       <div class="brand-price-block">
-        <div class="brand-price-preview"><span class="currency">₪</span>${displayPrice.toLocaleString()} <span>${t('כולל מע"מ')}</span></div>
+        <div class="brand-price-preview"><span class="currency">₪</span>${displayPrice.toLocaleString()} <span>${t('+ מע"מ')}</span></div>
+        <div class="brand-price-vat">${vatLine(displayPrice)}</div>
         <div class="brand-warranty">🛡️ ${t('אחריות יצרן')} ${warrantyLabel(bKey, data.warranty)}</div>
       </div>
       <div class="brand-incl-label">${t('מה כלול:')}</div>
@@ -2469,7 +2504,7 @@ function getRoofLabel() {
   return '';
 }
 function getRoofSurcharge() {
-  if (sel.roofType === 'tile') return 100;
+  if (sel.roofType === 'tile') return ROOF_SURCHARGE.tile_inside;
   return 0;
 }
 function getAccessSurcharge() { return 0; }
@@ -2513,9 +2548,10 @@ function showResult() {
     subParts.push(t(kolatSubLabels[sel.kolatType] || ''));
   }
   subParts.push(getRoofLabel());
-  subParts.push('כולל מע"מ');
+  subParts.push('לפני מע"מ');
   safeSet('res-sub', 'textContent', subParts.filter(Boolean).map(s => t(s) || s).join(' · '));
   safeSet('res-total', 'textContent', `₪${totalPrice.toLocaleString()}`);
+  safeSet('res-total-vat', 'textContent', vatLine(totalPrice));
   const hdr = document.getElementById('res-header');
   if (hdr) hdr.style.background = info.hdr;
 
@@ -2563,7 +2599,7 @@ function showResult() {
   waMsg += `🔑 *גישה:* ${accessLabel}\n`;
   waMsg += `🛡️ *אחריות:* ${(sel.product === 'system' && (sel.kolatType || 'copper') === 'copper' && String(sel.volume) === '150' && sel.brand && sel.brand.indexOf('chromagen') === 0) ? '6 שנים לקולט · 4 שנים לדוד' : data.warranty + ' שנים'}\n\n✅ *כולל:*\n`;
   incList.forEach(i => { waMsg += `• ${i}\n`; });
-  waMsg += `\n💰 *מחיר: ₪${totalPrice.toLocaleString()} כולל מע"מ*\n\n`;
+  waMsg += `\n💰 *מחיר: ₪${totalPrice.toLocaleString()} + מע"מ*\n(₪${withVat(totalPrice).toLocaleString()} כולל מע"מ)\n\n`;
   if (extras) waMsg += `⚠️ תוספות אפשריות: ${extras.join(' | ')}\n\n`;
   waMsg += `אשמח להתייעץ איתך ולתאם ביקור.`;
   safeSet('wa-result-btn', 'href', `https://wa.me/972559976041?text=${encodeURIComponent(waMsg)}`);
@@ -2623,7 +2659,7 @@ const TRANSLATIONS = {
   'זוויות, פקקים ומקשרים חדשים': 'Уголки, заглушки и фитинги — новые',
   // Price disclaimer
   'המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.': 'Цены на сайте могут периодически обновляться; действительной считается цена, подтверждённая представителем компании при согласовании работы.',
-  'המחירים המוצגים באתר כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.': 'Указанные на сайте цены включают НДС и действительны на момент публикации. Компания оставляет за собой право изменять цены в любое время без предварительного уведомления; окончательной и обязательной является цена, подтверждённая представителем компании. Возможны опечатки.',
+  'המחירים המוצגים באתר אינם כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.': 'Указанные на сайте цены не включают НДС и действительны на момент публикации. Компания оставляет за собой право изменять цены в любое время без предварительного уведомления; окончательной и обязательной является цена, подтверждённая представителем компании. Возможны опечатки.',
   // FAQ
   'יש לך שאלה?': 'Есть вопрос?',
   'שאלות נפוצות': 'Частые вопросы',
@@ -2982,6 +3018,8 @@ const TRANSLATIONS = {
   '🔵 תקן מלא': '🔵 Полный стандарт',
   '💚 תקן + זול': '💚 Стандарт + дёшево',
   'כולל מע"מ': 'вкл. НДС',
+  '+ מע"מ': '+ НДС',
+  'לפני מע"מ': 'без НДС',
   'קבל הצעת מחיר 💰': 'Получить расчёт цены 💰',
   'החבילה המומלצת': 'Рекомендуемый пакет',
   'לבחירת החבילה': 'Выбрать пакет',
@@ -3010,9 +3048,9 @@ const TRANSLATIONS = {
   'מערבל מים': 'Смеситель воды',
   'אחריות יצרן: ': 'Гарантия производителя: ',
   '⚠️ תוספות אפשריות (יחושבו בשטח, בתיאום ואישור מול הלקוח):': '⚠️ Возможные доплаты (уточняются на месте по согласованию с клиентом):',
-  'תוספת צנרת מים וחשמל – ₪60 למטר': 'Доплата за трубы и кабель – ₪60/м',
-  'מעמד מגולוון חדש – ₪300': 'Новый оцинкованный держатель – ₪300',
-  'מעמד מגולוון חדש – ₪300 (אם נדרש)': 'Новый держатель – ₪300 (если нужно)',
+  'תוספת צנרת מים וחשמל – ₪60 למטר + מע"מ': 'Доплата за трубы и кабель – ₪60/м + НДС',
+  'מעמד מגולוון חדש – ₪300 + מע"מ': 'Новый оцинкованный держатель – ₪300 + НДС',
+  'מעמד מגולוון חדש – ₪300 + מע"מ (אם נדרש)': 'Новый держатель – ₪300 + НДС (если нужно)',
   '💳 אמצעי תשלום': '💳 Способы оплаты',
   'מזומן': 'Наличные',
   'ביט': 'Bit',
@@ -3020,9 +3058,10 @@ const TRANSLATIONS = {
   "צ'ק": 'Чек',
   'צ׳ק': 'Чек',
   'אשראי עד 10 תשלומים ללא ריבית': 'Рассрочка до 10 платежей без процентов',
-  '⚠️ שים לב: המחיר כולל את כל החלקים, העבודה והמע"מ. בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.': '⚠️ Внимание: цена включает все детали, работу и НДС. Возможны доплаты по условиям монтажа — всегда по согласованию с клиентом перед выполнением.',
+  'כל המחירים באתר הם לפני מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.': 'все цены на сайте указаны без НДС. Цена включает все детали и работу; возможны доплаты по условиям монтажа — всегда по согласованию с клиентом перед выполнением.',
   'שים לב': 'Внимание',
-  'המחיר כולל את כל החלקים, העבודה והמע"מ': 'Цена включает все детали, работу и НДС',
+  'כל המחירים באתר הם לפני מע"מ': 'Все цены на сайте указаны без НДС',
+  'המחיר כולל את כל החלקים והעבודה': 'Цена включает все детали и работу',
   'בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות': 'Возможны доплаты по условиям монтажа',
   'עבודה + חלקים מלאים': 'Работа + полный комплект',
   'שסתומים ומקשרים חדשים': 'Новые клапаны и соединители',
@@ -3455,7 +3494,10 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
   // Cookie banner logic
   function acceptCookies() {
-    document.getElementById('cookie-banner').style.display = 'none';
+    const b = document.getElementById('cookie-banner');
+    if (b) b.classList.remove('show');
+    document.body.classList.remove('cookie-open');
+    document.body.style.removeProperty('--cookie-h');
     try { localStorage.setItem('cookiesAccepted','1'); } catch(e) {}
   }
   function openPrivacy() {
@@ -3571,12 +3613,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // ==================== END ACCESSIBILITY WIDGET ====================
 
-  // Hide banner if already accepted
-  try {
-    if (localStorage.getItem('cookiesAccepted')) {
-      document.getElementById('cookie-banner').style.display = 'none';
-    }
-  } catch(e) {}
+  // Show banner only if not accepted yet (fixed bar, never adds page height)
+  (function initCookieBanner() {
+    const b = document.getElementById('cookie-banner');
+    if (!b) return;
+    let accepted = false;
+    try { accepted = !!localStorage.getItem('cookiesAccepted'); } catch(e) {}
+    if (accepted) return;
+    b.classList.add('show');
+    const syncHeight = () => {
+      if (!b.classList.contains('show')) return;
+      document.body.style.setProperty('--cookie-h', b.offsetHeight + 'px');
+      document.body.classList.add('cookie-open');
+    };
+    syncHeight();
+    window.addEventListener('resize', syncHeight);
+    if (window.ResizeObserver) { new ResizeObserver(syncHeight).observe(b); }
+  })();
 
 </script>
 

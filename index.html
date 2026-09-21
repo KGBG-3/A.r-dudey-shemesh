@@ -941,7 +941,7 @@ html[lang="ru"] .q-card.is-featured .q-select{box-shadow:4px 4px 0 var(--q-navy)
 .qw-credit{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;padding:6px 12px;border-radius:10px;background:var(--q-amber);color:var(--q-navy);font-size:14px;font-weight:800;line-height:1.3}
 .qw-head-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 16px}
 .qw-h2{font-family:var(--q-display);font-weight:400;font-size:26px;line-height:1.2;color:var(--q-navy)}
-.qw-h2 mark{background:linear-gradient(transparent 62%,#FDE68A 62%);color:inherit;padding:0 2px}
+.qw-h2 mark{background:linear-gradient(#FDE68A,#FDE68A) 0 100%/100% 38% no-repeat;color:inherit;padding:0 2px}
 .qw-head-note{font-size:14px;font-weight:600;color:var(--q-muted)}
 .qw-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:14px;align-items:stretch}
 .qw-cards .q-card{cursor:default}
@@ -983,6 +983,8 @@ html[lang="ru"] .q-card.is-featured .q-select{box-shadow:4px 4px 0 var(--q-navy)
 .q-actions .btn-reset,.q-actions .btn-back-brands{width:100%;padding:12px 8px;font-size:14px;line-height:1.25}
 .btn-pdf-result{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;border-radius:14px;background:var(--q-amber);color:var(--q-navy);border:2.5px solid var(--q-navy);box-shadow:-4px 4px 0 var(--q-navy);font-family:'Assistant',sans-serif;font-size:16px;font-weight:800;line-height:1.2;cursor:pointer;transition:transform .15s,box-shadow .15s}
 .btn-pdf-result:active{transform:translate(-2px,2px);box-shadow:-2px 2px 0 var(--q-navy)}
+.btn-pdf-result.is-busy,.q-btn-pdf.is-busy{opacity:.7;cursor:progress}
+.btn-pdf-result.is-ready,.q-btn-pdf.is-ready{background:#22C55E;color:#fff}
 .q-print-hint{margin:10px 0 0;text-align:center;font-size:12.5px;font-weight:600;color:var(--q-muted);line-height:1.5}
 
 /* ---- quote link (?q=) / product landing (?p=) at the top of the page ---- */
@@ -1015,6 +1017,8 @@ body.q-printing::before{display:none !important}
 body.q-printing > *:not(#q-print-root){display:none !important}
 body.q-printing #q-print-root{display:block !important}
 #q-print-root .qs{break-after:avoid;page-break-after:avoid;break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#q-print-root.q-ios{zoom:.86}
+#q-print-root.q-ios .qs{margin:0 auto}
 }
 </style>
 
@@ -1756,14 +1760,13 @@ body.q-printing #q-print-root{display:block !important}
           <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           שלח לוואטסאפ לאישור
         </a>
-        <button type="button" class="btn-pdf-result" onclick="qPrintCurrent()">
+        <button type="button" class="btn-pdf-result" onclick="qPdfCurrent(this)">
           <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11.5v6M9.4 14.9L12 17.5l2.6-2.6"/></svg>
           <span>הורד הצעת מחיר (PDF)</span>
         </button>
         <button class="btn-back-brands" onclick="backToBrands()">↩ חזור לבחירת חברה</button>
         <button class="btn-reset" onclick="resetCalc()">🔄 התחל מחדש</button>
       </div>
-      <p class="q-print-hint">נפתח מסך הדפסה — בחרו ״שמירה כ-PDF״ כדי לשמור את ההצעה</p>
     </div>
 
   </div><!-- end calc-card -->
@@ -4174,6 +4177,8 @@ const Q_RU = {
   'לחישוב מחדש במחשבון': 'Пересчитать в калькуляторе',
   'נפתח מסך הדפסה — בחרו ״שמירה כ-PDF״ כדי לשמור את ההצעה': 'Откроется окно печати — выберите «Сохранить как PDF»',
   'לשמירת PDF פתחו את הדף בדפדפן (Chrome / Safari)': 'Чтобы сохранить PDF, откройте страницу в браузере (Chrome / Safari)',
+  'מכין את ה-PDF…': 'Готовим PDF…',
+  'ה-PDF מוכן — לחצו לשמירה': 'PDF готов — нажмите, чтобы сохранить',
   'גדול extra': 'Большой extra',
   'גג רעפים — בתוך הרעפים': 'Черепичная крыша — под черепицей',
   'גג רעפים — מחוץ לרעפים': 'Черепичная крыша — над черепицей',
@@ -4552,10 +4557,9 @@ function qTopActionsHTML(m, b) {
   return `<div class="q-top-actions">
 <a class="q-btn q-btn-wa" href="${qWaHref(b ? qWaSingleMsg(m, b) : qWaLandingMsg(m))}" target="_blank" rel="noopener">${qWaIcon(22)}<span>${qt(b ? 'אני רוצה לתאם התקנה' : 'שלחו לנו הודעה בוואטסאפ')}</span></a>
 <button type="button" class="q-btn q-btn-call" onclick="openCallModal()">${qIcon('phone', { size: 20 })}<span>${qt('חייגו אלינו')}</span></button>
-<button type="button" class="q-btn q-btn-pdf" onclick="qPrint('${kind}', window.__qView.spec)">${qIcon('file', { size: 20 })}<span>${qt('הורד הצעת מחיר (PDF)')}</span></button>
+<button type="button" class="q-btn q-btn-pdf" onclick="qDownloadPdf('${kind}', window.__qView.spec, this)">${qIcon('file', { size: 20 })}<span>${qt('הורד הצעת מחיר (PDF)')}</span></button>
 <button type="button" class="q-btn q-btn-ghost" onclick="qJumpToCalc(window.__qView.spec)">${qIcon('calc', { size: 20 })}<span>${qt(b ? 'לחישוב מחדש במחשבון' : 'למחיר מדויק לפי סוג הגג')}</span></button>
-</div>
-<p class="q-print-hint">${qt('נפתח מסך הדפסה — בחרו ״שמירה כ-PDF״ כדי לשמור את ההצעה')}</p>`;
+</div>`;
 }
 
 // ---- calculator result ----
@@ -4568,9 +4572,13 @@ function qRenderResult() {
   if (!b) { slot.innerHTML = ''; return; }
   window.__qResultSpec = spec;
   slot.innerHTML = qWebSingleHTML(m, b);
+  qSchedulePrep('single', spec);
 }
 function qPrintCurrent() {
   if (window.__qResultSpec) qPrint('single', window.__qResultSpec);
+}
+function qPdfCurrent(btn) {
+  if (window.__qResultSpec) qDownloadPdf('single', window.__qResultSpec, btn);
 }
 
 // ---- quote link / landing view at the top of the page ----
@@ -4584,6 +4592,7 @@ function qRenderTop() {
   box.setAttribute('dir', qDir());
   box.innerHTML = (b ? qWebSingleHTML(m, b) : qWebCompareHTML(m)) + qNoteHTML() + qTopActionsHTML(m, b);
   document.title = `${qt('הצעת מחיר')} – ${qTitle(m)}${b ? ' – ' + t(b.name) : ''} | ${t('א.ר דודי שמש')}`;
+  qSchedulePrep(b ? 'single' : 'compare', v.spec);
 }
 
 // re-render the parts built by this file after a language switch
@@ -4643,7 +4652,7 @@ function qTitlePx(text) {
   } catch (e) { return 40; }
 }
 function qMark(html) {
-  return html.replace('<mark>', '<span style="padding:0 2px;background:linear-gradient(transparent 62%,#FDE68A 62%)">').replace('</mark>', '</span>');
+  return html.replace('<mark>', '<span style="padding:0 2px;background:linear-gradient(#FDE68A,#FDE68A) 0 100%/100% 38% no-repeat">').replace('</mark>', '</span>');
 }
 function qSheetMast(m, rtl) {
   const S = rtl ? 'right' : 'left', E = rtl ? 'left' : 'right';
@@ -4839,15 +4848,25 @@ function qFitSheet(root) {
   return z;
 }
 
-function qPrint(mode, spec) {
+// Build the A4 sheet for a quote into the (hidden) print root and fit it to one page
+function qBuildSheet(mode, spec) {
   const m = qModel(spec);
-  if (!m) return;
+  if (!m) return null;
   const b = mode === 'single' ? m.brands.find(x => x.base === spec.brand) : null;
-  if (mode === 'single' && !b) return;
+  if (mode === 'single' && !b) return null;
   const root = document.getElementById('q-print-root');
-  if (!root) return;
+  if (!root) return null;
   root.innerHTML = b ? qSheetSingle(m, b) : qSheetCompare(m);
   root.dataset.zoom = qFitSheet(root);
+  return { m, b, root, sheet: root.querySelector('.qs'), name: qFileName(m, b) };
+}
+
+function qPrint(mode, spec) {
+  const sb = qBuildSheet(mode, spec);
+  if (!sb) return;
+  const { m, b, root } = sb;
+  // iPhone prints with its own page margins: shrink a little so the sheet stays on one page
+  root.classList.toggle('q-ios', qIsIOS());
   let ps = document.getElementById('q-page-style');
   if (!ps) { ps = document.createElement('style'); ps.id = 'q-page-style'; document.head.appendChild(ps); }
   ps.textContent = '@page{size:A4;margin:0}';
@@ -4865,6 +4884,186 @@ function qPrint(mode, spec) {
   };
   setTimeout(() => evs.forEach(ev => window.addEventListener(ev, done, true)), 600);
   try { window.print(); } catch (e) { done(); }
+}
+
+// ============================================================
+// PDF FILE — a real file instead of the print screen:
+// computers / Android download it, iPhone opens the share sheet (save to Files, WhatsApp…).
+// The browser itself draws the A4 sheet (SVG foreignObject → canvas), so Hebrew and the
+// design come out exactly as on screen; the picture is wrapped in a one-page A4 PDF.
+// Anything unexpected → fall back to printing.
+// ============================================================
+const Q_FONT_CSS = 'https://fonts.googleapis.com/css2?family=Assistant:wght@400..800&family=Secular+One&display=swap';
+const Q_PDF_SCALE = 2.4;
+const qPdfJobs = new Map();
+let qFontsPromise = null, qLogoPromise = null, qPrepTimer = null;
+
+function qIsIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+function qSleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function qB64(buf) {
+  const u = new Uint8Array(buf);
+  let s = '';
+  for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+function qDataUrl(url, type) {
+  return fetch(url).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
+    .then(buf => `data:${type};base64,${qB64(buf)}`);
+}
+// the two web fonts, embedded (Hebrew + Latin subsets) so the drawn page uses them
+function qEmbedFonts() {
+  if (!qFontsPromise) {
+    qFontsPromise = fetch(Q_FONT_CSS).then(r => r.text()).then(async css => {
+      const blocks = (css.match(/@font-face\s*\{[^}]*\}/g) || [])
+        .filter(x => /unicode-range:[^;]*U\+0590/i.test(x) || /unicode-range:\s*U\+0000-00FF/i.test(x));
+      const out = [];
+      for (const x of blocks) {
+        const u = x.match(/url\((['"]?)([^'")]+)\1\)/);
+        if (!u) continue;
+        const type = /\.woff2(\?|$)/.test(u[2]) ? 'font/woff2' : (/\.woff(\?|$)/.test(u[2]) ? 'font/woff' : 'font/ttf');
+        out.push(x.replace(u[0], `url(${await qDataUrl(u[2], type)})`));
+      }
+      return out.join('\n');
+    }).catch(() => { qFontsPromise = null; return ''; });
+  }
+  return qFontsPromise;
+}
+function qEmbedLogo() {
+  if (!qLogoPromise) qLogoPromise = qDataUrl(Q_LOGO, 'image/webp').catch(() => { qLogoPromise = null; return ''; });
+  return qLogoPromise;
+}
+// sanity check of the drawn page: navy header, the 4-colour stripe, navy footer
+// (z = the fit zoom of the sheet: a zoomed-out sheet has its stripe higher up)
+function qSheetLooksRight(ctx, w, h, z) {
+  const px = (x, y) => ctx.getImageData(Math.round(x), Math.round(y), 1, 1).data;
+  const near = (p, c, tol) => Math.abs(p[0] - c[0]) <= tol && Math.abs(p[1] - c[1]) <= tol && Math.abs(p[2] - c[2]) <= tol;
+  const k = w / 793 * (z || 1), navy = [10, 31, 61];
+  const stripeY = 205 * k;
+  const stripe = [[0.125, [249, 115, 22]], [0.375, [251, 191, 36]], [0.625, [125, 211, 252]], [0.875, [37, 99, 235]]]
+    .every(([fx, c]) => near(px(w * fx, stripeY), c, 40));
+  return stripe && near(px(w * 0.5, h - 6 * k), navy, 30) && near(px(w * 0.5, 190 * k), navy, 45);
+}
+async function qRenderPdf(sheet, title, zoom) {
+  const [fonts, logo] = await Promise.all([qEmbedFonts(), qEmbedLogo()]);
+  if (logo) sheet.querySelectorAll('img').forEach(i => i.setAttribute('src', logo));
+  const W = 793, H = 1122;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><foreignObject x="0" y="0" width="${W}" height="${H}">` +
+    `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${W}px;height:${H}px;margin:0;padding:0;overflow:hidden"><style>${fonts}</style>` +
+    new XMLSerializer().serializeToString(sheet) + '</div></foreignObject></svg>';
+  const img = new Image();
+  await new Promise((res, rej) => { img.onload = res; img.onerror = () => rej(new Error('svg')); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); });
+  const cv = document.createElement('canvas');
+  cv.width = Math.round(W * Q_PDF_SCALE);
+  cv.height = Math.round(H * Q_PDF_SCALE);
+  const ctx = cv.getContext('2d');
+  // Safari paints fonts/images inside the SVG lazily: draw a few times, then check the result
+  let ok = false;
+  for (let i = 0; i < 6 && !ok; i++) {
+    await qSleep(i ? 250 : 80);
+    ctx.fillStyle = '#FBF6EE';
+    ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    ok = i >= 2 && qSheetLooksRight(ctx, cv.width, cv.height, zoom);
+  }
+  if (!ok) throw new Error('render check');
+  const jpeg = await new Promise((res, rej) => cv.toBlob(x => (x ? res(x) : rej(new Error('toBlob'))), 'image/jpeg', 0.9));
+  return qJpegPdf(new Uint8Array(await jpeg.arrayBuffer()), cv.width, cv.height, title);
+}
+// a one-page A4 PDF holding one JPEG (no library needed)
+function qJpegPdf(jpeg, pw, ph, title) {
+  const enc = new TextEncoder(), parts = [], offs = [];
+  let len = 0;
+  const put = x => { const b = typeof x === 'string' ? enc.encode(x) : x; parts.push(b); len += b.length; };
+  const obj = (n, head, stream) => {
+    offs[n] = len;
+    put(`${n} 0 obj\n${head}\n`);
+    if (stream) { put('stream\n'); put(stream); put('\nendstream\n'); }
+    put('endobj\n');
+  };
+  let hex = 'FEFF';
+  for (const ch of String(title)) { const c = ch.codePointAt(0); if (c <= 0xFFFF) hex += c.toString(16).padStart(4, '0').toUpperCase(); }
+  const PW = 595.28, PH = 841.89;
+  const content = enc.encode(`q ${PW} 0 0 ${PH} 0 0 cm /Im0 Do Q`);
+  put('%PDF-1.4\n');
+  put(new Uint8Array([37, 226, 227, 207, 211, 10]));
+  obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  obj(3, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PW} ${PH}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`);
+  obj(4, `<< /Type /XObject /Subtype /Image /Width ${pw} /Height ${ph} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>`, jpeg);
+  obj(5, `<< /Length ${content.length} >>`, content);
+  obj(6, `<< /Title <${hex}> /Producer (ardudim.co.il) >>`);
+  const xref = len;
+  put('xref\n0 7\n0000000000 65535 f \n' + offs.slice(1).map(o => String(o).padStart(10, '0') + ' 00000 n \n').join(''));
+  put(`trailer\n<< /Size 7 /Root 1 0 R /Info 6 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+  return new Blob(parts, { type: 'application/pdf' });
+}
+function qPdfKey(mode, spec) {
+  return JSON.stringify([mode, spec.product, String(spec.volume), spec.sysType, spec.kolatType, spec.roof, spec.brand,
+    (spec.access || []).join('+'), currentLang, qToday()]);
+}
+function qPdfJob(mode, spec) {
+  const key = qPdfKey(mode, spec);
+  if (qPdfJobs.has(key)) return qPdfJobs.get(key);
+  const sb = qBuildSheet(mode, spec);
+  if (!sb) return null;
+  const sheet = sb.sheet.cloneNode(true);   // copy now: the print root can be reused while this renders
+  const job = { key, name: sb.name + '.pdf', blob: null };
+  job.promise = qRenderPdf(sheet, sb.name, Number(sb.root.dataset.zoom) || 1).then(blob => (job.blob = blob));
+  job.promise.catch(() => qPdfJobs.delete(key));
+  qPdfJobs.set(key, job);
+  if (qPdfJobs.size > 6) qPdfJobs.delete(qPdfJobs.keys().next().value);
+  return job;
+}
+function qSchedulePrep(mode, spec) {
+  clearTimeout(qPrepTimer);
+  qPrepTimer = setTimeout(() => {
+    try { const j = qPdfJob(mode, spec); if (j) j.promise.catch(() => {}); } catch (e) { /* the button will try again */ }
+  }, 700);
+}
+function qSaveBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+function qPdfBtnState(btn, state) {
+  if (!btn) return;
+  const label = btn.querySelector('span');
+  btn.classList.toggle('is-busy', state === 'busy');
+  btn.classList.toggle('is-ready', state === 'ready');
+  btn.disabled = state === 'busy';
+  if (label) label.textContent = qt(state === 'busy' ? 'מכין את ה-PDF…' : state === 'ready' ? 'ה-PDF מוכן — לחצו לשמירה' : 'הורד הצעת מחיר (PDF)');
+}
+function qDeliverPdf(job, btn, late) {
+  const file = new File([job.blob], job.name, { type: 'application/pdf' });
+  let share = false;
+  if (qIsIOS() && navigator.share && navigator.canShare) {
+    try { share = navigator.canShare({ files: [file] }); } catch (e) { share = false; }
+  }
+  if (!share) { qSaveBlob(job.blob, job.name); return; }
+  navigator.share({ files: [file] }).catch(e => {
+    if (e && e.name === 'AbortError') return;             // the share sheet was closed
+    if (late) qPdfBtnState(btn, 'ready');                  // the tap "expired" while preparing → one more tap
+    else qSaveBlob(job.blob, job.name);
+  });
+}
+function qDownloadPdf(mode, spec, btn) {
+  if (!spec) return;
+  let job = null;
+  try { job = qPdfJob(mode, spec); } catch (e) { job = null; }
+  if (!job) { qPrint(mode, spec); return; }
+  if (/FBAN|FBAV|Instagram|Line\/|; wv\)/i.test(navigator.userAgent)) qToast(qt('לשמירת PDF פתחו את הדף בדפדפן (Chrome / Safari)'));
+  if (job.blob) { qPdfBtnState(btn, 'idle'); qDeliverPdf(job, btn, false); return; }
+  qPdfBtnState(btn, 'busy');
+  job.promise.then(() => { qPdfBtnState(btn, 'idle'); qDeliverPdf(job, btn, true); })
+    .catch(() => { qPdfBtnState(btn, 'idle'); qPrint(mode, spec); });
 }
 
 // ============================================================

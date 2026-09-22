@@ -160,15 +160,15 @@
     ]
   }
   </script>
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico?v=2026" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2026" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png?v=2026" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=2026" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2026" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,600;1,9..144,700&family=Secular+One&display=swap" />
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,600;1,9..144,700&family=Secular+One&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Secular+One&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Secular+One&display=swap" rel="stylesheet" />
   <style>html{color-scheme:light}:root{--blue-dark:#0a1f3d;--blue-deeper:#061530;--blue-mid:#1e3a8a;--blue-bright:#2563eb;--blue-accent:#3b82f6;--blue-light:#dbeafe;--blue-soft:#eff6ff;--orange:#f97316;--orange-dark:#ea580c;--orange-deep:#c2410c;--orange-glow:#fed7aa;--amber:#fbbf24;--white:#fff;--gray-50:#fafaf9;--gray-100:#f4f4f3;--gray-200:#e5e5e3;--gray-300:#d4d4d2;--gray-500:#71717a;--gray-600:#52525b;--gray-800:#27272a;--gray-900:#18181b;--whatsapp:#25d366;--whatsapp-dark:#128c7e;--shadow-xs:0 1px 2px rgba(10,31,61,0.06);--shadow-sm:0 1px 3px rgba(10,31,61,0.08),0 1px 2px rgba(10,31,61,0.04);--shadow-md:0 4px 20px rgba(10,31,61,0.08),0 2px 6px rgba(10,31,61,0.05);--shadow-lg:0 14px 40px rgba(10,31,61,0.12),0 4px 12px rgba(10,31,61,0.06);--shadow-xl:0 24px 60px rgba(10,31,61,0.18),0 8px 20px rgba(10,31,61,0.08);--shadow-orange:0 8px 28px rgba(249,115,22,0.38),0 2px 6px rgba(249,115,22,0.15);--shadow-glow-blue:0 0 0 4px rgba(37,99,235,0.15);--radius-xs:8px;--radius-sm:12px;--radius:18px;--radius-lg:24px;--font-display:'Fraunces',Georgia,serif;--font-body:'Assistant',system-ui,sans-serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}img,svg,video,iframe{max-width:100%}html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}body{font-family:var(--font-body);font-weight:400;background:#eef4fb;color:var(--gray-800);direction:rtl;overflow-x:hidden;max-width:100%;width:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100vh;background:url('https://ardudim.co.il/images/bg-main.webp') center top/cover no-repeat;z-index:-1;pointer-events:none;will-change:background-position;background-position-y:calc(var(--parallax-y, 0) * 1px)}
 @media(max-width:859px){body::before{background-size:cover;background-position:center top}
@@ -833,9 +833,9 @@ body.cookie-open .a11y-toggle{bottom:calc(24px + var(--cookie-h,0px));transition
 /* sticky call button (mobile) */
 .sticky-call{display:none}
 @media(max-width:859px){
-.sticky-call{position:fixed;left:14px;bottom:24px;z-index:9997;display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 18px 0 16px;border-radius:999px;background:var(--q-amber);color:var(--q-navy);border:2.5px solid var(--q-navy);box-shadow:-4px 4px 0 var(--q-navy);font-family:'Assistant',sans-serif;font-size:15px;font-weight:800;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s,box-shadow .15s}
+.sticky-call{position:fixed;left:14px;bottom:24px;z-index:9997;display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 18px 0 16px;border-radius:999px;background:var(--q-amber);color:var(--q-navy);border:2.5px solid var(--q-navy);box-shadow:0 10px 22px -8px rgba(10,31,61,.55);font-family:'Assistant',sans-serif;font-size:15px;font-weight:800;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
 .sticky-call svg{width:19px;height:19px;flex-shrink:0}
-.sticky-call:active{transform:translate(-2px,2px);box-shadow:-2px 2px 0 var(--q-navy)}
+.sticky-call:active{transform:scale(.96)}
 body.cookie-open .sticky-call{bottom:calc(24px + var(--cookie-h,0px));transition:bottom .3s cubic-bezier(.2,.8,.2,1)}
 footer{padding-bottom:92px}
 }
@@ -879,7 +879,7 @@ footer{padding-bottom:92px}
 .q-group-title{font-size:12.5px;font-weight:800;color:var(--q-navy);margin-bottom:6px}
 .q-select{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 16px 16px;padding:14px;border-radius:14px;border:0;background:var(--q-navy);color:#fff;font-family:'Assistant',sans-serif;font-size:16px;font-weight:800;line-height:1.2;text-decoration:none;cursor:pointer}
 .q-select svg{width:20px;height:20px;flex-shrink:0}
-.q-card.is-featured .q-select{background:var(--q-amber);color:var(--q-navy);border:2.5px solid var(--q-navy);box-shadow:-4px 4px 0 var(--q-navy);padding:11.5px}
+.q-card.is-featured .q-select{background:var(--q-amber);color:var(--q-navy)}
 @media(max-width:420px){.q-checks{grid-template-columns:minmax(0,1fr)}.q-price{font-size:40px}.q-card-name{font-size:28px}}
 @media(min-width:640px){
 .q-grid .q-card-mid{flex-direction:row;align-items:center;justify-content:center;gap:30px;padding-top:4px}
@@ -889,7 +889,6 @@ footer{padding-bottom:92px}
 }
 html[lang="ru"] .q-card.is-featured{box-shadow:0 0 0 3px var(--q-navy),8px 8px 0 3px var(--q-amber)}
 html[lang="ru"] .q-card.is-featured.selected{box-shadow:0 0 0 3px var(--b),8px 8px 0 3px var(--q-amber)}
-html[lang="ru"] .q-card.is-featured .q-select{box-shadow:4px 4px 0 var(--q-navy)}
 
 /* ---- the designed quote (web) ---- */
 .qw{position:relative;background:var(--q-cream);border-radius:22px;overflow:hidden;box-shadow:0 0 0 1.5px var(--q-hair),0 26px 50px -32px rgba(10,31,61,.55);text-align:start;color:var(--q-ink);font-family:'Assistant',sans-serif;line-height:1.35}
@@ -980,9 +979,10 @@ html[lang="ru"] .q-card.is-featured .q-select{box-shadow:4px 4px 0 var(--q-navy)
 @media(max-width:560px){#calc-result.calc-result{padding:18px 12px 22px}}
 .result-btns.q-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .q-actions .btn-wa-result,.q-actions .btn-pdf-result{grid-column:1/-1}
-.q-actions .btn-reset,.q-actions .btn-back-brands{width:100%;padding:12px 8px;font-size:14px;line-height:1.25}
-.btn-pdf-result{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;border-radius:14px;background:var(--q-amber);color:var(--q-navy);border:2.5px solid var(--q-navy);box-shadow:-4px 4px 0 var(--q-navy);font-family:'Assistant',sans-serif;font-size:16px;font-weight:800;line-height:1.2;cursor:pointer;transition:transform .15s,box-shadow .15s}
-.btn-pdf-result:active{transform:translate(-2px,2px);box-shadow:-2px 2px 0 var(--q-navy)}
+.q-actions .btn-reset,.q-actions .btn-back-brands{width:100%;padding:12px 8px;font-size:14px;line-height:1.25;display:flex;align-items:center;justify-content:center;gap:7px}
+.q-actions .btn-reset svg,.q-actions .btn-back-brands svg{flex-shrink:0}
+.btn-pdf-result{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;border-radius:14px;background:var(--q-amber);color:var(--q-navy);border:2.5px solid var(--q-navy);font-family:'Assistant',sans-serif;font-size:16px;font-weight:800;line-height:1.2;cursor:pointer;transition:transform .15s}
+.btn-pdf-result:active{transform:scale(.98)}
 .btn-pdf-result.is-busy,.q-btn-pdf.is-busy{opacity:.7;cursor:progress}
 .btn-pdf-result.is-ready,.q-btn-pdf.is-ready{background:#22C55E;color:#fff}
 .q-print-hint{margin:10px 0 0;text-align:center;font-size:12.5px;font-weight:600;color:var(--q-muted);line-height:1.5}
@@ -1020,6 +1020,312 @@ body.q-printing #q-print-root{display:block !important}
 #q-print-root.q-ios{zoom:.86}
 #q-print-root.q-ios .qs{margin:0 auto}
 }
+</style>
+<style id="ardudim-design-2026">
+/* ===== DESIGN 2026 — שפת "חם/קר" בכל האתר =====
+   כללים: שני גופנים בלבד (Secular One לכותרות, Assistant לטקסט) · צבעי החברות רק בכרטיסי החברות ·
+   הצל הכתום הקשה רק על הרכיב המומלץ/הנבחר · אייקוני קו במקום אימוג'י
+   (ל-Secular One אין אותיות רוסיות: ברוסית הכותרות נשלמות מ-Rubik Bold, שנטען רק במצב רוסית) */
+:root{--font-display:'Secular One','Rubik','Assistant',system-ui,sans-serif;--q-display:var(--font-display);--d-hot:#EA580C;--d-hot-deep:#C2410C;--d-hot-soft:#FFEDD5;--d-cold:#2563EB;--d-cold-deep:#1E40AF;--d-cold-soft:#DBEAFE;--d-amber-soft:#FEF3C7;--d-stripe:#F97316 0 25%,#FBBF24 25% 50%,#7DD3FC 50% 75%,#2563EB 75% 100%}
+
+/* ---------- 1. typography ---------- */
+h1,h2,.hero h1,.hero-title-new,.repairs h2,.stat-number,.ft-brand-name{font-family:var(--font-display);font-weight:400;letter-spacing:0;font-variation-settings:normal}
+.hero-title-white,.hero-title-orange{font-weight:400}
+.hero h1 .accent,h2 em,.review-text{font-style:normal}
+h2{color:var(--q-navy);line-height:1.2;text-wrap:balance}
+mark.hl{background:linear-gradient(#FDE68A,#FDE68A) 0 100%/100% 38% no-repeat;color:inherit;padding:0 3px;font-style:normal;font-weight:400;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.about-us h2 .accent{color:inherit;font-style:normal;font-weight:400}
+.section-desc,.contact-desc{text-wrap:balance}
+.contact h2 mark.hl{background:none;color:var(--q-amber);padding:0}
+.step-title,.kolat-modal-title,.call-box h3{font-family:var(--font-display);font-weight:400;letter-spacing:0}
+.d-ic{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;flex-shrink:0}
+
+/* section label → amber pill (like the quote's pill) */
+.section-label,.contact .section-label{background:var(--q-amber);color:var(--q-navy);border:0;box-shadow:none;padding:5px 14px;font-size:13px;font-weight:800;letter-spacing:0;text-transform:none;line-height:1.35}
+.section-label::before,.contact .section-label::before{display:none}
+
+/* ---------- 2. nav ---------- */
+.nav-logo .logo-text{font-family:var(--font-display);font-weight:400;font-size:21px;letter-spacing:0}
+.nav-mark{display:none;height:40px;width:auto;flex-shrink:0}
+@media(min-width:860px){
+  nav.nav-scrolled .nav-mark{display:block}
+  .nav-logo{flex-shrink:0}
+  .nav-logo .logo-text{white-space:nowrap}
+  /* Russian: the longer menu did not fit and squeezed the name into 3 lines */
+  html[lang="ru"] nav:not(.nav-scrolled){padding-left:24px;padding-right:24px}
+  html[lang="ru"] .nav-links{gap:16px}
+  html[lang="ru"] .nav-links a{font-size:14px}
+  html[lang="ru"] .nav-logo .logo-text{font-size:19px}
+}
+@media(min-width:860px) and (max-width:1060px){
+  html[lang="ru"] nav:not(.nav-scrolled),html[lang="ru"] nav.nav-scrolled{padding-left:14px;padding-right:14px}
+  html[lang="ru"] .nav-links{gap:8px}
+  html[lang="ru"] .nav-links a{font-size:12.5px}
+  html[lang="ru"] .nav-logo .logo-text{font-size:17px}
+  html[lang="ru"] .nav-call{padding:9px 14px;font-size:14px}
+  html[lang="ru"] nav.nav-scrolled .nav-mark{display:none}
+}
+@media(min-width:860px){html[lang="ru"] .nav-logo{margin-inline-end:14px}}
+/* Russian on a phone: the name is long — call button shows the icon only (the sticky call button says it in words) */
+@media(max-width:430px){html[lang="ru"] .nav-logo .logo-text{font-size:17px;line-height:1.15}html[lang="ru"] .nav-call{font-size:0;gap:0;padding:11px 13px}}
+
+/* ---------- 3. hero ---------- */
+.hero-sticker,.hero-sticker-d{display:none}
+.hero-sticker-in{display:block;padding:7px;background:#fff;border-radius:18px;transform:rotate(-4deg);box-shadow:0 16px 30px -14px rgba(0,0,0,.7)}
+.hero-sticker-in img{display:block;width:100%;height:auto;border-radius:9px}
+html[lang="ru"] .hero-sticker-in{transform:rotate(4deg)}
+@media(max-width:859px){
+  .hero-sticker{display:block;width:96px;margin:140px auto 16px}
+  .hero-content .hero-season{display:flex;width:-moz-fit-content;width:fit-content;margin:0 auto 16px}
+  .hmf-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:rgba(251,191,36,.14);color:var(--q-amber);font-size:0;filter:none}
+  .hmf-icon svg{width:24px;height:24px}
+}
+@media(min-width:860px){
+  .hero-title-new{position:relative}
+  .hero-sticker-d{display:block;position:absolute;top:-2px;inset-inline-start:100%;margin-inline-start:clamp(18px,2.2vw,40px);width:clamp(112px,9.6vw,188px);text-shadow:none}
+  .hero-sticker-d .hero-sticker-in{padding:9px;border-radius:22px;transform:rotate(-6deg)}
+  html[lang="ru"] .hero-sticker-d .hero-sticker-in{transform:rotate(6deg)}
+  .hero-kicker-line{background:rgba(255,255,255,.4)}
+  .hero-kicker.has-season .hero-kicker-text{display:none}
+  html[lang="ru"] .hero-title-white{font-size:clamp(36px,4.2vw,72px)}
+  html[lang="ru"] .hero-title-orange{font-size:clamp(40px,4.9vw,84px)}
+  .hero-btn{padding:0 24px}
+  .hero-title-mark{width:104px;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--d-stripe))}
+  .hero-proof-g{display:flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:#fff;box-shadow:0 12px 26px -14px rgba(0,0,0,.7);direction:ltr}
+  .hero-proof-g svg{display:block;width:22px;height:22px}
+  .hero-proof-g b{font-family:var(--font-display);font-weight:400;font-size:21px;line-height:1;color:var(--q-navy)}
+  .hero-proof-g span{color:#F59E0B;font-size:15px;letter-spacing:1px;line-height:1}
+}
+/* seasonal pill (filled by the design script: winter = cold, summer = hot) */
+.hero-season{display:inline-flex;align-items:center;gap:9px;padding:5px;padding-inline-end:15px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(10,31,61,.58);color:#fff;font-family:'Assistant',sans-serif;font-size:14.5px;font-weight:700;line-height:1.3;text-align:start;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 10px 24px -14px rgba(0,0,0,.8);-webkit-tap-highlight-color:transparent}
+.hero-season[hidden]{display:none !important}
+.hero-season i{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:28px;height:28px;border-radius:50%}
+.hero-season i svg{width:17px;height:17px}
+.hero-season b{font-weight:800}
+.hero-season.is-summer i{background:var(--q-orange);color:#fff}
+.hero-season.is-summer b{color:var(--q-amber)}
+.hero-season.is-winter i{background:var(--q-sky);color:var(--q-navy)}
+.hero-season.is-winter b{color:var(--q-sky)}
+.hero-season:hover{background:rgba(10,31,61,.72)}
+@media(min-width:860px){.hero-season{font-size:clamp(15px,1.2vw,18px)}.hero-season i{width:32px;height:32px}.hero-season i svg{width:19px;height:19px}}
+@media(max-width:380px){.hero-season{font-size:13.5px}}
+
+/* ---------- 4. stats → stickers ---------- */
+.stats-grid{gap:14px 12px}
+.stat-item{background:var(--q-cream);border-radius:18px;box-shadow:0 0 0 1.5px var(--q-hair);padding:18px 8px 15px;transform:rotate(-1.2deg)}
+.stat-item:nth-child(2),.stat-item:nth-child(3){transform:rotate(1.2deg)}
+.stat-item:not(:last-child)::after{display:none}
+.stat-number{background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:currentColor;color:var(--d-hot);font-size:clamp(34px,8.6vw,50px);line-height:1.05}
+.stat-number.stat-text{background:none;-webkit-text-fill-color:currentColor;font-weight:400;font-size:clamp(25px,6.4vw,34px);line-height:1.2}
+.stat-item:nth-child(2) .stat-number,.stat-item:nth-child(3) .stat-number{color:var(--d-cold)}
+.stat-label{color:var(--q-ink);opacity:1;font-weight:600;font-size:13.5px;line-height:1.35}
+@media(min-width:860px){.stats-grid{gap:0 18px}.stat-item{padding:22px 12px 18px}}
+
+/* ---------- 5. about ---------- */
+.about-us .value-card{border:0;box-shadow:0 0 0 1.5px var(--q-hair);border-radius:16px}
+.about-us .value-card:hover{border-color:transparent;box-shadow:0 0 0 1.5px var(--q-hair),0 14px 26px -16px rgba(10,31,61,.4)}
+.about-us .value-icon{background:var(--q-navy);color:var(--q-amber);border-radius:12px;font-size:0}
+.about-us .value-icon svg{width:22px;height:22px}
+.about-us .value-title{font-family:var(--font-display);font-weight:400;font-size:15.5px;color:var(--q-navy)}
+.about-us .about-text p.about-lead{border-bottom-color:var(--q-hair)}
+@media(max-width:640px){.about-us .value-icon svg{width:20px;height:20px}.about-us .value-title{font-size:14.5px}html[lang="ru"] .about-us .about-values{grid-template-columns:minmax(0,1fr)}}
+.about-us .value-text{min-width:0}
+
+/* ---------- 6. gallery ---------- */
+.gallery-cta{color:var(--q-muted);font-weight:600;text-wrap:balance}
+.gallery-cta svg{display:inline-block;width:18px;height:18px;vertical-align:-4px;margin-inline-end:6px;color:#25D366}
+.gallery-more-btn{border:0;box-shadow:0 0 0 1.5px var(--q-hair);color:var(--q-navy);font-weight:700}
+.gallery-more-btn:hover{color:var(--q-navy);box-shadow:0 0 0 1.5px var(--q-navy)}
+
+/* ---------- 7. reviews → paper cards ---------- */
+.reviews .review-card{background:var(--q-cream);border:0;box-shadow:0 0 0 1.5px var(--q-hair);border-radius:20px;padding:24px 22px 20px}
+.review-card::before{content:'\201D';font-family:var(--font-display);font-size:92px;line-height:1;color:var(--q-amber);top:6px;left:18px;opacity:1}
+.review-text{color:var(--q-ink);font-size:15.5px}
+.stars{color:#F59E0B}
+.reviewer-avatar{background:var(--q-navy) !important;font-family:var(--font-display);font-weight:400;font-size:17px}
+.reviewer-name{font-family:var(--font-display);font-weight:400;font-size:16px;color:var(--q-navy)}
+.reviewer-area{color:var(--q-muted);font-weight:600}
+.google-badge{gap:8px;padding:8px 16px;margin-top:20px;background:#fff;border:0;border-radius:999px;box-shadow:0 0 0 1.5px var(--q-hair),0 14px 26px -18px rgba(10,31,61,.55);font-size:13px;font-weight:700;color:var(--q-ink);transform:rotate(-2deg)}
+html[lang="ru"] .google-badge{transform:rotate(2deg)}
+.google-badge svg{flex-shrink:0}
+.google-badge .gb-score{font-family:var(--font-display);font-weight:400;font-size:20px;line-height:1;color:var(--q-navy)}
+.google-badge .gb-stars{color:#F59E0B;font-size:14px;letter-spacing:1px;line-height:1}
+
+/* ---------- 8. repairs → hot / cold ---------- */
+.rep-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:-6px 0 22px}
+.rep-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;font-size:13.5px;font-weight:800;line-height:1.3}
+.rep-chip svg{width:16px;height:16px;flex-shrink:0}
+.rep-chip.hot{background:var(--d-hot-soft);color:var(--d-hot-deep)}
+.rep-chip.cold{background:var(--d-cold-soft);color:var(--d-cold-deep)}
+.repair-v2.rep-hot{--rc:var(--d-hot);--rc-deep:var(--d-hot-deep);--rc-soft:var(--d-hot-soft)}
+.repair-v2.rep-cold{--rc:var(--d-cold);--rc-deep:var(--d-cold-deep);--rc-soft:var(--d-cold-soft)}
+.repair-v2.rep-hot,.repair-v2.rep-cold{position:relative;border:0;box-shadow:inset 0 5px 0 var(--rc),0 0 0 1.5px var(--q-hair),0 12px 28px -20px rgba(10,31,61,.35)}
+.repair-v2.rep-hot:hover,.repair-v2.rep-cold:hover{box-shadow:inset 0 5px 0 var(--rc),0 0 0 1.5px var(--q-hair),0 22px 40px -22px rgba(10,31,61,.45)}
+.repair-v2.rep-hot .repair-v2-line,.repair-v2.rep-cold .repair-v2-line{background:var(--rc)}
+.repair-v2.rep-hot .repair-v2-cta,.repair-v2.rep-cold .repair-v2-cta{color:var(--rc-deep)}
+.repair-v2-title{font-family:var(--font-display);font-weight:400;letter-spacing:0;color:var(--q-navy);line-height:1.2}
+@media(min-width:640px){.repair-v2-title{font-size:clamp(20px,1.9vw,26px)}}
+.repair-v2.rep-hot .repair-v2-title::before,.repair-v2.rep-cold .repair-v2-title::before{content:'';display:inline-block;width:1.2em;height:1.2em;margin-inline-end:.35em;vertical-align:-.2em;border-radius:50%;background:var(--rc-soft) center/62% 62% no-repeat}
+.repair-v2.rep-hot .repair-v2-title::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EA580C' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z'/%3E%3C/svg%3E")}
+.repair-v2.rep-cold .repair-v2-title::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563EB' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z'/%3E%3C/svg%3E")}
+.repairs-cta-v2{background:var(--q-navy)}
+html[lang="ru"] .repair-v2-cta .arr{display:inline-block;transform:scaleX(-1)}
+
+/* ---------- 9. how it works (new) ---------- */
+.how{position:relative;z-index:1;background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.6);border-radius:24px;margin:18px 14px;padding:48px 18px 44px;box-shadow:0 10px 40px rgba(10,31,61,.12)}
+@media(min-width:860px){.how{margin-left:auto;margin-right:auto;max-width:1080px;border-radius:32px;padding:64px 60px 58px}}
+.how>.section-label{display:flex;width:-moz-fit-content;width:fit-content;margin:0 auto 14px}
+.how h2,.how>.section-desc{text-align:center}
+.how>.section-desc{max-width:560px;margin-left:auto;margin-right:auto;margin-bottom:28px}
+.how-steps{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;max-width:560px;counter-reset:none}
+.how-step{--c:var(--q-orange);--ct:var(--q-navy);display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:14px;align-items:start;background:#fff;border-radius:18px;padding:18px 16px 16px;box-shadow:inset 0 5px 0 var(--c),0 0 0 1.5px var(--q-hair);text-align:start}
+.how-step.s2{--c:var(--q-amber);--ct:var(--q-navy)}
+.how-step.s3{--c:var(--q-sky);--ct:var(--q-navy)}
+.how-step.s4{--c:var(--q-blue);--ct:#fff}
+.how-num{grid-row:span 2;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:var(--c);color:var(--ct);font-family:var(--font-display);font-size:23px;line-height:1}
+.how-title{font-family:var(--font-display);font-size:18.5px;line-height:1.25;color:var(--q-navy);margin:3px 0 4px}
+.how-text{margin:0;font-size:14.5px;line-height:1.5;font-weight:600;color:var(--q-muted)}
+.how-cta{display:flex;justify-content:center;margin-top:24px}
+.how-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:14px;background:var(--q-navy);color:#fff;font-size:16.5px;font-weight:800;text-decoration:none;box-shadow:0 12px 24px -14px rgba(10,31,61,.7);transition:transform .15s}
+.how-btn:hover{transform:translateY(-2px)}
+.how-btn svg{width:20px;height:20px;flex-shrink:0}
+html[lang="ru"] .how-btn .d-arrow{transform:scaleX(-1)}
+@media(min-width:860px){
+  .how-steps{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:none}
+  .how-step{grid-template-columns:minmax(0,1fr);padding:24px 18px 20px}
+  .how-num{grid-row:auto;margin-bottom:14px;width:50px;height:50px;font-size:25px}
+}
+
+/* ---------- 10. calculator ---------- */
+.calc-section-top{text-align:center}
+.calc-section-top .section-label{display:flex;width:-moz-fit-content;width:fit-content;margin:0 auto 14px}
+.calc-section-top .section-desc{max-width:560px;margin-left:auto;margin-right:auto}
+.calc-card{border:0;box-shadow:0 0 0 1.5px var(--q-hair),0 24px 50px -30px rgba(10,31,61,.45);overflow:clip}
+/* system flow on a phone: 6 tabs don't fit — show the label of the current step only
+   (the too-wide row also let the card scroll sideways and cut the offers on the right) */
+@media(max-width:700px){
+  .calc-steps-labels:has(#tab-sys:not([style*="none"])) .csl{flex:0 0 auto;padding-inline-end:5px}
+  .calc-steps-labels:has(#tab-sys:not([style*="none"])) .csl.active{flex:1 1 auto}
+  .calc-steps-labels:has(#tab-sys:not([style*="none"])) .csl:not(.active) .csl-text{display:none}
+}
+/* progress = the hot/cold stripe; the part still ahead is covered by the fill's shadow */
+.calc-progress-track{height:8px;background:linear-gradient(to left,var(--d-stripe));border-radius:99px;overflow:hidden}
+html[lang="ru"] .calc-progress-track{background:linear-gradient(to right,var(--d-stripe))}
+.calc-progress-fill{background:transparent;box-shadow:0 0 0 100vmax #ECE6DA;border-radius:0}
+.csl{border-bottom-color:#ECE6DA}
+.csl.active{border-bottom-color:var(--q-orange)}
+.csl.done{border-bottom-color:var(--q-navy)}
+.csl-num{background:#ECE6DA;color:var(--q-muted)}
+.csl.active .csl-num{background:var(--q-orange);color:var(--q-navy)}
+.csl.done .csl-num{background:var(--q-navy);color:#fff}
+.csl-text{color:var(--q-muted)}
+.csl.active .csl-text{color:var(--d-hot-deep)}
+.csl.done .csl-text{color:var(--q-navy)}
+.step-title{font-size:21px;line-height:1.3;color:var(--q-navy)}
+.step-subtitle{color:var(--q-muted)}
+.prod-category-label{color:var(--q-navy);font-size:14px;letter-spacing:0;text-transform:none}
+.prod-category-label::after{background:var(--q-hair);height:1.5px}
+.pcl-text{display:inline-flex;align-items:center;gap:7px}
+.pcl-text svg{width:19px;height:19px;color:var(--q-orange);flex-shrink:0}
+/* one card system: white + hair ring; picked = navy ring + the amber offset shadow */
+.prod-card,.vol-card,.sys-type-card,.roof-card,.roof-sub-card,.access-card{background:#fff;border:0;box-shadow:0 0 0 1.5px var(--q-hair);transition:transform .18s,box-shadow .18s}
+.prod-card::after{display:none}
+.prod-card:hover,.vol-card:hover,.sys-type-card:hover,.roof-card:hover,.roof-sub-card:hover,.access-card:hover{transform:translateY(-2px);border-color:transparent;box-shadow:0 0 0 1.5px #D8CCB6,0 14px 26px -18px rgba(10,31,61,.45)}
+.prod-card:active,.vol-card:active{transform:scale(.98)}
+.prod-card.selected,.vol-card.selected,.sys-type-card.selected,.roof-card.selected{background:#fff;border-color:transparent;transform:none;box-shadow:0 0 0 3px var(--q-navy),-6px 6px 0 3px var(--q-amber)}
+html[lang="ru"] .prod-card.selected,html[lang="ru"] .vol-card.selected,html[lang="ru"] .sys-type-card.selected,html[lang="ru"] .roof-card.selected{box-shadow:0 0 0 3px var(--q-navy),6px 6px 0 3px var(--q-amber)}
+/* sub-choices (tile position, boiler shape, access) get the navy ring only — one amber shadow per screen */
+.roof-sub-card.selected,.access-card.selected{background:#fff;border-color:transparent;box-shadow:0 0 0 3px var(--q-navy)}
+.prod-card .prod-name,.sys-type-name,.roof-name,.roof-card .roof-name,.roof-sub-name,.vol-num{font-family:var(--font-display);font-weight:400;color:var(--q-navy);letter-spacing:0}
+.prod-card .prod-name{font-size:16.5px;overflow-wrap:anywhere}
+@media(max-width:599px){.prod-card .prod-name{font-size:15px}html[lang="ru"] .prod-card .prod-name{font-size:13px}}
+.prod-card.prod-card-full .prod-name{font-size:18px}
+.vol-num{font-size:24px}
+.vol-card.selected .vol-num{color:var(--q-navy)}
+.vol-unit{color:var(--q-muted)}
+.vol-card.recommended::after{top:-10px;background:var(--q-amber);color:var(--q-navy);font-size:10.5px;font-weight:800;padding:2px 9px;line-height:1.35}
+.vol-persons{display:flex;justify-content:center;align-items:center;height:16px;margin-top:5px;color:var(--q-muted);font-size:0}
+.vol-persons:empty{display:none}
+.vol-persons svg{height:15px;width:auto}
+.vol-card.selected .vol-persons{color:var(--q-navy)}
+.vol-hint-inline{color:var(--q-muted)}
+.vol-card.selected .vol-hint-inline{color:var(--q-navy)}
+.sys-type-icon{display:flex;align-items:center;justify-content:center;width:50px;height:50px;margin:0 auto 10px;border-radius:15px;background:var(--q-navy);color:var(--q-amber);font-size:0}
+.sys-type-icon svg{width:27px;height:27px}
+.sys-type-card.selected::before{background:var(--q-navy)}
+.sys-type-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.sys-type-card{min-width:0}
+.sys-type-price,#sys-regular-card .sys-type-price{background:#EEF2F7;color:var(--q-ink);max-width:100%}
+@media(max-width:420px){.sys-type-card{padding:18px 10px}.sys-type-name{font-size:15px}}
+#sys-std-extra-label{direction:ltr;unicode-bidi:isolate}
+#sys-std-card .sys-type-price{background:var(--d-amber-soft);color:#92400E}
+.sys-type-desc{color:var(--q-muted)}
+.kolat-type-grid .sys-type-icon{background:none;border-radius:50%}
+.sw{display:block;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 3px rgba(255,255,255,.35),0 6px 14px -6px rgba(0,0,0,.45)}
+.sw-copper{background:linear-gradient(135deg,#F0B386 0,#C0703A 48%,#8A4520 100%)}
+.sw-iron{background:linear-gradient(135deg,#A8AFB9 0,#4B5563 50%,#1F2937 100%)}
+.kolat-region-tip{background:var(--q-cream);border:0;box-shadow:0 0 0 1.5px var(--q-hair);color:var(--q-ink)}
+.kolat-region-tip-title{display:flex;align-items:center;gap:8px;color:var(--q-navy);font-family:var(--font-display);font-weight:400;font-size:16.5px}
+.kolat-region-tip-title svg{width:20px;height:20px;color:#D97706;flex-shrink:0}
+.kolat-region-tip-row strong{color:var(--q-navy)}
+.roof-card.selected .roof-img-wrap{box-shadow:none}
+.roof-sub-title{color:var(--q-navy)}
+.roof-sub-title svg{display:inline-block;width:18px;height:18px;vertical-align:-3px;margin-inline-end:6px;color:var(--q-orange)}
+.access-icon{display:flex;justify-content:center;color:var(--q-navy);font-size:0;margin-bottom:8px}
+.access-icon svg{width:26px;height:26px}
+.access-card.selected .access-icon{color:var(--q-orange)}
+.access-name{color:var(--q-navy)}
+.btn-next-step{background:var(--q-navy);box-shadow:0 12px 22px -14px rgba(10,31,61,.7)}
+.btn-next-step:hover:not(:disabled){box-shadow:0 16px 28px -14px rgba(10,31,61,.8)}
+.btn-back-step{border:0;box-shadow:0 0 0 1.5px var(--q-hair);color:var(--q-muted)}
+.btn-back-step:hover{color:var(--q-navy);box-shadow:0 0 0 1.5px var(--q-navy)}
+.result-note{background:var(--q-cream);border:0;box-shadow:0 0 0 1.5px var(--q-hair);color:var(--q-ink)}
+.kolat-modal-icon{display:flex;align-items:center;justify-content:center;width:58px;height:58px;margin:0 auto 12px;border-radius:50%;background:var(--d-amber-soft);color:#D97706;font-size:0}
+.kolat-modal-icon svg{width:30px;height:30px}
+.kolat-modal-title{font-size:21px;color:var(--q-navy)}
+.kolat-modal-body{background:var(--q-cream);border:0;box-shadow:0 0 0 1.5px var(--q-hair)}
+.kolat-modal-row,.kolat-modal-row strong{color:var(--q-ink)}
+.kolat-modal-row strong{color:var(--q-navy)}
+.kolat-modal-note{color:var(--q-muted);border-top-color:var(--q-hair)}
+.kolat-modal-btn{background:var(--q-navy);box-shadow:0 12px 22px -14px rgba(10,31,61,.7)}
+.kolat-modal-btn:hover{background:#13305a;box-shadow:0 14px 26px -14px rgba(10,31,61,.8)}
+
+/* ---------- 11. FAQ ---------- */
+.faq-item{border:0;box-shadow:0 0 0 1.5px var(--q-hair);border-radius:14px}
+.faq-item.open{box-shadow:0 0 0 2px var(--q-navy)}
+.faq-q{color:var(--q-navy)}
+.faq-q .faq-arrow{background:var(--d-amber-soft);color:#92400E;font-size:12px}
+
+/* ---------- 12. contact → business card ---------- */
+.contact .section-label{display:flex;width:-moz-fit-content;width:fit-content;margin-left:auto;margin-right:auto}
+.contact-desc{margin-bottom:26px;text-align:center}
+.bizcard{position:relative;display:flex;align-items:center;gap:16px;max-width:520px;margin:0 auto 28px;padding:18px 18px 26px;background:#fff;border-radius:20px;overflow:hidden;color:var(--q-ink);text-align:start;transform:rotate(-1.5deg);box-shadow:0 28px 44px -26px rgba(0,0,0,.85)}
+html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
+.bizcard::after{content:'';position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,var(--d-stripe))}
+.bizcard-logo{flex-shrink:0;width:104px;height:auto;display:block}
+.bizcard-body{min-width:0}
+.bizcard-name{font-family:var(--font-display);font-size:17px;line-height:1.3;color:var(--q-muted)}
+.bizcard-slogan{font-family:var(--font-display);font-size:27px;line-height:1.15;color:var(--q-navy);margin-top:3px;text-wrap:balance}
+.bizcard-slogan .hot{color:var(--d-hot)}
+.bizcard-slogan .cold{color:var(--d-cold)}
+.bizcard-tel{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:15px;font-weight:800;color:var(--q-navy);direction:ltr}
+.bizcard-tel svg{width:16px;height:16px;color:var(--q-orange)}
+@media(max-width:400px){.bizcard{gap:12px;padding:16px 14px 24px}.bizcard-logo{width:84px}.bizcard-slogan{font-size:23px}.bizcard-name{font-size:15.5px}}
+.contact .btn-call{background:var(--q-amber);color:var(--q-navy);font-weight:800;box-shadow:0 12px 24px -14px rgba(0,0,0,.7)}
+.contact .btn-call:hover{background:#F9B312}
+.contact .btn-call svg{color:var(--q-navy)}
+.areas-map-title::before{background:linear-gradient(90deg,var(--q-amber),transparent)}
+.area-pill::before{width:14px;height:14px;border-radius:0;box-shadow:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBBF24' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.area-pill.primary{background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.45)}
+
+/* ---------- 13. footer / call modal / privacy ---------- */
+.ft-brand-name{font-size:20px}
+.ft-contact-row a{display:inline-flex;align-items:center;gap:7px}
+.ft-contact-row svg{width:15px;height:15px;flex-shrink:0}
+.call-box h3{font-size:23px;color:var(--q-navy)}
+.call-opt{background:var(--q-navy)}
+.call-opt:hover{box-shadow:0 10px 22px -10px rgba(10,31,61,.6)}
+.privacy-box h3 svg{width:19px;height:19px;vertical-align:-3px;margin-inline-end:6px}
 </style>
 
   <!-- Google tag (gtag.js) - Google Ads -->
@@ -1070,6 +1376,7 @@ body.q-printing #q-print-root{display:block !important}
     <span></span><span></span><span></span>
   </button>
   <div class="nav-logo">
+    <img class="nav-mark" src="data:image/webp;base64,UklGRkwRAABXRUJQVlA4IEARAAAQQQCdASqiAFgAPjEUiEKiISEXCsYoIAMEtgBqgPe/VfxA6sDL/OPyI9jamvzz7z/2T/r/5f4k+A8XH1090fv39a/If33f6b2Ofo7/Ae4J+iX9g/pn+E/ZTuDfzv/W+oL+jf2z9fveZ/0Hqo/uPqAf1X/TdYH+4XsDfth6tH+c/an4Kv2b/9P+3+BH9cP/R7AHoAegB2GX8l7Vf65+U/iS+m/t/5Afu/z6enfFB9p/w/5P/lr8of1X8gPPvgBfiP8r/uH5Ifltyd2i+YX7GfRv8n+YX5Ae2V+x+iX1w9gD9Wf9z5WXhM0AP5z/gf+57LH8T/zP8v+3P/C9oP5b/g/+l/oPgH/kv9Q/2n+C/dX/L///6gP//7lf2V9k79lP/unc7POb2Qet0UyreM0JsydpCoq+6EMBWegjtVBxe0VmBt7lTtVU9KPasuGIqE+Vks8l5Bo3Y0kW6xM6xFUlC9KuKShkfNA+GMpPPzT4u8j4yjCW95nGJ3uX25WOvE9jnIpj/yQBLcQe8vip+FCk2CyXkLdVVcDbeOef/vV+W/iDqENsCTCoUb29D/TzI+Jh8bVn/aMPXSmtqLwX0xILOV47xQjmOmAKLu/4wf4EzVxCi75nohlaiLaZk2eybnFK1k9rRV+zMTTlT+tjT3jI4CT8WIeRW8YPOd0j+FEXVrf/XOXfrArJ9gUbSR4tVD00bmQAAP7+9ig53nDO/Upa6N2Mr3QwzH9FfXMq0xLR9vhmePcWg0ArQFWvrJMKd00ITDLxDSLs+p+BWT4lWky/nIccV5liPBrTgJkG42+kSEwa1K9KvPQatXATWgFGG5s//n9POwuQDq3Ktk7rDhZbQRfzSQMgoItYv8/I1V5sr//l4P2YPaOFVgP7tkhHpE8fRPjAnhYzmIHckohHFdd3RjhEilUH4+IfdT64iK/lbKWusizu+M9aa4uHS0HNAmg3wX3vnNaJW5jope0kcZ6b1+y1Ajvx/SXrnRCbUkm0ywfv5fGQQOhi8XgCfbk2X15iJ/USoJuVk2ce0f4hU1O4syvg9L8iAA2gigSIM/wy9iendAozWdVp7NF5feAeabZfjY0Z4G16zl25qAQ8guwcdPVlINsDrVxHV9J8+WUUrRwk1B8PBPZDn+1gnlINC6kWjtyxXAl8T61TqKhv2dCo5rkKNQs7HIWGja08tafbRFfzBqzDbIuP4T1sjg0XnRKp8HqYlzQU9IThGQueNrv//W8DARlXHRNv/tQjxnBZuib/FZl5jv/ZFpcrxK4L7D/vDys9EhB8LrjXqGfIsyeWUIGuh4eiaJT4UD+tu17miAsl8o3P1mWoAUHQ5+j0sNfhYs2CDAPXRJvId9+BQN8L+ehz3MjslrfjXchPRS6qADnwwpEWft7fPJm7XK7Le5gITtlSvpWBq5ZzGmU97lcpeYi4lhLDyFYbqI2pyBFQx43eQ0yVEtyNz9a3eudmcahdFnWS55URlGT9ITdFOI1zolhU7XijEj855xSxebgI6MDx0UgE9c4iuX/drqf0+N47MdLhEvDEN26ZnuIKX3DGQutLZ+MyC1d+fNb2tnrWEnIjssYvQMUO/4ZxyfkwSf+CIXxwYHkpPOfP41k6vK0dVDOdTNFxTMmOIrevhHKrAfD/xGQCTJvh6mBmfGJH4aiyyOfgzOl5unX5iyabguIr04BbDRWuoG/6LxGQ8QYPrMEMLhs+FgxCis7w2YhMHWpzP91USolRAYj3GLHpeUCoOieAmZaTZ1G5k9SUqtD5HJEU3QwTrLwVO+srUEVJXQrKwwnJJEkorpt5fh0R52BS/xjWQybXrDDynuQeHuR03twRezb+f/Y4Czp7Vff8WAB4doAleOSgTNGexEuvKYdolbwrrEq/ecDsDWXpjWaXMxUWtI547PuzstzeOm23NJ1iP8uRlsIvz3N+kLkYI34x/z79PW1Xq53QWdBQodBMEM7tINt/F3UijNh0s1sPGilMKHe+nx9NXDtZztlsCjdjzFkJDPF66nHuddLDd6H314ShfvNCSTa6mDAMWFBfik6rC21r5zjqCgOjhojgWHFmTO/wkzwHVUW320+wC/BSyOZMT0YfVtsUMFpt1G7+HF4Z0AfUkiMboH4VgrL2f3hOvm/oekSgIti0EAJPSKpYkJIHt+JhQLBN98uQV8dMayGhKzLO0KV6akuczmg8i+3sm/ABEgJlPI7vw9zZ4leDFqFl83+LGFmEaKBpcIU9UNBVAAOuks9QEn/PGz35s9a8htLHwyUpYTibxEJlNRqEO32+AdXEP+aIIgTlE8W6wMIIUUU4fDKz8eMhQcQaeW1OPS67lWIrZvICrsfiAydoDkmjVNpxqFMfC3+dzkJXMQqQEMt4JRUSXio5lLVY96JyiYT3HYyRrgkBF4r26KyxkY6ZgLdxkpqIWa+ewnUMyV8lNrbCejjy+MjoL+vhR57Zuw/u0i6z6BeVLmtqrfVxhIE84W8xjL34Za36mNJf/yMcj56HDvyTQhgfNTm1lKIqnKNaFyTONGAfP0ZxNbNSQwzilSbe1RoVT+D9u8XN7dMI2ychH//ak1ySUI6cgGk2QJSB3m1OP8FmjMUy0qUxZ9C3duNriqhM4EoVa4pz46gtXfPXtH6bA2fcHFr4H54i1HSvZKgmbq8V0SrepYHJCPD/JJFWKvK6pUb2Vts4LbmeDiqeXwSCYuxzHLbovc9RHx74JBXJPutA10MIHPYZitOQROlaH+yxt82EXZdlxq0AzAitkQet1HbFHHTkn2fVUl4c7fstrru6zldFld+8tSOH/eRs5PHtqL+prHHuExsCiKdM2239jJIAv6H0QG1Y7RQtSvOuyQ5QPv+svb/HwHVA3QFWidJw+b8l3EpwVvE040C64YHlOA7omQxznFQXF//Llyt+7frOyrMWuW0fyBMCHFlB7nGbD9Or+SpHP4Lwpe8U0py9lvFN5e9qghrRdXfDNbrHO8S73uG26mY8YGA247Bl9WfGxWt+M52BwyDg1F2rv5q4/dCz7hz9WAmzr4x7NAM5I95lz2yun9upriA1/MQLq5fZL5n0Hh9qSkRMS7L7FQ2putwco5x8H8wbQ2NXsu/jChXKQ5mOfdTWR9Plwr7HW647TyHmh5fM20UZrOtMe3owfQftlG+JGBBQd9Yx0z5ySgfxNQHQrqn3DJceNSExJCFBapvGC3uwebBghafEENs7XncppxPVq04nj9RiSmjEFFsi1ZHdFoNHsm6kfxfcY+GM5Y0rZ/gSKkEuN1S2frnEbNYChuv9QPe4sVOjzWHN6AgqVWzNAog2jjYY3AFyCBaZXdQkZAjXg9HJmwHG/CddTbhl1fYL862+rhrU3+NEb7gJ07muS/vMNTJJ2K/by0qFeruClmcLhH3xo7ctxTlleElK0LteZRoL+BV/ptCxdAtSAYqc7h0adTebIsS9T7+BmlBlbYxM1BMymToL/jJuYow8mp3LvvbJVvqiWwPDIIN2eTFVCXNz8u0+BJJ9DDMBcLc737M6THlvvb//Xsvke9g3g1mf31sSTGFolFSretQzhDzCi15yCKf0qFMHOkGdu/zqQ3hmNYOU1e5qn8N1hMn40Dzt3wSg1Kppj8mo1rL4mZRJL8P1ZNokoIXDOugNO8WZFPJGqCV2zK9/hCHEUpj+hzPPFJHYRRFCL7oghyD5IP3UwrhApHr90IPHpqx+r89CfJX+ukiCUlFzrWwtllG6NrJQn9BHsf5nIrla/n7YEPrlL3D77lcVgPgp8NM9pi2ONeC5ezWrd2dMh/VY5Fds8RBavrHZqnnabSKCtVRZhwQjGY/fGzOr3VXE2fChiNumVPZvT+l3L7MbPC+okc1YQAJfhnRBHGHA9tAYm5FozAa4wQvoQZxGXZ68tbKeZ57qDlTuxpF7V2gGgH6Xdm6SW3dROX6Xf94TYlIF0I2PvpPfQiK6/E0gt+BdyN/zv0RuXfb/XJQrMkNKktHu6xoV5hFFkMD2n1uNC7ZU6TGrFLoVKj4oZhGW/RRrEZjbKJZ9Fli3dTPvLcO/qOOmoDBRN9I6EGlJNoqBQ9zoKtMyFylTQoITXCHmamc7wgqldM0bjH0wZlrrTh+fn01vpEUIa/NAqTRPwGcfiY6H/8dbLd2L2sittS5BlG1TY0x22Jb7NmmQU1peRTyEpYzOP/K/CKYFWvP+CkYyzyWgh1lUsiB3LoE/15wHW61GOOnQ1xQyqn7TlAbizX2OpZzFcuXkr6dKBxn1/tQOk8qj2PDnQqP5Vxidlo8U315LCrFeCBlzv8HM3ab7jwKqDuHNYZw9TpfnkJYtcYOf0QnKeRjc9xo3TTlU08stJU7wzfJInLLq9miABA8k4WECFHR4vjPskPL/9VGwXTKp+isCTVz5oZAc8jnfuS7KCtOUPQ8OCZpMxaLnxWxbMbPsxryu+h6eNn5+WEVdItPvs1AOPn+mFoLNcXm/57gnRFV+/tjyg9JjdlD8I8qUuMPccZO7BqJVo9q1MMFH2xJuIDLdVSPNrf7ndmYBX7nvzLMlDIeVUA6s9ghO+qGVPJCDt4ytC1p/kJHE9wMdE8n+ZBhkaGnk55z8PG/JVa4imeTLVrWivVU0n+gZ8O1ysGonjBHT0VSm1GMKnL9CujxzfXiPVPT76zWdclSu5WNl9H//0yT764FZWeD1fqKUGz0X7GRwhvl7zgrTQs/Vp5KvtwIpHQ5YvjU3JizFIxSV8eINAb/RCzYwIkqdOPRHxb3JiDbedkeglr7D3nenHBIVqE0ntrvrutHL0aiLEVmcfKv/DhaI3z/BBhrdnFt2ePF6WMGqxBzkmPM9XQTIJO5F3kuZhj8UyXddasmo9L1yJbAybq3fpcS0twBmhaVu7TficRulN0VQgA3AGtKmwwyAGScqHyWqZ/rQaNW8FRMumqFM3CS5eS86GsEDqmf6Ww8u6oT7tfYxCqfk2IxN8OgPCrT4tMw75JPA8vNqom4PfdSTI2KkvknlJiJd7PHAKqxWldnlYkwWeajgVQex8NY38U0HU9InuulXCH91HXOkPl+6zI4eMq880ArxhaLRt32yuBk1pUpTOjD3zJPOjY9Pgmma+UBq8JNUrsNCCvmg1roT07botrqhTXEevNFH/XhJUam/JIhLv1gWo0M016184PQPTePDpobzFMJ6KZj7dXPcKNiJfoEQZa33aXPn4vFzYVM1tPmZdvWlj14vvZXa3qvUfOeznuJO2jI3Tt7C5Tz+RggpNMOKI2Bx/izpe6IHAeg9mXo1LshBOJ1K/a7+ZRg2C7ep6ZQz30sT7772mGST3QYykCunwX5SlZofzsiD8JXOB/VVVF493vugMQWt+Rfpvl3tbuI43OszAM34TtgcDntrJf6j6QT0KmFpCQW456U6kumpPsoFXJGP7W55TwNpp1cl0z5itz6f8r5KhEED8krMlVBCSM7VbQnKhKSSYGXYh50+cQr0A64/be7wwlllfSRfirWF3q1/vqV6eB107w0K/9jLe7HiIYFV79xgOLYArja9qS6dZFXzoqfTnqCYqyBJ3wSfcqbbvvkevmEY/Q/BZ5C8HbT82OMc65IEjN2uX4YuDlr5bfKZnKtjnFyoAZb9//DcSeAMPO3UHh+x4+ruA3Z/y9J9xP2O7WWsSm/BLSDW3oVI10y8GVOUxbRYEgCT/f//2FZ0cAt2Ys5/kZ+Gj0reRArxbLtgH1Phfseh0jkMHNywrNL6w0pIUaVkDu5KA62XPkOBcBJXwknvFSDs4SLL9YuGUHOZrNNdnIqL5DBKePRG6/vmg4QEARDWwnXSV4yIqsP+/jKx3UlDZF//UvHjzGIKiDm9JQ0aHIoENSqZPP/+v+PDfI0YJcKxg8jzPHZpODqK17gjfQ+lidyn7vdTYL3BoRAAAAA=" alt="" width="74" height="40">
     <div class="logo-text">א.ר דודי שמש</div>
   </div>
   <div class="nav-links" id="nav-links">
@@ -1102,9 +1409,11 @@ body.q-printing #q-print-root{display:block !important}
     <div class="hero-kicker">
       <span class="hero-kicker-line"></span>
       <span class="hero-kicker-text"><svg class="hk-pin" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>שירות מהיר בכל גוש דן והמרכז</span>
+      <button type="button" class="hero-season" hidden></button>
       <span class="hero-kicker-line"></span>
     </div>
     <h1 class="hero-title-new">
+      <span class="hero-sticker-d" aria-hidden="true"><span class="hero-sticker-in"><img src="images/logo-2026.webp" alt="" width="552" height="468"></span></span>
       <span class="hero-title-white">תיקון והתקנת</span>
       <span class="hero-title-orange">דודי שמש</span>
     </h1>
@@ -1115,10 +1424,9 @@ body.q-printing #q-print-root{display:block !important}
       <a class="hero-btn hero-btn-whatsapp" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>שלח הודעה בוואטסאפ</span></a>
     </div>
     <div class="hero-proof">
-      <div class="hero-proof-avatars"><img class="hp-av" src="https://randomuser.me/api/portraits/men/32.jpg" alt="" width="40" height="40" loading="lazy"/><img class="hp-av" src="https://randomuser.me/api/portraits/men/54.jpg" alt="" width="40" height="40" loading="lazy"/><img class="hp-av" src="https://randomuser.me/api/portraits/women/44.jpg" alt="" width="40" height="40" loading="lazy"/><img class="hp-av" src="https://randomuser.me/api/portraits/men/68.jpg" alt="" width="40" height="40" loading="lazy"/></div>
+      <div class="hero-proof-g" role="img" aria-label="דירוג 5.0 בגוגל"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg><b aria-hidden="true">5.0</b><span aria-hidden="true">★★★★★</span></div>
       <div class="hero-proof-info">
         <div class="hero-proof-text">מעל 500 לקוחות מרוצים בשנה האחרונה</div>
-        <div class="hero-stars">★★★★★</div>
       </div>
     </div>
   </div>
@@ -1129,7 +1437,8 @@ body.q-printing #q-print-root{display:block !important}
   </div>
 
   <div class="hero-content">
-  <div class="hero-mobile-banner">☀️ א.ר דודי שמש</div>
+  <div class="hero-sticker"><div class="hero-sticker-in"><img src="images/logo-2026.webp" alt="א.ר דודי שמש" width="552" height="468"></div></div>
+  <button type="button" class="hero-season" hidden></button>
   <div class="hero-desktop-eyebrow"><span class="hde-line"></span><span class="hde-text">שירות מהיר בכל גוש דן והמרכז</span><span class="hde-line"></span></div>
   <h1><span class="h1-main">תיקון והתקנת דודי שמש</span><br class="h1-br1"/><span class="h1-place">בפתח תקווה והמרכז</span><br/><span class="accent">במהירות, באמינות ובמחיר הוגן</span></h1>
   <div class="hero-mobile-sub">
@@ -1181,19 +1490,19 @@ body.q-printing #q-print-root{display:block !important}
   </div>
   <div class="hero-mobile-features">
     <div class="hmf-item">
-      <div class="hmf-icon">🏅</div>
+      <div class="hmf-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="5.5"/><path d="M8.6 12.9 7.2 21.5l4.8-2.7 4.8 2.7-1.4-8.6"/></svg></div>
       <div class="hmf-text">מתקין מורשה<br/>כרומגן</div>
     </div>
     <div class="hmf-item">
-      <div class="hmf-icon">💰</div>
+      <div class="hmf-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></div>
       <div class="hmf-text">מחירים<br/>הוגנים</div>
     </div>
     <div class="hmf-item">
-      <div class="hmf-icon">⚡</div>
+      <div class="hmf-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
       <div class="hmf-text">מענה<br/>מהיר</div>
     </div>
     <div class="hmf-item">
-      <div class="hmf-icon">🔧</div>
+      <div class="hmf-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></div>
       <div class="hmf-text">חלקים<br/>איכותיים</div>
     </div>
   </div>
@@ -1217,7 +1526,7 @@ body.q-printing #q-print-root{display:block !important}
       <div class="stat-label">הגעה לרוב הקריאות</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number stat-text">⚡ מהיר</div>
+      <div class="stat-number stat-text">מהיר</div>
       <div class="stat-label">מענה בתוך דקות</div>
     </div>
   </div>
@@ -1239,28 +1548,28 @@ body.q-printing #q-print-root{display:block !important}
       </div>
       <div class="about-values">
         <div class="value-card">
-          <div class="value-icon">⚡</div>
+          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
           <div class="value-text">
             <div class="value-title">הגעה מהירה</div>
             <div class="value-desc">באותו יום באזור המרכז</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="value-icon">💰</div>
+          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></div>
           <div class="value-text">
             <div class="value-title">מחירים הוגנים</div>
             <div class="value-desc">הצעת מחיר ברורה מראש</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="value-icon">🛡️</div>
+          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.6c0 4.6-3.1 8.2-7.5 9.9-4.4-1.7-7.5-5.3-7.5-9.9V6z"/><path d="M8.8 12.2l2.2 2.2 4.3-4.4"/></svg></div>
           <div class="value-text">
             <div class="value-title">אחריות מלאה</div>
             <div class="value-desc">על העבודה ועל החלקים</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="value-icon">👨‍🔧</div>
+          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.8 5.2a4.4 4.4 0 0 0-5.6 5.6L3.8 16.2a1.8 1.8 0 0 0 2.6 2.6l5.4-5.4a4.4 4.4 0 0 0 5.6-5.6l-2.6 2.6-2.3-.6-.6-2.3z"/></svg></div>
           <div class="value-text">
             <div class="value-title">עבודה מקצועית</div>
             <div class="value-desc">17+ שנות ניסיון בשטח</div>
@@ -1376,7 +1685,7 @@ body.q-printing #q-print-root{display:block !important}
       <span class="arrow">▼</span>
     </button>
   </div>
-  <p class="gallery-cta">📱 עוד תמונות בוואטסאפ — שלח הודעה ונשלח לך גלריה מלאה</p>
+  <p class="gallery-cta"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>עוד תמונות בוואטסאפ — שלח הודעה ונשלח לך גלריה מלאה</span></p>
 </section>
 
 
@@ -1395,7 +1704,7 @@ body.q-printing #q-print-root{display:block !important}
         <div class="reviewer-avatar" id="rev-avatar-z" style="background:#ec4899">ז</div>
         <div>
           <div class="reviewer-name">זוהרית אלישע</div>
-          <div class="reviewer-area">ביקורת בגוגל · ⭐ 5 כוכבים</div>
+          <div class="reviewer-area">ביקורת בגוגל</div>
         </div>
       </div>
     </div>
@@ -1407,7 +1716,7 @@ body.q-printing #q-print-root{display:block !important}
         <div class="reviewer-avatar" style="background:#0d9488">E</div>
         <div>
           <div class="reviewer-name">E.d Yoash Mina</div>
-          <div class="reviewer-area">ביקורת בגוגל · ⭐ 5 כוכבים</div>
+          <div class="reviewer-area">ביקורת בגוגל</div>
         </div>
       </div>
     </div>
@@ -1419,7 +1728,7 @@ body.q-printing #q-print-root{display:block !important}
         <div class="reviewer-avatar" style="background:#ea580c">S</div>
         <div>
           <div class="reviewer-name">shlomi sallem</div>
-          <div class="reviewer-area">ביקורת בגוגל · ⭐ 5 כוכבים</div>
+          <div class="reviewer-area">ביקורת בגוגל</div>
         </div>
       </div>
     </div>
@@ -1431,7 +1740,7 @@ body.q-printing #q-print-root{display:block !important}
         <div class="reviewer-avatar" style="background:#7c3aed">Y</div>
         <div>
           <div class="reviewer-name">Yana Fox</div>
-          <div class="reviewer-area">ביקורת בגוגל · ⭐ 5 כוכבים</div>
+          <div class="reviewer-area">ביקורת בגוגל</div>
         </div>
       </div>
     </div>
@@ -1439,6 +1748,7 @@ body.q-printing #q-print-root{display:block !important}
     <div style="text-align:center">
       <span class="google-badge">
         <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <b class="gb-score">5.0</b><span class="gb-stars" aria-hidden="true">★★★★★</span>
         ביקורות אמיתיות מ-Google
       </span>
     </div>
@@ -1450,9 +1760,10 @@ body.q-printing #q-print-root{display:block !important}
   <div class="section-label">תיקונים נפוצים</div>
   <h2>הבעיה שלך כאן – בחרו כדי שנפתור אותה.</h2>
   <p class="section-desc">17+ שנות ניסיון בתיקון דודי שמש. בחרו את הבעיה שלכם ואנו נתאים פתרון מדויק.</p>
+  <div class="rep-legend"><span class="rep-chip hot"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg><span>תקלות חימום</span></span><span class="rep-chip cold"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg><span>תקלות מים</span></span></div>
 
   <div class="repairs-grid-v2">
-    <a class="repair-v2 line-blue" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הדוד%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+    <a class="repair-v2 line-blue rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הדוד%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
       <div class="repair-v2-img"><img src="images/repair-boiler-leak.webp" alt="דוד נוזל" loading="lazy"></div>
       <div class="repair-v2-body">
         <div class="repair-v2-title">דוד נוזל</div>
@@ -1463,7 +1774,7 @@ body.q-printing #q-print-root{display:block !important}
       </div>
     </a>
 
-    <a class="repair-v2 line-blue" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הקולט%20שמש%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+    <a class="repair-v2 line-blue rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הקולט%20שמש%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
       <div class="repair-v2-img"><img src="images/repair-kolat-leak.webp" alt="קולט נוזל" loading="lazy"></div>
       <div class="repair-v2-body">
         <div class="repair-v2-title">קולט נוזל</div>
@@ -1474,7 +1785,7 @@ body.q-printing #q-print-root{display:block !important}
       </div>
     </a>
 
-    <a class="repair-v2 line-orange" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20שאינו%20מחמם%20מים,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+    <a class="repair-v2 line-orange rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20שאינו%20מחמם%20מים,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
       <div class="repair-v2-img"><img src="images/repair-no-heat.webp" alt="הדוד לא מחמם" loading="lazy"></div>
       <div class="repair-v2-body">
         <div class="repair-v2-title">הדוד לא מחמם</div>
@@ -1484,7 +1795,7 @@ body.q-printing #q-print-root{display:block !important}
       </div>
     </a>
 
-    <a class="repair-v2 line-blue" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20אין%20לי%20מים%20חמים%20מהשמש,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+    <a class="repair-v2 line-blue rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20אין%20לי%20מים%20חמים%20מהשמש,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
       <div class="repair-v2-img"><img src="images/repair-no-sun.webp" alt="אין מים חמים מהשמש" loading="lazy"></div>
       <div class="repair-v2-body">
         <div class="repair-v2-title">אין מים חמים מהשמש</div>
@@ -1494,7 +1805,7 @@ body.q-printing #q-print-root{display:block !important}
       </div>
     </a>
 
-    <a class="repair-v2 line-green" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20ירידת%20לחץ%20או%20נזילה%20במערכת,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+    <a class="repair-v2 line-green rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20ירידת%20לחץ%20או%20נזילה%20במערכת,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
       <div class="repair-v2-img"><img src="images/repair-pressure.webp" alt="ירידת לחץ או נזילה" loading="lazy"></div>
       <div class="repair-v2-body">
         <div class="repair-v2-title">ירידת לחץ או נזילה</div>
@@ -1504,7 +1815,7 @@ body.q-printing #q-print-root{display:block !important}
       </div>
     </a>
 
-    <a class="repair-v2 line-purple" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20המתג%20של%20הדוד%20שלי%20לא%20עובד,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+    <a class="repair-v2 line-purple rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20המתג%20של%20הדוד%20שלי%20לא%20עובד,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
       <div class="repair-v2-img"><img src="images/repair-switch.webp" alt="המתג של הדוד לא עובד" loading="lazy"></div>
       <div class="repair-v2-body">
         <div class="repair-v2-title">המתג של הדוד לא עובד</div>
@@ -1524,12 +1835,26 @@ body.q-printing #q-print-root{display:block !important}
   </div>
 </section>
 
+<!-- How it works -->
+<section class="how" id="how">
+  <div class="section-label">4 צעדים פשוטים</div>
+  <h2>איך זה עובד?</h2>
+  <p class="section-desc">מהמחיר באתר ועד דוד חדש שעובד — בלי הפתעות בדרך.</p>
+  <ol class="how-steps">
+    <li class="how-step s1"><span class="how-num">1</span><div class="how-title">מחשבים מחיר באתר</div><p class="how-text">בוחרים מוצר, גודל וסוג גג — ומקבלים מחיר מלא לפני מע"מ.</p></li>
+    <li class="how-step s2"><span class="how-num">2</span><div class="how-title">שולחים בוואטסאפ</div><p class="how-text">ההצעה נשלחת אלינו בלחיצה אחת, עם כל הפרטים.</p></li>
+    <li class="how-step s3"><span class="how-num">3</span><div class="how-title">מתאמים הגעה</div><p class="how-text">חוזרים אליכם ומתאמים מועד שנוח לכם.</p></li>
+    <li class="how-step s4"><span class="how-num">4</span><div class="how-title">מתקינים עם אחריות</div><p class="how-text">התקנה מקצועית, פינוי הישן ואחריות על העבודה.</p></li>
+  </ol>
+  <div class="how-cta"><a class="how-btn" href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/></svg><span>לחישוב המחיר</span><svg class="d-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>
+</section>
+
 <!-- Calculator -->
 <section class="calculator" id="calculator">
 
   <div class="calc-section-top">
     <div class="section-label">מחשבון מחירים</div>
-    <h2>כמה תעלה ההתקנה שלך? 💰</h2>
+    <h2>כמה תעלה ההתקנה שלך?</h2>
     <p class="section-desc">כמה שלבים פשוטים — וקבל מחיר מיידי עם כל הפרטים ישר לוואטסאפ.</p>
   </div>
 
@@ -1570,11 +1895,11 @@ body.q-printing #q-print-root{display:block !important}
 
     <!-- STEP 1: Product -->
     <div id="step-1" class="calc-step-body">
-      <div class="step-title">☀️ מה סוג המוצר שאתה צריך?</div>
+      <div class="step-title">מה סוג המוצר שאתה צריך?</div>
       <p class="step-subtitle">בחר את המוצר או המוצרים שברצונך לקבל הצעת מחיר עבורם</p>
 
       <!-- קטגוריה: דודים -->
-      <div class="prod-category-label"><span class="pcl-text">💧 דודים</span></div>
+      <div class="prod-category-label"><span class="pcl-text"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="16.5" rx="4"/><path d="M9 21.5V19M15 21.5V19"/><path d="M12 7v4.6"/><circle cx="12" cy="13.4" r="1.8"/></svg> דודים</span></div>
       <div class="prod-grid">
         <div class="prod-card" onclick="selectProd('electric')">
           <div class="prod-img-wrap"><img src="images/prod-electric.webp" alt="דוד חשמל" class="prod-img" loading="lazy"></div>
@@ -1591,7 +1916,7 @@ body.q-printing #q-print-root{display:block !important}
       </div>
 
       <!-- קטגוריה: קולטים -->
-      <div class="prod-category-label"><span class="pcl-text">🟦 קולטים</span></div>
+      <div class="prod-category-label"><span class="pcl-text"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 19.5l3-13h14l-3 13z"/><path d="M5.1 13h14.1M11.2 6.5l-3 13M15.9 6.5l-3 13"/></svg> קולטים</span></div>
       <div class="prod-grid">
         <div class="prod-card" onclick="selectProd('kolat_copper')">
           <div class="prod-img-wrap"><img src="images/prod-kolat-copper.webp" alt="קולט נחושת" class="prod-img" loading="lazy"></div>
@@ -1604,7 +1929,7 @@ body.q-printing #q-print-root{display:block !important}
       </div>
 
       <!-- קטגוריה: מערכת -->
-      <div class="prod-category-label"><span class="pcl-text">🔧 מערכת</span></div>
+      <div class="prod-category-label"><span class="pcl-text"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20.5l2.2-8.5h15.6l-2.2 8.5z"/><path d="M4.1 16.3h15.6M10.4 12l-1.7 8.5M15.6 12l-1.7 8.5"/><path d="M12 2.5V4M6.6 4.7l1 1M17.4 4.7l-1 1M8.6 9.3a3.4 3.4 0 0 1 6.8 0"/></svg> מערכת</span></div>
       <div class="prod-grid">
         <div class="prod-card prod-card-full" onclick="selectProd('system')">
           <div class="prod-img-wrap"><img src="images/prod-system.webp" alt="מערכת מלאה" class="prod-img" loading="lazy"></div>
@@ -1619,16 +1944,16 @@ body.q-printing #q-print-root{display:block !important}
 
     <!-- STEP SYS: System type (only for מערכת מלאה) -->
     <div id="step-sys" class="calc-step-body" style="display:none;">
-      <div class="step-title">🔧 סוג המערכת</div>
+      <div class="step-title">סוג מערכת</div>
       <div class="sys-type-grid">
         <div class="sys-type-card" id="sys-regular-card" onclick="selectSysType('regular')">
-          <div class="sys-type-icon">☀️</div>
+          <div class="sys-type-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg></div>
           <div class="sys-type-name">מערכת רגילה</div>
           <div class="sys-type-price">ללא תוספת</div>
           <div class="sys-type-desc">התקנה סטנדרטית מלאה</div>
         </div>
         <div class="sys-type-card" id="sys-std-card" onclick="selectSysType('standard')">
-          <div class="sys-type-icon">⭐</div>
+          <div class="sys-type-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76z"/><path d="M9 12l2 2 4-4"/></svg></div>
           <div class="sys-type-name">מערכת תקן</div>
           <div class="sys-type-price" id="sys-std-extra-label">+₪200–₪400</div>
           <div class="sys-type-desc">התקנה לפי תקן ישראלי + מערבל מים · נדרש לקבלת טופס 4</div>
@@ -1642,19 +1967,19 @@ body.q-printing #q-print-root{display:block !important}
 
     <!-- STEP KOLAT: Collector type (only for system) -->
     <div id="step-kolat" class="calc-step-body" style="display:none;">
-      <div class="step-title">☀️ סוג הקולט</div>
+      <div class="step-title">סוג קולט</div>
       <div class="sys-type-grid kolat-type-grid">
         <div class="sys-type-card" id="kolat-copper-card" onclick="selectKolatType('copper')">
-          <div class="sys-type-icon">🟠</div>
+          <div class="sys-type-icon"><span class="sw sw-copper"></span></div>
           <div class="sys-type-name">קולט נחושת</div>
         </div>
         <div class="sys-type-card" id="kolat-iron-card" onclick="selectKolatType('iron')">
-          <div class="sys-type-icon">⚫</div>
+          <div class="sys-type-icon"><span class="sw sw-iron"></span></div>
           <div class="sys-type-name">קולט ברזל</div>
         </div>
       </div>
       <div class="kolat-region-tip">
-        <div class="kolat-region-tip-title">💡 איזה קולט מתאים לאזור שלך?</div>
+        <div class="kolat-region-tip-title"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></svg><span>איזה קולט מתאים לאזור שלך?</span></div>
         <div class="kolat-region-tip-row"><strong>גוש דן:</strong> בדרך כלל קולט נחושת</div>
         <div class="kolat-region-tip-row"><strong>השרון ואזורים עם אבנית גבוהה:</strong> בדרך כלל קולט ברזל</div>
       </div>
@@ -1666,7 +1991,7 @@ body.q-printing #q-print-root{display:block !important}
 
         <!-- STEP 2: Volume -->
     <div id="step-2" class="calc-step-body" style="display:none;">
-      <div class="step-title">💧 כמה ליטר?</div>
+      <div class="step-title">כמה ליטר?</div>
       <div class="vol-grid" id="vol-options"></div>
       <div class="step-nav">
         <button class="btn-back-step" onclick="goStep(1)">חזור</button>
@@ -1677,7 +2002,7 @@ body.q-printing #q-print-root{display:block !important}
     <!-- STEP 3: Brand -->
     <!-- STEP 3: Roof type -->
     <div id="step-3" class="calc-step-body" style="display:none;">
-      <div class="step-title">🏠 סוג הגג</div>
+      <div class="step-title">סוג הגג</div>
 
       <div class="roof-main-grid roof-main-grid-3">
         <div class="roof-card" id="roof-flat-card" onclick="selectRoof('flat')">
@@ -1696,7 +2021,7 @@ body.q-printing #q-print-root{display:block !important}
 
       <!-- Tile sub-option (shown only when tile selected) -->
       <div id="tile-sub" style="display:none;">
-        <div class="roof-sub-title">📍 מיקום ההתקנה:</div>
+        <div class="roof-sub-title"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>מיקום ההתקנה:</span></div>
         <div class="roof-sub-grid">
           <div class="roof-sub-card roof-sub-card-img" id="tile-in-card" onclick="selectTilePos('inside')">
             <div class="roof-sub-img-wrap"><img src="images/roof-tile-inside.webp" alt="בתוך הרעפים" class="roof-sub-img" loading="lazy"></div>
@@ -1711,18 +2036,18 @@ body.q-printing #q-print-root{display:block !important}
 
       <!-- Access options (multi-select) — shown only for flat/tile, hidden for indoor -->
       <div class="roof-access-wrap" id="access-section" style="display:none;">
-        <div class="roof-sub-title">🔑 מה נדרש לגישה לגג? <span class="multi-hint">(ניתן לבחור כמה)</span></div>
+        <div class="roof-sub-title"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg><span>מה נדרש לגישה לגג?</span> <span class="multi-hint">(ניתן לבחור כמה)</span></div>
         <div class="roof-access-grid">
           <div class="access-card" onclick="toggleAccess(this,'ladder')">
-            <div class="access-icon">🪜</div>
+            <div class="access-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2.5v19M17 2.5v19M7 7h10M7 12h10M7 17h10"/></svg></div>
             <div class="access-name">סולם לגג</div>
           </div>
           <div class="access-card" onclick="toggleAccess(this,'key')">
-            <div class="access-icon">🔑</div>
+            <div class="access-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg></div>
             <div class="access-name">מפתח לגג</div>
           </div>
           <div class="access-card" onclick="toggleAccess(this,'none')">
-            <div class="access-icon">✅</div>
+            <div class="access-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div>
             <div class="access-name">אין צורך</div>
           </div>
         </div>
@@ -1736,11 +2061,11 @@ body.q-printing #q-print-root{display:block !important}
 
     <!-- STEP 4: Brand -->
     <div id="step-4" class="calc-step-body" style="display:none;">
-      <div class="step-title">🏆 בחר את רמת האיכות שלך</div>
+      <div class="step-title">בחר את רמת האיכות שלך</div>
       <div class="q-grid" id="tier-cards-container"></div>
       <div class="step-nav">
         <button class="btn-back-step" onclick="goStep(3)">חזור</button>
-        <button class="btn-next-step" id="next-4" disabled onclick="showResult()">קבל הצעת מחיר 💰</button>
+        <button class="btn-next-step" id="next-4" disabled onclick="showResult()">קבל הצעת מחיר</button>
       </div>
     </div>
 
@@ -1751,7 +2076,7 @@ body.q-printing #q-print-root{display:block !important}
       <div id="q-result-slot"></div>
 
       <div class="result-note">
-        ⚠️ <strong>שים לב:</strong> כל המחירים באתר הם לפני מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.<br/>
+        <strong>שים לב:</strong> כל המחירים באתר הם לפני מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.<br/>
         המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.
       </div>
 
@@ -1764,8 +2089,8 @@ body.q-printing #q-print-root{display:block !important}
           <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11.5v6M9.4 14.9L12 17.5l2.6-2.6"/></svg>
           <span>הורד הצעת מחיר (PDF)</span>
         </button>
-        <button class="btn-back-brands" onclick="backToBrands()">↩ חזור לבחירת חברה</button>
-        <button class="btn-reset" onclick="resetCalc()">🔄 התחל מחדש</button>
+        <button class="btn-back-brands" onclick="backToBrands()"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14.5L4 9.5l5-5"/><path d="M4 9.5h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>חזור לבחירת חברה</span></button>
+        <button class="btn-reset" onclick="resetCalc()"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 3.8v4.6h4.6"/></svg><span>התחל מחדש</span></button>
       </div>
     </div>
 
@@ -1778,7 +2103,7 @@ body.q-printing #q-print-root{display:block !important}
 <div id="kolat-info-modal" class="kolat-modal-overlay" onclick="closeKolatModal(event)">
   <div class="kolat-modal" onclick="event.stopPropagation()">
     <button class="kolat-modal-close" onclick="closeKolatModal()" aria-label="סגור">×</button>
-    <div class="kolat-modal-icon">💡</div>
+    <div class="kolat-modal-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></svg></div>
     <div class="kolat-modal-title">איזה קולט מתאים לאזור שלך?</div>
     <div class="kolat-modal-body">
       <div class="kolat-modal-row">
@@ -1836,6 +2161,13 @@ body.q-printing #q-print-root{display:block !important}
   <div class="section-label">צור קשר</div>
   <h2 style="color:white;">מוכן לשוחח? אנחנו כאן</h2>
   <p class="contact-desc">הדרך המהירה ביותר — וואטסאפ. אפשר גם להתקשר ישירות.</p>
+  <div class="bizcard">
+    <img class="bizcard-logo" src="images/logo-2026.webp" alt="א.ר דודי שמש" width="552" height="468" loading="lazy">
+    <div class="bizcard-body">
+      <div class="bizcard-name">איליה · א.ר דודי שמש</div>
+      <div class="bizcard-slogan" id="bizcard-slogan">גם <span class="hot">בחום</span> וגם <span class="cold">בקור</span>!</div>
+    </div>
+  </div>
   <div class="contact-btns">
     <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener" style="flex:1;">
       <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -1872,8 +2204,8 @@ body.q-printing #q-print-root{display:block !important}
   <div class="ft-brand-name">א.ר דודי שמש</div>
   <div class="ft-tagline" data-nosnippet>תיקון והתקנת דודי שמש באזור פתח תקווה והמרכז<br/>מתקין מורשה כרומגן · שירות מהיר ואמין</div>
   <div class="ft-contact-row">
-    <a href="javascript:void(0)" onclick="openCallModal()">📞 054-564-2426</a>
-    <a href="https://wa.me/972559976041">💬 וואטסאפ</a>
+    <a href="javascript:void(0)" onclick="openCallModal()"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.1 3.5h3l1.6 4.1-2.1 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-2.1 4.1 1.6v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3.1 5.7a2 2 0 0 1 2-2.2z"/></svg><span dir="ltr">054-564-2426</span></a>
+    <a href="https://wa.me/972559976041"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>וואטסאפ</span></a>
   </div>
   <div class="ft-legal">
     המחירים המוצגים באתר אינם כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.<br/>
@@ -1994,7 +2326,8 @@ const PRODUCT_LABELS = {
 
 const VOLUMES     = { solar:[80,120,150,200], electric:[30,45,60,80,120,150], boiler:[80,120,150], kolat_copper:['mini','small','large','xlarge'], kolat_iron:['mini','small','large','xlarge'], system:{ copper:[120,150,200], iron:[120,150,200] } };
 const VOL_HINTS   = {30:'1 נפש',45:'1-2 נפשות',60:'2 נפשות',80:'3 נפשות',120:'4 נפשות',150:'5 נפשות',200:'6+ נפשות','120slim':'4 נפשות (צר וארוך)','150slim':'5 נפשות (צר וארוך)','mini':'דוד 80 ליטר','small':'דוד 120 ליטר','large':'דוד 150 ליטר','xlarge':'דוד 200 ליטר'};
-const VOL_ICON    = {30:'👤',45:'👤',60:'👥',80:'👥',120:'👨‍👩‍👧',150:'👨‍👩‍👧‍👦',200:'👨‍👩‍👧‍👦','120slim':'📐','150slim':'📐','mini':'🔸','small':'🔹','large':'🔷','xlarge':'🔶'};
+const VOL_P = ['', '<svg viewBox="-1 -1 12 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="5" r="3"/><path d="M0 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/></svg>', '<svg viewBox="-1 -1 22 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="5" r="3"/><path d="M0 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="15" cy="5" r="3"/><path d="M10 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/></svg>', '<svg viewBox="-1 -1 32 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="5" r="3"/><path d="M0 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="15" cy="5" r="3"/><path d="M10 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="25" cy="5" r="3"/><path d="M20 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/></svg>', '<svg viewBox="-1 -1 42 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="5" r="3"/><path d="M0 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="15" cy="5" r="3"/><path d="M10 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="25" cy="5" r="3"/><path d="M20 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="35" cy="5" r="3"/><path d="M30 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/></svg>'];
+const VOL_ICON    = {30:VOL_P[1],45:VOL_P[1],60:VOL_P[2],80:VOL_P[2],120:VOL_P[3],150:VOL_P[4],200:VOL_P[4],'120slim':'','150slim':'','mini':'','small':'','large':'','xlarge':''};
 const VOL_POPULAR = {solar:150, electric:80, boiler:150, kolat_copper:'large', kolat_iron:'small', system:150};
 
 const ROOF_SURCHARGE   = { flat:0, tile_inside:200, tile_outside:200, indoor:0 };
@@ -2151,10 +2484,10 @@ function populateVolumes(prod) {
       const subT = sub ? t(sub) : '';
       const isKolatProd = prod === 'kolat_copper' || prod === 'kolat_iron';
       const hint = VOL_HINTS[v] ? `<div class="vol-hint-inline">${t(VOL_HINTS[v])||VOL_HINTS[v]}</div>` : '';
-      div.innerHTML = `<div class="vol-num" style="font-size:${numSize}">${mainT}</div>${subT?`<div class="vol-unit">${subT}</div>`:(isKolatProd?`<div class="vol-unit">&nbsp;</div>`:`<div class="vol-unit">${t('ליטר')}</div>`)}<div class="vol-persons">${VOL_ICON[v]||'📐'}</div>${hint}`;
+      div.innerHTML = `<div class="vol-num" style="font-size:${numSize}">${mainT}</div>${subT?`<div class="vol-unit">${subT}</div>`:(isKolatProd?`<div class="vol-unit">&nbsp;</div>`:`<div class="vol-unit">${t('ליטר')}</div>`)}<div class="vol-persons">${VOL_ICON[v]||''}</div>${hint}`;
     } else {
       const hint = VOL_HINTS[v] ? `<div class="vol-hint-inline">${t(VOL_HINTS[v])||VOL_HINTS[v]}</div>` : '';
-      div.innerHTML = `<div class="vol-num">${v}</div><div class="vol-unit">${t('ליטר')}</div><div class="vol-persons">${VOL_ICON[v]||'👥'}</div>${hint}`;
+      div.innerHTML = `<div class="vol-num">${v}</div><div class="vol-unit">${t('ליטר')}</div><div class="vol-persons">${VOL_ICON[v]||''}</div>${hint}`;
     }
 
     div.onclick = () => {
@@ -2187,7 +2520,7 @@ function showBoilerSubSelect(baseVol) {
   wrap.id = 'boiler-sub-select';
   wrap.style.cssText = 'margin-top:16px; margin-bottom:8px;';
   wrap.innerHTML = `
-    <div class="roof-sub-title">${t('📐 בחר סוג:')}</div>
+    <div class="roof-sub-title"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="16.5" rx="4"/><path d="M9 21.5V19M15 21.5V19"/><path d="M12 7v4.6"/><circle cx="12" cy="13.4" r="1.8"/></svg><span>${t('בחר סוג:')}</span></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
       <div class="roof-sub-card roof-sub-card-img" id="boiler-reg-card" onclick="selectBoilerType(${baseVol}, '${slimKey}', 'regular')">
         <div class="roof-sub-img-wrap"><img src="images/boiler-regular.webp" alt="${baseVol} ליטר רגיל" class="roof-sub-img" loading="lazy"></div>
@@ -2511,9 +2844,9 @@ function populateTiers() {
       proof: isFeatured ? t('84% מהלקוחות שלנו בוחרים את זה') : '',
       price: displayPrice, vatText: vatLine(displayPrice), warranty: warrantyLabel(bKey, data.warranty),
       feats: feats.map(f => t(f)),
-      groups: groups.map(g => ({ title: `${g.icon} ${t(g.title)}`, items: g.items.map(f => t(f)) })),
+      groups: groups.map(g => ({ title: t(g.title), items: g.items.map(f => t(f)) })),
       moreLabel: t('מה עוד כלול במחיר?'),
-      selectLabel: isFeatured ? t('בחר בחבילה המומלצת ⭐') : t('לבחירת החבילה'),
+      selectLabel: isFeatured ? t('בחר בחבילה המומלצת') : t('לבחירת החבילה'),
     });
     // More-details toggle (scoped to this card)
     const moreBtn = div.querySelector('.q-more');
@@ -3618,7 +3951,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- Privacy Modal -->
 <div class="privacy-modal" id="privacy-modal">
   <div class="privacy-box">
-    <h3>🔒 מדיניות פרטיות — א.ר דודי שמש</h3>
+    <h3><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10.5" rx="2.5"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>מדיניות פרטיות — א.ר דודי שמש</h3>
     <p><strong>מה האתר אוסף?</strong><br/>
     האתר אינו אוסף מידע אישי אוטומטית. הנתונים היחידים שנמסרים הם אלה שאתה בוחר לשתף בעת שליחת הודעה בוואטסאפ או שיחת טלפון ישירה.</p>
     <p><strong>עוגיות (Cookies)</strong><br/>
@@ -4116,6 +4449,164 @@ function navGoto(id){
 
 <!-- Printable A4 quote — filled on demand by qPrint() -->
 <div id="q-print-root" aria-hidden="true"></div>
+<script id="ardudim-design-js">
+/* ============================================================
+   DESIGN 2026 — החלקים הדינמיים של העיצוב
+   • מרקר צהוב על מילת מפתח בכל כותרת (עברית / רוסית)
+   • פס עונתי בהירו: חורף = כחול (חירום, מתקשרים) / קיץ = כתום (זמן להחליף, למחשבון)
+     מתחלף לבד לפי החודש (נובמבר–מרץ חורף). לתצוגה מקדימה: ‎?season=winter / ?season=summer
+   • הסלוגן בכרטיס הביקור
+   • תרגום לרוסית למחרוזות החדשות / לאלה שהאימוג'י הוסר מהן
+   • ברוסית: טוען את Rubik Bold לאותיות הרוסיות שבכותרות
+   ============================================================ */
+(function () {
+  if (typeof TRANSLATIONS === 'undefined') return;
+
+  const D_RU = {
+    'כמה תעלה ההתקנה שלך?': 'Сколько стоит ваша установка?',
+    'מה סוג המוצר שאתה צריך?': 'Какой продукт вам нужен?',
+    'מערכת': 'Система',
+    'כמה ליטר?': 'Сколько литров?',
+    'סוג הגג': 'Тип крыши',
+    'מיקום ההתקנה:': 'Место установки:',
+    'בחר סוג:': 'Выберите тип:',
+    'מה נדרש לגישה לגג?': 'Что нужно для доступа на крышу?',
+    'בחר את רמת האיכות שלך': 'Выберите уровень качества',
+    'קבל הצעת מחיר': 'Получить расчёт цены',
+    'עוד תמונות בוואטסאפ — שלח הודעה ונשלח לך גלריה מלאה': 'Ещё фото в WhatsApp — напишите нам',
+    'ביקורת בגוגל': 'Отзыв в Google',
+    'תקלות חימום': 'Проблемы с нагревом',
+    'תקלות מים': 'Протечки и давление',
+    '4 צעדים פשוטים': '4 простых шага',
+    'איך זה עובד?': 'Как это работает?',
+    'מהמחיר באתר ועד דוד חדש שעובד — בלי הפתעות בדרך.': 'От цены на сайте до нового работающего бойлера — без сюрпризов.',
+    'מחשבים מחיר באתר': 'Считаете цену на сайте',
+    'בוחרים מוצר, גודל וסוג גג — ומקבלים מחיר מלא לפני מע"מ.': 'Выбираете продукт, объём и тип крыши — и получаете полную цену без НДС.',
+    'שולחים בוואטסאפ': 'Отправляете в WhatsApp',
+    'ההצעה נשלחת אלינו בלחיצה אחת, עם כל הפרטים.': 'Предложение приходит к нам в один клик, со всеми деталями.',
+    'מתאמים הגעה': 'Согласуем приезд',
+    'חוזרים אליכם ומתאמים מועד שנוח לכם.': 'Перезваниваем и назначаем удобное для вас время.',
+    'מתקינים עם אחריות': 'Устанавливаем с гарантией',
+    'התקנה מקצועית, פינוי הישן ואחריות על העבודה.': 'Профессиональный монтаж, вывоз старого и гарантия на работу.',
+    'לחישוב המחיר': 'Рассчитать цену',
+    'איליה · א.ר דודי שמש': 'Илья · А.Р. Дудей Шемеш',
+    // desktop hero (was missing)
+    'מעל 500 לקוחות מרוצים בשנה האחרונה': 'Более 500 довольных клиентов за последний год',
+    'דודי שמש, דודי חשמל, קולטים ותקלות חימום': 'Солнечные и электрические бойлеры, коллекторы, неисправности нагрева',
+    'עם אחריות, מחיר הוגן ושירות משפחתי אמין': 'С гарантией, по честной цене, надёжный семейный сервис',
+    'הצעת מחיר שקופה': 'Прозрачная цена',
+    'מחירים הוגנים ללא הפתעות': 'Честные цены без сюрпризов',
+    'בכל גוש דן והמרכז': 'По всему Гуш-Дану и центру',
+    'על העבודה והחומרים': 'На работу и материалы',
+  };
+  Object.keys(D_RU).forEach(k => { if (!(k in TRANSLATIONS)) TRANSLATIONS[k] = D_RU[k]; });
+
+  const isRu = () => typeof currentLang !== 'undefined' && currentLang === 'ru';
+
+  // ---- yellow marker on one keyword per heading ----
+  const MARKS = [
+    ['#about h2', '17+ שנות ניסיון', '17+ лет'],
+    ['#gallery h2', 'האיכות', 'в качестве'],
+    ['#reviews h2', 'הלקוחות', 'клиенты'],
+    ['#repairs h2', 'שנפתור אותה', 'мы её решим'],
+    ['#how h2', 'עובד', 'работает'],
+    ['#calculator h2', 'ההתקנה שלך', 'ваша установка'],
+    ['#faq h2', 'נפוצות', 'Частые'],
+    ['#contact h2', 'אנחנו כאן', 'Мы здесь'],
+  ];
+  function unmark() {
+    document.querySelectorAll('mark.hl').forEach(m => {
+      const p = m.parentNode;
+      p.replaceChild(document.createTextNode(m.textContent), m);
+      p.normalize();   // one text node again, so the page's translation finds the whole sentence
+    });
+  }
+  function mark() {
+    MARKS.forEach(([sel, he, ru]) => {
+      const h = document.querySelector(sel);
+      if (!h || h.querySelector('mark.hl')) return;
+      const word = isRu() ? ru : he;
+      const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
+      let n;
+      while ((n = walker.nextNode())) {
+        const i = n.nodeValue.indexOf(word);
+        if (i < 0) continue;
+        const target = n.splitText(i);
+        target.splitText(word.length);
+        const m = document.createElement('mark');
+        m.className = 'hl';
+        target.parentNode.replaceChild(m, target);
+        m.appendChild(target);
+        break;
+      }
+    });
+  }
+
+  // ---- seasonal pill in the hero ----
+  const SVG = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const ICON_SUN = SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>');
+  const ICON_SNOW = SVG('<path d="M12 2.5v19M3.8 7.2l16.4 9.6M3.8 16.8l16.4-9.6"/><path d="M9.6 3.9 12 6.2l2.4-2.3M9.6 20.1 12 17.8l2.4 2.3M3.4 11.2l3.2-.9-.8-3.2M20.6 12.8l-3.2.9.8 3.2M5.8 17.1l.8-3.2-3.2-.9M18.2 6.9l-.8 3.2 3.2.9"/>');
+  const SEASON_TXT = {
+    winter: { he: ['חורף:', 'נגמרו המים החמים? מגיעים ברוב המקרים באותו יום'], ru: ['Зима:', 'нет горячей воды? Чаще всего приезжаем в тот же день'] },
+    summer: { he: ['קיץ:', 'הזמן הכי טוב להחליף דוד — לפני שהחורף מגיע'], ru: ['Лето:', 'лучшее время заменить бойлер — до прихода зимы'] },
+  };
+  function season() {
+    let forced = null;
+    try { forced = new URLSearchParams(location.search).get('season'); } catch (e) {}
+    if (forced === 'winter' || forced === 'summer') return forced;
+    const m = new Date().getMonth();          // 0 = January
+    return (m >= 10 || m <= 2) ? 'winter' : 'summer';
+  }
+  function renderSeason() {
+    const s = season();
+    const [label, text] = SEASON_TXT[s][isRu() ? 'ru' : 'he'];
+    document.querySelectorAll('.hero-season').forEach(btn => {
+      btn.className = 'hero-season is-' + s;
+      btn.innerHTML = `<i>${s === 'winter' ? ICON_SNOW : ICON_SUN}</i><span><b>${label}</b> ${text}</span>`;
+      btn.hidden = false;
+      btn.onclick = s === 'winter'
+        ? () => { if (typeof openCallModal === 'function') openCallModal(); }
+        : () => { const c = document.getElementById('calculator'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    });
+    document.querySelectorAll('.hero-kicker').forEach(k => k.classList.add('has-season'));
+  }
+
+  // ---- business-card slogan ----
+  function renderSlogan() {
+    const el = document.getElementById('bizcard-slogan');
+    if (!el) return;
+    el.innerHTML = isRu()
+      ? 'И <span class="hot">в жару</span>, и <span class="cold">в холод</span>!'
+      : 'גם <span class="hot">בחום</span> וגם <span class="cold">בקור</span>!';
+  }
+
+  // Secular One has no Russian letters → in Russian the headings take them from Rubik Bold,
+  // loaded only then (Hebrew visitors never download it)
+  function ensureRuFont() {
+    if (!isRu() || document.getElementById('font-rubik')) return;
+    const l = document.createElement('link');
+    l.id = 'font-rubik';
+    l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap';
+    document.head.appendChild(l);
+  }
+
+  function apply() { ensureRuFont(); mark(); renderSeason(); renderSlogan(); }
+
+  // the page translates text nodes in place: take the markers off before, put them back after
+  ['switchToRussian', 'switchToHebrew'].forEach(name => {
+    const orig = window[name];
+    if (typeof orig !== 'function') return;
+    window[name] = function () {
+      unmark();
+      const r = orig.apply(this, arguments);
+      apply();
+      return r;
+    };
+  });
+  apply();
+})();
+</script>
 <script id="ardudim-quote-js">
 /* ============================================================
    QUOTE UI — עיצוב "חם/קר" באתר
@@ -4133,7 +4624,8 @@ const Q_TEL_SHOW = '054-5642426';
 const Q_BRAND_COLOR = { chromagen: '#DC2626', amisragaz: '#1D4ED8', yardan: '#15803D' };
 const Q_NAVY = '#0A1F3D', Q_INK = '#0F1B2D', Q_MUTED = '#5B6472', Q_HAIR = '#E6DCCB';
 const Q_ORANGE = '#F97316', Q_AMBER = '#FBBF24', Q_SKY = '#7DD3FC', Q_BLUE = '#2563EB';
-const Q_DISPLAY = "font-family:'Secular One','Assistant',sans-serif;font-weight:400;";
+// Secular One has no Cyrillic: Russian letters come from Rubik Bold (loaded only for Russian)
+const Q_DISPLAY = "font-family:'Secular One','Rubik','Assistant',sans-serif;font-weight:400;";
 const Q_SIZE_LABEL = { mini: 'מיני', small: 'קטן', large: 'גדול', xlarge: 'גדול extra' };
 const Q_ROOF_HE = { flat: 'גג שטוח', 'tile-in': 'גג רעפים — בתוך הרעפים', 'tile-out': 'גג רעפים — מחוץ לרעפים', indoor: 'בתוך הבית' };
 // Friendly landing slugs → generic slugs (generic ones work too: solar-120, electric-80, boiler-150slim,
@@ -4189,11 +4681,15 @@ const Q_RU = {
   'דוד שמש + קולט ברזל EXTRA (2 קולטים)': 'Солнечный бойлер + железный коллектор EXTRA (2 шт.)',
   'ציפוי מגן מאלומיניום (כרומגן ואמישראגז)': 'Алюминиевое защитное покрытие (Chromagen и Амисрагаз)',
   'איליה · א.ר דודי שמש': 'Илья · А.Р. Дудей Шемеш',
+  'בחר בחבילה המומלצת': 'Выбрать рекомендуемый пакет',
+  'התחל מחדש': 'Начать заново',
+  'חזור לבחירת חברה': 'Назад к выбору компании',
 };
 // A few of them also appear in static markup / step-4 cards, which the site's translateNodes()
 // switches in place — register only those (specific phrases, never short generic words).
 ['הכי מומלץ', 'חייגו אלינו', 'הורד הצעת מחיר (PDF)', 'נפתח מסך הדפסה — בחרו ״שמירה כ-PDF״ כדי לשמור את ההצעה', 'גדול extra',
-  'גג רעפים — בתוך הרעפים', 'גג רעפים — מחוץ לרעפים', '6 שנים לקולט', '4 שנים לדוד']
+  'גג רעפים — בתוך הרעפים', 'גג רעפים — מחוץ לרעפים', '6 שנים לקולט', '4 שנים לדוד',
+  'בחר בחבילה המומלצת', 'התחל מחדש', 'חזור לבחירת חברה']
   .forEach(k => { if (!(k in TRANSLATIONS)) TRANSLATIONS[k] = Q_RU[k]; });
 
 function qLang(lang) { return lang || currentLang; }
@@ -4550,7 +5046,7 @@ ${qBottomHTML(m, true)}
 </div></div>`;
 }
 function qNoteHTML() {
-  return `<p class="qw-note">⚠️ <b>${t('שים לב')}:</b> ${t(Q_NOTE_1)} ${t(Q_NOTE_2)}</p>`;
+  return `<p class="qw-note"><b>${t('שים לב')}:</b> ${t(Q_NOTE_1)} ${t(Q_NOTE_2)}</p>`;
 }
 function qTopActionsHTML(m, b) {
   const kind = b ? 'single' : 'compare';
@@ -4646,7 +5142,7 @@ function qSheetText(s) { return currentLang === 'ru' ? s : String(s).replace(/מ
 function qTitlePx(text) {
   try {
     const c = qTitlePx.c || (qTitlePx.c = document.createElement('canvas').getContext('2d'));
-    c.font = "46px 'Secular One', 'Assistant', sans-serif";
+    c.font = "46px 'Secular One', 'Rubik', 'Assistant', sans-serif";
     const w = c.measureText(text).width;
     return w <= 430 ? 46 : Math.floor(46 * 430 / w);
   } catch (e) { return 40; }
@@ -4894,9 +5390,10 @@ function qPrint(mode, spec) {
 // Anything unexpected → fall back to printing.
 // ============================================================
 const Q_FONT_CSS = 'https://fonts.googleapis.com/css2?family=Assistant:wght@400..800&family=Secular+One&display=swap';
+const Q_FONT_CSS_RU = 'https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap';
 const Q_PDF_SCALE = 2.4;
 const qPdfJobs = new Map();
-let qFontsPromise = null, qLogoPromise = null, qPrepTimer = null;
+let qFontsPromise = null, qFontsRuPromise = null, qLogoPromise = null, qPrepTimer = null;
 
 function qIsIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4912,23 +5409,33 @@ function qDataUrl(url, type) {
   return fetch(url).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
     .then(buf => `data:${type};base64,${qB64(buf)}`);
 }
-// the two web fonts, embedded (Hebrew + Latin subsets) so the drawn page uses them
-function qEmbedFonts() {
+// the web fonts, embedded so the drawn page uses them: Assistant + Secular One (Hebrew + Latin),
+// and for a Russian sheet also Rubik Bold (Cyrillic) for the titles
+function qFontBlocks(url, keep) {
+  return fetch(url).then(r => r.text()).then(async css => {
+    const blocks = (css.match(/@font-face\s*\{[^}]*\}/g) || []).filter(keep);
+    const out = [];
+    for (const x of blocks) {
+      const u = x.match(/url\((['"]?)([^'")]+)\1\)/);
+      if (!u) continue;
+      const type = /\.woff2(\?|$)/.test(u[2]) ? 'font/woff2' : (/\.woff(\?|$)/.test(u[2]) ? 'font/woff' : 'font/ttf');
+      out.push(x.replace(u[0], `url(${await qDataUrl(u[2], type)})`));
+    }
+    return out.join('\n');
+  });
+}
+function qEmbedFonts(ru) {
   if (!qFontsPromise) {
-    qFontsPromise = fetch(Q_FONT_CSS).then(r => r.text()).then(async css => {
-      const blocks = (css.match(/@font-face\s*\{[^}]*\}/g) || [])
-        .filter(x => /unicode-range:[^;]*U\+0590/i.test(x) || /unicode-range:\s*U\+0000-00FF/i.test(x));
-      const out = [];
-      for (const x of blocks) {
-        const u = x.match(/url\((['"]?)([^'")]+)\1\)/);
-        if (!u) continue;
-        const type = /\.woff2(\?|$)/.test(u[2]) ? 'font/woff2' : (/\.woff(\?|$)/.test(u[2]) ? 'font/woff' : 'font/ttf');
-        out.push(x.replace(u[0], `url(${await qDataUrl(u[2], type)})`));
-      }
-      return out.join('\n');
-    }).catch(() => { qFontsPromise = null; return ''; });
+    qFontsPromise = qFontBlocks(Q_FONT_CSS, x => !/font-family:\s*['"]?Rubik/i.test(x) &&
+      (/unicode-range:[^;]*U\+0590/i.test(x) || /unicode-range:\s*U\+0000-00FF/i.test(x)))
+      .catch(() => { qFontsPromise = null; return ''; });
   }
-  return qFontsPromise;
+  if (!ru) return qFontsPromise;
+  if (!qFontsRuPromise) {
+    qFontsRuPromise = qFontBlocks(Q_FONT_CSS_RU, x => /font-family:\s*['"]?Rubik/i.test(x) && /unicode-range:[^;]*U\+0400-045F/i.test(x))
+      .catch(() => { qFontsRuPromise = null; return ''; });
+  }
+  return Promise.all([qFontsPromise, qFontsRuPromise]).then(a => a.join('\n'));
 }
 function qEmbedLogo() {
   if (!qLogoPromise) qLogoPromise = qDataUrl(Q_LOGO, 'image/webp').catch(() => { qLogoPromise = null; return ''; });
@@ -4946,7 +5453,7 @@ function qSheetLooksRight(ctx, w, h, z) {
   return stripe && near(px(w * 0.5, h - 6 * k), navy, 30) && near(px(w * 0.5, 190 * k), navy, 45);
 }
 async function qRenderPdf(sheet, title, zoom) {
-  const [fonts, logo] = await Promise.all([qEmbedFonts(), qEmbedLogo()]);
+  const [fonts, logo] = await Promise.all([qEmbedFonts(sheet.getAttribute('lang') === 'ru'), qEmbedLogo()]);
   if (logo) sheet.querySelectorAll('img').forEach(i => i.setAttribute('src', logo));
   const W = 793, H = 1122;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><foreignObject x="0" y="0" width="${W}" height="${H}">` +

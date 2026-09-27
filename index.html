@@ -136,7 +136,7 @@
             "name": "האם אתם נותנים אחריות?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "כן, על כל התקנה ותיקון אנחנו נותנים אחריות מלאה. דודי כרומגן עם אחריות יצרן רשמית של 5 שנים."
+              "text": "כן, על כל התקנה ותיקון אנחנו נותנים אחריות מלאה. דודי כרומגן עם אחריות יצרן רשמית של 4 שנים."
             }
           },
           {
@@ -152,7 +152,7 @@
             "name": "כמה עולה תיקון דוד שמש?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "המחיר משתנה לפי סוג התקלה והחלקים הנדרשים. באתר שלנו יש מחשבון שמראה לך את המחיר המלא — חלקים, עבודה ואחריות — ללא הפתעות."
+              "text": "המחיר של תיקון משתנה לפי התקלה והחלקים שצריך להחליף, ולכן הכי כדאי לשלוח לנו הודעה בוואטסאפ עם תיאור קצר של התקלה (ותמונה, אם אפשר) — ונחזור אליכם עם ההצעה הכי טובה. אם הדוד צריך החלפה, את המחיר המלא תמצאו במחשבון באתר."
             }
           }
         ]
@@ -1326,6 +1326,77 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
 .call-opt{background:var(--q-navy)}
 .call-opt:hover{box-shadow:0 10px 22px -10px rgba(10,31,61,.6)}
 .privacy-box h3 svg{width:19px;height:19px;vertical-align:-3px;margin-inline-end:6px}
+
+/* ---------- 14. section order (Sep 2026): the calculator right after the numbers ---------- */
+/* friction reducers above the calculator */
+.calc-promise{list-style:none;margin:16px auto 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:640px}
+.calc-promise li{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:7px 13px 7px 14px;border-radius:999px;background:var(--q-cream);border:1px solid var(--q-hair);color:var(--q-ink);font-family:'Assistant',sans-serif;font-size:14.5px;font-weight:700;line-height:1.2}
+.calc-promise svg{width:16px;height:16px;flex-shrink:0;color:var(--d-hot-deep)}
+/* the calculator button's text flows as one sentence (as flex pieces, Russian broke into 3 columns on small phones) */
+.btn-quote-wide{display:block;text-align:center;text-wrap:balance}
+.hero-btns svg{flex-shrink:0}
+/* a small way in for visitors who came with a broken boiler (phones/tablets; on desktop the menu shows "תיקונים") */
+.hero-fix-link{display:none}
+@media(max-width:859px){
+  .hero-fix-link{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:5px;width:-moz-fit-content;width:fit-content;max-width:100%;margin:16px auto 0;color:rgba(255,255,255,.88);font-size:15px;font-weight:600;text-align:center;text-decoration:none}
+  .hero-fix-link u{color:#fff;text-decoration-thickness:1.5px;text-underline-offset:3px}
+  .hero-fix-link svg{width:16px;height:16px;flex-shrink:0}
+  /* floating WhatsApp / call wait until the hero buttons scroll away (see ardudim-order-js) */
+  .sticky-wa,.sticky-call{transition:opacity .25s ease,visibility .25s ease}
+  body.hero-btns-on .sticky-wa,body.hero-btns-on .sticky-call{opacity:0;visibility:hidden;pointer-events:none}
+  /* bigger-text modes (accessibility menu): one hero button per row, also on tablets */
+  body.a11y-text-large .hero-btns,body.a11y-text-xlarge .hero-btns{flex-direction:column;align-items:stretch}
+}
+/* mobile hero: the calculator button leads; WhatsApp + call side by side under it */
+@media(max-width:599px){
+  .hero-btns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+  .hero-btns>.btn-quote-wide{grid-column:1/-1}
+  .hero-btns>.btn-wa,.hero-btns>.btn-call{padding-left:10px !important;padding-right:10px !important;gap:8px}
+  .calc-promise li{font-size:14px;padding:6px 11px 6px 12px}
+  /* bigger-text modes (accessibility menu): back to one button per row */
+  body.a11y-text-large .hero-btns,body.a11y-text-xlarge .hero-btns{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:360px){
+  html[lang="ru"] .hero-btns>.btn-wa,html[lang="ru"] .hero-btns>.btn-call{font-size:15px !important;gap:6px}
+}
+/* very narrow phones (≤340px, Hebrew too): same compaction for the step tabs */
+@media(max-width:340px){
+  .csl{flex:0 0 auto;padding-inline-end:5px}
+  .csl.active{flex:1 1 auto}
+  .csl:not(.active) .csl-text{display:none}
+}
+/* Russian: the 4 step tabs don't fit under ~420px → numbers only, the current step keeps its name */
+@media(max-width:420px){
+  html[lang="ru"] .csl{flex:0 0 auto;padding-inline-end:5px}
+  html[lang="ru"] .csl.active{flex:1 1 auto}
+  html[lang="ru"] .csl:not(.active) .csl-text{display:none}
+}
+
+/* ---------- 15. copy round (Sep 2026) ---------- */
+/* "אחריות מלאה" wraps into two lines like its neighbours in the phone features box */
+.hmf-text.hmf-2l{width:-moz-min-content;width:min-content;margin:0 auto}
+/* stats: Google rating on phones (not in the phone hero), brand choice on desktop (the desktop hero already shows the rating) */
+@media(max-width:859px){.stat-item.stat-d{display:none}}
+@media(min-width:860px){.stat-item.stat-m{display:none}}
+/* FAQ links; an open answer may be taller than 200px (Russian on small phones was cut off) */
+.faq-a a{color:var(--d-hot-deep);font-weight:700;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.faq-item.open .faq-a{max-height:640px}
+/* response-time promise under the calculator's WhatsApp button */
+.q-reply-note{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:6px;margin:-2px 0 2px;color:var(--q-muted);font-size:14px;font-weight:600;line-height:1.3;text-align:center}
+.q-reply-note svg{width:15px;height:15px;flex-shrink:0;color:#16A34A}
+/* reviews: one swipe row on phones, a card at a time; desktop keeps the 2-column grid */
+.reviews-dots{display:none}
+@media(max-width:759px){
+  .reviews-track{display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin-left:-20px;margin-right:-20px;padding:6px 20px 8px;scroll-padding-inline:20px}
+  .reviews-track::-webkit-scrollbar{display:none}
+  .reviews-track>.review-card{flex:0 0 86%;scroll-snap-align:start}
+  .reviews-track:focus-visible{outline:3px solid var(--q-orange);outline-offset:2px;border-radius:12px}
+  .reviews-dots{display:flex;justify-content:center;margin-top:6px}
+  .reviews-dots button{width:30px;height:30px;padding:0;border:0;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .reviews-dots button::before{content:'';display:block;width:8px;height:8px;border-radius:99px;background:var(--q-hair);transition:width .25s ease,background .25s ease}
+  .reviews-dots button.on::before{width:22px;background:var(--q-orange)}
+  .reviews .google-badge{margin-top:10px}
+}
 </style>
 
   <!-- Google tag (gtag.js) - Google Ads -->
@@ -1380,11 +1451,11 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
     <div class="logo-text">א.ר דודי שמש</div>
   </div>
   <div class="nav-links" id="nav-links">
-    <a href="#about" onclick="event.preventDefault();navGoto('about')">אודות</a>
-    <a href="#gallery" onclick="event.preventDefault();navGoto('gallery')">גלריה</a>
+    <a href="#calculator" onclick="event.preventDefault();navGoto('calculator')">מחשבון מחיר</a>
     <a href="#reviews" onclick="event.preventDefault();navGoto('reviews')">ביקורות</a>
     <a href="#repairs" onclick="event.preventDefault();navGoto('repairs')">תיקונים</a>
-    <a href="#calculator" onclick="event.preventDefault();navGoto('calculator')">מחשבון מחיר</a>
+    <a href="#gallery" onclick="event.preventDefault();navGoto('gallery')">גלריה</a>
+    <a href="#about" onclick="event.preventDefault();navGoto('about')">אודות</a>
     <a href="#contact" onclick="event.preventDefault();navGoto('contact')">צור קשר</a>
   </div>
   <div class="nav-menu-overlay" id="nav-menu-overlay" onclick="closeMobileMenu()"></div>
@@ -1431,7 +1502,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
     </div>
   </div>
   <div class="hero-benefits-new" style="display:none">
-    <div class="hero-benefit"><div class="hero-benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div class="hero-benefit-body"><div class="hero-benefit-title">הגעה מהירה</div><div class="hero-benefit-text">בכל גוש דן והמרכז</div></div></div>
+    <div class="hero-benefit"><div class="hero-benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8.5" r="5.5"/><path d="M8.6 12.9 7.2 21.5l4.8-2.7 4.8 2.7-1.4-8.6"/></svg></div><div class="hero-benefit-body"><div class="hero-benefit-title">מתקין מורשה כרומגן</div><div class="hero-benefit-text">בפתח תקווה, גוש דן והמרכז</div></div></div>
     <div class="hero-benefit"><div class="hero-benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div class="hero-benefit-body"><div class="hero-benefit-title">אחריות מלאה</div><div class="hero-benefit-text">על העבודה והחומרים</div></div></div>
     <div class="hero-benefit"><div class="hero-benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div><div class="hero-benefit-body"><div class="hero-benefit-title">הצעת מחיר שקופה</div><div class="hero-benefit-text">מחירים הוגנים ללא הפתעות</div></div></div>
   </div>
@@ -1447,14 +1518,15 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
     <span class="hms-line"></span>
   </div>
   <div class="hero-mobile-tags">
-    <span>שירות מהיר</span><span class="hmt-dot">•</span>
-    <span>אחריות מלאה</span><span class="hmt-dot">•</span>
-    <span>17+ שנות ניסיון</span>
+    <span>דודי חשמל</span><span class="hmt-dot">•</span>
+    <span>קולטים</span><span class="hmt-dot">•</span>
+    <span>מערכות מלאות</span>
   </div>
   <p class="hero-sub">
     הצעת מחיר מלאה באתר — חלקים, עבודה, אחריות, בלי הפתעות
   </p>
   <div class="hero-btns">
+    <a href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-quote btn-quote-wide">לקבלת <strong>הצעת מחיר</strong> באתר</a>
     <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       וואטסאפ
@@ -1463,8 +1535,8 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
       התקשר
     </a>
-    <a href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-quote btn-quote-wide">לקבלת <strong>הצעת מחיר</strong> באתר</a>
   </div>
+  <a class="hero-fix-link" href="#repairs" onclick="event.preventDefault();navGoto('repairs')">יש תקלה בדוד? <u>לתיקונים</u><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   <div class="hero-trust">
     <div class="trust-pill trust-pill-orange">⭐ מורשה כרומגן</div>
     <div class="trust-pill"><div class="dot"></div>הגעה מהירה</div>
@@ -1498,8 +1570,8 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
       <div class="hmf-text">מחירים<br/>הוגנים</div>
     </div>
     <div class="hmf-item">
-      <div class="hmf-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-      <div class="hmf-text">מענה<br/>מהיר</div>
+      <div class="hmf-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.6c0 4.6-3.1 8.2-7.5 9.9-4.4-1.7-7.5-5.3-7.5-9.9V6z"/><path d="M8.8 12.2l2.2 2.2 4.3-4.4"/></svg></div>
+      <div class="hmf-text hmf-2l">אחריות מלאה</div>
     </div>
     <div class="hmf-item">
       <div class="hmf-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></div>
@@ -1525,328 +1597,15 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
       <div class="stat-number stat-text">באותו יום</div>
       <div class="stat-label">הגעה לרוב הקריאות</div>
     </div>
-    <div class="stat-item">
-      <div class="stat-number stat-text">מהיר</div>
-      <div class="stat-label">מענה בתוך דקות</div>
+    <div class="stat-item stat-m">
+      <div class="stat-number">5.0</div>
+      <div class="stat-label">דירוג בגוגל</div>
+    </div>
+    <div class="stat-item stat-d">
+      <div class="stat-number" data-target="3">0</div>
+      <div class="stat-label">חברות מובילות לבחירה</div>
     </div>
   </div>
-</section>
-
-<!-- About Us -->
-<section class="about-us" id="about">
-  <div class="section-label">קצת עלינו</div>
-  <h2>עסק משפחתי <span class="accent">עם 17+ שנות ניסיון</span></h2>
-  <div class="about-content">
-    <div class="about-image-wrap">
-      <img src="https://ardudim.co.il/images/about-us-team-2026.webp" alt="הצוות של א.ר דודי שמש על גג בפתח תקווה בשעת שקיעה" loading="lazy" decoding="async" />
-    </div>
-    <div class="about-content-right">
-      <div class="about-text">
-        <p class="about-lead">א.ר דודי שמש הוא עסק משפחתי הפועל באזור פתח תקווה והמרכז כבר יותר מ-17 שנים. אנחנו מתמחים בהתקנה, תיקון וחידוש של דודי שמש, דודי חשמל, מערכות שמש מלאות וקולטים.</p>
-        <p>במהלך השנים שירתנו מאות לקוחות מרוצים ובנינו לעצמנו מוניטין של עסק אמין שמגיע מהר, עובד נקי ולא מפתיע במחיר.</p>
-        <p>אנחנו מתקינים מורשים של כרומגן, עובדים עם המותגים המובילים בארץ (כרומגן, אמישראגז, ירדן), ונותנים אחריות מלאה על העבודה.</p>
-      </div>
-      <div class="about-values">
-        <div class="value-card">
-          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-          <div class="value-text">
-            <div class="value-title">הגעה מהירה</div>
-            <div class="value-desc">באותו יום באזור המרכז</div>
-          </div>
-        </div>
-        <div class="value-card">
-          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></div>
-          <div class="value-text">
-            <div class="value-title">מחירים הוגנים</div>
-            <div class="value-desc">הצעת מחיר ברורה מראש</div>
-          </div>
-        </div>
-        <div class="value-card">
-          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.6c0 4.6-3.1 8.2-7.5 9.9-4.4-1.7-7.5-5.3-7.5-9.9V6z"/><path d="M8.8 12.2l2.2 2.2 4.3-4.4"/></svg></div>
-          <div class="value-text">
-            <div class="value-title">אחריות מלאה</div>
-            <div class="value-desc">על העבודה ועל החלקים</div>
-          </div>
-        </div>
-        <div class="value-card">
-          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.8 5.2a4.4 4.4 0 0 0-5.6 5.6L3.8 16.2a1.8 1.8 0 0 0 2.6 2.6l5.4-5.4a4.4 4.4 0 0 0 5.6-5.6l-2.6 2.6-2.3-.6-.6-2.3z"/></svg></div>
-          <div class="value-text">
-            <div class="value-title">עבודה מקצועית</div>
-            <div class="value-desc">17+ שנות ניסיון בשטח</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Gallery -->
-<section class="gallery" id="gallery">
-
-  <div class="section-label">עבודות שביצענו</div>
-  <h2>ראה בעצמך את האיכות</h2>
-  <p class="section-desc">תמונות מעבודות אמיתיות — התקנות, תיקונים וחידושים שביצענו ברחבי המרכז.</p>
-  <div class="gallery-grid">
-    <div class="gallery-item">
-      <picture>
-        <source srcset="images/gallery-02.webp" type="image/webp" />
-        <img src="images/gallery-02.jpg" alt="התקנת מערכת שמש כרומגן עם 2 דודים וקולטים על גג בפתח תקווה" loading="lazy" width="1080" height="486" />
-      </picture>
-      <div class="gallery-label">חידוש מערכת – גבעתיים</div>
-    </div>
-    <div class="gallery-item">
-      <picture>
-        <source srcset="images/gallery-03.webp" type="image/webp" />
-        <img src="images/gallery-03.jpg" alt="התקנת דוד שמש אמישראגז עם קולט שמש על גג" loading="lazy" width="540" height="1200" />
-      </picture>
-      <div class="gallery-label">תיקון נזילה – פתח תקווה</div>
-    </div>
-    <div class="gallery-item">
-      <picture>
-        <source srcset="images/gallery-04.webp" type="image/webp" />
-        <img src="images/gallery-04.jpg" alt="התקנה של מחליף חום כרומגן" loading="lazy" width="900" height="1200" />
-      </picture>
-      <div class="gallery-label">התקנת דוד חדש – תל אביב</div>
-    </div>
-    <div class="gallery-item">
-      <picture>
-        <source srcset="images/gallery-05.webp" type="image/webp" />
-        <img src="images/gallery-05.jpg" alt="מתקין דודי שמש מקצועי על גג בית" loading="lazy" width="843" height="1200" />
-      </picture>
-      <div class="gallery-label">תיקון גוף חימום – רמת גן</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-06.webp" type="image/webp" />
-        <img src="images/gallery-06.jpg" alt="חיבורי צנרת מקצועיים תחת דוד שמש" loading="lazy" width="1000" height="562" />
-      </picture>
-      <div class="gallery-label">חיבורי צנרת</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-07.webp" type="image/webp" />
-        <img src="images/gallery-07.jpg" alt="התקנת דוד אמישראגז עם קולט שמש על גג" loading="lazy" width="450" height="1000" />
-      </picture>
-      <div class="gallery-label">התקנה אמישראגז</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-08.webp" type="image/webp" />
-        <img src="images/gallery-08.jpg" alt="התקנת דוד שמש עם קולט גדול על גג" loading="lazy" width="750" height="1000" />
-      </picture>
-      <div class="gallery-label">דוד שמש מלא</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-09.webp" type="image/webp" />
-        <img src="images/gallery-09.jpg" alt="התקנת דוד אמישראגז עם קולט בפתח תקווה" loading="lazy" width="450" height="1000" />
-      </picture>
-      <div class="gallery-label">אמישראגז – פ״ת</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-10.webp" type="image/webp" />
-        <img src="images/gallery-10.jpg" alt="מתקין מקצועי עובד על דוד כרומגן סולארי" loading="lazy" width="827" height="1000" />
-      </picture>
-      <div class="gallery-label">תיקון בשטח</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-11.webp" type="image/webp" />
-        <img src="images/gallery-11.jpg" alt="התקנת מחליף חום כרומגן" loading="lazy" width="750" height="1000" />
-      </picture>
-      <div class="gallery-label">מחליף חום</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-12.webp" type="image/webp" />
-        <img src="images/gallery-12.jpg" alt="דוד חשמל מותקן בשירותי מרפסת" loading="lazy" width="1000" height="750" />
-      </picture>
-      <div class="gallery-label">דוד חשמל</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-13.webp" type="image/webp" />
-        <img src="images/gallery-13.jpg" alt="חיבורי שסתומים וצנרת מקצועית מתחת לדוד" loading="lazy" width="1000" height="562" />
-      </picture>
-      <div class="gallery-label">חיבורי שסתומים</div>
-    </div>
-    <div class="gallery-item extra">
-      <picture>
-        <source srcset="images/gallery-14.webp" type="image/webp" />
-        <img src="images/gallery-14.jpg" alt="התקנת מחליף חום כרומגן במרפסת שירות" loading="lazy" width="562" height="1000" />
-      </picture>
-      <div class="gallery-label">מחליף חום במרפסת</div>
-    </div>
-  </div>
-  <div class="gallery-more-wrap">
-    <button type="button" class="gallery-more-btn" id="galleryMoreBtn" onclick="toggleGalleryExtras(this)" aria-expanded="false">
-      <span class="btn-text">עוד תמונות</span>
-      <span class="arrow">▼</span>
-    </button>
-  </div>
-  <p class="gallery-cta"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>עוד תמונות בוואטסאפ — שלח הודעה ונשלח לך גלריה מלאה</span></p>
-</section>
-
-
-<!-- Reviews -->
-<section class="reviews" id="reviews">
-  <div style="text-align:center;max-width:700px;margin:0 auto 8px">
-    <span class="section-label">לקוחות ממליצים</span>
-    <h2>מה הלקוחות אומרים</h2>
-    <p class="section-desc">ביקורות אמיתיות מלקוחות שלנו בגוגל — שירות מקצועי, מחיר הוגן ויחס אנושי.</p>
-  </div>
-  <div class="reviews-track">
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">נתקלתי בפרסום של איליה ופניתי אליו, ישר קיבלתי הצעת מחיר הוגנת כוללת הכל בצורה מסודרת בקובץ. הכל היה ברור ושקוף. הגיע בזמן, ישר התחיל לעבוד והביא כל מה שצריך — ממש מקצועי ופרקטי. החליף הכל חדש כולל צינורות וברז. אחת החוויות הנעימות שחוויתי מול איש מקצוע. צילם לפני ואחרי והסביר הכל לגבי האחריות. ממש מומלץ!!!</p>
-      <div class="reviewer">
-        <div class="reviewer-avatar" id="rev-avatar-z" style="background:#ec4899">ז</div>
-        <div>
-          <div class="reviewer-name">זוהרית אלישע</div>
-          <div class="reviewer-area">ביקורת בגוגל</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">איליה הגיע בדיוק בזמן, זיהה מיד את התקלה והציע פתרון ומחיר הוגנים. כאשר עלה צורך בעבודה נוספת, לא ניצל את הסיטואציה אלא קבע הגעה נוספת, הגיע שוב בזמן וביצע עבודה מקצועית ומסודרת. איש מקצוע אמין, נעים הליכות, שנותן שקט. מומלץ.</p>
-      <div class="reviewer">
-        <div class="reviewer-avatar" style="background:#0d9488">E</div>
-        <div>
-          <div class="reviewer-name">E.d Yoash Mina</div>
-          <div class="reviewer-area">ביקורת בגוגל</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">איליה עשה אצלנו עבודה מורכבת בדודי שמש בבניין בצורה מקצועית, נקייה וברמה גבוהה ובמחיר הוגן. לאחר מכן הוזמן שוב לתיקון אחר בדוד אצלי בבית, ושוב יצאנו מרוצים מאוד. בחור מקסים, ישר, מקצועי ואמין. כן ירבו בעלי מקצוע כאלה. ממליץ בחום!!!!</p>
-      <div class="reviewer">
-        <div class="reviewer-avatar" style="background:#ea580c">S</div>
-        <div>
-          <div class="reviewer-name">shlomi sallem</div>
-          <div class="reviewer-area">ביקורת בגוגל</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">הגיע היום איליה טכנאי דוד שמש, נתן שירות מקצועי ברמה גבוהה מאוד ועשה עבודה מצוינת. המחיר היה הוגן מאוד, היחס היה אדיב, סבלני ונעים לאורך כל הטיפול בתקלה. הסביר בסבלנות מה הבעיה, נתן תחושת אמינות וביצע את העבודה בצורה יסודית ומקצועית. ממליצה בחום על השירות של איליה.</p>
-      <div class="reviewer">
-        <div class="reviewer-avatar" style="background:#7c3aed">Y</div>
-        <div>
-          <div class="reviewer-name">Yana Fox</div>
-          <div class="reviewer-area">ביקורת בגוגל</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center">
-      <span class="google-badge">
-        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        <b class="gb-score">5.0</b><span class="gb-stars" aria-hidden="true">★★★★★</span>
-        ביקורות אמיתיות מ-Google
-      </span>
-    </div>
-  </div>
-</section>
-
-<!-- Common Repairs -->
-<section class="repairs" id="repairs">
-  <div class="section-label">תיקונים נפוצים</div>
-  <h2>הבעיה שלך כאן – בחרו כדי שנפתור אותה.</h2>
-  <p class="section-desc">17+ שנות ניסיון בתיקון דודי שמש. בחרו את הבעיה שלכם ואנו נתאים פתרון מדויק.</p>
-  <div class="rep-legend"><span class="rep-chip hot"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg><span>תקלות חימום</span></span><span class="rep-chip cold"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg><span>תקלות מים</span></span></div>
-
-  <div class="repairs-grid-v2">
-    <a class="repair-v2 line-blue rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הדוד%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-v2-img"><img src="images/repair-boiler-leak.webp" alt="דוד נוזל" loading="lazy"></div>
-      <div class="repair-v2-body">
-        <div class="repair-v2-title">דוד נוזל</div>
-        <div class="repair-v2-desc">נזילה מהדוד או מהחיבורים.</div>
-        <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
-        <button type="button" class="repair-v2-quote" onclick="event.preventDefault();event.stopPropagation();goToQuote('solar');">הצעת מחיר לדוד חדש</button>
-      </div>
-    </a>
-
-    <a class="repair-v2 line-blue rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הקולט%20שמש%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-v2-img"><img src="images/repair-kolat-leak.webp" alt="קולט נוזל" loading="lazy"></div>
-      <div class="repair-v2-body">
-        <div class="repair-v2-title">קולט נוזל</div>
-        <div class="repair-v2-desc">נזילה מהקולטים או מהצנרת החיצונית.</div>
-        <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
-        <button type="button" class="repair-v2-quote" onclick="event.preventDefault();event.stopPropagation();goToQuote('kolat_copper');">הצעת מחיר לקולט חדש</button>
-      </div>
-    </a>
-
-    <a class="repair-v2 line-orange rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20שאינו%20מחמם%20מים,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-v2-img"><img src="images/repair-no-heat.webp" alt="הדוד לא מחמם" loading="lazy"></div>
-      <div class="repair-v2-body">
-        <div class="repair-v2-title">הדוד לא מחמם</div>
-        <div class="repair-v2-desc">לרוב מדובר בבעיה בטרמוסטט או בגוף החימום.</div>
-        <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
-      </div>
-    </a>
-
-    <a class="repair-v2 line-blue rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20אין%20לי%20מים%20חמים%20מהשמש,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-v2-img"><img src="images/repair-no-sun.webp" alt="אין מים חמים מהשמש" loading="lazy"></div>
-      <div class="repair-v2-body">
-        <div class="repair-v2-title">אין מים חמים מהשמש</div>
-        <div class="repair-v2-desc">לרוב בעיה במערכת השמש או בקולטים.</div>
-        <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
-      </div>
-    </a>
-
-    <a class="repair-v2 line-green rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20ירידת%20לחץ%20או%20נזילה%20במערכת,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-v2-img"><img src="images/repair-pressure.webp" alt="ירידת לחץ או נזילה" loading="lazy"></div>
-      <div class="repair-v2-body">
-        <div class="repair-v2-title">ירידת לחץ או נזילה</div>
-        <div class="repair-v2-desc">ירידת לחץ במערכת או נזילה בצנרת או בחיבורים.</div>
-        <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
-      </div>
-    </a>
-
-    <a class="repair-v2 line-purple rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20המתג%20של%20הדוד%20שלי%20לא%20עובד,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
-      <div class="repair-v2-img"><img src="images/repair-switch.webp" alt="המתג של הדוד לא עובד" loading="lazy"></div>
-      <div class="repair-v2-body">
-        <div class="repair-v2-title">המתג של הדוד לא עובד</div>
-        <div class="repair-v2-desc">המתג שמזין את החשמל לדוד אינו פועל כראוי.</div>
-        <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
-      </div>
-    </a>
-  </div>
-
-  <div class="repairs-bottom">
-    <p>בעיה אחרת? אנחנו כאן לעזור.</p>
-    <a href="javascript:void(0)" onclick="openCallModal()" class="repairs-cta-v2">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-      התקשרו אלינו עכשיו
-    </a>
-  </div>
-</section>
-
-<!-- How it works -->
-<section class="how" id="how">
-  <div class="section-label">4 צעדים פשוטים</div>
-  <h2>איך זה עובד?</h2>
-  <p class="section-desc">מהמחיר באתר ועד דוד חדש שעובד — בלי הפתעות בדרך.</p>
-  <ol class="how-steps">
-    <li class="how-step s1"><span class="how-num">1</span><div class="how-title">מחשבים מחיר באתר</div><p class="how-text">בוחרים מוצר, גודל וסוג גג — ומקבלים מחיר מלא לפני מע"מ.</p></li>
-    <li class="how-step s2"><span class="how-num">2</span><div class="how-title">שולחים בוואטסאפ</div><p class="how-text">ההצעה נשלחת אלינו בלחיצה אחת, עם כל הפרטים.</p></li>
-    <li class="how-step s3"><span class="how-num">3</span><div class="how-title">מתאמים הגעה</div><p class="how-text">חוזרים אליכם ומתאמים מועד שנוח לכם.</p></li>
-    <li class="how-step s4"><span class="how-num">4</span><div class="how-title">מתקינים עם אחריות</div><p class="how-text">התקנה מקצועית, פינוי הישן ואחריות על העבודה.</p></li>
-  </ol>
-  <div class="how-cta"><a class="how-btn" href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/></svg><span>לחישוב המחיר</span><svg class="d-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>
 </section>
 
 <!-- Calculator -->
@@ -1855,7 +1614,11 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
   <div class="calc-section-top">
     <div class="section-label">מחשבון מחירים</div>
     <h2>כמה תעלה ההתקנה שלך?</h2>
-    <p class="section-desc">כמה שלבים פשוטים — וקבל מחיר מיידי עם כל הפרטים ישר לוואטסאפ.</p>
+    <ul class="calc-promise">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>פחות מדקה</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10.5" rx="2.5"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>בלי להשאיר פרטים</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg>מחיר מלא, מיד</li>
+    </ul>
   </div>
 
   <div class="calc-card">
@@ -2085,6 +1848,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
           <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           שלח לוואטסאפ לאישור
         </a>
+        <p class="q-reply-note"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>עונים בוואטסאפ בדרך כלל תוך דקות</p>
         <button type="button" class="btn-pdf-result" onclick="qPdfCurrent(this)">
           <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11.5v6M9.4 14.9L12 17.5l2.6-2.6"/></svg>
           <span>הורד הצעת מחיר (PDF)</span>
@@ -2126,6 +1890,324 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
 
 
 
+<!-- Reviews -->
+<section class="reviews" id="reviews">
+  <div style="text-align:center;max-width:700px;margin:0 auto 8px">
+    <span class="section-label">לקוחות ממליצים</span>
+    <h2>מה הלקוחות אומרים</h2>
+    <p class="section-desc">ביקורות אמיתיות מלקוחות שלנו בגוגל — שירות מקצועי, מחיר הוגן ויחס אנושי.</p>
+  </div>
+  <div class="reviews-track" role="region" aria-label="ביקורות לקוחות">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">נתקלתי בפרסום של איליה ופניתי אליו, ישר קיבלתי הצעת מחיר הוגנת כוללת הכל בצורה מסודרת בקובץ. הכל היה ברור ושקוף. הגיע בזמן, ישר התחיל לעבוד והביא כל מה שצריך — ממש מקצועי ופרקטי. החליף הכל חדש כולל צינורות וברז. אחת החוויות הנעימות שחוויתי מול איש מקצוע. צילם לפני ואחרי והסביר הכל לגבי האחריות. ממש מומלץ!!!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar" id="rev-avatar-z" style="background:#ec4899">ז</div>
+        <div>
+          <div class="reviewer-name">זוהרית אלישע</div>
+          <div class="reviewer-area">ביקורת בגוגל</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">איליה הגיע בדיוק בזמן, זיהה מיד את התקלה והציע פתרון ומחיר הוגנים. כאשר עלה צורך בעבודה נוספת, לא ניצל את הסיטואציה אלא קבע הגעה נוספת, הגיע שוב בזמן וביצע עבודה מקצועית ומסודרת. איש מקצוע אמין, נעים הליכות, שנותן שקט. מומלץ.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background:#0d9488">E</div>
+        <div>
+          <div class="reviewer-name">E.d Yoash Mina</div>
+          <div class="reviewer-area">ביקורת בגוגל</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">איליה עשה אצלנו עבודה מורכבת בדודי שמש בבניין בצורה מקצועית, נקייה וברמה גבוהה ובמחיר הוגן. לאחר מכן הוזמן שוב לתיקון אחר בדוד אצלי בבית, ושוב יצאנו מרוצים מאוד. בחור מקסים, ישר, מקצועי ואמין. כן ירבו בעלי מקצוע כאלה. ממליץ בחום!!!!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background:#ea580c">S</div>
+        <div>
+          <div class="reviewer-name">shlomi sallem</div>
+          <div class="reviewer-area">ביקורת בגוגל</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">הגיע היום איליה טכנאי דוד שמש, נתן שירות מקצועי ברמה גבוהה מאוד ועשה עבודה מצוינת. המחיר היה הוגן מאוד, היחס היה אדיב, סבלני ונעים לאורך כל הטיפול בתקלה. הסביר בסבלנות מה הבעיה, נתן תחושת אמינות וביצע את העבודה בצורה יסודית ומקצועית. ממליצה בחום על השירות של איליה.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background:#7c3aed">Y</div>
+        <div>
+          <div class="reviewer-name">Yana Fox</div>
+          <div class="reviewer-area">ביקורת בגוגל</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="reviews-dots"></div>
+  <div style="text-align:center">
+      <span class="google-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <b class="gb-score">5.0</b><span class="gb-stars" aria-hidden="true">★★★★★</span>
+        ביקורות אמיתיות מ-Google
+      </span>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="how" id="how">
+  <div class="section-label">4 צעדים פשוטים</div>
+  <h2>איך זה עובד?</h2>
+  <p class="section-desc">מהמחיר באתר ועד דוד חדש שעובד — בלי הפתעות בדרך.</p>
+  <ol class="how-steps">
+    <li class="how-step s1"><span class="how-num">1</span><div class="how-title">מחשבים מחיר באתר</div><p class="how-text">בוחרים מוצר, גודל וסוג גג — ומקבלים מחיר מלא לפני מע"מ.</p></li>
+    <li class="how-step s2"><span class="how-num">2</span><div class="how-title">שולחים בוואטסאפ</div><p class="how-text">ההצעה נשלחת אלינו בלחיצה אחת, עם כל הפרטים.</p></li>
+    <li class="how-step s3"><span class="how-num">3</span><div class="how-title">מתאמים הגעה</div><p class="how-text">חוזרים אליכם ומתאמים מועד שנוח לכם.</p></li>
+    <li class="how-step s4"><span class="how-num">4</span><div class="how-title">מתקינים עם אחריות</div><p class="how-text">התקנה מקצועית, פינוי הישן ואחריות על העבודה.</p></li>
+  </ol>
+  <div class="how-cta"><a class="how-btn" href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/></svg><span>לחישוב המחיר</span><svg class="d-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a></div>
+</section>
+
+<!-- Common Repairs -->
+<section class="repairs" id="repairs">
+  <div class="section-label">תיקונים נפוצים</div>
+  <h2>הבעיה שלך כאן – בחרו כדי שנפתור אותה.</h2>
+  <p class="section-desc">17+ שנות ניסיון בתיקון דודי שמש. בחרו את הבעיה שלכם ואנו נתאים פתרון מדויק.</p>
+  <div class="rep-legend"><span class="rep-chip hot"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg><span>תקלות חימום</span></span><span class="rep-chip cold"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg><span>תקלות מים</span></span></div>
+
+  <div class="repairs-grid-v2">
+    <a class="repair-v2 line-blue rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הדוד%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-boiler-leak.webp" alt="דוד נוזל" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">דוד נוזל</div>
+        <div class="repair-v2-desc">נזילה מהדוד או מהחיבורים.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <button type="button" class="repair-v2-quote" onclick="event.preventDefault();event.stopPropagation();goToQuote('solar');">הצעת מחיר לדוד חדש</button>
+      </div>
+    </a>
+
+    <a class="repair-v2 line-blue rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20הקולט%20שמש%20שלי%20נוזל,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-kolat-leak.webp" alt="קולט נוזל" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">קולט נוזל</div>
+        <div class="repair-v2-desc">נזילה מהקולטים או מהצנרת החיצונית.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <button type="button" class="repair-v2-quote" onclick="event.preventDefault();event.stopPropagation();goToQuote('kolat_copper');">הצעת מחיר לקולט חדש</button>
+      </div>
+    </a>
+
+    <a class="repair-v2 line-orange rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20שאינו%20מחמם%20מים,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-no-heat.webp" alt="הדוד לא מחמם" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">הדוד לא מחמם</div>
+        <div class="repair-v2-desc">לרוב מדובר בבעיה בטרמוסטט או בגוף החימום.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+      </div>
+    </a>
+
+    <a class="repair-v2 line-blue rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20אין%20לי%20מים%20חמים%20מהשמש,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-no-sun.webp" alt="אין מים חמים מהשמש" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">אין מים חמים מהשמש</div>
+        <div class="repair-v2-desc">לרוב בעיה במערכת השמש או בקולטים.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+      </div>
+    </a>
+
+    <a class="repair-v2 line-green rep-cold" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20ירידת%20לחץ%20או%20נזילה%20במערכת,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-pressure.webp" alt="ירידת לחץ או נזילה" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">ירידת לחץ או נזילה</div>
+        <div class="repair-v2-desc">ירידת לחץ במערכת או נזילה בצנרת או בחיבורים.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+      </div>
+    </a>
+
+    <a class="repair-v2 line-purple rep-hot" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20המתג%20של%20הדוד%20שלי%20לא%20עובד,%20אשמח%20להתייעץ%20איתך" target="_blank" rel="noopener">
+      <div class="repair-v2-img"><img src="images/repair-switch.webp" alt="המתג של הדוד לא עובד" loading="lazy"></div>
+      <div class="repair-v2-body">
+        <div class="repair-v2-title">המתג של הדוד לא עובד</div>
+        <div class="repair-v2-desc">המתג שמזין את החשמל לדוד אינו פועל כראוי.</div>
+        <div class="repair-v2-line"></div>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+      </div>
+    </a>
+  </div>
+
+  <div class="repairs-bottom">
+    <p>בעיה אחרת? אנחנו כאן לעזור.</p>
+    <a href="javascript:void(0)" onclick="openCallModal()" class="repairs-cta-v2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      התקשרו אלינו עכשיו
+    </a>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="gallery" id="gallery">
+
+  <div class="section-label">עבודות שביצענו</div>
+  <h2>ראה בעצמך את האיכות</h2>
+  <p class="section-desc">תמונות מעבודות אמיתיות — התקנות, תיקונים וחידושים שביצענו ברחבי המרכז.</p>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <picture>
+        <source srcset="images/gallery-02.webp" type="image/webp" />
+        <img src="images/gallery-02.jpg" alt="התקנת מערכת שמש כרומגן עם 2 דודים וקולטים על גג בפתח תקווה" loading="lazy" width="1080" height="486" />
+      </picture>
+      <div class="gallery-label">חידוש מערכת – גבעתיים</div>
+    </div>
+    <div class="gallery-item">
+      <picture>
+        <source srcset="images/gallery-03.webp" type="image/webp" />
+        <img src="images/gallery-03.jpg" alt="התקנת דוד שמש אמישראגז עם קולט שמש על גג" loading="lazy" width="540" height="1200" />
+      </picture>
+      <div class="gallery-label">תיקון נזילה – פתח תקווה</div>
+    </div>
+    <div class="gallery-item">
+      <picture>
+        <source srcset="images/gallery-04.webp" type="image/webp" />
+        <img src="images/gallery-04.jpg" alt="התקנה של מחליף חום כרומגן" loading="lazy" width="900" height="1200" />
+      </picture>
+      <div class="gallery-label">התקנת דוד חדש – תל אביב</div>
+    </div>
+    <div class="gallery-item">
+      <picture>
+        <source srcset="images/gallery-05.webp" type="image/webp" />
+        <img src="images/gallery-05.jpg" alt="מתקין דודי שמש מקצועי על גג בית" loading="lazy" width="843" height="1200" />
+      </picture>
+      <div class="gallery-label">תיקון גוף חימום – רמת גן</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-06.webp" type="image/webp" />
+        <img src="images/gallery-06.jpg" alt="חיבורי צנרת מקצועיים תחת דוד שמש" loading="lazy" width="1000" height="562" />
+      </picture>
+      <div class="gallery-label">חיבורי צנרת</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-07.webp" type="image/webp" />
+        <img src="images/gallery-07.jpg" alt="התקנת דוד אמישראגז עם קולט שמש על גג" loading="lazy" width="450" height="1000" />
+      </picture>
+      <div class="gallery-label">התקנה אמישראגז</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-08.webp" type="image/webp" />
+        <img src="images/gallery-08.jpg" alt="התקנת דוד שמש עם קולט גדול על גג" loading="lazy" width="750" height="1000" />
+      </picture>
+      <div class="gallery-label">דוד שמש מלא</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-09.webp" type="image/webp" />
+        <img src="images/gallery-09.jpg" alt="התקנת דוד אמישראגז עם קולט בפתח תקווה" loading="lazy" width="450" height="1000" />
+      </picture>
+      <div class="gallery-label">אמישראגז – פ״ת</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-10.webp" type="image/webp" />
+        <img src="images/gallery-10.jpg" alt="מתקין מקצועי עובד על דוד כרומגן סולארי" loading="lazy" width="827" height="1000" />
+      </picture>
+      <div class="gallery-label">תיקון בשטח</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-11.webp" type="image/webp" />
+        <img src="images/gallery-11.jpg" alt="התקנת מחליף חום כרומגן" loading="lazy" width="750" height="1000" />
+      </picture>
+      <div class="gallery-label">מחליף חום</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-12.webp" type="image/webp" />
+        <img src="images/gallery-12.jpg" alt="דוד חשמל מותקן בשירותי מרפסת" loading="lazy" width="1000" height="750" />
+      </picture>
+      <div class="gallery-label">דוד חשמל</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-13.webp" type="image/webp" />
+        <img src="images/gallery-13.jpg" alt="חיבורי שסתומים וצנרת מקצועית מתחת לדוד" loading="lazy" width="1000" height="562" />
+      </picture>
+      <div class="gallery-label">חיבורי שסתומים</div>
+    </div>
+    <div class="gallery-item extra">
+      <picture>
+        <source srcset="images/gallery-14.webp" type="image/webp" />
+        <img src="images/gallery-14.jpg" alt="התקנת מחליף חום כרומגן במרפסת שירות" loading="lazy" width="562" height="1000" />
+      </picture>
+      <div class="gallery-label">מחליף חום במרפסת</div>
+    </div>
+  </div>
+  <div class="gallery-more-wrap">
+    <button type="button" class="gallery-more-btn" id="galleryMoreBtn" onclick="toggleGalleryExtras(this)" aria-expanded="false">
+      <span class="btn-text">עוד תמונות</span>
+      <span class="arrow">▼</span>
+    </button>
+  </div>
+  <p class="gallery-cta"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>עוד תמונות בוואטסאפ — שלח הודעה ונשלח לך גלריה מלאה</span></p>
+</section>
+
+
+<!-- About Us -->
+<section class="about-us" id="about">
+  <div class="section-label">קצת עלינו</div>
+  <h2>עסק משפחתי <span class="accent">עם 17+ שנות ניסיון</span></h2>
+  <div class="about-content">
+    <div class="about-image-wrap">
+      <img src="https://ardudim.co.il/images/about-us-team-2026.webp" alt="הצוות של א.ר דודי שמש על גג בפתח תקווה בשעת שקיעה" loading="lazy" decoding="async" />
+    </div>
+    <div class="about-content-right">
+      <div class="about-text">
+        <p class="about-lead">א.ר דודי שמש הוא עסק משפחתי הפועל באזור פתח תקווה והמרכז כבר יותר מ-17 שנים. אנחנו מתמחים בהתקנה, תיקון וחידוש של דודי שמש, דודי חשמל, מערכות שמש מלאות וקולטים.</p>
+        <p>במהלך השנים שירתנו מאות לקוחות מרוצים ובנינו לעצמנו מוניטין של עסק אמין שמגיע מהר, עובד נקי ולא מפתיע במחיר.</p>
+        <p>אנחנו מתקינים מורשים של כרומגן, עובדים עם המותגים המובילים בארץ (כרומגן, אמישראגז, ירדן), ונותנים אחריות מלאה על העבודה.</p>
+      </div>
+      <div class="about-values">
+        <div class="value-card">
+          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M9.5 7V4.5h5V7"/><path d="M6 7l1 12.5A2 2 0 0 0 9 21.5h6a2 2 0 0 0 2-2L18 7"/><path d="M10 11v6M14 11v6"/></svg></div>
+          <div class="value-text">
+            <div class="value-title">פינוי הישן כלול</div>
+            <div class="value-desc">ומשאירים הכל נקי ומסודר</div>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg></div>
+          <div class="value-text">
+            <div class="value-title">מחירים הוגנים</div>
+            <div class="value-desc">הצעת מחיר ברורה מראש</div>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.6c0 4.6-3.1 8.2-7.5 9.9-4.4-1.7-7.5-5.3-7.5-9.9V6z"/><path d="M8.8 12.2l2.2 2.2 4.3-4.4"/></svg></div>
+          <div class="value-text">
+            <div class="value-title">אחריות מלאה</div>
+            <div class="value-desc">על העבודה ועל החלקים</div>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.8 5.2a4.4 4.4 0 0 0-5.6 5.6L3.8 16.2a1.8 1.8 0 0 0 2.6 2.6l5.4-5.4a4.4 4.4 0 0 0 5.6-5.6l-2.6 2.6-2.3-.6-.6-2.3z"/></svg></div>
+          <div class="value-text">
+            <div class="value-title">עבודה מקצועית</div>
+            <div class="value-desc">17+ שנות ניסיון בשטח</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="faq" id="faq">
   <span class="section-label">יש לך שאלה?</span>
@@ -2142,7 +2224,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">האם אתם נותנים אחריות?<span class="faq-arrow">▼</span></button>
-      <div class="faq-a">כן, על כל התקנה ותיקון אנחנו נותנים אחריות מלאה. דודי כרומגן עם אחריות יצרן רשמית של 5 שנים.</div>
+      <div class="faq-a">כן, על כל התקנה ותיקון אנחנו נותנים אחריות מלאה. דודי כרומגן עם אחריות יצרן רשמית של 4 שנים.</div>
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">באילו אזורים אתם מתקינים ומתקנים?<span class="faq-arrow">▼</span></button>
@@ -2150,7 +2232,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">כמה עולה תיקון דוד שמש?<span class="faq-arrow">▼</span></button>
-      <div class="faq-a">המחיר משתנה לפי סוג התקלה והחלקים הנדרשים. באתר שלנו יש מחשבון שמראה לך את המחיר המלא — חלקים, עבודה ואחריות — ללא הפתעות.</div>
+      <div class="faq-a">המחיר של תיקון משתנה לפי התקלה והחלקים שצריך להחליף, ולכן הכי כדאי <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20ואשמח%20לקבל%20הצעת%20מחיר%20לתיקון" target="_blank" rel="noopener">לשלוח לנו הודעה בוואטסאפ</a> עם תיאור קצר של התקלה (ותמונה, אם אפשר) — ונחזור אליכם עם ההצעה הכי טובה. אם הדוד צריך החלפה, את המחיר המלא תמצאו <a href="#calculator" onclick="event.preventDefault();navGoto('calculator')">במחשבון באתר</a>.</div>
     </div>
   </div>
 </section>
@@ -3141,7 +3223,7 @@ const TRANSLATIONS = {
   'כמה זמן לוקח לתקן או להחליף דוד שמש?': 'Сколько времени занимает ремонт или замена бойлера?',
   'החלפת גוף חימום או תיקון תרמוסטט לוקחים בדרך כלל עד שעה. החלפת דוד מלא לוקחת בין שעה לשעתיים. אנחנו מגיעים עם כל החלקים הנדרשים.': 'Замена ТЭНа или ремонт термостата обычно занимают до часа. Полная замена бойлера занимает от часа до двух. Мы приезжаем со всеми необходимыми деталями.',
   'האם אתם נותנים אחריות?': 'Даёте ли вы гарантию?',
-  'כן, על כל התקנה ותיקון אנחנו נותנים אחריות מלאה. דודי כרומגן עם אחריות יצרן רשמית של 5 שנים.': 'Да, на каждую установку и ремонт мы даём полную гарантию. Бойлеры Chromagen — с официальной гарантией производителя 5 лет.',
+  'כן, על כל התקנה ותיקון אנחנו נותנים אחריות מלאה. דודי כרומגן עם אחריות יצרן רשמית של 4 שנים.': 'Да, на каждую установку и ремонт мы даём полную гарантию. Бойлеры Chromagen — с официальной гарантией производителя 4 года.',
   'באילו אזורים אתם מתקינים ומתקנים?': 'В каких районах вы работаете?',
   'אנחנו פועלים בפתח תקווה ובכל אזור המרכז: תל אביב, רמת גן, גבעתיים, בני ברק, ראשון לציון, חולון, הרצליה ועוד.': 'Мы работаем в Петах-Тикве и по всему центру страны: Тель-Авив, Рамат-Ган, Гиватаим, Бней-Брак, Ришон-ле-Цион, Холон, Герцлия и другие.',
   'כמה עולה תיקון דוד שמש?': 'Сколько стоит ремонт солнечного бойлера?',
@@ -3220,7 +3302,7 @@ const TRANSLATIONS = {
   'הדוד לא מחמם': 'Бойлер не греет',
   'לרוב מדובר בגוף חימום שרוף או תרמוסטט תקול': 'Чаще всего — сгоревший ТЭН или неисправный термостат',
   'לרוב גוף חימום שרוף או תרמוסטט תקול': 'Чаще всего сгоревший ТЭН или термостат',
-  'דוד מטפטף או דולף': 'Бойлер протекает',
+  'דוד מטפטף או דולף': 'Бойлер капает или протекает',
   'דליפה מהדוד או מהצנרת — צריך טיפול דחוף': 'Утечка из бойлера или труб — требует срочного ремонта',
   'טפטוף מהדוד בדרך כלל מסמל החלפה — התקשרו עכשיו לבדוק': 'Капание из бойлера обычно означает необходимость замены — звоните, чтобы проверить',
   'טפטוף מהדוד בדרך כלל מסמל החלפה': 'Капание из бойлера обычно означает замену',
@@ -3241,10 +3323,10 @@ const TRANSLATIONS = {
   'המתג של הדוד לא עובד': 'Выключатель бойлера не работает',
   'המתג שמדליק את החשמל בדוד תקול — צריך תיקון או החלפה': 'Выключатель, включающий электричество в бойлере, неисправен — требуется ремонт или замена',
   'המתג שמדליק את החשמל תקול — צריך תיקון': 'Выключатель электричества неисправен — требуется ремонт',
-  'אין מים מהשמש': 'Нет горячей воды от солнца',
+  'אין מים מהשמש': 'Нет воды от солнца',
   'לרוב מדובר על שטיפת קולטים — פתרון מהיר ולא יקר': 'Чаще всего достаточно промывки коллекторов — быстро и недорого',
   'לרוב מדובר על שטיפת קולטים — פתרון מהיר': 'Чаще всего нужна промывка коллекторов — быстрое решение',
-  'קולט דולף או מטפטף': 'Коллектор протекает',
+  'קולט דולף או מטפטף': 'Коллектор течёт или капает',
   'דליפה מהקולט או מהצנרת — צריך טיפול דחוף': 'Утечка из коллектора или труб — требует срочного ремонта',
   // Renamed cards: "מטפטף" → "נוזל"
   'דוד נוזל': 'Бойлер протекает',
@@ -3401,7 +3483,7 @@ const TRANSLATIONS = {
   'אישור והמשך': 'Подтвердить и продолжить',
   'סגור': 'Закрыть',
   // ABOUT US
-  'קצת עלינו': 'О нас',
+  'קצת עלינו': 'Немного о нас',
   'עסק משפחתי': 'Семейный бизнес',
   'עם 17+ שנות ניסיון': 'с опытом 17+ лет',
   'א.ר דודי שמש הוא עסק משפחתי הפועל באזור פתח תקווה והמרכז כבר יותר מ-17 שנים. אנחנו מתמחים בהתקנה, תיקון וחידוש של דודי שמש, דודי חשמל, מערכות שמש מלאות וקולטים.': 'А.Р. Дудей Шемеш — семейный бизнес, работающий в районе Петах-Тиквы и Центра уже более 17 лет. Мы специализируемся на установке, ремонте и обновлении солнечных бойлеров, электробойлеров, полных солнечных систем и коллекторов.',
@@ -3644,7 +3726,7 @@ const TRANSLATIONS = {
   'במקרה של קושי בגישה לתוכן מסוים, נשמח לסייע באמצעי חלופי — שיחת טלפון, הודעת וואטסאפ או דוא"ל.': 'В случае трудностей с доступом к определённому содержанию мы будем рады помочь альтернативным способом — по телефону, в WhatsApp или по электронной почте.',
   'הסדרי נגישות חלופיים': 'Альтернативные средства доступа',
   'השירות שלנו ניתן בעיקר באופן טלפוני ובהגעה פיזית של בעל העסק לבית הלקוח. נשמח לקבל פניות גם בערוצים הבאים:': 'Наша услуга предоставляется в основном по телефону и физическим выездом владельца бизнеса к клиенту. Мы будем рады принимать обращения также по следующим каналам:',
-  'שיחת טלפון:': 'Телефон:',
+  'שיחת טלפון:': 'Звонок по телефону:',
   'וואטסאפ:': 'WhatsApp:',
   ' (ניתן לשלוח גם הודעות קוליות)': ' (можно отправлять и голосовые сообщения)',
   'דוא"ל:': 'Электронная почта:',
@@ -3672,7 +3754,7 @@ const TRANSLATIONS = {
   'גלריה': 'Галерея',
   'ביקורות': 'Отзывы',
   'תיקונים': 'Ремонт',
-  'מחשבון מחיר': 'Калькулятор цен',
+  'מחשבון מחיר': 'Расчёт цены',
   // תוויות גלריה
   'חידוש מערכת': 'Обновление системы',
   'תיקון נזילה': 'Ремонт протечки',
@@ -4498,6 +4580,25 @@ function navGoto(id){
     'מחירים הוגנים ללא הפתעות': 'Честные цены без сюрпризов',
     'בכל גוש דן והמרכז': 'По всему Гуш-Дану и центру',
     'על העבודה והחומרים': 'На работу и материалы',
+    // section order (Sep 2026)
+    'פחות מדקה': 'Меньше минуты',
+    'בלי להשאיר פרטים': 'Контакты не нужны',
+    'מחיר מלא, מיד': 'Полная цена сразу',
+    'יש תקלה בדוד?': 'Бойлер сломался?',
+    'לתיקונים': 'К ремонту',
+    // copy round (Sep 2026)
+    'דודי חשמל': 'Электробойлеры',
+    'מערכות מלאות': 'Полные системы',
+    'דירוג בגוגל': 'Рейтинг в Google',
+    'חברות מובילות לבחירה': 'Ведущих бренда на выбор',
+    'בפתח תקווה, גוש דן והמרכז': 'В Петах-Тикве, Гуш-Дане и центре',
+    'פינוי הישן כלול': 'Вывоз старого включён',
+    'ומשאירים הכל נקי ומסודר': 'И оставляем всё чисто и аккуратно',
+    'עונים בוואטסאפ בדרך כלל תוך דקות': 'В WhatsApp обычно отвечаем за несколько минут',
+    'המחיר של תיקון משתנה לפי התקלה והחלקים שצריך להחליף, ולכן הכי כדאי': 'Стоимость ремонта зависит от неисправности и деталей, которые нужно заменить, поэтому лучше всего',
+    'לשלוח לנו הודעה בוואטסאפ': 'написать нам в WhatsApp',
+    'עם תיאור קצר של התקלה (ותמונה, אם אפשר) — ונחזור אליכם עם ההצעה הכי טובה. אם הדוד צריך החלפה, את המחיר המלא תמצאו': 'с кратким описанием неисправности (и фото, если можно) — и мы вернёмся к вам с лучшим предложением. Если бойлер нужно заменить, полную цену вы найдёте',
+    'במחשבון באתר': 'в калькуляторе на сайте',
   };
   Object.keys(D_RU).forEach(k => { if (!(k in TRANSLATIONS)) TRANSLATIONS[k] = D_RU[k]; });
 
@@ -4605,6 +4706,51 @@ function navGoto(id){
     };
   });
   apply();
+})();
+</script>
+<script id="ardudim-order-js">
+/* phones: the floating WhatsApp / call buttons wait until the hero's own buttons scroll away
+   (on a ~660px-tall phone screen they sat on top of them). Desktop and the ?p= / ?q= views: unchanged. */
+(function () {
+  var btns = document.querySelector('.hero-btns');
+  if (!btns || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { document.body.classList.toggle('hero-btns-on', e.isIntersecting); });
+  }).observe(btns);
+})();
+</script>
+<script id="ardudim-reviews-js">
+/* phones: the reviews are one swipe row — dots show which review is on screen (tap a dot to jump) */
+(function () {
+  var track = document.querySelector('.reviews-track');
+  var box = document.querySelector('.reviews-dots');
+  if (!track || !box) return;
+  var cards = [].slice.call(track.querySelectorAll('.review-card'));
+  var dots = cards.map(function (card, i) {
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.setAttribute('aria-label', 'ביקורת ' + (i + 1) + ' מתוך ' + cards.length);
+    d.addEventListener('click', function () {
+      // horizontal only (scrollIntoView could also move the page up/down); works for RTL (Hebrew) and LTR (Russian)
+      var cs = getComputedStyle(track), pad = parseFloat(cs.scrollPaddingInlineStart) || 0;
+      var tr = track.getBoundingClientRect(), cr = card.getBoundingClientRect();
+      var delta = cs.direction === 'rtl' ? cr.right - (tr.right - pad) : cr.left - (tr.left + pad);
+      track.scrollBy({ left: delta, behavior: 'smooth' });
+    });
+    box.appendChild(d);
+    return d;
+  });
+  function mark(i) { dots.forEach(function (d, j) { d.classList.toggle('on', j === i); if (j === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); }); }
+  mark(0);
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) mark(cards.indexOf(e.target)); });
+    }, { root: track, threshold: 0.6 });
+    cards.forEach(function (c) { io.observe(c); });
+  }
+  function focusable() { if (track.scrollWidth > track.clientWidth + 2) track.tabIndex = 0; else track.removeAttribute('tabindex'); }
+  focusable();
+  window.addEventListener('resize', focusable);
 })();
 </script>
 <script id="ardudim-quote-js">

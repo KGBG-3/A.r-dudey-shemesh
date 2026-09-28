@@ -1397,6 +1397,111 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
   .reviews-dots button.on::before{width:22px;background:var(--q-orange)}
   .reviews .google-badge{margin-top:10px}
 }
+
+/* ---------- 16. polish round (Sep 2026) ---------- */
+/* one muted text colour (the old design had three greys); "about" sits on the same white as every other section */
+.section-desc,.value-desc,.repair-v2-desc,.repairs-bottom p,.step-subtitle{color:var(--q-muted)}
+.about-us{background-image:none !important}
+
+/* drawn chevrons / arrows instead of ▼ and ← glyphs */
+.faq-arrow,.gallery-more-btn .arrow{font-size:0}
+.faq-arrow::before,.gallery-more-btn .arrow::before,.repair-v2-cta .arr::before{content:'';display:block;background:currentColor;-webkit-mask:var(--pm) center/contain no-repeat;mask:var(--pm) center/contain no-repeat}
+.faq-arrow::before{--pm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");width:13px;height:13px}
+.gallery-more-btn .arrow{display:inline-flex;align-items:center}
+.gallery-more-btn .arrow::before{--pm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");width:14px;height:14px}
+.repair-v2-cta .arr{display:inline-block;width:16px;height:16px;line-height:0}
+.repair-v2-cta .arr::before{--pm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5M11 18l-6-6 6-6'/%3E%3C/svg%3E");width:16px;height:16px}
+
+/* gallery: a wide first photo, a grid without holes, captions always on (phones have no hover) */
+.gallery-grid{grid-auto-flow:row}
+/* collapsed extras kept their grid rows (5 × 12px gap = a 60px empty band above "more photos") */
+.gallery-grid:not(.expanded) .gallery-item.extra{display:none}
+.gallery-item:first-child{grid-column:1/-1;aspect-ratio:16/9}
+.gallery-item .gallery-label{transform:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12.5px;font-weight:700;line-height:1.3;padding:26px 10px 8px;background:linear-gradient(transparent,rgba(10,31,61,.84));text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.gallery-item:first-child .gallery-label{font-size:14.5px;padding:36px 14px 10px}
+@media(max-width:359px){.gallery-item .gallery-label{font-size:11.5px;padding:18px 8px 6px}}
+body.a11y-high-contrast .gallery-label{background:rgba(0,0,0,.88) !important}
+@media(min-width:768px){
+  .gallery-grid{grid-template-columns:repeat(3,1fr)}
+  .gallery-item:first-child{aspect-ratio:2.4/1}
+}
+@media(max-width:767px){
+  /* 2 columns: the 4th photo would sit alone under a pair — it joins the extras until "more photos" */
+  .gallery-grid:not(.expanded) .gallery-item:nth-child(4){display:none}
+  .gallery-grid.expanded .gallery-item:nth-child(4){opacity:1;transform:none !important}
+}
+
+/* mobile menu: brand head, close button, clean items, WhatsApp + call at the bottom */
+.nav-menu-head,.nav-menu-foot,.nav-close{display:none}
+@media(max-width:859px){
+  .nav-links{width:292px;right:-312px;padding:0;background:#fff;height:100vh;height:100dvh;overflow-y:auto;overscroll-behavior:contain}
+  body.menu-open .cookie-banner{visibility:hidden}
+  html[lang="ru"] .nav-links{left:-312px}
+  .nav-menu-head{display:flex;align-items:center;gap:10px;padding:12px 14px 12px 18px;border-bottom:1.5px solid var(--q-hair)}
+  .nav-menu-head img{width:auto;height:40px;flex-shrink:0}
+  .nav-menu-head span{flex:1;min-width:0;font-family:var(--font-display);font-size:19px;line-height:1.2;color:var(--q-navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav-close{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0;border:0;border-radius:50%;background:var(--q-cream);color:var(--q-navy);cursor:pointer;padding:0}
+  .nav-close svg{width:20px;height:20px}
+  .nav-links>a{text-decoration:none !important;text-align:start;font-size:17px;padding:15px 22px;border-bottom:1px solid #F3EEE4}
+  .nav-links>a:hover{background:var(--q-cream)}
+  .nav-menu-foot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--q-hair)}
+  .nav-links .nav-menu-foot a{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 10px;border:0;border-radius:14px;font-size:16px;font-weight:800;text-decoration:none !important;text-align:center}
+  .nav-links .nav-menu-foot a svg{width:20px;height:20px;flex-shrink:0}
+  .nav-links .nav-menu-foot .nmf-wa{background:var(--whatsapp);color:#fff !important}
+  .nav-links .nav-menu-foot .nmf-call{background:var(--q-amber);color:var(--q-navy) !important}
+  .nav-links .nav-menu-foot a:hover{background:var(--whatsapp)}
+  .nav-links .nav-menu-foot .nmf-call:hover{background:#F9B312}
+  html[lang="ru"] .nav-menu-head span{font-size:15px;white-space:normal;line-height:1.15}
+  body.menu-open .a11y-toggle,body.menu-open .sticky-wa,body.menu-open .sticky-call{visibility:hidden}
+  /* bigger-text modes: no compounding on the nested spans, one button per row; high contrast: readable buttons */
+  body.a11y-text-large .nav-links .nav-menu-head span,body.a11y-text-xlarge .nav-links .nav-menu-head span,body.a11y-text-large .nav-links .nav-menu-foot a span,body.a11y-text-xlarge .nav-links .nav-menu-foot a span{font-size:1em !important}
+  body.a11y-text-large .nav-menu-head span,body.a11y-text-xlarge .nav-menu-head span{white-space:normal;line-height:1.15}
+  body.a11y-text-large .nav-menu-foot,body.a11y-text-xlarge .nav-menu-foot{grid-template-columns:minmax(0,1fr)}
+  body.a11y-high-contrast .nav-links{background:#000 !important}
+  body.a11y-high-contrast .nav-links .nav-menu-foot a,body.a11y-high-contrast .nav-close{background:#fff !important;border:2px solid #fff !important}
+  body.a11y-high-contrast .nav-links .nav-menu-foot a,body.a11y-high-contrast .nav-links .nav-menu-foot a *,body.a11y-high-contrast .nav-close,body.a11y-high-contrast .nav-close *{color:#000 !important}
+}
+
+/* accessibility panel: line icons */
+.a11y-btn-icon svg{width:22px;height:22px;display:block}
+.a11y-panel-title-icon svg,.a11y-modal-header-icon svg{width:20px;height:20px;display:inline-block;vertical-align:-4px}
+.a11y-modal-header-icon svg{width:24px;height:24px;vertical-align:-5px}
+
+/* repair or replace? */
+.fixrep{max-width:860px;margin:26px auto 30px;padding:20px 18px 18px;background:var(--q-cream);border-radius:22px;box-shadow:0 0 0 1.5px var(--q-hair)}
+.fixrep h3{margin:0 0 14px;text-align:center;font-family:var(--font-display);font-weight:400;font-size:22px;line-height:1.2;color:var(--q-navy);letter-spacing:0}
+.fixrep-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.fixrep-col{display:flex;flex-direction:column}
+.fixrep-col+.fixrep-col{padding-top:16px;border-top:1.5px solid var(--q-hair)}
+.fixrep-title{display:flex;align-items:center;gap:9px;font-family:'Assistant',sans-serif;font-size:17px;font-weight:800;line-height:1.25;color:var(--q-navy)}
+.fixrep-title svg{width:24px;height:24px;flex-shrink:0;color:var(--q-navy)}
+.fixrep-col.is-new .fixrep-title svg{color:var(--d-hot-deep)}
+.fixrep-col ul{list-style:none;margin:12px 0 14px;padding:0;display:flex;flex-direction:column;gap:9px;flex:1}
+.fixrep-col li{display:flex;align-items:flex-start;gap:8px;font-size:14.5px;line-height:1.45;color:var(--q-ink)}
+.fixrep-col li svg{width:17px;height:17px;flex-shrink:0;margin-top:2px;color:var(--q-navy)}
+.fixrep-col.is-new li svg{color:var(--d-hot-deep)}
+.fixrep-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 12px;border:0;border-radius:14px;font-family:'Assistant',sans-serif;font-size:15.5px;font-weight:800;line-height:1.2;text-align:center;text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.fixrep-btn svg{width:20px;height:20px;flex-shrink:0}
+.fixrep-col.is-fix .fixrep-btn{background:var(--whatsapp);color:#fff}
+.fixrep-col.is-new .fixrep-btn{background:var(--q-orange);color:#fff}
+.fixrep-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px -12px rgba(10,31,61,.55)}
+.fixrep-note{margin:14px 0 0;text-align:center;font-size:14px;font-weight:600;color:var(--q-muted)}
+/* bigger-text modes: no compounding on the nested spans; high contrast: readable CTA */
+body.a11y-text-large .fixrep li span,body.a11y-text-xlarge .fixrep li span,body.a11y-text-large .fixrep-btn span,body.a11y-text-xlarge .fixrep-btn span,body.a11y-text-large .fixrep-title span,body.a11y-text-xlarge .fixrep-title span{font-size:1em !important}
+/* high contrast: the page's fixed background photo (body::before) showed through every section → white text on a light photo */
+body.a11y-high-contrast::before{display:none !important}
+body.a11y-high-contrast .fixrep{box-shadow:0 0 0 2px #fff !important}
+body.a11y-high-contrast .fixrep-btn{background:#fff !important;border:2px solid #fff !important}
+body.a11y-high-contrast .fixrep-btn,body.a11y-high-contrast .fixrep-btn *{color:#000 !important}
+@media(min-width:640px){
+  .fixrep{padding:24px 26px 22px}
+  .fixrep h3{font-size:25px}
+  .fixrep-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+  .fixrep-col{padding:0 0 0 22px}
+  .fixrep-col+.fixrep-col{padding:0 22px 0 0;border-top:0;border-inline-start:1.5px solid var(--q-hair)}
+  html[lang="ru"] .fixrep-col{padding:0 22px 0 0}
+  html[lang="ru"] .fixrep-col+.fixrep-col{padding:0 0 0 22px}
+}
 </style>
 
   <!-- Google tag (gtag.js) - Google Ads -->
@@ -1451,12 +1556,14 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
     <div class="logo-text">א.ר דודי שמש</div>
   </div>
   <div class="nav-links" id="nav-links">
+    <div class="nav-menu-head"><img src="images/logo-2026.webp" alt="" width="552" height="468"><span>א.ר דודי שמש</span><button type="button" class="nav-close" onclick="closeMobileMenu()" aria-label="סגור תפריט"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
     <a href="#calculator" onclick="event.preventDefault();navGoto('calculator')">מחשבון מחיר</a>
     <a href="#reviews" onclick="event.preventDefault();navGoto('reviews')">ביקורות</a>
     <a href="#repairs" onclick="event.preventDefault();navGoto('repairs')">תיקונים</a>
     <a href="#gallery" onclick="event.preventDefault();navGoto('gallery')">גלריה</a>
     <a href="#about" onclick="event.preventDefault();navGoto('about')">אודות</a>
     <a href="#contact" onclick="event.preventDefault();navGoto('contact')">צור קשר</a>
+    <div class="nav-menu-foot"><a class="nmf-wa" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>וואטסאפ</span></a><a class="nmf-call" href="javascript:void(0)" onclick="closeMobileMenu();openCallModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.1 3.5h3l1.6 4.1-2.1 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-2.1 4.1 1.6v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3.1 5.7a2 2 0 0 1 2-2.2z"/></svg><span>התקשר</span></a></div>
   </div>
   <div class="nav-menu-overlay" id="nav-menu-overlay" onclick="closeMobileMenu()"></div>
   <div class="lang-wrapper">
@@ -1602,7 +1709,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
       <div class="stat-label">דירוג בגוגל</div>
     </div>
     <div class="stat-item stat-d">
-      <div class="stat-number" data-target="3">0</div>
+      <div class="stat-number">3</div>
       <div class="stat-label">חברות מובילות לבחירה</div>
     </div>
   </div>
@@ -1985,7 +2092,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
         <div class="repair-v2-title">דוד נוזל</div>
         <div class="repair-v2-desc">נזילה מהדוד או מהחיבורים.</div>
         <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr" aria-hidden="true"></span></span>
         <button type="button" class="repair-v2-quote" onclick="event.preventDefault();event.stopPropagation();goToQuote('solar');">הצעת מחיר לדוד חדש</button>
       </div>
     </a>
@@ -1996,7 +2103,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
         <div class="repair-v2-title">קולט נוזל</div>
         <div class="repair-v2-desc">נזילה מהקולטים או מהצנרת החיצונית.</div>
         <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr" aria-hidden="true"></span></span>
         <button type="button" class="repair-v2-quote" onclick="event.preventDefault();event.stopPropagation();goToQuote('kolat_copper');">הצעת מחיר לקולט חדש</button>
       </div>
     </a>
@@ -2007,7 +2114,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
         <div class="repair-v2-title">הדוד לא מחמם</div>
         <div class="repair-v2-desc">לרוב מדובר בבעיה בטרמוסטט או בגוף החימום.</div>
         <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr" aria-hidden="true"></span></span>
       </div>
     </a>
 
@@ -2017,7 +2124,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
         <div class="repair-v2-title">אין מים חמים מהשמש</div>
         <div class="repair-v2-desc">לרוב בעיה במערכת השמש או בקולטים.</div>
         <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr" aria-hidden="true"></span></span>
       </div>
     </a>
 
@@ -2027,7 +2134,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
         <div class="repair-v2-title">ירידת לחץ או נזילה</div>
         <div class="repair-v2-desc">ירידת לחץ במערכת או נזילה בצנרת או בחיבורים.</div>
         <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr" aria-hidden="true"></span></span>
       </div>
     </a>
 
@@ -2037,11 +2144,33 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
         <div class="repair-v2-title">המתג של הדוד לא עובד</div>
         <div class="repair-v2-desc">המתג שמזין את החשמל לדוד אינו פועל כראוי.</div>
         <div class="repair-v2-line"></div>
-        <span class="repair-v2-cta">תיקון מיידי <span class="arr">←</span></span>
+        <span class="repair-v2-cta">תיקון מיידי <span class="arr" aria-hidden="true"></span></span>
       </div>
     </a>
   </div>
 
+  <div class="fixrep" id="fixrep">
+    <h3>לתקן או להחליף?</h3>
+    <div class="fixrep-grid">
+      <div class="fixrep-col is-fix">
+        <div class="fixrep-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.8 5.2a4.4 4.4 0 0 0-5.6 5.6L3.8 16.2a1.8 1.8 0 0 0 2.6 2.6l5.4-5.4a4.4 4.4 0 0 0 5.6-5.6l-2.6 2.6-2.3-.6-.6-2.3z"/></svg><span>בדרך כלל שווה לתקן</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>הדוד צעיר יחסית (עד כ-8 שנים) והתקלה בגוף החימום, בתרמוסטט או במתג</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>הנזילה מחיבור, מברז או משסתום — לא מגוף הדוד</span></li>
+        </ul>
+        <a class="fixrep-btn" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20—%20מצרף%20תמונה,%20אשמח%20לדעת%20אם%20שווה%20לתקן%20או%20להחליף" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>שלחו לנו תמונה בוואטסאפ</span></a>
+      </div>
+      <div class="fixrep-col is-new">
+        <div class="fixrep-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="16.5" rx="4"/><path d="M9 21.5V19M15 21.5V19"/><path d="M12 7v4.6"/><circle cx="12" cy="13.4" r="1.8"/></svg><span>בדרך כלל כדאי להחליף</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>הדוד בן 10–12 שנים ומעלה, או שכבר תוקן כמה פעמים</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>חלודה, נזילה מגוף הדוד או אבנית כבדה</span></li>
+        </ul>
+        <button type="button" class="fixrep-btn" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth',block:'start'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/></svg><span>כמה עולה דוד חדש?</span></button>
+      </div>
+    </div>
+    <p class="fixrep-note">נגיד לכם בכנות מה עדיף — גם אם זה אומר תיקון קטן במקום דוד חדש.</p>
+  </div>
   <div class="repairs-bottom">
     <p>בעיה אחרת? אנחנו כאן לעזור.</p>
     <a href="javascript:void(0)" onclick="openCallModal()" class="repairs-cta-v2">
@@ -2153,7 +2282,7 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
   <div class="gallery-more-wrap">
     <button type="button" class="gallery-more-btn" id="galleryMoreBtn" onclick="toggleGalleryExtras(this)" aria-expanded="false">
       <span class="btn-text">עוד תמונות</span>
-      <span class="arrow">▼</span>
+      <span class="arrow" aria-hidden="true"></span>
     </button>
   </div>
   <p class="gallery-cta"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>עוד תמונות בוואטסאפ — שלח הודעה ונשלח לך גלריה מלאה</span></p>
@@ -2215,23 +2344,23 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
   <p class="section-desc">ריכזנו את התשובות לשאלות שאנחנו נשאלים הכי הרבה. לא מצאתם תשובה? שלחו לנו הודעה בוואטסאפ ונענה מיד.</p>
   <div style="max-width:700px;margin:0 auto">
     <div class="faq-item">
-      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">למה אין לי מים חמים מהדוד שמש?<span class="faq-arrow">▼</span></button>
+      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">למה אין לי מים חמים מהדוד שמש?<span class="faq-arrow" aria-hidden="true"></span></button>
       <div class="faq-a">כשאין מים חמים מהשמש, הבעיה כמעט תמיד בקולטים — קולטים מלוכלכים שצריכים שטיפה או קולט תקול שדורש החלפה. אנחנו מאבחנים את הבעיה ומתקנים אותה ביום ההגעה.</div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">כמה זמן לוקח לתקן או להחליף דוד שמש?<span class="faq-arrow">▼</span></button>
+      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">כמה זמן לוקח לתקן או להחליף דוד שמש?<span class="faq-arrow" aria-hidden="true"></span></button>
       <div class="faq-a">החלפת גוף חימום או תיקון תרמוסטט לוקחים בדרך כלל עד שעה. החלפת דוד מלא לוקחת בין שעה לשעתיים. אנחנו מגיעים עם כל החלקים הנדרשים.</div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">האם אתם נותנים אחריות?<span class="faq-arrow">▼</span></button>
+      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">האם אתם נותנים אחריות?<span class="faq-arrow" aria-hidden="true"></span></button>
       <div class="faq-a">כן, על כל התקנה ותיקון אנחנו נותנים אחריות מלאה. דודי כרומגן עם אחריות יצרן רשמית של 4 שנים.</div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">באילו אזורים אתם מתקינים ומתקנים?<span class="faq-arrow">▼</span></button>
+      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">באילו אזורים אתם מתקינים ומתקנים?<span class="faq-arrow" aria-hidden="true"></span></button>
       <div class="faq-a">אנחנו פועלים בפתח תקווה ובכל אזור המרכז: תל אביב, רמת גן, גבעתיים, בני ברק, ראשון לציון, חולון, הרצליה ועוד.</div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">כמה עולה תיקון דוד שמש?<span class="faq-arrow">▼</span></button>
+      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">כמה עולה תיקון דוד שמש?<span class="faq-arrow" aria-hidden="true"></span></button>
       <div class="faq-a">המחיר של תיקון משתנה לפי התקלה והחלקים שצריך להחליף, ולכן הכי כדאי <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20ואשמח%20לקבל%20הצעת%20מחיר%20לתיקון" target="_blank" rel="noopener">לשלוח לנו הודעה בוואטסאפ</a> עם תיאור קצר של התקלה (ותמונה, אם אפשר) — ונחזור אליכם עם ההצעה הכי טובה. אם הדוד צריך החלפה, את המחיר המלא תמצאו <a href="#calculator" onclick="event.preventDefault();navGoto('calculator')">במחשבון באתר</a>.</div>
     </div>
   </div>
@@ -3929,7 +4058,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="a11y-panel" id="a11y-panel" role="dialog" aria-labelledby="a11y-panel-title" aria-hidden="true">
   <button class="a11y-panel-close" onclick="toggleA11yPanel()" aria-label="סגור">&times;</button>
   <div class="a11y-panel-title" id="a11y-panel-title">
-    <span class="a11y-panel-title-icon" aria-hidden="true">♿</span>
+    <span class="a11y-panel-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2zM12 7.5c-2.5 0-3 1.5-3 1.5l-.5-1.7s1.4-1.3 3.5-1.3 3.5 1.3 3.5 1.3l-.5 1.7s-.5-1.5-3-1.5z"/></svg></span>
     <span>כלי נגישות</span>
   </div>
   <div class="a11y-options">
@@ -3942,19 +4071,19 @@ document.addEventListener('DOMContentLoaded', () => {
       <span>טקסט גדול מאוד</span>
     </button>
     <button class="a11y-btn" data-a11y="readable-font" onclick="toggleA11y('readable-font')">
-      <span class="a11y-btn-icon" aria-hidden="true">📖</span>
+      <span class="a11y-btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5a3 3 0 0 0-3-3H3.5v14H9a3 3 0 0 1 3 3m0-14a3 3 0 0 1 3-3h5.5v14H15a3 3 0 0 0-3 3m0-14v14"/></svg></span>
       <span>גופן קריא</span>
     </button>
     <button class="a11y-btn" data-a11y="high-contrast" onclick="toggleA11y('high-contrast')">
-      <span class="a11y-btn-icon" aria-hidden="true">🌓</span>
+      <span class="a11y-btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg></span>
       <span>ניגודיות גבוהה</span>
     </button>
     <button class="a11y-btn" data-a11y="highlight-links" onclick="toggleA11y('highlight-links')">
-      <span class="a11y-btn-icon" aria-hidden="true">🔗</span>
+      <span class="a11y-btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13.5a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1.5 1.5"/><path d="M14 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.5-1.5"/></svg></span>
       <span>הדגש קישורים</span>
     </button>
     <button class="a11y-btn" data-a11y="pause-anim" onclick="toggleA11y('pause-anim')">
-      <span class="a11y-btn-icon" aria-hidden="true">⏸</span>
+      <span class="a11y-btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg></span>
       <span>עצור אנימציות</span>
     </button>
   </div>
@@ -3966,7 +4095,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="a11y-modal" id="a11y-modal" role="dialog" aria-labelledby="a11y-modal-title" aria-hidden="true">
   <div class="a11y-modal-box">
     <div class="a11y-modal-header">
-      <h3 id="a11y-modal-title"><span class="a11y-modal-header-icon" aria-hidden="true">♿</span> הצהרת נגישות</h3>
+      <h3 id="a11y-modal-title"><span class="a11y-modal-header-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2zM12 7.5c-2.5 0-3 1.5-3 1.5l-.5-1.7s1.4-1.3 3.5-1.3 3.5 1.3 3.5 1.3l-.5 1.7s-.5-1.5-3-1.5z"/></svg></span> הצהרת נגישות</h3>
       <button class="a11y-modal-close" onclick="closeA11yStatement()" aria-label="סגור">&times;</button>
     </div>
     <div class="a11y-modal-body">
@@ -4511,6 +4640,7 @@ function toggleMobileMenu(){
   burger.classList.toggle('open', isOpen);
   burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   document.body.style.overflow = isOpen ? 'hidden' : '';
+  document.body.classList.toggle('menu-open', isOpen);
 }
 function closeMobileMenu(){
   var links = document.getElementById('nav-links');
@@ -4521,6 +4651,7 @@ function closeMobileMenu(){
   burger.classList.remove('open');
   burger.setAttribute('aria-expanded', 'false');
   document.body.style.overflow = '';
+  document.body.classList.remove('menu-open');
 }
 function navGoto(id){
   closeMobileMenu();
@@ -4599,6 +4730,21 @@ function navGoto(id){
     'לשלוח לנו הודעה בוואטסאפ': 'написать нам в WhatsApp',
     'עם תיאור קצר של התקלה (ותמונה, אם אפשר) — ונחזור אליכם עם ההצעה הכי טובה. אם הדוד צריך החלפה, את המחיר המלא תמצאו': 'с кратким описанием неисправности (и фото, если можно) — и мы вернёмся к вам с лучшим предложением. Если бойлер нужно заменить, полную цену вы найдёте',
     'במחשבון באתר': 'в калькуляторе на сайте',
+    // polish round (Sep 2026)
+    'לתקן או להחליף?': 'Ремонт или замена?',
+    'בדרך כלל שווה לתקן': 'Обычно стоит ремонтировать',
+    'בדרך כלל כדאי להחליף': 'Обычно лучше заменить',
+    'הדוד צעיר יחסית (עד כ-8 שנים) והתקלה בגוף החימום, בתרמוסטט או במתג': 'Бойлер относительно новый (до ~8 лет), а неисправность — в ТЭНе, термостате или выключателе',
+    'הנזילה מחיבור, מברז או משסתום — לא מגוף הדוד': 'Течь из соединения, крана или клапана — не из корпуса бойлера',
+    'הדוד בן 10–12 שנים ומעלה, או שכבר תוקן כמה פעמים': 'Бойлеру 10–12 лет и больше, или его уже не раз ремонтировали',
+    'חלודה, נזילה מגוף הדוד או אבנית כבדה': 'Ржавчина, течь из корпуса бойлера или сильная накипь',
+    'שלחו לנו תמונה בוואטסאפ': 'Отправьте нам фото в WhatsApp',
+    'כמה עולה דוד חדש?': 'Сколько стоит новый бойлер?',
+    'נגיד לכם בכנות מה עדיף — גם אם זה אומר תיקון קטן במקום דוד חדש.': 'Мы честно скажем, что лучше — даже если это небольшой ремонт вместо нового бойлера.',
+    'חידוש מערכת – גבעתיים': 'Обновление системы – Гиватаим',
+    'תיקון נזילה – פתח תקווה': 'Ремонт протечки – Петах-Тиква',
+    'התקנת דוד חדש – תל אביב': 'Установка нового бойлера – Тель-Авив',
+    'תיקון גוף חימום – רמת גן': 'Ремонт ТЭНа – Рамат-Ган',
   };
   Object.keys(D_RU).forEach(k => { if (!(k in TRANSLATIONS)) TRANSLATIONS[k] = D_RU[k]; });
 
@@ -4717,6 +4863,43 @@ function navGoto(id){
   new IntersectionObserver(function (entries) {
     entries.forEach(function (e) { document.body.classList.toggle('hero-btns-on', e.isIntersecting); });
   }).observe(btns);
+})();
+</script>
+<script id="ardudim-polish-js">
+/* keyboard: the calculator's choice cards are divs — make them reachable with Tab and selectable with Enter / Space */
+(function () {
+  var SEL = '.prod-card,.sys-type-card,.vol-card,.roof-card,.roof-sub-card,.access-card';
+  var root = document.getElementById('calculator');
+  if (!root) return;
+  function arm() {
+    root.querySelectorAll(SEL).forEach(function (el) {
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+      if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+    });
+  }
+  arm();
+  if ('MutationObserver' in window) new MutationObserver(function () { arm(); }).observe(root, { childList: true, subtree: true });
+  root.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var el = e.target && e.target.closest ? e.target.closest(SEL) : null;
+    if (!el) return;
+    e.preventDefault();
+    el.click();
+  });
+})();
+/* Escape closes the mobile menu */
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && document.body.classList.contains('menu-open') && typeof closeMobileMenu === 'function') closeMobileMenu();
+});
+/* the gallery button wrote "הסתר" / "עוד תמונות" in Hebrew even in Russian mode */
+(function () {
+  var orig = window.toggleGalleryExtras;
+  if (typeof orig !== 'function') return;
+  window.toggleGalleryExtras = function (btn) {
+    orig(btn);
+    var s = btn && btn.querySelector('.btn-text');
+    if (s && typeof t === 'function') s.textContent = t(btn.classList.contains('expanded') ? 'הסתר' : 'עוד תמונות');
+  };
 })();
 </script>
 <script id="ardudim-reviews-js">

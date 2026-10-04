@@ -1502,6 +1502,139 @@ body.a11y-high-contrast .fixrep-btn,body.a11y-high-contrast .fixrep-btn *{color:
   html[lang="ru"] .fixrep-col{padding:0 22px 0 0}
   html[lang="ru"] .fixrep-col+.fixrep-col{padding:0 0 0 22px}
 }
+
+/* ---------- 17. motion (Oct 2026) ----------
+   One motion language for the whole page:
+   • entrances: rise 22px + fade, 650–750ms, ease-out; groups cascade 60–90ms apart; each plays once
+   • signature: the yellow marker draws itself like a pen stroke, the hot/cold stripes draw in, stickers "slap" on
+   • feedback: buttons press (scale .97), chosen cards stamp, the price counts up when the quote appears
+   • ambient (3 only, all slow): the season icon turns, the logo sticker floats, the WhatsApp button pulses (existing)
+   Everything here lives under html.motion, set by a tiny script in <head> only when the browser supports IntersectionObserver
+   and the visitor hasn't asked for reduced motion — without it nothing is hidden and nothing moves. */
+@keyframes m-rise{from{opacity:0;transform:translateY(22px)}}
+@keyframes m-step{from{opacity:0;transform:translateX(var(--mx,14px))}}
+@keyframes m-pop{from{opacity:0;transform:scale(.6)}}
+@keyframes m-slap{from{opacity:0;transform:scale(1.1) rotate(-2deg)}}
+@keyframes m-grow{from{opacity:0;transform:scale(.96)}}
+@keyframes m-drop{from{opacity:0;transform:translateY(-34px) scale(.8)}}
+@keyframes m-drawx{from{transform:scaleX(0)}}
+@keyframes m-fade{from{opacity:0}}
+@keyframes m-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes m-spin{to{transform:rotate(360deg)}}
+@keyframes m-stamp{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
+
+/* --- reveal on scroll (the script tags the elements and adds .in when they come into view) --- */
+html.motion .m:not(.in){opacity:0}
+html.motion .m.in{animation:m-rise .75s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0ms)}
+html.motion .m-kids:not(.in)>*{opacity:0}
+html.motion .m-kids.in>*{animation:m-rise .65s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*80ms)}
+html.motion .m-kids-pop:not(.in)>*{opacity:0}
+html.motion .m-kids-pop.in>*{animation:m-pop .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*55ms)}
+html.motion .m-slap:not(.in){opacity:0}
+html.motion .m-slap.in{animation:m-slap .7s cubic-bezier(.2,.8,.2,1) backwards}
+html.motion .m-kids-slap:not(.in)>*{opacity:0}
+html.motion .m-kids-slap.in>*{animation:m-slap .7s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*90ms)}
+/* the marker draws itself (from the inline start: right in Hebrew, left in Russian) */
+html.motion .m-mark mark.hl{background-position:100% 100%;transition:background-size .8s cubic-bezier(.2,.8,.2,1) .4s}
+html.motion[lang="ru"] .m-mark mark.hl{background-position:0 100%}
+html.motion .m-mark:not(.in) mark.hl{background-size:0 38%}
+/* the hot/cold stripes draw in */
+html.motion .m-draw{transform-origin:100% 50%;transition:transform 1s cubic-bezier(.2,.8,.2,1) .1s}
+html.motion[lang="ru"] .m-draw{transform-origin:0 50%}
+html.motion .m-draw:not(.in){transform:scaleX(0)}
+
+/* --- hero: a short choreography on load --- */
+html.motion nav{animation:m-fade .7s ease both}
+html.motion .hero-content>*{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) backwards}
+html.motion .hero-content>.hero-sticker{animation-name:m-drop;animation-duration:.75s}
+html.motion .hero-content>:nth-child(1){animation-delay:.04s}
+html.motion .hero-content>:nth-child(2){animation-delay:.14s}
+html.motion .hero-content>:nth-child(3){animation-delay:.16s}
+html.motion .hero-content>:nth-child(4){animation-delay:.2s}
+html.motion .hero-content>:nth-child(5){animation-delay:.26s}
+html.motion .hero-content>:nth-child(6){animation-delay:.3s}
+html.motion .hero-content>:nth-child(7){animation-delay:.32s}
+html.motion .hero-content>:nth-child(8){animation-delay:.36s}
+html.motion .hero-content>:nth-child(9){animation-delay:.42s}
+html.motion .hero-content>:nth-child(10){animation-delay:.44s}
+html.motion .hero-content>:nth-child(11){animation-delay:.46s}
+html.motion .hero-content>:nth-child(12){animation-delay:.5s}
+html.motion .hero-sticker-in img{animation:m-float 6s ease-in-out 1.6s infinite}
+html.motion .hero-center-new>*{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) backwards}
+html.motion .hero-center-new>:nth-child(1){animation-delay:.06s}
+html.motion .hero-center-new>:nth-child(2){animation-delay:.14s}
+html.motion .hero-center-new>:nth-child(3){animation-delay:.3s}
+html.motion .hero-center-new>:nth-child(4){animation-delay:.3s}
+html.motion .hero-center-new>:nth-child(5){animation-delay:.36s}
+html.motion .hero-center-new>:nth-child(6){animation-delay:.44s}
+html.motion .hero-center-new>.hero-title-mark{animation-name:m-drawx;animation-duration:.8s;transform-origin:100% 50%}
+html.motion[lang="ru"] .hero-center-new>.hero-title-mark{transform-origin:0 50%}
+html.motion .hero-sticker-d{animation:m-drop .75s cubic-bezier(.2,.8,.2,1) .34s backwards}
+html.motion .hero-benefits-new .hero-benefit{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) backwards}
+html.motion .hero-benefits-new .hero-benefit:nth-child(1){animation-delay:.5s}
+html.motion .hero-benefits-new .hero-benefit:nth-child(2){animation-delay:.58s}
+html.motion .hero-benefits-new .hero-benefit:nth-child(3){animation-delay:.66s}
+/* the season icon turns, slowly (summer: the sun; winter: the snowflake) */
+html.motion .hero-season.is-summer i svg{animation:m-spin 28s linear infinite}
+html.motion .hero-season.is-winter i svg{animation:m-spin 44s linear infinite}
+/* the logo appears in the bar when it turns white */
+html.motion nav.nav-scrolled .nav-mark{animation:m-pop .4s cubic-bezier(.2,.8,.2,1) both}
+
+/* --- calculator --- */
+html.motion .calc-step-body{animation:m-step .45s cubic-bezier(.2,.8,.2,1) both}
+html.motion[lang="ru"] .calc-step-body{--mx:-14px}
+html.motion .calc-card :is(.prod-card,.vol-card,.sys-type-card,.roof-card).selected{animation:m-stamp .4s cubic-bezier(.2,.8,.2,1)}
+html.motion #tier-cards-container .q-card{animation:m-grow .5s cubic-bezier(.2,.8,.2,1) backwards}
+html.motion #tier-cards-container .q-card:nth-child(2){animation-delay:.1s}
+html.motion #tier-cards-container .q-card:nth-child(3){animation-delay:.2s}
+html.motion #q-result-slot .qw{animation:m-rise .7s cubic-bezier(.2,.8,.2,1) backwards}
+html.motion .calc-result.visible .result-note{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) .2s backwards}
+html.motion .calc-result.visible .q-actions>*{animation:m-rise .55s cubic-bezier(.2,.8,.2,1) backwards}
+html.motion .calc-result.visible .q-actions>:nth-child(1){animation-delay:.3s}
+html.motion .calc-result.visible .q-actions>:nth-child(2){animation-delay:.36s}
+html.motion .calc-result.visible .q-actions>:nth-child(3){animation-delay:.42s}
+html.motion .calc-result.visible .q-actions>:nth-child(4){animation-delay:.48s}
+html.motion .calc-result.visible .q-actions>:nth-child(5){animation-delay:.54s}
+
+/* --- sections --- */
+html.motion .how-steps.in .how-num{animation:m-pop .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*80ms + .3s)}
+html.motion .gallery-item img{transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+html.motion .gallery-item:hover img{transform:scale(1.05)}
+.gallery-item{cursor:zoom-in}
+
+/* --- feedback: buttons press --- */
+html.motion :is(.btn-wa,.btn-call,.btn-quote,.hero-btn,.q-select,.fixrep-btn,.btn-wa-result,.btn-pdf-result,.btn-next-step,.btn-back-step,.how-btn,.repairs-cta-v2,.nav-call,.sticky-call,.gallery-more-btn,.nmf-wa,.nmf-call,.repair-v2-quote,.call-opt,.kolat-modal-btn):active{transform:scale(.97) !important;transition-duration:.08s !important}
+
+/* --- gallery lightbox --- */
+.lb{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,31,61,.93);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.lb.open{display:flex}
+.lb-fig{position:relative;margin:0;max-width:min(1100px,100%);display:flex;flex-direction:column;align-items:center;outline:none}
+.lb-fig img{display:block;max-width:100%;max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);border-radius:16px;background:#fff;box-shadow:0 30px 60px -30px rgba(0,0,0,.8);object-fit:contain}
+.lb-cap{margin:14px 0 0;color:#fff;font-family:'Assistant',sans-serif;font-size:16px;font-weight:700;line-height:1.3;text-align:center;text-wrap:balance}
+.lb-count{position:fixed;top:26px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.85);font-family:'Assistant',sans-serif;font-size:14px;font-weight:700;direction:ltr}
+html[lang="ru"] .lb{direction:ltr}
+.lb-btn{position:fixed;display:flex;align-items:center;justify-content:center;width:46px;height:46px;padding:0;border:0;border-radius:50%;background:#fff;color:var(--q-navy);cursor:pointer;box-shadow:0 10px 24px -10px rgba(0,0,0,.6);transition:transform .15s}
+.lb-btn:hover{transform:scale(1.06)}
+.lb-btn svg{width:22px;height:22px}
+.lb-close{top:14px;inset-inline-end:14px}
+.lb-prev,.lb-next{top:50%;margin-top:-23px}
+.lb-prev{inset-inline-start:12px}
+.lb-next{inset-inline-end:12px}
+/* arrows point outward: in Hebrew "next" sits on the left and points left */
+.lb-next svg{transform:scaleX(-1)}
+html[lang="ru"] .lb-next svg{transform:none}
+html[lang="ru"] .lb-prev svg{transform:scaleX(-1)}
+html.motion .lb.open .lb-fig{animation:m-pop .35s cubic-bezier(.2,.8,.2,1) both}
+html.motion .lb.open .lb-btn{animation:m-fade .4s ease .15s both}
+@media(max-width:599px){
+  .lb{padding:12px}
+  .lb-prev,.lb-next{top:auto;bottom:18px;margin-top:0}
+  .lb-fig img{max-height:calc(100vh - 190px);max-height:calc(100dvh - 190px)}
+}
+@media print{html.motion .m,html.motion .m-kids>*,html.motion .m-kids-pop>*,html.motion .m-slap,html.motion .m-kids-slap>*{opacity:1 !important;animation:none !important}html.motion .m-draw{transform:none !important}html.motion .m-mark mark.hl{background-size:100% 38% !important}}
+body.a11y-high-contrast .lb{background:#000 !important}
+body.a11y-high-contrast .lb-btn{background:#fff !important}
+body.a11y-high-contrast .lb-btn,body.a11y-high-contrast .lb-btn *{color:#000 !important}
 </style>
 
   <!-- Google tag (gtag.js) - Google Ads -->
@@ -1529,6 +1662,7 @@ body.a11y-high-contrast .fixrep-btn,body.a11y-high-contrast .fixrep-btn *{color:
       document.addEventListener('submit', conversion, true);
     })();
   </script>
+<script id="ardudim-motion-flag">(function(){try{if('IntersectionObserver' in window&&!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('motion')}catch(e){}})()</script>
 </head>
 <body>
 
@@ -2410,6 +2544,162 @@ body.a11y-high-contrast .fixrep-btn,body.a11y-high-contrast .fixrep-btn *{color:
 
 <!-- Footer -->
 </main>
+<script id="ardudim-motion-js">
+/* MOTION 2026 — תנועה אחת לכל האתר (ראו motion CSS, פרק 17). רץ מיד אחרי <main>, לפני שהדף נטען עד הסוף.
+   • מסמן אילו רכיבים נכנסים בגלילה ומוסיף להם .in כשהם מגיעים למסך (פעם אחת)
+   • לייטבוקס לגלריה: הקשה על תמונה פותחת אותה במסך מלא, עם חיצים / מקלדת / החלקה
+   html.motion עצמו נקבע בסקריפט קטן ב-<head>: בלי IntersectionObserver, או כשהגולש ביקש "פחות תנועה" — שום דבר לא מוסתר. */
+(function () {
+  // ---------- gallery lightbox (also without motion) ----------
+  (function () {
+    var grid = document.querySelector('.gallery-grid');
+    if (!grid) return;
+    var items = [].slice.call(grid.querySelectorAll('.gallery-item'));
+    if (!items.length) return;
+    var lb = document.createElement('div');
+    lb.className = 'lb';
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', 'תמונה מהגלריה');
+    var chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+    lb.innerHTML =
+      '<div class="lb-count" aria-hidden="true"></div>' +
+      '<button type="button" class="lb-btn lb-close" aria-label="סגור"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '<button type="button" class="lb-btn lb-prev" aria-label="הקודם">' + chev + '</button>' +
+      '<button type="button" class="lb-btn lb-next" aria-label="הבא">' + chev + '</button>' +
+      '<figure class="lb-fig" tabindex="-1"><img alt=""><figcaption class="lb-cap"></figcaption></figure>';
+    document.body.appendChild(lb);
+    var img = lb.querySelector('img'), cap = lb.querySelector('.lb-cap'), count = lb.querySelector('.lb-count');
+    var btns = [lb.querySelector('.lb-close'), lb.querySelector('.lb-prev'), lb.querySelector('.lb-next')];
+    var cur = -1, opener = null, touchX = null;
+    var rtl = function () { return document.documentElement.lang !== 'ru'; };
+    function visible() { return items.filter(function (it) { return getComputedStyle(it).display !== 'none' && !(it.classList.contains('extra') && !grid.classList.contains('expanded')); }); }
+    function show(i) {
+      var list = visible(); if (!list.length) return;
+      cur = (i + list.length) % list.length;
+      var it = list[cur], src = it.querySelector('img');
+      img.src = src.currentSrc || src.src;
+      img.alt = src.alt || '';
+      var label = it.querySelector('.gallery-label');
+      cap.textContent = label ? label.textContent.trim() : '';
+      count.textContent = (cur + 1) + ' / ' + list.length;
+    }
+    function open(it) {
+      var list = visible(); var i = list.indexOf(it); if (i < 0) return;
+      opener = it;
+      show(i);
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      btns[0].focus();
+    }
+    function close() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+      if (opener && opener.focus) opener.focus();
+    }
+    items.forEach(function (it) {
+      it.setAttribute('tabindex', '0');
+      it.setAttribute('role', 'button');
+      it.addEventListener('click', function () { open(it); });
+      it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(it); } });
+    });
+    btns[0].addEventListener('click', close);
+    btns[2].addEventListener('click', function () { show(cur + 1); });
+    btns[1].addEventListener('click', function () { show(cur - 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key === 'ArrowLeft') { show(rtl() ? cur + 1 : cur - 1); return; }
+      if (e.key === 'ArrowRight') { show(rtl() ? cur - 1 : cur + 1); return; }
+      if (e.key === 'Tab') {   // keep the focus inside the dialog
+        var i = btns.indexOf(document.activeElement);
+        if (i < 0) i = e.shiftKey ? 0 : btns.length - 1;
+        e.preventDefault();
+        btns[(i + (e.shiftKey ? -1 : 1) + btns.length) % btns.length].focus();
+      }
+    });
+    lb.addEventListener('touchstart', function (e) { touchX = e.touches && e.touches.length === 1 ? e.touches[0].clientX : null; }, { passive: true });
+    lb.addEventListener('touchend', function (e) {
+      if (touchX === null || !e.changedTouches || !e.changedTouches.length) return;
+      var dx = e.changedTouches[0].clientX - touchX; touchX = null;
+      if (Math.abs(dx) < 40) return;
+      show((dx > 0) === rtl() ? cur + 1 : cur - 1);   // like the site's own carousel: in Hebrew the next photo waits on the left, so you drag to the right
+    }, { passive: true });
+    window.__lbShow = function (i) { show(i); };
+    window.__lbOpen = function (i) { open(visible()[i]); };
+  })();
+
+  if (!document.documentElement.classList.contains('motion')) return;
+
+  // ---------- tag the elements that enter on scroll ----------
+  function tag(sel, cls) { document.querySelectorAll(sel).forEach(function (el) { el.classList.add(cls); }); }
+  function kids(sel, cls) {
+    document.querySelectorAll(sel).forEach(function (p) {
+      p.classList.add(cls);
+      [].forEach.call(p.children, function (c, i) { c.style.setProperty('--i', i); });
+    });
+  }
+  // section headers cascade: label → heading → line under it
+  document.querySelectorAll('main > section').forEach(function (s) {
+    if (s.id === 'q-top' || s.classList.contains('hero') || s.id === 'gallery') return;   // the gallery header has its own fade-in
+    [s.querySelector('.section-label'), s.querySelector('h2'), s.querySelector('.section-desc')].forEach(function (el, i) {
+      if (!el) return;
+      el.classList.add('m');
+      el.style.setProperty('--d', (i * 90) + 'ms');
+    });
+  });
+  document.querySelectorAll('h2').forEach(function (h) { if (h.querySelector('mark.hl')) h.classList.add('m-mark'); });
+  tag('.hc-stripe', 'm-draw');
+  kids('.stats-grid', 'm-kids-slap');
+  kids('.calc-promise', 'm-kids-pop');
+  tag('.calc-card', 'm');
+  kids('.reviews-track', 'm-kids');
+  tag('.reviews-dots', 'm');
+  var badge = document.querySelector('.reviews .google-badge'); if (badge && badge.parentElement) badge.parentElement.classList.add('m');
+  kids('.how-steps', 'm-kids');
+  tag('.how-cta', 'm');
+  tag('.rep-legend', 'm');
+  tag('#fixrep', 'm');
+  tag('.gallery-more-wrap, .gallery-cta', 'm');
+  tag('.about-image-wrap, .about-text', 'm');
+  kids('.about-values', 'm-kids');
+  var faq = document.querySelector('#faq .faq-item'); if (faq && faq.parentElement) { faq.parentElement.classList.add('m-kids'); [].forEach.call(faq.parentElement.children, function (c, i) { c.style.setProperty('--i', i); }); }
+  tag('.contact-desc', 'm');
+  tag('.bizcard', 'm-slap');
+  kids('.contact-btns', 'm-kids');
+  tag('.areas-glass-card', 'm');
+  kids('.areas-cluster', 'm-kids-pop');
+
+  var targets = [].slice.call(document.querySelectorAll('.m, .m-kids, .m-kids-pop, .m-slap, .m-kids-slap, .m-mark, .m-draw'));
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  targets.forEach(function (el) { io.observe(el); });
+  function revealAll() { targets.forEach(function (el) { if (!el.classList.contains('in')) { el.classList.add('in'); io.unobserve(el); } }); }
+  // safety nets: whatever is on screen 3s after load is shown even if the observer never fired; the bottom of the page shows everything
+  setTimeout(function () {
+    targets.forEach(function (el) {
+      if (el.classList.contains('in')) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) { el.classList.add('in'); io.unobserve(el); }
+    });
+  }, 3000);
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 12) revealAll();
+    });
+  }, { passive: true });
+})();
+</script>
 <div class="hc-stripe" aria-hidden="true"></div>
 <footer>
   <div class="ft-brand-name">א.ר דודי שמש</div>
@@ -4863,6 +5153,33 @@ function navGoto(id){
   new IntersectionObserver(function (entries) {
     entries.forEach(function (e) { document.body.classList.toggle('hero-btns-on', e.isIntersecting); });
   }).observe(btns);
+})();
+</script>
+<script id="ardudim-motion-late-js">
+/* MOTION 2026 — the price in the quote counts up to the exact amount (the calculator script above defines showResult) */
+(function () {
+  if (!document.documentElement.classList.contains('motion')) return;
+  function countPrice() {
+    var el = document.querySelector('#q-result-slot .qw-pick .q-price');
+    if (!el) return;
+    var node = null;
+    [].forEach.call(el.childNodes, function (n) { if (n.nodeType === 3 && /\d/.test(n.nodeValue)) node = n; });
+    if (!node) return;
+    var finalText = node.nodeValue, target = parseInt(finalText.replace(/\D/g, ''), 10);
+    if (!target) return;
+    var start = Math.round(target * 0.82), dur = 520, t0 = performance.now();
+    el.setAttribute('data-counting', '1');
+    node.nodeValue = Number(start).toLocaleString();          // never a "₪0" frame
+    (function tick(now) {
+      var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      if (p < 1) { node.nodeValue = Number(Math.round(start + (target - start) * e)).toLocaleString(); requestAnimationFrame(tick); }
+      else { node.nodeValue = finalText; el.removeAttribute('data-counting'); }
+    })(t0);
+  }
+  var origShow = window.showResult;
+  if (typeof origShow === 'function') {
+    window.showResult = function () { var r = origShow.apply(this, arguments); try { countPrice(); } catch (e) {} return r; };
+  }
 })();
 </script>
 <script id="ardudim-polish-js">

@@ -107,7 +107,8 @@
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "החלפת גוף חימום" }},
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "תיקון דוד נוזל" }},
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "החלפת קולטי שמש" }},
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "התקנת מערכת שמש כרומגן" }}
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "התקנת מערכת שמש כרומגן" }},
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "התקנת מערכת Chromagen Super — מערכת סגורה מוגנת מאבנית" }}
           ]
         }
       },
@@ -153,6 +154,22 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "המחיר של תיקון משתנה לפי התקלה והחלקים שצריך להחליף, ולכן הכי כדאי לשלוח לנו הודעה בוואטסאפ עם תיאור קצר של התקלה (ותמונה, אם אפשר) — ונחזור אליכם עם ההצעה הכי טובה. אם הדוד צריך החלפה, את המחיר המלא תמצאו במחשבון באתר."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "מה זה מערכת Super של כרומגן ולמי היא מתאימה?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "מערכת סולארית סגורה של כרומגן. בדוד שמש רגיל המים של הבית עצמם עולים לקולט, ואיתם נכנסת אבנית שסותמת את הצינורות הדקים שלו. ב-Super המים שלכם בכלל לא עולים לקולט: נוזל נגד קפיאה מסתובב במעגל סגור, זורם במעיל שעוטף את המיכל הפנימי של הדוד ומחמם את המים דרך הדופן. התוצאה — אין אבנית בקולט, ולכן זו מערכת מצוינת לשרון, לשומרון ולכל אזור עם הרבה אבנית במים; והנוזל לא קופא, אז גם בירושלים ובאזורים הרריים הקולט לא מתפוצץ מהקור. המערכת יקרה יותר ודורשת בדיקת נוזל פעם בשלוש שנים, אבל היא נמכרת כמוצר שלם של כרומגן (150 ליטר, לגג שטוח או רעפים) עם 4 שנות אחריות ועוד שנתיים אחריות מוגבלת, כולל נזקי אבנית בקולט."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "מה זה מערבל מים ולמה צריך אותו?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "מערבל מים הוא שסתום קטן על יציאת המים החמים מהדוד. הוא מערבב מים חמים מהדוד עם מים קרים מהרשת, ומוציא לבית מים בטמפרטורה בטוחה של 52–55 מעלות — חשוב במיוחד בקיץ, כשהמים בדוד מגיעים ל-80 ואפילו 90 מעלות ועלולים לגרום לכווייה תוך שנייה. בפנים יש קפסולה עם חומר שמתרחב בחום ודוחף בוכנה שפותחת את המים הקרים — אוטומטי, בלי חשמל. מומלץ במיוחד בבית עם ילדים קטנים או אנשים מבוגרים. אצלנו המערבל כלול בכל התקנה לפי תקן ובמערכת Super, ואפשר להוסיף אותו לכל דוד. ואם המים במקלחת פושרים למרות שהדוד רותח — לפעמים זו בכלל אבנית שתקעה את המערבל."
             }
           }
         ]
@@ -1635,6 +1652,43 @@ html.motion .lb.open .lb-btn{animation:m-fade .4s ease .15s both}
 body.a11y-high-contrast .lb{background:#000 !important}
 body.a11y-high-contrast .lb-btn{background:#fff !important}
 body.a11y-high-contrast .lb-btn,body.a11y-high-contrast .lb-btn *{color:#000 !important}
+
+/* ---------- 18. Chromagen Super + water mixer (Oct 2026) ----------
+   one more product card next to "מערכת מלאה": a brand tag in the corner, a one-line hint under the name;
+   "מערבל מים" in any included-items list carries a small "what is it for?" button that opens an explanation;
+   a landing / quote view with a single company gets one centered card instead of a third of the row */
+.prod-card-super{position:relative}
+.prod-tag{position:absolute;top:8px;inset-inline-start:8px;z-index:1;padding:2px 8px 3px;border-radius:999px;background:var(--q-cream);box-shadow:0 0 0 1.5px var(--q-hair);font-family:var(--font-body);font-size:11.5px;font-weight:800;line-height:1.2;color:var(--q-navy);letter-spacing:0;white-space:nowrap}
+.prod-micro{margin-top:3px;font-size:12px;font-weight:700;line-height:1.2;color:var(--q-muted)}
+.prod-card.selected .prod-micro{color:var(--d-hot-deep)}
+html[lang="ru"] .prod-micro{font-size:11px}
+.q-why{display:inline;margin-inline-start:6px;padding:0 2px;border:0;background:none;font:inherit;font-size:.9em;font-weight:800;color:var(--q-blue);text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer;border-radius:4px;white-space:nowrap}
+.q-why:hover{color:var(--q-navy)}
+.q-why:focus-visible{outline:2px solid var(--q-orange);outline-offset:2px}
+.qw-cards.one{grid-template-columns:minmax(0,420px);justify-content:center}
+body.a11y-high-contrast .prod-tag{background:#fff !important;color:#000 !important;box-shadow:0 0 0 2px #000 !important}
+body.a11y-high-contrast .q-why{color:#000 !important;text-decoration:underline !important}
+/* high contrast: the quote's action buttons are white (site rule) but their inner text kept its own white — now black on white */
+body.a11y-high-contrast :is(.btn-pdf-result,.btn-back-brands,.btn-reset,button.q-btn,.btn-next-step,.btn-back-step,.kolat-modal-btn) *{color:#000 !important}
+/* big-text modes compound li → span → button; keep the tag and the "what is it for?" button in proportion */
+body.a11y-text-large .q-why,body.a11y-text-xlarge .q-why{font-size:.85em !important;white-space:normal}
+body.a11y-text-large .prod-tag,body.a11y-text-xlarge .prod-tag{font-size:12px !important}
+@media print{.q-why{display:none}}
+/* the explanation modals in Russian read left-to-right (the page body itself stays RTL) */
+html[lang="ru"] .kolat-modal{direction:ltr;text-align:left}
+html[lang="ru"] .kolat-modal-title{text-align:center}
+html[lang="ru"] .kolat-modal-body{text-align:left}
+html[lang="ru"] .kolat-modal-row span{padding-right:0;padding-left:4px}
+html[lang="ru"] .kolat-modal-close{left:auto;right:12px}
+/* a modal taller than the phone screen scrolls instead of being clipped at both ends (margin:auto still centers short ones) */
+.kolat-modal-overlay.show{align-items:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.kolat-modal{margin:auto}
+body.a11y-high-contrast .kolat-modal{background:#000 !important;box-shadow:0 0 0 2px #fff !important}
+body.a11y-high-contrast .kolat-modal-body{background:#000 !important}
+/* the two new answers are long: in Russian on a 320px phone they pass the 640px cap */
+.faq-item.faq-item-long.open .faq-a{max-height:1100px}
+/* a warranty qualifier line ("+2 שנים אחריות מוגבלת …") sits under the main years, smaller */
+.q-warranty b.q-wsub{font-size:12.5px;font-weight:700;color:var(--q-muted);line-height:1.25;margin-top:1px}
 </style>
 
   <!-- Google tag (gtag.js) - Google Ads -->
@@ -1935,9 +1989,15 @@ body.a11y-high-contrast .lb-btn,body.a11y-high-contrast .lb-btn *{color:#000 !im
       <!-- קטגוריה: מערכת -->
       <div class="prod-category-label"><span class="pcl-text"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20.5l2.2-8.5h15.6l-2.2 8.5z"/><path d="M4.1 16.3h15.6M10.4 12l-1.7 8.5M15.6 12l-1.7 8.5"/><path d="M12 2.5V4M6.6 4.7l1 1M17.4 4.7l-1 1M8.6 9.3a3.4 3.4 0 0 1 6.8 0"/></svg> מערכת</span></div>
       <div class="prod-grid">
-        <div class="prod-card prod-card-full" onclick="selectProd('system')">
+        <div class="prod-card" onclick="selectProd('system')">
           <div class="prod-img-wrap"><img src="images/prod-system.webp" alt="מערכת מלאה" class="prod-img" loading="lazy"></div>
           <div class="prod-name">מערכת מלאה</div>
+        </div>
+        <div class="prod-card prod-card-super" onclick="selectProd('super')">
+          <span class="prod-tag">כרומגן</span>
+          <div class="prod-img-wrap"><img src="images/prod-system.webp" alt="מערכת Super של כרומגן — מערכת סגורה מוגנת מאבנית" class="prod-img" loading="lazy"></div>
+          <div class="prod-name">מערכת Super</div>
+          <div class="prod-micro">מוגנת מאבנית</div>
         </div>
       </div>
 
@@ -2058,7 +2118,7 @@ body.a11y-high-contrast .lb-btn,body.a11y-high-contrast .lb-btn *{color:#000 !im
       </div>
 
       <div class="step-nav">
-        <button class="btn-back-step" onclick="goStep(2)">חזור</button>
+        <button class="btn-back-step" onclick="roofBack()">חזור</button>
         <button class="btn-next-step" id="next-3" disabled onclick="advanceFromRoof()">המשך</button>
       </div>
     </div>
@@ -2124,6 +2184,53 @@ body.a11y-high-contrast .lb-btn,body.a11y-high-contrast .lb-btn *{color:#000 !im
       </div>
     </div>
     <button class="kolat-modal-btn" onclick="confirmKolatModal()">אישור והמשך</button>
+  </div>
+</div>
+
+<!-- מודאל מידע על מערכת Super של כרומגן (נפתח בבחירת מערכת Super בשלב 1) -->
+<div id="super-info-modal" class="kolat-modal-overlay" onclick="closeSuperModal(event)">
+  <div class="kolat-modal" onclick="event.stopPropagation()">
+    <button class="kolat-modal-close" onclick="closeSuperModal()" aria-label="סגור">×</button>
+    <div class="kolat-modal-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.6c0 4.6-3.1 8.2-7.5 9.9-4.4-1.7-7.5-5.3-7.5-9.9V6z"/><path d="M12 8.3c-1.7 2.1-2.7 3.5-2.7 4.8a2.7 2.7 0 0 0 5.4 0c0-1.3-1-2.7-2.7-4.8z"/></svg></div>
+    <div class="kolat-modal-title">כרומגן Super — שדרוג מיוחד למערכת</div>
+    <div class="kolat-modal-body">
+      <div class="kolat-modal-row">
+        <strong>למי זה מתאים?</strong>
+        <span>לכל מי שרוצה שדרוג מיוחד למערכת שלו — ובמיוחד למי שגר באזור עם אבנית (השרון, השומרון) או באזור קר (ירושלים וההרים).</span>
+      </div>
+      <div class="kolat-modal-row">
+        <strong>איך זה עובד?</strong>
+        <span>מערכת סגורה: נוזל נגד קפיאה מסתובב בקולט במעגל סגור ומחמם את המים דרך מעיל שעוטף את המיכל — המים שלכם לא עולים לקולט, והאבנית לא מגיעה אליו.</span>
+      </div>
+    </div>
+    <button class="kolat-modal-btn" onclick="confirmSuperModal()">אישור והמשך</button>
+  </div>
+</div>
+
+<!-- מודאל מידע על מערבל מים (נפתח מכפתור "מה התפקיד שלו?" ליד "מערבל מים" ברשימות "מה כלול") -->
+<div id="mixer-info-modal" class="kolat-modal-overlay" onclick="closeMixerModal(event)">
+  <div class="kolat-modal" onclick="event.stopPropagation()">
+    <button class="kolat-modal-close" onclick="closeMixerModal()" aria-label="סגור">×</button>
+    <div class="kolat-modal-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8c-3.2 4.2-6.4 7.9-6.4 11.6a6.4 6.4 0 0 0 12.8 0c0-3.7-3.2-7.4-6.4-11.6z"/><path d="M12 9.2v5.2"/><circle cx="12" cy="16.2" r="1.7"/></svg></div>
+    <div class="kolat-modal-title">מערבל מים — מה התפקיד שלו?</div>
+    <div class="kolat-modal-body">
+      <div class="kolat-modal-row">
+        <strong>מה הוא עושה?</strong>
+        <span>שסתום על יציאת המים החמים מהדוד: מערבב חם מהדוד וקר מהרשת, ומוציא לבית מים בטמפרטורה בטוחה — 52–55 מעלות. בקיץ המים בדוד מגיעים ל-80 ואפילו 90 מעלות, ומים כאלה עושים כווייה תוך שנייה.</span>
+      </div>
+      <div class="kolat-modal-row">
+        <strong>איך הוא עובד?</strong>
+        <span>בפנים יש קפסולה עם חומר שמתרחב בחום ודוחף בוכנה שפותחת את המים הקרים; כשהמים מתקררים היא מתכווצת והקרים נסגרים. אוטומטי, בלי חשמל.</span>
+      </div>
+      <div class="kolat-modal-row">
+        <strong>למי זה חשוב במיוחד?</strong>
+        <span>לבית עם ילדים קטנים או אנשים מבוגרים — שאף אחד לא יפתח בטעות מים רותחים.</span>
+      </div>
+      <div class="kolat-modal-note">
+        המים במקלחת פושרים למרות שהדוד רותח? לפעמים זה לא הדוד — אבנית תקעה את המערבל והוא מכניס יותר מדי מים קרים.
+      </div>
+    </div>
+    <button class="kolat-modal-btn" onclick="closeMixerModal()">הבנתי, תודה</button>
   </div>
 </div>
 
@@ -2497,6 +2604,14 @@ body.a11y-high-contrast .lb-btn,body.a11y-high-contrast .lb-btn *{color:#000 !im
       <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">כמה עולה תיקון דוד שמש?<span class="faq-arrow" aria-hidden="true"></span></button>
       <div class="faq-a">המחיר של תיקון משתנה לפי התקלה והחלקים שצריך להחליף, ולכן הכי כדאי <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20ואשמח%20לקבל%20הצעת%20מחיר%20לתיקון" target="_blank" rel="noopener">לשלוח לנו הודעה בוואטסאפ</a> עם תיאור קצר של התקלה (ותמונה, אם אפשר) — ונחזור אליכם עם ההצעה הכי טובה. אם הדוד צריך החלפה, את המחיר המלא תמצאו <a href="#calculator" onclick="event.preventDefault();navGoto('calculator')">במחשבון באתר</a>.</div>
     </div>
+    <div class="faq-item faq-item-long">
+      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">מה זה מערכת Super של כרומגן ולמי היא מתאימה?<span class="faq-arrow" aria-hidden="true"></span></button>
+      <div class="faq-a">מערכת סולארית סגורה של כרומגן. בדוד שמש רגיל המים של הבית עצמם עולים לקולט, ואיתם נכנסת אבנית שסותמת את הצינורות הדקים שלו. ב-Super המים שלכם בכלל לא עולים לקולט: נוזל נגד קפיאה מסתובב במעגל סגור, זורם במעיל שעוטף את המיכל הפנימי של הדוד ומחמם את המים דרך הדופן. התוצאה — אין אבנית בקולט, ולכן זו מערכת מצוינת לשרון, לשומרון ולכל אזור עם הרבה אבנית במים; והנוזל לא קופא, אז גם בירושלים ובאזורים הרריים הקולט לא מתפוצץ מהקור. המערכת יקרה יותר ודורשת בדיקת נוזל פעם בשלוש שנים, אבל היא נמכרת כמוצר שלם של כרומגן (150 ליטר, לגג שטוח או רעפים) עם 4 שנות אחריות ועוד שנתיים אחריות מוגבלת, כולל נזקי אבנית בקולט.</div>
+    </div>
+    <div class="faq-item faq-item-long">
+      <button class="faq-q" type="button" onclick="this.parentElement.classList.toggle('open')">מה זה מערבל מים ולמה צריך אותו?<span class="faq-arrow" aria-hidden="true"></span></button>
+      <div class="faq-a">מערבל מים הוא שסתום קטן על יציאת המים החמים מהדוד. הוא מערבב מים חמים מהדוד עם מים קרים מהרשת, ומוציא לבית מים בטמפרטורה בטוחה של 52–55 מעלות — חשוב במיוחד בקיץ, כשהמים בדוד מגיעים ל-80 ואפילו 90 מעלות ועלולים לגרום לכווייה תוך שנייה. בפנים יש קפסולה עם חומר שמתרחב בחום ודוחף בוכנה שפותחת את המים הקרים — אוטומטי, בלי חשמל. מומלץ במיוחד בבית עם ילדים קטנים או אנשים מבוגרים. אצלנו המערבל כלול בכל התקנה לפי תקן ובמערכת Super, ואפשר להוסיף אותו לכל דוד. ואם המים במקלחת פושרים למרות שהדוד רותח — לפעמים זו בכלל אבנית שתקעה את המערבל.</div>
+    </div>
   </div>
 </section>
 
@@ -2717,6 +2832,12 @@ body.a11y-high-contrast .lb-btn,body.a11y-high-contrast .lb-btn *{color:#000 !im
 
 <script>
 // ============================================================
+// כרומגן Super — מערכת סגורה (מחליף חום), 150 ליטר, כרומגן בלבד
+// המחיר לפני מע"מ, כולל התקנה על גג שטוח (רעפים +ROOF_SURCHARGE כרגיל). לעדכן כאן בלבד.
+// ============================================================
+const SUPER_PRICE = 5800;
+
+// ============================================================
 // PRICE DATABASE
 // ============================================================
 const PRICES = {
@@ -2785,6 +2906,9 @@ const PRICES = {
       },
     },
   },
+  super: {
+    150: { chromagen:{price:SUPER_PRICE,warranty:4} },
+  },
 };
 
 const VAT_RATE = 0.18;
@@ -2801,12 +2925,36 @@ const INCLUDES = {
   system_std:  ['דוד שמש + קולט שמש תואם','התקנה לפי תקן מלא','מערבל מים','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','צינור נחושת תחתון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת למערכת בסוף העבודה'],
 };
 
+
+// Super — the equipment lines depend on the roof: flat roof = horizontal tank on a stand, tile roof = vertical tank
+const SUPER_INCLUDES = {
+  tank: { flat:'דוד שמש Super 150 ליטר אופקי עם מחליף חום מובנה', tile:'דוד שמש Super 150 ליטר אנכי עם מחליף חום מובנה', any:'דוד שמש Super 150 ליטר עם מחליף חום מובנה' },
+  stand: 'מעמד לדוד',
+  rest: ['קולט שמש Super בתפוקה גבוהה (7,700 קק״ל ביממה)','מעגל סגור — נוזל החימום מופרד ממי הבית, הקולט מוגן מאבנית','קיט אביזרים סולארי מקורי של כרומגן','נוזל מונע קפיאה','מערבל מים',
+         'התקנה מקצועית','פינוי המערכת הישנה','מילוי המעגל הסגור ושחרור אוויר','בדיקה כוללת למערכת בסוף העבודה',
+         'שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור אלומיניום עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט',
+         'מתקין מורשה רשמי של כרומגן','אחריות על העבודה'],
+};
+function superIncludes(roofType) {
+  const cfg = roofType === 'flat' ? 'flat' : (roofType === 'tile' ? 'tile' : 'any');
+  return [SUPER_INCLUDES.tank[cfg]].concat(cfg === 'flat' ? [SUPER_INCLUDES.stand] : []).concat(SUPER_INCLUDES.rest);
+}
+// the tank configuration, as a short fact for the quote
+function superConfigLabel(roofType) {
+  return roofType === 'flat' ? 'דוד אופקי עם מעמד' : (roofType === 'tile' ? 'דוד אנכי' : 'לפי סוג הגג');
+}
+
+// "4 שנים" as one phrase, so Russian gets the right form (4 года / 5 лет); any other length falls back to the old form
+function yearsLabel(w) { return (currentLang === 'ru' && !TRANSLATIONS[w + ' שנים']) ? (w + ' ' + t('שנים')) : t(w + ' שנים'); }
+
 function warrantyLabel(brandKey, w) {
+  if (sel.product === 'super') return yearsLabel(w) + ' · ' + t('+2 שנים אחריות מוגבלת (כולל נזקי אבנית בקולט)');
   const split = (sel.product === 'system' && (sel.kolatType || 'copper') === 'copper' && String(sel.volume) === '150' && brandKey && brandKey.indexOf('chromagen') === 0);
-  return split ? t('6 שנים לקולט · 4 שנים לדוד') : (w + ' ' + t('שנים'));
+  return split ? t('6 שנים לקולט · 4 שנים לדוד') : yearsLabel(w);
 }
 
 const EXTRAS = {
+  super:  ['תוספת צנרת מים וחשמל – ₪60 למטר + מע"מ'],
   system: ['תוספת צנרת מים וחשמל – ₪60 למטר + מע"מ','מעמד מגולוון חדש – ₪300 + מע"מ'],
   solar:  ['מעמד מגולוון חדש – ₪300 + מע"מ (אם נדרש)'],
 };
@@ -2822,14 +2970,14 @@ const BRAND_INFO = {
 
 const PRODUCT_LABELS = {
   solar:'דוד שמש', electric:'דוד חשמל', boiler:'דוד מחליף חום',
-  kolat_copper:'קולט שמש נחושת', kolat_iron:'קולט שמש ברזל', system:'מערכת מלאה'
+  kolat_copper:'קולט שמש נחושת', kolat_iron:'קולט שמש ברזל', system:'מערכת מלאה', super:'מערכת Super'
 };
 
-const VOLUMES     = { solar:[80,120,150,200], electric:[30,45,60,80,120,150], boiler:[80,120,150], kolat_copper:['mini','small','large','xlarge'], kolat_iron:['mini','small','large','xlarge'], system:{ copper:[120,150,200], iron:[120,150,200] } };
+const VOLUMES     = { solar:[80,120,150,200], electric:[30,45,60,80,120,150], boiler:[80,120,150], kolat_copper:['mini','small','large','xlarge'], kolat_iron:['mini','small','large','xlarge'], system:{ copper:[120,150,200], iron:[120,150,200] }, super:[150] };
 const VOL_HINTS   = {30:'1 נפש',45:'1-2 נפשות',60:'2 נפשות',80:'3 נפשות',120:'4 נפשות',150:'5 נפשות',200:'6+ נפשות','120slim':'4 נפשות (צר וארוך)','150slim':'5 נפשות (צר וארוך)','mini':'דוד 80 ליטר','small':'דוד 120 ליטר','large':'דוד 150 ליטר','xlarge':'דוד 200 ליטר'};
 const VOL_P = ['', '<svg viewBox="-1 -1 12 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="5" r="3"/><path d="M0 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/></svg>', '<svg viewBox="-1 -1 22 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="5" r="3"/><path d="M0 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="15" cy="5" r="3"/><path d="M10 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/></svg>', '<svg viewBox="-1 -1 32 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="5" r="3"/><path d="M0 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="15" cy="5" r="3"/><path d="M10 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="25" cy="5" r="3"/><path d="M20 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/></svg>', '<svg viewBox="-1 -1 42 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="5" r="3"/><path d="M0 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="15" cy="5" r="3"/><path d="M10 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="25" cy="5" r="3"/><path d="M20 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/><circle cx="35" cy="5" r="3"/><path d="M30 17.5c0-3.6 2.2-6 5-6s5 2.4 5 6"/></svg>'];
 const VOL_ICON    = {30:VOL_P[1],45:VOL_P[1],60:VOL_P[2],80:VOL_P[2],120:VOL_P[3],150:VOL_P[4],200:VOL_P[4],'120slim':'','150slim':'','mini':'','small':'','large':'','xlarge':''};
-const VOL_POPULAR = {solar:150, electric:80, boiler:150, kolat_copper:'large', kolat_iron:'small', system:150};
+const VOL_POPULAR = {solar:150, electric:80, boiler:150, kolat_copper:'large', kolat_iron:'small', system:150, super:150};
 
 const ROOF_SURCHARGE   = { flat:0, tile_inside:200, tile_outside:200, indoor:0 };
 const ACCESS_SURCHARGE = { ladder:0, key:0, none:0 };
@@ -2849,6 +2997,12 @@ function selectProd(prod) {
   // For direct kolat products, show region info modal first
   if (prod === 'kolat_copper' || prod === 'kolat_iron') {
     autoAdvance(() => openKolatModal());
+    return;
+  }
+  // Super: one size (150), Chromagen only — a short explanation, then straight to the roof step
+  if (prod === 'super') {
+    sel.volume = 150;
+    autoAdvance(() => openSuperModal());
     return;
   }
   // Auto-advance: go to system step or step 2
@@ -2882,6 +3036,70 @@ function confirmKolatModal() {
   // Proceed to step 2 (volume)
   goStep(2);
 }
+
+// Super info modal — shown when the user selects מערכת Super in step 1
+function openSuperModal() {
+  const modal = document.getElementById('super-info-modal');
+  if (!modal) return;
+  if (currentLang === 'ru') translateNodes(modal, 'ru');
+  modal.classList.add('show');
+  modal.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+  modalFocusIn(modal);
+}
+function closeSuperModal(e) {
+  if (e && e.target && e.currentTarget !== e.target) return;
+  const modal = document.getElementById('super-info-modal');
+  if (!modal || !modal.classList.contains('show')) return;
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+  modalFocusOut();
+}
+function confirmSuperModal() {
+  __modalOpener = null;
+  closeSuperModal();
+  sel.volume = 150;
+  goStep(3);
+}
+// Water mixer explanation — opened from the "מה התפקיד שלו?" button next to "מערבל מים" in any included-items list
+function openMixerModal() {
+  const modal = document.getElementById('mixer-info-modal');
+  if (!modal) return;
+  if (currentLang === 'ru') translateNodes(modal, 'ru');
+  modal.classList.add('show');
+  modal.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+  modalFocusIn(modal);
+}
+function closeMixerModal(e) {
+  if (e && e.target && e.currentTarget !== e.target) return;
+  const modal = document.getElementById('mixer-info-modal');
+  if (!modal || !modal.classList.contains('show')) return;
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+  modalFocusOut();
+}
+// the roof step's back button: Super has no volume step
+function roofBack() { goStep(sel.product === 'super' ? 1 : 2); }
+// modals: Escape closes whichever is open; dialog semantics; focus goes to the close button and back to the opener
+(function () {
+  var CLOSERS = { 'kolat-info-modal': function () { closeKolatModal(); }, 'super-info-modal': function () { closeSuperModal(); }, 'mixer-info-modal': function () { closeMixerModal(); } };
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var open = document.querySelector('.kolat-modal-overlay.show');
+    if (open && CLOSERS[open.id]) { e.preventDefault(); CLOSERS[open.id](); }
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.kolat-modal-overlay .kolat-modal').forEach(function (m) {
+      m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true');
+      var t = m.querySelector('.kolat-modal-title');
+      if (t) { if (!t.id) t.id = m.parentElement.id + '-title'; m.setAttribute('aria-labelledby', t.id); }
+    });
+  });
+})();
+var __modalOpener = null;
+function modalFocusIn(modal) { __modalOpener = document.activeElement; var c = modal.querySelector('.kolat-modal-close'); if (c) setTimeout(function () { c.focus(); }, 30); }
+function modalFocusOut() { var o = __modalOpener; __modalOpener = null; if (o && o.focus && document.contains(o)) o.focus(); }
 
 // Auto-advance helper — short delay so user sees their selection before transition
 function autoAdvance(fn) {
@@ -3386,6 +3604,8 @@ function setTabStates(activeStep) {
     if (!tab) return;
     // Hide sys + kolat tabs if not a system product
     if ((tabId === 'tab-sys' || tabId === 'tab-kolat') && !isSystem) { tab.style.display = 'none'; return; }
+    // Super has no volume step and no company step
+    else if ((tabId === 'tab-2' || tabId === 'tab-4') && sel.product === 'super') { tab.style.display = 'none'; return; }
     else { tab.style.display = ''; }
     tab.className = 'csl' + (i < activeIdx ? ' done' : i === activeIdx ? ' active' : '');
   });
@@ -3443,7 +3663,7 @@ function goStep(n) {
   if (n === 4) populateTiers();
   if (n === 3) {
     // Show/hide "בתוך הבית" based on product
-    const noIndoor = ['solar','kolat_copper','kolat_iron','system'];
+    const noIndoor = ['solar','kolat_copper','kolat_iron','system','super'];
     const indoorCard = document.getElementById('roof-indoor-card');
     if (indoorCard) {
       indoorCard.style.display = noIndoor.includes(sel.product) ? 'none' : 'flex';
@@ -3474,15 +3694,18 @@ function goStep(n) {
 
   // Progress bar (6 possible steps for system: 1, sys, kolat, 2, 3, 4 — or 4 if not system)
   const hasSystem = (product === 'system');
+  const isSuper = (product === 'super');   // Super: product → roof → quote
   // Map step → step number out of total
   let currentStepNum;
   if (hasSystem) {
     const sysStepMap = { 1:1, 'sys':2, 'kolat':3, 2:4, 3:5, 4:6 };
     currentStepNum = sysStepMap[n] || 1;
+  } else if (isSuper) {
+    currentStepNum = ({ 1:1, 3:2 })[n] || 1;
   } else {
     currentStepNum = (typeof n === 'number') ? n : 1;
   }
-  const totalProg = hasSystem ? 6 : 4;
+  const totalProg = hasSystem ? 6 : (isSuper ? 2 : 4);
   const pct = Math.round((currentStepNum / totalProg) * 100);
   document.getElementById('calc-prog-bar').style.width = Math.min(pct, 95) + '%';
 
@@ -3526,6 +3749,8 @@ function getAccessLabel() {
 // ---- RESULT ----
 // ===== Roof step "Continue" handler =====
 function advanceFromRoof() {
+  // Super is Chromagen only: no company step — straight to the quote
+  if (sel.product === 'super') { sel.brand = 'chromagen'; showResult(); return; }
   goStep(4);
 }
 
@@ -3547,7 +3772,7 @@ function showResult() {
   const volStr = volKey && VOL_LABELS[volKey]
     ? ` – ${currentLang==='ru' ? (VOL_LABELS_RU[volKey]||VOL_LABELS[volKey]) : VOL_LABELS[volKey]}`
     : (volKey && typeof volKey === 'number' ? ` ${volKey} ${t('ליטר')}` : '');
-  let incList = INCLUDES[inclKey] || INCLUDES[product];
+  let incList = product === 'super' ? superIncludes(sel.roofType) : (INCLUDES[inclKey] || INCLUDES[product]);
   // Yardan doesn't get aluminum coating in copper kolat
   if (product === 'kolat_copper' && (brand === 'yardan' || brand === 'yardan_kolat')) {
     incList = incList.filter(item => item !== 'ציפוי מגן מאלומיניום');
@@ -3558,6 +3783,7 @@ function showResult() {
   const accessLabel = getAccessLabel();
   let waMsg = `היי שלום, הגעתי מהאתר ואשמח לקבל הצעת מחיר:\n\n`;
   waMsg += `📋 *${PRODUCT_LABELS[product]}${volStr}*\n`;
+  if (product === 'super') waMsg += `📐 *מערכת:* כרומגן Super — מערכת סגורה (מחליף חום), הקולט מוגן מאבנית · ${superConfigLabel(sel.roofType)}\n`;
   if (product === 'system') {
     waMsg += `📐 *סוג מערכת:* ${isStd ? 'תקן מלא' : 'רגילה'}\n`;
     const kolatLabels = { copper: 'נחושת', iron: 'ברזל', iron_extra: 'ברזל EXTRA' };
@@ -3566,7 +3792,7 @@ function showResult() {
   waMsg += `🏆 *חברה:* ${info.label} (${info.tier})\n`;
   waMsg += `🏠 *גג:* ${roofLabel}\n`;
   waMsg += `🔑 *גישה:* ${accessLabel}\n`;
-  waMsg += `🛡️ *אחריות:* ${(sel.product === 'system' && (sel.kolatType || 'copper') === 'copper' && String(sel.volume) === '150' && sel.brand && sel.brand.indexOf('chromagen') === 0) ? '6 שנים לקולט · 4 שנים לדוד' : data.warranty + ' שנים'}\n\n✅ *כולל:*\n`;
+  waMsg += `🛡️ *אחריות:* ${product === 'super' ? data.warranty + ' שנים + 2 שנים אחריות מוגבלת (כולל נזקי אבנית בקולט)' : ((sel.product === 'system' && (sel.kolatType || 'copper') === 'copper' && String(sel.volume) === '150' && sel.brand && sel.brand.indexOf('chromagen') === 0) ? '6 שנים לקולט · 4 שנים לדוד' : data.warranty + ' שנים')}\n\n✅ *כולל:*\n`;
   incList.forEach(i => { waMsg += `• ${i}\n`; });
   waMsg += `\n💰 *מחיר: ₪${totalPrice.toLocaleString()} + מע"מ*\n(₪${withVat(totalPrice).toLocaleString()} כולל מע"מ)\n\n`;
   if (extras) waMsg += `⚠️ תוספות אפשריות: ${extras.join(' | ')}\n\n`;
@@ -3585,6 +3811,9 @@ function showResult() {
   });
   document.getElementById('calc-result').classList.add('visible');
   document.getElementById('calc-prog-bar').style.width = '100%';
+  // the back button under the quote: Super never had a company step, so it returns to the roof step
+  const backLbl = document.querySelector('.btn-back-brands span');
+  if (backLbl) backLbl.textContent = (product === 'super') ? 'חזור לבחירת הגג' : 'חזור לבחירת חברה';
   // Re-translate result section if in Russian
   if (currentLang === 'ru') translateNodes(document.getElementById('calc-result'), 'ru');
 }
@@ -3611,6 +3840,7 @@ function backToBrands() {
   document.querySelectorAll('#tier-cards-container .q-card').forEach(el => el.classList.remove('selected'));
   const next4 = document.getElementById('next-4');
   if (next4) next4.disabled = true;
+  if (sel.product === 'super') { goStep(3); return; }
   goStep(4);
 }
 
@@ -3619,6 +3849,48 @@ function backToBrands() {
 // TRANSLATION SYSTEM — Hebrew ↔ Russian
 // ============================================================
 const TRANSLATIONS = {
+  // כרומגן Super + מערבל מים (Oct 2026)
+  'מערכת Super': 'Система Super',
+  'מוגנת מאבנית': 'Защита от накипи',
+  'כרומגן Super — שדרוג מיוחד למערכת': 'Chromagen Super — особое улучшение системы',
+  'למי זה מתאים?': 'Кому это подходит?',
+  'לכל מי שרוצה שדרוג מיוחד למערכת שלו — ובמיוחד למי שגר באזור עם אבנית (השרון, השומרון) או באזור קר (ירושלים וההרים).': 'Всем, кто хочет особое улучшение своей системы — и особенно тем, кто живёт в районе с накипью (Шарон, Шомрон) или в холодном районе (Иерусалим и горы).',
+  'מערכת סגורה: נוזל נגד קפיאה מסתובב בקולט במעגל סגור ומחמם את המים דרך מעיל שעוטף את המיכל — המים שלכם לא עולים לקולט, והאבנית לא מגיעה אליו.': 'Закрытая система: незамерзающая жидкость циркулирует в коллекторе по замкнутому контуру и нагревает воду через рубашку, окружающую бак — ваша вода не поднимается в коллектор, и накипь до него не доходит.',
+  'דוד שמש Super 150 ליטר אופקי עם מחליף חום מובנה': 'Солнечный бойлер Super 150 л, горизонтальный, со встроенным теплообменником',
+  'דוד שמש Super 150 ליטר אנכי עם מחליף חום מובנה': 'Солнечный бойлер Super 150 л, вертикальный, со встроенным теплообменником',
+  'דוד שמש Super 150 ליטר עם מחליף חום מובנה': 'Солнечный бойлер Super 150 л со встроенным теплообменником',
+  'מעמד לדוד': 'Подставка для бойлера',
+  'קולט שמש Super בתפוקה גבוהה (7,700 קק״ל ביממה)': 'Коллектор Super повышенной производительности (7 700 ккал в сутки)',
+  'מעגל סגור — נוזל החימום מופרד ממי הבית, הקולט מוגן מאבנית': 'Закрытый контур — теплоноситель отделён от воды дома, коллектор защищён от накипи',
+  'קיט אביזרים סולארי מקורי של כרומגן': 'Оригинальный комплект солнечных аксессуаров Chromagen',
+  'נוזל מונע קפיאה': 'Незамерзающая жидкость',
+  'מילוי המעגל הסגור ושחרור אוויר': 'Заполнение закрытого контура и удаление воздуха',
+  'צינור אלומיניום עליון + בידוד': 'Верхняя алюминиевая труба + изоляция',
+  'מתקין מורשה רשמי של כרומגן': 'Официальный авторизованный монтажник Chromagen',
+  '+2 שנים אחריות מוגבלת (כולל נזקי אבנית בקולט)': '+2 года ограниченной гарантии (включая повреждения коллектора накипью)',
+  'מערכת סגורה עם מחליף חום · כרומגן בלבד': 'Закрытая система с теплообменником · только Chromagen',
+  'השדרוג של כרומגן למים קשים ולאזורים קרים': 'Улучшение Chromagen для жёсткой воды и холодных районов',
+  'דוד אופקי עם מעמד': 'Горизонтальный бойлер на подставке',
+  'דוד אנכי': 'Вертикальный бойлер',
+  'לפי סוג הגג': 'По типу крыши',
+  'חזור לבחירת הגג': 'Назад к выбору крыши',
+  'מה התפקיד שלו?': 'Для чего он нужен?',
+  'מערבל מים — מה התפקיד שלו?': 'Смеситель воды — для чего он нужен?',
+  'מה הוא עושה?': 'Что он делает?',
+  'שסתום על יציאת המים החמים מהדוד: מערבב חם מהדוד וקר מהרשת, ומוציא לבית מים בטמפרטורה בטוחה — 52–55 מעלות. בקיץ המים בדוד מגיעים ל-80 ואפילו 90 מעלות, ומים כאלה עושים כווייה תוך שנייה.': 'Клапан на выходе горячей воды из бойлера: смешивает горячую воду из бойлера с холодной из сети и подаёт в дом воду безопасной температуры — 52–55 °C. Летом вода в бойлере доходит до 80 и даже 90 °C, и такая вода обжигает за секунду.',
+  'איך הוא עובד?': 'Как он работает?',
+  'בפנים יש קפסולה עם חומר שמתרחב בחום ודוחף בוכנה שפותחת את המים הקרים; כשהמים מתקררים היא מתכווצת והקרים נסגרים. אוטומטי, בלי חשמל.': 'Внутри — капсула с веществом, которое расширяется от тепла и толкает поршень, открывающий холодную воду; когда вода остывает, капсула сжимается и холодная закрывается. Автоматически, без электричества.',
+  'למי זה חשוב במיוחד?': 'Кому это особенно важно?',
+  'לבית עם ילדים קטנים או אנשים מבוגרים — שאף אחד לא יפתח בטעות מים רותחים.': 'Семьям с маленькими детьми или пожилыми людьми — чтобы никто случайно не открыл кипяток.',
+  'המים במקלחת פושרים למרות שהדוד רותח? לפעמים זה לא הדוד — אבנית תקעה את המערבל והוא מכניס יותר מדי מים קרים.': 'Вода в душе чуть тёплая, хотя бойлер кипит? Иногда дело не в бойлере — накипь заклинила смеситель, и он подмешивает слишком много холодной воды.',
+  'הבנתי, תודה': 'Понятно, спасибо',
+  '4 שנים': '4 года',
+  '5 שנים': '5 лет',
+  '6 שנים': '6 лет',
+  'מה זה מערכת Super של כרומגן ולמי היא מתאימה?': 'Что такое система Chromagen Super и кому она подходит?',
+  'מערכת סולארית סגורה של כרומגן. בדוד שמש רגיל המים של הבית עצמם עולים לקולט, ואיתם נכנסת אבנית שסותמת את הצינורות הדקים שלו. ב-Super המים שלכם בכלל לא עולים לקולט: נוזל נגד קפיאה מסתובב במעגל סגור, זורם במעיל שעוטף את המיכל הפנימי של הדוד ומחמם את המים דרך הדופן. התוצאה — אין אבנית בקולט, ולכן זו מערכת מצוינת לשרון, לשומרון ולכל אזור עם הרבה אבנית במים; והנוזל לא קופא, אז גם בירושלים ובאזורים הרריים הקולט לא מתפוצץ מהקור. המערכת יקרה יותר ודורשת בדיקת נוזל פעם בשלוש שנים, אבל היא נמכרת כמוצר שלם של כרומגן (150 ליטר, לגג שטוח או רעפים) עם 4 שנות אחריות ועוד שנתיים אחריות מוגבלת, כולל נזקי אבנית בקולט.': 'Закрытая солнечная система Chromagen. В обычном солнечном бойлере в коллектор поднимается сама вода дома, а с ней — накипь, которая забивает его тонкие трубки. В Super ваша вода вообще не поднимается в коллектор: незамерзающая жидкость циркулирует по замкнутому контуру, проходит по рубашке, окружающей внутренний бак бойлера, и нагревает воду через стенку. Результат — в коллекторе нет накипи, поэтому это отличная система для Шарона, Шомрона и любого района с жёсткой водой; а жидкость не замерзает, так что и в Иерусалиме и в горных районах коллектор не лопнет от холода. Система дороже и требует проверки жидкости раз в три года, но продаётся как готовый продукт Chromagen (150 л, для плоской или черепичной крыши) с гарантией 4 года и ещё 2 годами ограниченной гарантии, включая повреждения коллектора накипью.',
+  'מה זה מערבל מים ולמה צריך אותו?': 'Что такое смеситель воды и зачем он нужен?',
+  'מערבל מים הוא שסתום קטן על יציאת המים החמים מהדוד. הוא מערבב מים חמים מהדוד עם מים קרים מהרשת, ומוציא לבית מים בטמפרטורה בטוחה של 52–55 מעלות — חשוב במיוחד בקיץ, כשהמים בדוד מגיעים ל-80 ואפילו 90 מעלות ועלולים לגרום לכווייה תוך שנייה. בפנים יש קפסולה עם חומר שמתרחב בחום ודוחף בוכנה שפותחת את המים הקרים — אוטומטי, בלי חשמל. מומלץ במיוחד בבית עם ילדים קטנים או אנשים מבוגרים. אצלנו המערבל כלול בכל התקנה לפי תקן ובמערכת Super, ואפשר להוסיף אותו לכל דוד. ואם המים במקלחת פושרים למרות שהדוד רותח — לפעמים זו בכלל אבנית שתקעה את המערבל.': 'Смеситель воды — небольшой клапан на выходе горячей воды из бойлера. Он смешивает горячую воду из бойлера с холодной из сети и подаёт в дом воду безопасной температуры 52–55 °C — особенно важно летом, когда вода в бойлере доходит до 80 и даже 90 °C и может обжечь за секунду. Внутри — капсула с веществом, которое расширяется от тепла и толкает поршень, открывающий холодную воду — автоматически, без электричества. Особенно рекомендуется в доме с маленькими детьми или пожилыми людьми. У нас смеситель входит в каждый монтаж по стандарту и в систему Super, и его можно добавить к любому бойлеру. А если вода в душе чуть тёплая, хотя бойлер кипит — иногда это просто накипь, заклинившая смеситель.',
   '6 שנים לקולט · 4 שנים לדוד': '6 лет на коллектор · 4 года на бойлер',
   // Grouped card layout
   'הציוד': 'Оборудование',
@@ -4320,6 +4592,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const next1 = document.getElementById('next-1');
   if (next1) next1.onclick = () => {
     if (sel.product === 'system') goStep('sys');
+    else if (sel.product === 'super') goStep(3);
     else goStep(2);
   };
   // Set correct tab numbers on initial load (no system selected yet → 4 steps)
@@ -5276,7 +5549,7 @@ const Q_SIZE_LABEL = { mini: 'מיני', small: 'קטן', large: 'גדול', xla
 const Q_ROOF_HE = { flat: 'גג שטוח', 'tile-in': 'גג רעפים — בתוך הרעפים', 'tile-out': 'גג רעפים — מחוץ לרעפים', indoor: 'בתוך הבית' };
 // Friendly landing slugs → generic slugs (generic ones work too: solar-120, electric-80, boiler-150slim,
 // kolat_copper-small, kolat_iron-large, system-120-copper, system-150-iron-std …)
-const Q_LANDING = { 'dud-shemesh-150': 'solar-150', 'maarechet-150': 'system-150-copper', 'kolat-nechoshet': 'kolat_copper-large' };
+const Q_LANDING = { 'dud-shemesh-150': 'solar-150', 'maarechet-150': 'system-150-copper', 'kolat-nechoshet': 'kolat_copper-large', 'maarechet-super': 'super-150' };
 const Q_NOTE_1 = 'כל המחירים באתר הם לפני מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.';
 const Q_NOTE_2 = 'המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.';
 
@@ -5411,13 +5684,14 @@ function qModel(spec) {
     const roofAdd = spec.roof ? getRoofSurcharge() : 0;
     const brands = order.filter(k => row[k] && BRAND_INFO[k]).map(k => {
       const base = k.replace('_std', ''), info = BRAND_INFO[k], price = row[k].price + roofAdd;
-      return { key: k, base, name: info.label, pos: info.pos, color: qBrandColor(k), price, vat: withVat(price),
-               warranty: warrantyLabel(k, row[k].warranty), featured: k === featuredKey };
+      // Super: Chromagen only — its own positioning line and ribbon text
+      return { key: k, base, name: info.label, pos: p === 'super' ? 'השדרוג של כרומגן למים קשים ולאזורים קרים' : info.pos, color: qBrandColor(k), price, vat: withVat(price),
+               warranty: warrantyLabel(k, row[k].warranty), featured: k === featuredKey, ribbon: p === 'super' ? 'מערכת Super' : 'הכי מומלץ' };
     });
     if (!brands.length) return null;
     const inclKey = p === 'system' ? (std ? 'system_std' : 'system') : p;
     return { spec, product: p, volume: v, std, kolatType: spec.kolatType || null, brands,
-             includes: (INCLUDES[inclKey] || []).slice(), extras: EXTRAS[p] || null,
+             includes: p === 'super' ? superIncludes(sel.roofType) : (INCLUDES[inclKey] || []).slice(), extras: EXTRAS[p] || null,
              roofAdd, tileAdd: ROOF_SURCHARGE.tile_inside, roofLabel: spec.roof ? getRoofLabel() : '' };
   });
 }
@@ -5443,6 +5717,7 @@ function qTitle(m, lang) {
 }
 function qSub(m, lang) {
   const ru = qLang(lang) === 'ru', v = String(m.volume);
+  if (m.product === 'super') return qTr('מערכת סגורה עם מחליף חום · כרומגן בלבד', lang);
   if (m.product === 'system') {
     const k = m.kolatType === 'iron'
       ? (v === '200' ? 'דוד שמש + קולט ברזל EXTRA (2 קולטים)' : 'דוד שמש + קולט ברזל תואם')
@@ -5559,7 +5834,7 @@ function qParseP(slug) {
   slug = slug.replace(/^kolat-(copper|iron)/, 'kolat_$1');
   let mm = slug.match(/^system-(\d+)-(copper|iron)(-std)?$/), spec = null;
   if (mm) spec = qValidBase('system', mm[1], mm[3] ? 'standard' : 'regular', mm[2]);
-  else if ((mm = slug.match(/^(solar|electric|boiler|kolat_copper|kolat_iron)-([a-z0-9]+)$/))) spec = qValidBase(mm[1], mm[2], null, null);
+  else if ((mm = slug.match(/^(solar|electric|boiler|kolat_copper|kolat_iron|super)-([a-z0-9]+)$/))) spec = qValidBase(mm[1], mm[2], null, null);
   return (spec && qModel(spec)) ? spec : null;
 }
 
@@ -5569,6 +5844,7 @@ function qMsgPrice(b) { return `💰 *₪${qn(b.price)} + מע"מ* (₪${qn(b.va
 function qWaSingleMsg(m, b) {
   const s = m.spec;
   let msg = `היי שלום, צפיתי בהצעת המחיר באתר ואשמח לתאם התקנה:\n\n📋 *${qTitle(m, 'he')} – ${b.name}*\n`;
+  if (m.product === 'super') msg += `📐 *מערכת:* כרומגן Super — מערכת סגורה (מחליף חום), הקולט מוגן מאבנית\n`;
   if (m.product === 'system') msg += `📐 *סוג מערכת:* ${s.sysType === 'standard' ? 'תקן מלא' : 'רגילה'}\n`;
   msg += s.roof ? `🏠 *גג:* ${Q_ROOF_HE[s.roof]}\n` : `🏠 *גג:* ${qRoofNote(m, 'he')}\n`;
   msg += `${qMsgPrice(b)}\n\n📄 ${qLink(s)}\n\nאשמח לתאם ביקור.`;
@@ -5577,6 +5853,7 @@ function qWaSingleMsg(m, b) {
 function qWaCardMsg(m, b) {
   const s = Object.assign({}, m.spec, { brand: b.base, roof: null, access: [] });
   let msg = `היי שלום, הגעתי מהאתר ואשמח להזמין:\n\n📋 *${qTitle(m, 'he')} – ${b.name}*\n`;
+  if (m.product === 'super') msg += `📐 *מערכת:* כרומגן Super — מערכת סגורה (מחליף חום), הקולט מוגן מאבנית\n`;
   if (m.product === 'system') msg += `📐 *סוג מערכת:* ${s.sysType === 'standard' ? 'תקן מלא' : 'רגילה'}\n`;
   msg += `${qMsgPrice(b)}\n🏠 ${qRoofNote(m, 'he')}\n\n📄 ${qLink(s)}\n\nאשמח לתאם ביקור.`;
   return msg;
@@ -5588,15 +5865,18 @@ function qWaLandingMsg(m) {
 // ============================================================
 // WEB COMPONENTS
 // ============================================================
-function qLi(text) { return `<li><i>${qIcon('check', { size: 12, width: 3 })}</i><span>${text}</span></li>`; }
-function qRibbonHTML() { return `<div class="q-ribbon">${qIcon('star', { size: 14, fill: true })}<span>${qt('הכי מומלץ')}</span></div>`; }
+function qLi(text) {
+  const why = (text === t('מערבל מים')) ? ` <button type="button" class="q-why" onclick="event.stopPropagation();openMixerModal()">${qt('מה התפקיד שלו?')}</button>` : '';
+  return `<li><i>${qIcon('check', { size: 12, width: 3 })}</i><span>${text}${why}</span></li>`;
+}
+function qRibbonHTML(b) { return `<div class="q-ribbon">${qIcon('star', { size: 14, fill: true })}<span>${qt((b && b.ribbon) || 'הכי מומלץ')}</span></div>`; }
 function qPriceHTML(price) {
   return `<div class="q-price-row"><span class="q-price"><span class="q-cur">₪</span>${Number(price).toLocaleString()}</span><span class="q-plusvat">${t('+ מע"מ')}</span></div>
 <div class="q-vat">${vatLine(price)}</div>`;
 }
 function qWarrantyHTML(text) {
   // a split warranty ("6 שנים לקולט · 4 שנים לדוד") goes on two lines, as on the printed quote
-  const lines = String(text).split(' · ').map(x => `<b>${x}</b>`).join('');
+  const lines = String(text).split(' · ').map(x => `<b${x.charAt(0) === '+' ? ' class="q-wsub"' : ''}>${x}</b>`).join('');
   return `<div class="q-warranty">${qIcon('shield', { size: 28, width: 2 })}<div><span>${t('אחריות יצרן')}</span>${lines}</div></div>`;
 }
 
@@ -5648,7 +5928,7 @@ ${extras.map(e => `<div class="qw-extra"><span>${qIcon(e.icon, { size: 18, width
 }
 function qPickHTML(m, b) {
   return `<div class="qw-pick" style="--b:${b.color}">
-${b.featured ? qRibbonHTML() : ''}
+${b.featured ? qRibbonHTML(b) : ''}
 <div class="qw-pick-brand"><div class="qw-pick-name">${t(b.name)}</div><div class="qw-pick-pos">${t(b.pos)}</div></div>
 <div class="qw-pick-main">${qPriceHTML(b.price)}<div class="q-divider"></div>${qWarrantyHTML(b.warranty)}</div>
 </div>`;
@@ -5656,6 +5936,7 @@ ${b.featured ? qRibbonHTML() : ''}
 function qFactsHTML(m) {
   const facts = [];
   if (m.product === 'system') facts.push([qt('סוג מערכת'), qSystemFact(m)]);
+  if (m.product === 'super') facts.push([qt('סוג מערכת'), 'Super · ' + qt(superConfigLabel(m.spec.roof ? (m.spec.roof.indexOf('tile') === 0 ? 'tile' : m.spec.roof) : null))]);
   facts.push([qt('גג'), m.spec.roof ? m.roofLabel : qt('לא צוין')]);
   const acc = qAccessText(m.spec);
   if (acc) facts.push([qt('גישה לגג'), acc]);
@@ -5673,7 +5954,7 @@ ${qBottomHTML(m, !m.spec.roof)}
 }
 function qCompareCardHTML(m, b) {
   return `<div class="q-card${b.featured ? ' is-featured' : ''}" data-brand="${b.key}" style="--b:${b.color}">
-${b.featured ? qRibbonHTML() : ''}
+${b.featured ? qRibbonHTML(b) : ''}
 <div class="q-card-head"><div class="q-card-name">${t(b.name)}</div></div>
 <div class="q-card-pos">${t(b.pos)}</div>
 <div class="q-card-mid"><div class="q-card-price">${qPriceHTML(b.price)}</div><div class="q-divider"></div>${qWarrantyHTML(b.warranty)}</div>
@@ -5684,10 +5965,10 @@ function qWebCompareHTML(m) {
   return `<div class="qw qw-compare" dir="${qDir()}">
 ${qMastHTML(m)}
 <div class="qw-body">
-<div class="qw-head-row"><div class="qw-h2">${qt('בחרו את האפשרות <mark>שמתאימה לכם</mark>')}</div><div class="qw-head-note">${qt('אותה עבודה מקצועית בכל אפשרות')}</div></div>
-<div class="qw-cards">${m.brands.map(b => qCompareCardHTML(m, b)).join('')}</div>
+<div class="qw-head-row"><div class="qw-h2">${qt(m.brands.length === 1 ? 'ההצעה <mark>שלך</mark>' : 'בחרו את האפשרות <mark>שמתאימה לכם</mark>')}</div>${m.brands.length === 1 ? '' : `<div class="qw-head-note">${qt('אותה עבודה מקצועית בכל אפשרות')}</div>`}</div>
+<div class="qw-cards${m.brands.length === 1 ? ' one' : ''}">${m.brands.map(b => qCompareCardHTML(m, b)).join('')}</div>
 <div class="qw-roofnote">${qRoofNote(m)} · <a href="#calculator" onclick="event.preventDefault();qJumpToCalc(window.__qView && window.__qView.spec)">${qt('למחיר מדויק לפי סוג הגג')} ${qArrow()}</a></div>
-${qBoxHTML(qt('מה כלול בכל אחת מההצעות'), qIncludesShared(m))}
+${qBoxHTML(qt(m.brands.length === 1 ? 'מה כלול במחיר' : 'מה כלול בכל אחת מההצעות'), qIncludesShared(m))}
 ${qBottomHTML(m, true)}
 </div></div>`;
 }
@@ -5827,17 +6108,19 @@ function qSheetPrice(b, big) {
 <div style="margin-top:2px;font-size:${f[3]}px;font-weight:600;color:${Q_MUTED};text-align:center">(₪${qn(b.vat)} ${qSheetText(t('כולל מע"מ'))})</div>`;
 }
 function qSheetWarranty(b, size) {
-  const lines = String(b.warranty).split(' · ').map(w => `<span style="font-size:${size || 16}px;font-weight:800;color:${Q_INK};line-height:1.3">${w}</span>`).join('');
+  const lines = String(b.warranty).split(' · ').map(w => w.charAt(0) === '+'
+    ? `<span style="font-size:${Math.round((size || 16) * 0.78)}px;font-weight:700;color:${Q_MUTED};line-height:1.25">${w}</span>`
+    : `<span style="font-size:${size || 16}px;font-weight:800;color:${Q_INK};line-height:1.3">${w}</span>`).join('');
   return `${qIcon('shield', { size: size ? 34 : 28, color: b.color, width: 2 })}
 <div style="display:flex;flex-direction:column"><span style="font-size:12.5px;font-weight:700;color:${Q_MUTED}">${t('אחריות יצרן')}</span>${lines}</div>`;
 }
-function qSheetRibbon() {
-  return `<div style="position:absolute;top:-17px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:4px 14px;border-radius:999px;background:${Q_AMBER};border:2.5px solid ${Q_NAVY};color:${Q_NAVY};font-size:14px;font-weight:800;white-space:nowrap;z-index:2">${qIcon('star', { size: 14, color: Q_NAVY, fill: true })}<span>${qt('הכי מומלץ')}</span></div>`;
+function qSheetRibbon(b) {
+  return `<div style="position:absolute;top:-17px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:4px 14px;border-radius:999px;background:${Q_AMBER};border:2.5px solid ${Q_NAVY};color:${Q_NAVY};font-size:14px;font-weight:800;white-space:nowrap;z-index:2">${qIcon('star', { size: 14, color: Q_NAVY, fill: true })}<span>${qt((b && b.ribbon) || 'הכי מומלץ')}</span></div>`;
 }
 function qSheetCard(b, rtl) {
   const shadow = b.featured ? `0 0 0 3px ${Q_NAVY}, ${rtl ? -8 : 8}px 8px 0 3px ${Q_AMBER}` : `0 0 0 1.5px ${Q_HAIR}`;
   return `<div data-card style="position:relative;display:flex;flex-direction:column;background:#fff;border-radius:20px;box-shadow:${shadow}">
-${b.featured ? qSheetRibbon() : ''}
+${b.featured ? qSheetRibbon(b) : ''}
 <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:22px 12px 18px;background:${b.color};border-radius:20px 20px 0 0">
 <div style="${Q_DISPLAY}font-size:30px;line-height:1.1;color:#fff">${t(b.name)}</div>
 </div>
@@ -5919,12 +6202,12 @@ ${qHotCold(10)}
 <div data-main style="flex-grow:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:20px 48px 20px">
 <div>
 <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 16px">
-<div style="${Q_DISPLAY}font-size:27px;color:${Q_NAVY}">${qMark(qt('בחרו את האפשרות <mark>שמתאימה לכם</mark>'))}</div>
-<div style="font-size:14px;font-weight:600;color:${Q_MUTED}">${qt('אותה עבודה מקצועית בכל אפשרות')} · ${qt('תאריך')}: <span dir="ltr">${qToday()}</span></div>
+<div style="${Q_DISPLAY}font-size:27px;color:${Q_NAVY}">${qMark(qt(m.brands.length === 1 ? 'ההצעה <mark>שלך</mark>' : 'בחרו את האפשרות <mark>שמתאימה לכם</mark>'))}</div>
+<div style="font-size:14px;font-weight:600;color:${Q_MUTED}">${m.brands.length === 1 ? '' : qt('אותה עבודה מקצועית בכל אפשרות') + ' · '}${qt('תאריך')}: <span dir="ltr">${qToday()}</span></div>
 </div>
-<div data-cards style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:26px">${m.brands.map(b => qSheetCard(b, rtl)).join('')}</div>
+<div data-cards style="display:grid;grid-template-columns:${m.brands.length === 1 ? 'minmax(0,380px);justify-content:center' : 'repeat(3,minmax(0,1fr))'};gap:16px;margin-top:26px">${m.brands.map(b => qSheetCard(b, rtl)).join('')}</div>
 </div>
-${qSheetIncludes(qt('מה כלול בכל אחת מההצעות'), qSheetList(m, qIncludesShared(m)))}
+${qSheetIncludes(qt(m.brands.length === 1 ? 'מה כלול במחיר' : 'מה כלול בכל אחת מההצעות'), qSheetList(m, qIncludesShared(m)))}
 ${qSheetBottom(m, true)}
 </div>
 ${qSheetFooter()}`);
@@ -5934,6 +6217,7 @@ function qSheetSingle(m, b) {
   const shadow = `0 0 0 3px ${Q_NAVY}, ${rtl ? -8 : 8}px 8px 0 3px ${Q_AMBER}`;
   const facts = [];
   if (m.product === 'system') facts.push([qt('סוג מערכת'), qSystemFact(m)]);
+  if (m.product === 'super') facts.push([qt('סוג מערכת'), 'Super · ' + qt(superConfigLabel(m.spec.roof ? (m.spec.roof.indexOf('tile') === 0 ? 'tile' : m.spec.roof) : null))]);
   facts.push([qt('גג'), m.spec.roof ? m.roofLabel : qt('לא צוין')]);
   const acc = qAccessText(m.spec);
   if (acc) facts.push([qt('גישה לגג'), acc]);
@@ -5948,7 +6232,7 @@ ${qHotCold(10)}
 <div style="font-size:14px;font-weight:700;color:${Q_MUTED}">${qt('תאריך')}: <span dir="ltr">${qToday()}</span></div>
 </div>
 <div data-card style="position:relative;display:flex;margin-top:26px;background:#fff;border-radius:20px;box-shadow:${shadow}">
-${b.featured ? qSheetRibbon() : ''}
+${b.featured ? qSheetRibbon(b) : ''}
 <div style="width:250px;flex-shrink:0;box-sizing:border-box;background:${b.color};border-radius:${brandRadius};padding:24px 24px;display:flex;flex-direction:column;justify-content:center;gap:8px;color:#fff">
 <div style="${Q_DISPLAY}font-size:40px;line-height:1.05">${t(b.name)}</div>
 <div style="font-size:15px;font-weight:600;line-height:1.4">${t(b.pos)}</div>

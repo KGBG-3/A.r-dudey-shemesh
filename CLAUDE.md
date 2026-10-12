@@ -1,35 +1,70 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # ardudim.co.il — א.ר דודי שמש
 
-Website for a family solar water heater business: installation and repair of solar water heaters, electric boilers, heat exchangers and collectors. Petah Tikva / Gush Dan, authorized Chromagen installer. Hosted on GitHub Pages.
+Website for a family solar water heater business: installation and repair of solar water heaters, electric boilers, heat exchangers and collectors. Petah Tikva / Gush Dan, authorized Chromagen installer. Hosted on GitHub Pages (`CNAME` → ardudim.co.il, repo `KGBG-3/A.r-dudey-shemesh`).
 
 ## Stack
-- Static site, no build step: plain HTML/CSS/JS. The main page is the single file `index.html`.
-- Standalone landing pages (e.g. `sanan-avnit.html`) live in the repo root and replicate the full design system: bilingual, accessibility toggle, WhatsApp CTAs, privacy/accessibility modals.
-- Hebrew + Russian, RTL.
-- This repo is public, and the deployed branch (normally `main`) is the live site. Anything committed is published.
+- Static site, no build step, no package manager, no tests: plain HTML/CSS/JS. Every page inlines its own CSS and JS; there are no shared `.css`/`.js` files.
+- Hebrew + Russian, RTL. Russian switches `dir` to `ltr`.
+- This repo is public, and the deployed branch (`main`) is the live site. Anything committed is published.
+
+## Repo map
+- `index.html` — the main page (~550 KB, single file). Sections in order: hero/quick-quote (`#q-top`), `#stats`, `#calculator`, `#reviews`, `#how`, `#repairs`, `#gallery`, `#about`, `#faq`, `#contact`. ~19 `<script>` blocks; the later ones carry ids like `ardudim-motion-js`, `ardudim-design-js`, `ardudim-quote-js`, which is how to locate them.
+- Standalone landing pages in the repo root, each replicating the full design system (bilingual, accessibility toggle, WhatsApp CTAs, privacy/accessibility modals): `tikun-dahuf.html` (urgent repair), `mehshvon-mehirim.html` (calculator), `azorey-sherut.html` (service areas), `chromagen.html`, `guf-himum.html` (heating element), `sanan-avnit.html` (limescale filter).
+- `solar-a7f3.html` — internal `noindex` survey/fault-map tool, not part of the public site design. `solar-a7f3.html.html` is a stray duplicate of it.
+- `images/` — WebP for the site; the `.jpg`/`.png` siblings of gallery images are sources. `images/images/gallery-12.jpg` is a stray nested copy.
+- `sitemap.xml`, `robots.txt`, `googlede5fc1679626e8d1.html` (Search Console verification) — SEO plumbing. The sitemap still lists `mivtza.html`, which was deleted, and does not list `sanan-avnit.html`.
+
+## Commands
+No build, lint or test tooling. Useful checks:
+
+```bash
+git pull                              # always first; files are edited outside Claude too
+python3 -m http.server 8080           # local preview
+```
+
+Syntax-check every inline `<script>` block of a page (JSON-LD blocks will fail this and must be checked with `JSON.parse` instead):
+
+```bash
+python3 - index.html <<'PY'
+import re,sys,subprocess,tempfile
+html=open(sys.argv[1],encoding='utf-8').read()
+for i,m in enumerate(re.finditer(r'<script(?P<a>[^>]*)>(?P<b>.*?)</script>',html,re.S)):
+    a,b=m.group('a'),m.group('b').strip()
+    if 'src=' in a or not b: continue
+    if 'ld+json' in a:
+        import json; json.loads(b); print(i,'json-ld ok'); continue
+    f=tempfile.NamedTemporaryFile('w',suffix='.js',delete=False,encoding='utf-8'); f.write(b); f.close()
+    r=subprocess.run(['node','--check',f.name],capture_output=True,text=True)
+    print(i,'ok' if r.returncode==0 else r.stderr[:300])
+PY
+```
 
 ## Hard rules
 - Never push to the deployed branch without explicit approval. Commit, show the result, wait.
-- Files are also edited outside Claude between sessions (sometimes directly on GitHub). Always pull and start from the latest version; never overwrite those edits.
+- Files are also edited outside Claude between sessions (sometimes directly on GitHub; most history is "Add files via upload"). Always pull and start from the latest version; never overwrite those edits.
 - Change only the section you were asked to change. No unrelated edits elsewhere in the file.
 - Never minify JS: jsmin breaks Hebrew strings containing geresh (׳) and truncated the gallery JS. CSS minification with csscompressor is safe.
 - Two translation systems, never mix them:
-  - `index.html`: `TRANSLATIONS` dict + `translateNodes()`
-  - landing pages: `data-i18n` attributes + `I18N` object
-- WhatsApp CTAs use the business line +972545642426 with a product-specific pre-filled message starting with "היי שלום, הגעתי מהאתר".
+  - `index.html`: `const TRANSLATIONS` dict + `translateNodes(node, toLang)` + `toggleLang()`.
+  - landing pages: `data-i18n="key"` attributes + `var I18N = { key: { he, ru } }` + `applyLang(lang)`/`toggleLang()`. Language is persisted in `localStorage` under `ardudim_lang`.
+- WhatsApp CTAs use the business line +972545642426 with a product-specific pre-filled message starting with "היי שלום, הגעתי מהאתר". All landing pages do this. `index.html` currently uses 972559976041 (hard-coded in ~15 links and in `const Q_WA`); ask Moshe which number is right before touching either.
 - Never use `background-attachment: fixed` or `backdrop-filter: blur`: both cause scroll jank on mobile.
-- Before a large CSS replacement, commit first (git is the backup, no `.bak` files), and afterwards confirm the modal-hiding CSS survived.
+- Before a large CSS replacement, commit first (git is the backup, no `.bak` files), and afterwards confirm the modal-hiding CSS survived (`#cookie-banner`, `#a11y-panel`, `#a11y-modal`, `#privacy-modal` must stay hidden by default).
 
 ## Design direction
 - The price calculator is the main thing on the site. Visitors should reach it early, before they lose interest.
 - The site follows the "hot/cold" design of the new price quotes (approved Sep 2026). Keep new sections consistent with it.
-- New logo since Sep 2026. Older quote PDFs still carry the previous logo, so never take the logo from them.
+- New logo since Sep 2026 (`images/logo-2026.webp`). Older quote PDFs still carry the previous logo, so never take the logo from them.
 
 ## Calculator pricing
-- `PRICES` holds prices BEFORE VAT (18%). Every price shows "+ מע״מ", never "כולל מע״מ". Converting a VAT-inclusive price: `ceil(price_incl_vat / 1.18 / 100) * 100`, i.e. round up to the nearest ₪100.
+- `const PRICES` in `index.html` holds prices BEFORE VAT (18%). Every price shows "+ מע״מ", never "כולל מע״מ". Converting a VAT-inclusive price: `ceil(price_incl_vat / 1.18 / 100) * 100`, i.e. round up to the nearest ₪100.
 - Yardan = Amisragaz − ₪100, always.
 - Chromagen = exactly the prices in the current quotes (Drive folder "הצעות מחיר חדשות"; the old quotes are archived and outdated).
-- Promotions go through a central `PROMOTION` config object, never by editing `PRICES`. (The May 2026 campaign was removed.)
+- Promotions go through a central `PROMOTION` config object, never by editing `PRICES`. The May 2026 campaign was removed and no `PROMOTION` object exists in the file right now; recreate it when the next promotion comes.
 - After regenerating any prices, cross-check them against the `const PRICES` block before showing the result.
 
 ## Product facts (each was corrected once; don't regress)
@@ -42,14 +77,15 @@ Website for a family solar water heater business: installation and repair of sol
 ## Known pitfalls
 - `goStep(4)` calls `populateTiers()`, which resets `sel.brand` to `null`. Set any forced brand selection AFTER `goStep(4)`.
 - RTL: `align-items: flex-end` aligns LEFT. Use `flex-start` to align right. For left-image / right-text layouts use `row`, not `row-reverse`.
-- A CSS property that seems to do nothing is usually overridden by a duplicate selector later in the file. Grep for it.
+- A CSS property that seems to do nothing is usually overridden by a duplicate selector later in the file. `index.html` has four `<style>` blocks; grep the whole file for the selector.
 - `fadeUp` on `.hero > *` sets `transform: translateY(0)`, which overrides `transform: translateX(-50%)` on absolutely positioned children. Fix with `animation: none !important` on those elements.
 
 ## Workflow
 - Build new sections as a standalone test file first (e.g. `hero-test.html`), then integrate into `index.html`. Don't commit test files.
-- Before showing a change: check tag balance, parse every JSON-LD block, run `node --check` on each `<script>` block, and screenshot at 1440px (desktop) and 390px (mobile).
+- Before showing a change: check tag balance, parse every JSON-LD block, run `node --check` on each `<script>` block (script above), and screenshot at 1440px (desktop) and 390px (mobile).
 - Broken images in headless screenshots are expected; don't flag them. Use base64 PNG data URIs for test renders (WebP renders poorly headless). Convert real site images to WebP with Pillow.
 - Site images are AI-generated by choice.
+- When adding or removing a public page, update `sitemap.xml` as well.
 
 ## Copy
 - Tone: professional, quiet, factual. No exclamation marks, no aggressive promises, no superlative or comparative claims. Safe phrasings: "מתקין מוסמך, לא חברה גדולה", "בלי עמלות תיווך".

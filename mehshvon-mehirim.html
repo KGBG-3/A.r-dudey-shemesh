@@ -144,6 +144,31 @@ html[lang="ru"] .privacy-box{direction:ltr}
 .privacy-box strong{color:var(--blue-dark)}
 .privacy-close{display:block;margin-top:18px;background:var(--blue-dark);color:white;border:0;border-radius:50px;padding:11px;width:100%;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
 </style>
+  <!-- Google tag (gtag.js) - Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18109334445"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18109334445');
+  </script>
+
+  <!-- Conversion tracking: phone calls, WhatsApp clicks, form submissions -->
+  <script>
+    (function() {
+      function conversion() {
+        if (typeof gtag === 'function') gtag('event', 'conversion', {'send_to': 'AW-18109334445/mbkQCLP_oKEcEK2HmrtD'});
+      }
+      // Delegated (capture phase): also counts links added after page load —
+      // the calculator's WhatsApp button, quote/landing buttons, the call modal.
+      document.addEventListener('click', function(e) {
+        var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href*="wa.me"], a[href*="whatsapp.com"]') : null;
+        if (a) conversion();
+      }, true);
+      // Form submissions (if any added in the future)
+      document.addEventListener('submit', conversion, true);
+    })();
+  </script>
 </head>
 <body>
 

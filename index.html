@@ -1706,6 +1706,16 @@ body.a11y-high-contrast .kolat-modal-body{background:#000 !important}
 .areas-more:hover{color:#fff}
 </style>
 
+  <!-- Cookie consent: the choice saved by the cookie banner applies before the Google tag loads ('1' = granted, '0' = denied) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    try {
+      var cc = localStorage.getItem('cookiesAccepted');
+      if (cc === '0' || cc === '1') { var cv = cc === '1' ? 'granted' : 'denied'; gtag('consent', 'default', {ad_storage: cv, ad_user_data: cv, ad_personalization: cv, analytics_storage: cv}); }
+    } catch(e) {}
+  </script>
+
   <!-- Google tag (gtag.js) - Google Ads -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18109334445"></script>
   <script>
@@ -4463,7 +4473,7 @@ const TRANSLATIONS = {
   ' נשתדל להגיב לפניות נגישות בתוך 5 ימי עסקים.': ' Мы постараемся ответить на обращения по доступности в течение 5 рабочих дней.',
   'תאריך עדכון אחרון: מאי 2026': 'Дата последнего обновления: май 2026',
   // COOKIE
-  'אנו משתמשים בקבצי עוגיות בסיסיים לצורך תפקוד האתר בלבד — לא אוספים מידע אישי ולא משתפים נתונים עם צד שלישי.': 'Мы используем базовые cookies — не собираем личные данные и не передаём третьим лицам.',
+  'האתר משתמש בעוגיות בסיסיות לתפקוד האתר, ובעוגיות של Google Ads למדידת פניות שמגיעות מהמודעות שלנו. אפשר לסרב לעוגיות המדידה.': 'Сайт использует базовые файлы cookie для работы и файлы cookie Google Ads для учёта обращений, пришедших из нашей рекламы. От файлов cookie для учёта можно отказаться.',
   'לפרטים נוספים ראה את': 'Подробнее см.',
   'מדיניות הפרטיות': 'политику конфиденциальности',
   'שלנו.': 'нашу.',
@@ -4499,22 +4509,16 @@ const TRANSLATIONS = {
   // אזורי שירות
   'אזורי שירות במרכז': 'Зоны обслуживания в центре страны',
   'לכל אזורי השירות': 'Все зоны обслуживания',
-  // באנר עוגיות
-  'אנו משתמשים בקבצי עוגיות בסיסיים לצורך תפקוד האתר בלבד —': 'Мы используем только базовые файлы cookie для работы сайта —',
-  'לא אוספים': 'не собираем',
-  'מידע אישי ו': 'персональные данные и',
-  'לא משתפים': 'не передаём',
-  'נתונים עם צד שלישי.': 'данные третьим лицам.',
   // מודאל פרטיות
   'מה האתר אוסף?': 'Что собирает сайт?',
   'האתר אינו אוסף מידע אישי אוטומטית. הנתונים היחידים שנמסרים הם אלה שאתה בוחר לשתף בעת שליחת הודעה בוואטסאפ או שיחת טלפון ישירה.': 'Сайт не собирает персональные данные автоматически. Передаются только те данные, которыми вы сами решаете поделиться при отправке сообщения в WhatsApp или прямом звонке.',
   'עוגיות (Cookies)': 'Файлы cookie',
-  'האתר עשוי להשתמש בעוגיות טכניות בסיסיות לצורך תפקוד תקין בלבד. לא נעשה שימוש בעוגיות שיווקיות או מעקב.': 'Сайт может использовать только базовые технические cookie для корректной работы. Маркетинговые и отслеживающие cookie не используются.',
+  'האתר משתמש בעוגיות טכניות בסיסיות לתפקוד תקין. בנוסף, האתר מודד המרות של Google Ads (פניות בטלפון ובוואטסאפ שמגיעות מהמודעות שלנו) באמצעות עוגיות של Google. אפשר לסרב לעוגיות האלה בבאנר העוגיות, והבחירה נשמרת בדפדפן.': 'Сайт использует базовые технические файлы cookie для корректной работы. Кроме того, сайт учитывает конверсии Google Ads (звонки и сообщения в WhatsApp, пришедшие из нашей рекламы) с помощью файлов cookie Google. От этих файлов cookie можно отказаться в баннере cookie, и ваш выбор сохраняется в браузере.',
   'שיתוף מידע': 'Передача данных',
-  'אין שיתוף מידע עם צדדים שלישיים. פנייתך מגיעה ישירות אלינו בלבד.': 'Данные не передаются третьим лицам. Ваше обращение поступает напрямую только к нам.',
+  'פנייתך מגיעה ישירות אלינו בלבד, ואיננו מעבירים את פרטיה לצד שלישי. הנתונים היחידים שמגיעים לגוגל הם נתוני מדידת ההמרות שמתוארים בסעיף העוגיות.': 'Ваше обращение поступает напрямую только к нам, и мы не передаём его данные третьим лицам. Google получает только данные учёта конверсий, описанные в разделе о файлах cookie.',
   'יצירת קשר בנושא פרטיות': 'Контакт по вопросам конфиденциальности',
   'לכל שאלה בנושא —': 'По любым вопросам —',
-  'עדכון אחרון: אפריל 2025': 'Последнее обновление: апрель 2025',
+  'עדכון אחרון: אוקטובר 2026': 'Последнее обновление: октябрь 2026',
   // ווידג'ט נגישות
   'הדגשת קישורים': 'Подсветка ссылок',
   'בצבע ובקו תחתי בולט': 'цветом и заметным подчёркиванием',
@@ -4637,12 +4641,12 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- Cookie Banner -->
 <div class="cookie-banner" id="cookie-banner">
   <p>
-    אנו משתמשים בקבצי עוגיות בסיסיים לצורך תפקוד האתר בלבד — <strong>לא אוספים</strong> מידע אישי ו<strong>לא משתפים</strong> נתונים עם צד שלישי.
+    האתר משתמש בעוגיות בסיסיות לתפקוד האתר, ובעוגיות של Google Ads למדידת פניות שמגיעות מהמודעות שלנו. אפשר לסרב לעוגיות המדידה.
     לפרטים נוספים ראה את <a onclick="openPrivacy()">מדיניות הפרטיות</a> שלנו.
   </p>
   <div class="cookie-btns">
     <button class="cookie-accept" onclick="acceptCookies()">הבנתי, אני מסכים</button>
-    <button class="cookie-decline" onclick="acceptCookies()">המשך בלי הסכמה</button>
+    <button class="cookie-decline" onclick="declineCookies()">המשך בלי הסכמה</button>
   </div>
 </div>
 
@@ -4763,25 +4767,29 @@ document.addEventListener('DOMContentLoaded', () => {
     <p><strong>מה האתר אוסף?</strong><br/>
     האתר אינו אוסף מידע אישי אוטומטית. הנתונים היחידים שנמסרים הם אלה שאתה בוחר לשתף בעת שליחת הודעה בוואטסאפ או שיחת טלפון ישירה.</p>
     <p><strong>עוגיות (Cookies)</strong><br/>
-    האתר עשוי להשתמש בעוגיות טכניות בסיסיות לצורך תפקוד תקין בלבד. לא נעשה שימוש בעוגיות שיווקיות או מעקב.</p>
+    האתר משתמש בעוגיות טכניות בסיסיות לתפקוד תקין. בנוסף, האתר מודד המרות של Google Ads (פניות בטלפון ובוואטסאפ שמגיעות מהמודעות שלנו) באמצעות עוגיות של Google. אפשר לסרב לעוגיות האלה בבאנר העוגיות, והבחירה נשמרת בדפדפן.</p>
     <p><strong>שיתוף מידע</strong><br/>
-    אין שיתוף מידע עם צדדים שלישיים. פנייתך מגיעה ישירות אלינו בלבד.</p>
+    פנייתך מגיעה ישירות אלינו בלבד, ואיננו מעבירים את פרטיה לצד שלישי. הנתונים היחידים שמגיעים לגוגל הם נתוני מדידת ההמרות שמתוארים בסעיף העוגיות.</p>
     <p><strong>יצירת קשר בנושא פרטיות</strong><br/>
     לכל שאלה בנושא — <a href="javascript:void(0)" onclick="openCallModal()">054-564-2426</a></p>
-    <p style="font-size:11px;color:#aaa;">עדכון אחרון: אפריל 2025</p>
+    <p style="font-size:11px;color:#aaa;">עדכון אחרון: אוקטובר 2026</p>
     <button class="privacy-close" onclick="closePrivacy()">סגור</button>
   </div>
 </div>
 
 <script>
-  // Cookie banner logic
-  function acceptCookies() {
+  // Cookie banner logic: each button sets Google consent to what it says and remembers the choice ('1' = granted, '0' = denied)
+  function setCookieConsent(granted) {
+    const v = granted ? 'granted' : 'denied';
+    if (typeof gtag === 'function') gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
     const b = document.getElementById('cookie-banner');
     if (b) b.classList.remove('show');
     document.body.classList.remove('cookie-open');
     document.body.style.removeProperty('--cookie-h');
-    try { localStorage.setItem('cookiesAccepted','1'); } catch(e) {}
+    try { localStorage.setItem('cookiesAccepted', granted ? '1' : '0'); } catch(e) {}
   }
+  function acceptCookies() { setCookieConsent(true); }
+  function declineCookies() { setCookieConsent(false); }
   function openPrivacy() {
     document.getElementById('privacy-modal').classList.add('open');
   }

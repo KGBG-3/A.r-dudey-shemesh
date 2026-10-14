@@ -173,7 +173,35 @@ html[lang="ru"] .privacy-box{direction:ltr}
 .privacy-box p{font-size:13px;color:var(--gray-600);line-height:1.7;margin-bottom:10px}
 .privacy-box strong{color:var(--blue-dark)}
 .privacy-close{display:block;margin-top:18px;background:var(--blue-dark);color:white;border:0;border-radius:50px;padding:11px;width:100%;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+/* 2026-10: calculator button (links to the price calculator on the main site) */
+.btn-calc{display:flex;width:-moz-fit-content;width:fit-content;flex:0 0 auto;margin:14px auto 0;background:var(--blue-dark);color:white;box-shadow:0 8px 24px rgba(10,31,61,0.3)}
+.btn-calc:hover{background:var(--blue-mid);transform:translateY(-3px);box-shadow:0 14px 32px rgba(10,31,61,0.4)}
 </style>
+  <!-- Google tag (gtag.js) - Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18109334445"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18109334445');
+  </script>
+
+  <!-- Conversion tracking: phone calls, WhatsApp clicks, form submissions -->
+  <script>
+    (function() {
+      function conversion() {
+        if (typeof gtag === 'function') gtag('event', 'conversion', {'send_to': 'AW-18109334445/mbkQCLP_oKEcEK2HmrtD'});
+      }
+      // Delegated (capture phase): also counts links added after page load —
+      // the calculator's WhatsApp button, quote/landing buttons, the call modal.
+      document.addEventListener('click', function(e) {
+        var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href*="wa.me"], a[href*="whatsapp.com"]') : null;
+        if (a) conversion();
+      }, true);
+      // Form submissions (if any added in the future)
+      document.addEventListener('submit', conversion, true);
+    })();
+  </script>
 </head>
 <body>
 
@@ -293,6 +321,7 @@ html[lang="ru"] .privacy-box{direction:ltr}
         <span data-i18n="btn_wa">וואטסאפ</span>
       </a>
     </div>
+    <a href="https://ardudim.co.il/#calculator" class="btn btn-calc" data-i18n="btn_calc">מחשבון מחירים לדודי שמש</a>
   </div>
 </section>
 
@@ -431,7 +460,8 @@ var I18N = {
   trust_1:{he:'⭐ מתקיני כרומגן מורשים',ru:'⭐ Авторизованные установщики Chromagen'},
   trust_2:{he:'🏆 17+ שנות ניסיון',ru:'🏆 17+ лет опыта'},
   trust_3:{he:'💰 מחירים הוגנים',ru:'💰 Честные цены'},
-  trust_4:{he:'📍 פתח תקווה והמרכז',ru:'📍 Петах-Тиква и центр'}
+  trust_4:{he:'📍 פתח תקווה והמרכז',ru:'📍 Петах-Тиква и центр'},
+  btn_calc:{he:'מחשבון מחירים לדודי שמש',ru:'Калькулятор цен на солнечные бойлеры'}
 };
 var curLang = 'he';
 function applyLang(lang){

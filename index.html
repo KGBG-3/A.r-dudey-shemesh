@@ -1365,12 +1365,14 @@ html[lang="ru"] .bizcard{transform:rotate(1.5deg)}
   .hero-fix-link{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:5px;width:-moz-fit-content;width:fit-content;max-width:100%;margin:16px auto 0;color:rgba(255,255,255,.88);font-size:15px;font-weight:600;text-align:center;text-decoration:none}
   .hero-fix-link u{color:#fff;text-decoration-thickness:1.5px;text-underline-offset:3px}
   .hero-fix-link svg{width:16px;height:16px;flex-shrink:0}
-  /* floating WhatsApp / call wait until the hero buttons scroll away (see ardudim-order-js) */
-  .sticky-wa,.sticky-call{transition:opacity .25s ease,visibility .25s ease}
-  body.hero-btns-on .sticky-wa,body.hero-btns-on .sticky-call{opacity:0;visibility:hidden;pointer-events:none}
   /* bigger-text modes (accessibility menu): one hero button per row, also on tablets */
   body.a11y-text-large .hero-btns,body.a11y-text-xlarge .hero-btns{flex-direction:column;align-items:stretch}
 }
+/* floating WhatsApp / call wait until the hero buttons scroll away, at every width (see ardudim-order-js);
+   html.sticky-wait, set in <head>, keeps them hidden until that first check */
+.sticky-wa{transition:opacity .25s ease,visibility .25s ease,transform .2s,box-shadow .2s}
+.sticky-call{transition:opacity .25s ease,visibility .25s ease}
+body.hero-btns-on .sticky-wa,body.hero-btns-on .sticky-call,html.sticky-wait .sticky-wa,html.sticky-wait .sticky-call{opacity:0;visibility:hidden;pointer-events:none}
 /* mobile hero: the calculator button leads; WhatsApp + call side by side under it */
 @media(max-width:599px){
   .hero-btns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
@@ -1758,6 +1760,21 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
 .areas-more:hover{color:#fff}
 </style>
 
+  <!-- Language: the saved choice (ardudim_lang, shared with the subpages) sets the Russian layout and font before the first paint; the text switches at the end of the page -->
+  <script id="ardudim-lang-boot">
+    (function () {
+      try {
+        if (localStorage.getItem('ardudim_lang') !== 'ru') return;
+        document.documentElement.lang = 'ru';
+        var l = document.createElement('link');
+        l.id = 'font-rubik';
+        l.rel = 'stylesheet';
+        l.href = 'https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap';
+        document.head.appendChild(l);
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Cookie consent: the choice saved by the cookie banner applies before the Google tag loads ('1' = granted, '0' = denied) -->
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -1805,6 +1822,8 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
   try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)calm=true}catch(e){}
   if(calm)d.classList.add('calm');
   else if('IntersectionObserver' in window)d.classList.add('motion');
+  // the floating WhatsApp / call buttons stay hidden until #ardudim-order-js has checked the hero buttons (4s at most)
+  if('IntersectionObserver' in window){d.classList.add('sticky-wait');setTimeout(function(){d.classList.remove('sticky-wait')},4000)}
   // CSS scroll-behavior does not cover scrollIntoView / scrollBy / scrollTo called with behavior:'smooth': while calm they jump
   try{
     var instant=function(o){if(o&&typeof o==='object'&&o.behavior==='smooth'&&d.classList.contains('calm')){var c={};for(var k in o)c[k]=o[k];c.behavior='auto';return c}return o};
@@ -4542,7 +4561,7 @@ const TRANSLATIONS = {
   'טלפון:': 'Телефон:',
   'זמן מענה:': 'Время ответа:',
   ' נשתדל להגיב לפניות נגישות בתוך 5 ימי עסקים.': ' Мы постараемся ответить на обращения по доступности в течение 5 рабочих дней.',
-  'תאריך עדכון אחרון: מאי 2026': 'Дата последнего обновления: май 2026',
+  'תאריך עדכון אחרון: אוקטובר 2026': 'Дата последнего обновления: октябрь 2026',
   // COOKIE
   'האתר משתמש בעוגיות בסיסיות לתפקוד האתר, ובעוגיות של Google Ads למדידת פניות שמגיעות מהמודעות שלנו. אפשר לסרב לעוגיות המדידה.': 'Сайт использует базовые файлы cookie для работы и файлы cookie Google Ads для учёта обращений, пришедших из нашей рекламы. От файлов cookie для учёта можно отказаться.',
   'לפרטים נוספים ראה את': 'Подробнее см.',
@@ -4617,12 +4636,59 @@ function t(he) {
   return TRANSLATIONS[he] || he;
 }
 
+// aria-label / title in Russian mode (own map: TRANSLATIONS keys are replaced as substrings in every text node,
+// so short labels must not go there). Exact Hebrew value → Russian; TRANSLATIONS is the fallback.
+const ATTR_RU = {
+  'וואטסאפ מהיר': 'Быстрый WhatsApp',
+  'ניווט ראשי': 'Главное меню',
+  'תפריט': 'Меню',
+  'סגור תפריט': 'Закрыть меню',
+  'הצעת מחיר': 'Ценовое предложение',
+  'כותרת ראשית': 'Главный экран',
+  'דירוג 5.0 בגוגל': 'Рейтинг 5.0 в Google',
+  'סגור': 'Закрыть',
+  'ביקורות לקוחות': 'Отзывы клиентов',
+  'תמונה מהגלריה': 'Фото из галереи',
+  'הקודם': 'Предыдущее фото',
+  'הבא': 'Следующее фото',
+  'מידע נוסף': 'Дополнительная информация',
+  'פתח כלי נגישות': 'Открыть инструменты доступности'
+};
+function attrRu(he) {
+  if (Object.prototype.hasOwnProperty.call(ATTR_RU, he)) return ATTR_RU[he];
+  if (Object.prototype.hasOwnProperty.call(TRANSLATIONS, he)) return TRANSLATIONS[he];
+  const m = /^ביקורת (\d+) מתוך (\d+)$/.exec(he);   // review dots (ardudim-reviews-js)
+  if (m) return 'Отзыв ' + m[1] + ' из ' + m[2];
+  return null;
+}
+// the Hebrew original is kept in data-he-aria-label / data-he-title and put back in Hebrew mode
+function translateAttrs(toLang) {
+  ['aria-label', 'title'].forEach(name => {
+    const keep = 'data-he-' + name;
+    document.querySelectorAll('[' + name + ']').forEach(el => {
+      if (toLang === 'ru') {
+        const he = el.hasAttribute(keep) ? el.getAttribute(keep) : el.getAttribute(name);
+        const ru = attrRu(he);
+        if (ru === null) return;
+        el.setAttribute(keep, he);
+        el.setAttribute(name, ru);
+      } else if (el.hasAttribute(keep)) {
+        // put the Hebrew back unless a script changed the label meanwhile
+        if (el.getAttribute(name) === attrRu(el.getAttribute(keep))) el.setAttribute(name, el.getAttribute(keep));
+        el.removeAttribute(keep);
+      }
+    });
+  });
+}
+
 function toggleLang() {
   if (currentLang === 'he') {
     switchToRussian();
   } else {
     switchToHebrew();
   }
+  // remember the visitor's choice (the same key as the subpages, assets/ardudim-sub.js)
+  try { localStorage.setItem('ardudim_lang', currentLang); } catch (e) {}
 }
 
 function switchToRussian() {
@@ -4630,6 +4696,7 @@ function switchToRussian() {
   document.getElementById('lang-label').textContent = 'HE';
   document.documentElement.lang = 'ru';
   translateNodes(document.body, 'ru');
+  translateAttrs('ru');
   updateDynamicLang();
 }
 
@@ -4638,6 +4705,7 @@ function switchToHebrew() {
   document.getElementById('lang-label').textContent = 'RU';
   document.documentElement.lang = 'he';
   translateNodes(document.body, 'he');
+  translateAttrs('he');
   updateDynamicLang();
 }
 
@@ -4825,7 +4893,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
     <div class="a11y-modal-footer">
-      <div class="a11y-modal-footer-meta">תאריך עדכון אחרון: מאי 2026</div>
+      <div class="a11y-modal-footer-meta">תאריך עדכון אחרון: אוקטובר 2026</div>
       <button class="a11y-modal-footer-btn" onclick="closeA11yStatement()">סגור</button>
     </div>
   </div>
@@ -5562,14 +5630,20 @@ function navGoto(id){
 })();
 </script>
 <script id="ardudim-order-js">
-/* phones: the floating WhatsApp / call buttons wait until the hero's own buttons scroll away
-   (on a ~660px-tall phone screen they sat on top of them). Desktop and the ?p= / ?q= views: unchanged. */
+/* the floating WhatsApp / call buttons wait until the hero's own buttons scroll away, at every width
+   (phones: .hero-btns, desktop: .hero-actions; a group that is not displayed, as in the ?p= / ?q= views, never counts).
+   The head script keeps them hidden (html.sticky-wait) until this first check. */
 (function () {
-  var btns = document.querySelector('.hero-btns');
-  if (!btns || !('IntersectionObserver' in window)) return;
-  new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { document.body.classList.toggle('hero-btns-on', e.isIntersecting); });
-  }).observe(btns);
+  var html = document.documentElement;
+  var groups = [].slice.call(document.querySelectorAll('.hero-btns, .hero-actions'));
+  if (!groups.length || !('IntersectionObserver' in window)) { html.classList.remove('sticky-wait'); return; }
+  var onScreen = [];
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { onScreen[groups.indexOf(e.target)] = e.isIntersecting; });
+    document.body.classList.toggle('hero-btns-on', onScreen.indexOf(true) >= 0);
+    html.classList.remove('sticky-wait');
+  });
+  groups.forEach(function (g) { io.observe(g); });
 })();
 </script>
 <script id="ardudim-motion-late-js">
@@ -6666,6 +6740,16 @@ function qDownloadPdf(mode, spec, btn) {
   document.body.classList.add('q-mode');
   qRenderTop();
   if (params.get('l') === 'ru' && currentLang !== 'ru' && typeof switchToRussian === 'function') switchToRussian();
+})();
+</script>
+<script id="ardudim-lang-js">
+/* the visitor's saved language (ardudim_lang, the same key as the subpages); a ?l=ru quote link has already switched above */
+(function () {
+  var saved = null;
+  try { saved = localStorage.getItem('ardudim_lang'); } catch (e) {}
+  if (typeof currentLang === 'undefined' || typeof switchToRussian !== 'function') return;
+  if (saved === 'ru' && currentLang !== 'ru') switchToRussian();
+  else if (currentLang !== 'ru' && document.documentElement.lang === 'ru') document.documentElement.lang = 'he';
 })();
 </script>
 <script id="ardudim-dialogs-js">

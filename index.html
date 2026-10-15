@@ -477,6 +477,7 @@ html[lang="ru"] .a11y-modal-box{direction:ltr}
 .a11y-modal-header-icon{font-size:24px}
 .a11y-modal-close{background:var(--gray-100);border:0;width:34px;height:34px;border-radius:50%;font-size:22px;color:var(--gray-700);cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s}
 .a11y-modal-close:hover,.a11y-modal-close:focus-visible{background:var(--gray-200);transform:rotate(90deg);outline:none}
+.a11y-panel-close:focus-visible,.a11y-modal-close:focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:50%}
 .a11y-modal-body{padding:24px;overflow-y:auto;flex:1}
 .a11y-modal-body h4{font-size:15px;font-weight:800;color:var(--blue-dark);margin:18px 0 8px}
 .a11y-modal-body h4:first-child{margin-top:0}
@@ -1662,6 +1663,9 @@ html.motion .lb.open .lb-btn{animation:m-fade .4s ease .15s both}
    Nothing waits to appear either: every rule that hides something until it scrolls in lives under html.motion, which calm never sets. --- */
 html.calm{scroll-behavior:auto}
 html.calm *,html.calm *::before,html.calm *::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+html.settled .hero>*,html.settled .a11y-panel.open{animation:none}
+/* a remembered Russian choice: the page stays hidden until #ardudim-lang-js has switched it (#ardudim-lang-hold, 3s at most) */
+html.ru-pending body{visibility:hidden}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
@@ -1677,6 +1681,7 @@ html:not(.js) .faq-arrow{display:none}
 /* print shows the gallery and repairs entrances' hidden states too */
 @media print{:where(html.motion) .gallery-item,html.motion .gallery .gal-head,:where(html.motion) .repairs-grid-v2 .repair-v2,:where(html.motion) .repairs .repairs-bottom{opacity:1 !important;transform:none !important}}
 @media print{html.motion .m,html.motion .m-kids>*,html.motion .m-kids-pop>*,html.motion .m-slap,html.motion .m-kids-slap>*{opacity:1 !important;animation:none !important}html.motion .m-draw{transform:none !important}html.motion .m-mark mark.hl{background-size:100% 38% !important}}
+@media print{*,*::before,*::after{animation:none !important;transition:none !important}}
 body.a11y-high-contrast .lb{background:#000 !important}
 body.a11y-high-contrast .lb-btn{background:#fff !important}
 body.a11y-high-contrast .lb-btn,body.a11y-high-contrast .lb-btn *{color:#000 !important}
@@ -1716,7 +1721,8 @@ body.a11y-high-contrast .kolat-modal-body{background:#000 !important}
 /* ---------- high contrast, completed (accessibility statement: black background, white text, yellow links; every button white with black text) ---------- */
 /* nothing shows through: the fixed bars and every dialog are solid black, their backdrops near-black */
 body.a11y-high-contrast :is(nav,.cookie-banner,.a11y-modal-box,.privacy-box,.call-box){background:#000 !important}
-body.a11y-high-contrast :is(.a11y-modal,.privacy-modal,.call-modal,.kolat-modal-overlay){background:rgba(0,0,0,.9) !important}
+body.a11y-high-contrast :is(.a11y-modal,.privacy-modal,.call-modal,.kolat-modal-overlay,.nav-menu-overlay){background:rgba(0,0,0,.9) !important}
+@media(max-width:859px){body.a11y-high-contrast .nav-links.open{box-shadow:0 0 0 2px #fff !important}}
 body.a11y-high-contrast :is(.a11y-modal-box,.privacy-box,.call-box,.cookie-banner){box-shadow:0 0 0 2px #fff !important}
 body.a11y-high-contrast nav.nav-scrolled{box-shadow:0 2px 0 #fff !important}
 /* no photo, tint, glow or shine behind the text */
@@ -1740,6 +1746,7 @@ body.a11y-high-contrast .prod-category-label::after{background:#fff !important}
 body.a11y-high-contrast .vol-card.recommended::after{background:#fff !important;color:#000 !important;box-shadow:0 0 0 2px #000 !important}
 body.a11y-high-contrast .q-card{box-shadow:0 0 0 2px #fff !important}
 body.a11y-high-contrast .q-card.selected{box-shadow:0 0 0 5px #fff !important}
+body.a11y-high-contrast :is(.prod-card,.vol-card,.sys-type-card,.roof-card,.roof-sub-card,.access-card){box-shadow:0 0 0 2px #fff !important}
 body.a11y-high-contrast :is(.prod-card,.vol-card,.sys-type-card,.roof-card,.roof-sub-card,.access-card).selected{background:#fff !important}
 body.a11y-high-contrast :is(.prod-card,.vol-card,.sys-type-card,.roof-card,.roof-sub-card,.access-card).selected *{color:#000 !important}
 body.a11y-high-contrast .repair-v2-title::before{background-color:#fff !important}
@@ -1775,6 +1782,18 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
     })();
   </script>
 
+  <script id="ardudim-lang-hold">
+    /* index only: with Russian remembered (or a ?l=ru link) the page stays hidden until #ardudim-lang-js has switched it (3s at most);
+       the subpages switch their text in one go at the end of <body>, so they do not need this */
+    (function () {
+      try {
+        if (localStorage.getItem('ardudim_lang') !== 'ru' && !/[?&]l=ru(&|$)/.test(location.search)) return;
+        var h = document.documentElement;
+        h.classList.add('ru-pending');
+        setTimeout(function () { h.classList.remove('ru-pending'); }, 3000);
+      } catch (e) {}
+    })();
+  </script>
   <!-- Cookie consent: the choice saved by the cookie banner applies before the Google tag loads ('1' = granted, '0' = denied) -->
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -4993,7 +5012,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.gallery-item').forEach(el => el.classList.add('gal-in'));
         document.querySelectorAll('.repairs').forEach(el => el.classList.add('cards-in'));
       }
-    } else {
+    } else if (root.classList.contains('calm')) {
+      // turned off: the one-time entrances (hero fade-up, the open panel's fade) already happened, so they do not run again
+      root.classList.add('settled');
       root.classList.remove('calm');
     }
   }
@@ -5231,6 +5252,13 @@ function toggleGalleryExtras(btn) {
   }
   // motion: the counters start from 0 and count up when they scroll into view
   document.querySelectorAll('.stat-number[data-target]').forEach(function(el) { el.textContent = '0'; });
+  // printing before the counters scrolled in prints the real numbers
+  window.addEventListener('beforeprint', function() {
+    document.querySelectorAll('.stat-number[data-target]').forEach(function(el) {
+      el.dataset.animated = 'true';
+      el.textContent = el.getAttribute('data-target') + (el.getAttribute('data-suffix') || '');
+    });
+  });
 
   // --- Counter animation ---
   function animateCounter(el) {
@@ -5642,7 +5670,7 @@ function navGoto(id){
     entries.forEach(function (e) { onScreen[groups.indexOf(e.target)] = e.isIntersecting; });
     document.body.classList.toggle('hero-btns-on', onScreen.indexOf(true) >= 0);
     html.classList.remove('sticky-wait');
-  });
+  }, { rootMargin: '0px 0px 64px 0px' });
   groups.forEach(function (g) { io.observe(g); });
 })();
 </script>
@@ -6747,9 +6775,11 @@ function qDownloadPdf(mode, spec, btn) {
 (function () {
   var saved = null;
   try { saved = localStorage.getItem('ardudim_lang'); } catch (e) {}
-  if (typeof currentLang === 'undefined' || typeof switchToRussian !== 'function') return;
-  if (saved === 'ru' && currentLang !== 'ru') switchToRussian();
-  else if (currentLang !== 'ru' && document.documentElement.lang === 'ru') document.documentElement.lang = 'he';
+  if (typeof currentLang !== 'undefined' && typeof switchToRussian === 'function') {
+    if (saved === 'ru' && currentLang !== 'ru') switchToRussian();
+    else if (currentLang !== 'ru' && document.documentElement.lang === 'ru') document.documentElement.lang = 'he';
+  }
+  document.documentElement.classList.remove('ru-pending');
 })();
 </script>
 <script id="ardudim-dialogs-js">

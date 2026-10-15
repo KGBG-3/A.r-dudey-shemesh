@@ -616,6 +616,10 @@ a.sticky-call{text-decoration:none}
 .sub-calc-btn svg{width:20px;height:20px;flex-shrink:0}
 .sub-calc-btn span{text-align:start}
 .sub-final .contact-btns>a{flex:1}
+/* the call button in the dark contact block is white, like the main site's other call buttons (index.html makes this one amber) */
+.sub-final .btn-call{background:#fff;color:var(--blue-dark)}
+.sub-final .btn-call:hover{background:var(--blue-soft)}
+.sub-final .btn-call svg{color:var(--blue-mid)}
 .a11y-options .a11y-btn:last-child:nth-child(odd){grid-column:1/-1}
 
 /* ---- Footer: back to the homepage ---- */

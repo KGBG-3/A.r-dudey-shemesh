@@ -450,6 +450,9 @@
     kids('.how-steps', 'm-kids');
     kids('.calc-promise', 'm-kids');
     kids('.contact-btns', 'm-kids');
+    // service areas (azorey-sherut): the panel rises, the city pills pop in one after another, as on index.html
+    tag('.areas-glass-card', 'm');
+    kids('.areas-cluster', 'm-kids-pop');
     tag('.sub-calc-btn, [data-m]', 'm');
     kids('[data-m-kids]', 'm-kids');
     /* @src index.html #ardudim-motion-js · reveal once on scroll, with the safety nets */

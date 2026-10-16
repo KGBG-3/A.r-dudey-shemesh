@@ -120,6 +120,13 @@ h2{font-family:var(--font-display);font-size:clamp(28px,6vw,40px);font-weight:70
 .contact .section-label::before{background:var(--orange-glow);box-shadow:0 0 0 3px rgba(249,115,22,0.2)}
 .contact-desc{color:rgba(255,255,255,0.75);font-size:15px;margin-bottom:30px;line-height:1.6}
 .contact-btns{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+/* Service areas: city pills (azorey-sherut) */
+.areas-glass-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:24px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.06);margin-top:8px}
+.areas-cluster{display:flex;flex-wrap:wrap;gap:7px}
+.area-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.85);padding:7px 14px;border-radius:50px;font-size:13px;font-weight:500;transition:all .2s}
+.area-pill::before{content:'';width:6px;height:6px;background:var(--orange);border-radius:50%;box-shadow:0 0 6px rgba(249,115,22,0.6);flex-shrink:0}
+.area-pill.primary{background:rgba(249,115,22,0.18);border-color:rgba(249,115,22,0.45);color:white;font-weight:700}
+.area-pill:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.25);transform:translateY(-1px)}
 /* Footer */
 footer{background:#060f1e;padding:32px 20px 24px;text-align:center;color:rgba(255,255,255,0.5);font-size:12px;line-height:1.8;position:relative;overflow:hidden}
 footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(249,115,22,0.5),transparent)}
@@ -325,6 +332,38 @@ body.cookie-open .a11y-toggle{bottom:calc(24px + var(--cookie-h,0px));transition
 @media(max-width:859px){
   footer{padding-bottom:92px}
 }
+/* Price cards: the calculator result card (.q-card in .qw-cards; sanan-avnit) */
+.q-card{position:relative;display:flex;flex-direction:column;background:#fff;border-radius:20px;box-shadow:0 0 0 1.5px var(--q-hair),0 12px 26px -20px rgba(10,31,61,.45);text-align:center;color:var(--q-ink);font-family:'Assistant',sans-serif;cursor:pointer;transition:transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent;min-width:0}
+.q-card:hover{transform:translateY(-2px)}
+.q-card.is-featured{box-shadow:0 0 0 3px var(--q-navy),-8px 8px 0 3px var(--q-amber)}
+.q-ribbon{position:absolute;top:-16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:4px 14px;border-radius:999px;background:var(--q-amber);border:2.5px solid var(--q-navy);color:var(--q-navy);font-size:14px;font-weight:800;line-height:1.25;white-space:nowrap;z-index:2}
+.q-card-head{background:var(--b);border-radius:20px 20px 0 0;padding:20px 14px 16px}
+.q-card-name{font-family:var(--q-display);font-weight:400;font-size:30px;line-height:1.1;color:#fff}
+.q-card-pos{padding:10px 16px 0;font-size:14px;line-height:1.4;font-weight:600;color:#3B4556}
+.q-plusvat{font-size:14px;font-weight:800;color:var(--b)}
+.q-vat{margin-top:2px;font-size:13px;font-weight:600;color:var(--q-muted)}
+.q-divider{margin:12px 18px 0;border-top:2px dashed #E9E1D4}
+.q-feats{padding:12px 18px 0;text-align:start}
+.q-checks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}
+.q-checks li{display:flex;align-items:flex-start;gap:8px;font-size:14px;font-weight:600;color:var(--q-ink);line-height:1.35;text-align:start}
+.q-checks li i{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#FFEDD5;color:#C2410C}
+.q-select{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 16px 16px;padding:14px;border-radius:14px;border:0;background:var(--q-navy);color:#fff;font-family:'Assistant',sans-serif;font-size:16px;font-weight:800;line-height:1.2;text-decoration:none;cursor:pointer}
+.q-select svg{width:20px;height:20px;flex-shrink:0}
+.q-card.is-featured .q-select{background:var(--q-amber);color:var(--q-navy)}
+@media(max-width:420px){
+  .q-checks{grid-template-columns:minmax(0,1fr)}
+  .q-card-name{font-size:28px}
+}
+html[lang="ru"] .q-card.is-featured{box-shadow:0 0 0 3px var(--q-navy),8px 8px 0 3px var(--q-amber)}
+.qw-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:14px;align-items:stretch}
+.qw-cards .q-card{cursor:default}
+.qw-cards .q-card:hover{transform:none}
+.qw-cards .q-select{margin-top:auto}
+.qw-cards .q-divider{margin-top:14px}
+@media(max-width:760px){
+  .qw-cards{grid-template-columns:minmax(0,1fr);gap:28px;margin-top:18px}
+  .qw-cards .q-card.is-featured{order:-1}
+}
 /* @end-src */
 
 /* @src index.html #ardudim-design-2026 */
@@ -371,6 +410,14 @@ mark.hl{background:linear-gradient(#FDE68A,#FDE68A) 0 100%/100% 38% no-repeat;co
 .hero-sticker-in{display:block;padding:7px;background:#fff;border-radius:18px;transform:rotate(-4deg);box-shadow:0 16px 30px -14px rgba(0,0,0,.7)}
 .hero-sticker-in img{display:block;width:100%;height:auto;border-radius:9px}
 html[lang="ru"] .hero-sticker-in{transform:rotate(4deg)}
+/* How it works card (.how; guf-himum) */
+.how{position:relative;z-index:1;background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.6);border-radius:24px;margin:18px 14px;padding:48px 18px 44px;box-shadow:0 10px 40px rgba(10,31,61,.12)}
+@media(min-width:860px){
+  .how{margin-left:auto;margin-right:auto;max-width:1080px;border-radius:32px;padding:64px 60px 58px}
+}
+.how h2,.how>.section-desc{text-align:center}
+.how>.section-desc{max-width:560px;margin-left:auto;margin-right:auto;margin-bottom:28px}
+/* Hot/cold stripe, sticker, steps, pills */
 .how-steps{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;max-width:560px;counter-reset:none}
 .how-step{--c:var(--q-orange);--ct:var(--q-navy);display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:14px;align-items:start;background:#fff;border-radius:18px;padding:18px 16px 16px;box-shadow:inset 0 5px 0 var(--c),0 0 0 1.5px var(--q-hair);text-align:start}
 .how-step.s2{--c:var(--q-amber);--ct:var(--q-navy)}
@@ -392,6 +439,9 @@ body.a11y-high-contrast :is(.kolat-modal-close,.a11y-modal-close,.a11y-panel-clo
 .contact .btn-call{background:var(--q-amber);color:var(--q-navy);font-weight:800;box-shadow:0 12px 24px -14px rgba(0,0,0,.7)}
 .contact .btn-call:hover{background:#F9B312}
 .contact .btn-call svg{color:var(--q-navy)}
+/* Service areas: city pills (azorey-sherut) */
+.area-pill::before{width:14px;height:14px;border-radius:0;box-shadow:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBBF24' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.area-pill.primary{background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.45)}
 /* Footer */
 .ft-brand-name{font-size:20px}
 .ft-contact-row a{display:inline-flex;align-items:center;gap:7px}
@@ -464,7 +514,24 @@ body.hero-btns-on .sticky-wa,body.hero-btns-on .sticky-call,html.sticky-wait .st
 .a11y-btn-icon svg{width:22px;height:22px;display:block}
 .a11y-panel-title-icon svg,.a11y-modal-header-icon svg{width:20px;height:20px;display:inline-block;vertical-align:-4px}
 .a11y-modal-header-icon svg{width:24px;height:24px;vertical-align:-5px}
+/* Checklist box (.fixrep, one column; chromagen, guf-himum) */
+.fixrep{max-width:860px;margin:26px auto 30px;padding:20px 18px 18px;background:var(--q-cream);border-radius:22px;box-shadow:0 0 0 1.5px var(--q-hair)}
+.fixrep h3{margin:0 0 14px;text-align:center;font-family:var(--font-display);font-weight:400;font-size:22px;line-height:1.2;color:var(--q-navy);letter-spacing:0}
+.fixrep-col{display:flex;flex-direction:column}
+.fixrep-col ul{list-style:none;margin:12px 0 14px;padding:0;display:flex;flex-direction:column;gap:9px;flex:1}
+.fixrep-col li{display:flex;align-items:flex-start;gap:8px;font-size:14.5px;line-height:1.45;color:var(--q-ink)}
+.fixrep-col li svg{width:17px;height:17px;flex-shrink:0;margin-top:2px;color:var(--q-navy)}
+.fixrep-col.is-new li svg{color:var(--d-hot-deep)}
+.fixrep-note{margin:14px 0 0;text-align:center;font-size:14px;font-weight:600;color:var(--q-muted)}
+body.a11y-text-large .fixrep li span,body.a11y-text-xlarge .fixrep li span,body.a11y-text-large .fixrep-btn span,body.a11y-text-xlarge .fixrep-btn span,body.a11y-text-large .fixrep-title span,body.a11y-text-xlarge .fixrep-title span{font-size:1em !important}
+/* Accessibility menu, statement dialog, accessibility modes */
 body.a11y-high-contrast::before{display:none !important}
+/* Checklist box (.fixrep, one column; chromagen, guf-himum) */
+body.a11y-high-contrast .fixrep{box-shadow:0 0 0 2px #fff !important}
+@media(min-width:640px){
+  .fixrep{padding:24px 26px 22px}
+  .fixrep h3{font-size:25px}
+}
 /* Motion: keyframes, scroll entrances, top bar fade, press, print */
 @keyframes m-rise{from{opacity:0;transform:translateY(22px)}}
 @keyframes m-step{from{opacity:0;transform:translateX(var(--mx,14px))}}
@@ -531,6 +598,10 @@ body.a11y-high-contrast :is(button,.btn-wa,.btn-call,.btn-quote,.nav-call,.stick
 body.a11y-high-contrast :is(button,.btn-wa,.btn-call,.btn-quote,.nav-call,.sticky-wa,.sticky-call,.nmf-wa,.nmf-call,.btn-wa-result,.how-btn,.fixrep-btn,.repairs-cta-v2,.call-opt,.q-btn,.q-select,.hero-btn,.ft-contact-row a,.skip-link):not(.a11y-panel *) *{color:#000 !important}
 /* Top bar, language button, mobile menu panel */
 body.a11y-high-contrast .nav-hamburger span{background:#000 !important}
+/* Price cards: the calculator result card (.q-card in .qw-cards; sanan-avnit) */
+body.a11y-high-contrast .q-card{box-shadow:0 0 0 2px #fff !important}
+body.a11y-high-contrast .q-ribbon{background:#fff !important;border-color:#000 !important}
+body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000 !important}
 /* Footer */
 .ft-links{max-width:640px;margin:0 auto 18px;font-size:13px;line-height:2}
 .ft-links-title{display:block;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:2px}
@@ -642,6 +713,97 @@ html.motion .sub-hero-in>.sub-hero-mark{animation-name:m-drawx;animation-duratio
 html.motion[lang="ru"] .sub-hero-in>.sub-hero-mark{transform-origin:0 50%}
 
 
+/* ==== PART B, stage 3 (Oct 2026): components of chromagen, mehshvon-mehirim, azorey-sherut, guf-himum and sanan-avnit.
+   Each one is built on an index.html component copied in PART A, or on a PART B component above. ==== */
+
+/* ---- Hero buttons: the calculator button (.btn-quote) leads on the price and installation pages ---- */
+.sub-hero .btn-quote svg{width:22px;height:22px;flex-shrink:0}
+/* three buttons, calculator first (index.html's phone hero puts it on its own row): calculator on a full row, WhatsApp + call under it */
+@media(min-width:600px){
+  .sub-hero .hero-btns.sub-calc-first{flex-wrap:wrap}
+  .sub-calc-first>.btn-quote{flex:1 0 100%}
+  .sub-calc-first>.btn-quote~a{flex:1 1 auto}
+}
+@media(min-width:860px){
+  .sub-hero .hero-btns.sub-calc-first{max-width:720px}
+}
+/* a number inside the hero badge (chromagen: 15-18) */
+.sub-hero-badge b{color:var(--q-amber);font-weight:800}
+
+/* ---- Problem cards: a row of three (third card on its own row on tablets, three columns on desktop) ---- */
+@media(min-width:600px) and (max-width:859px){
+  .sub-three>.sub-prob:last-child:nth-child(odd){grid-column:1/-1}
+}
+@media(min-width:860px){
+  .sub-probs.sub-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sub-three>.sub-prob{flex-direction:column;align-items:flex-start;gap:12px;padding:22px 18px 20px}
+}
+/* steps right under a section description (the description already keeps 24-32px below it), and cards after steps */
+.section-desc+.sub-steps{margin-top:0}
+.sub-steps+.sub-probs{margin-top:28px}
+/* a drawn arrow after the text of a button points forward: left in Hebrew, right in Russian (index.html .how-btn .d-arrow) */
+html[lang="ru"] .sub-calc-btn .d-arrow{transform:scaleX(-1)}
+
+/* ---- Checklist boxes on index.html's cream .fixrep (PART A) ---- */
+/* explanation box: navy icon tile (index.html .about-us .value-icon), text, amber tag (index.html .section-label colours) */
+.fixrep.sub-auth{max-width:720px;margin:28px auto 0;text-align:center}
+.sub-auth-ic{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto 12px;border-radius:12px;background:var(--q-navy);color:var(--q-amber)}
+.sub-auth-ic svg{width:22px;height:22px}
+.sub-auth p{max-width:600px;margin:0 auto;font-size:15px;line-height:1.65;color:var(--q-ink)}
+.sub-auth .sub-auth-tag{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:5px 14px;border-radius:50px;background:var(--q-amber);color:var(--q-navy);font-size:13px;font-weight:800;line-height:1.35}
+/* one-column check list (index.html .fixrep-col list) */
+.fixrep.sub-checks{max-width:640px;margin:0 auto}
+.sub-checks .fixrep-col ul{margin:0;gap:12px}
+.sub-checks li b{color:var(--q-navy);font-weight:800}
+/* warning signs: heading with an icon, drawn arrows as bullets, a note with a sun icon and an inline link */
+.fixrep.sub-signs{max-width:640px;margin-bottom:0}
+.fixrep.sub-signs .fixrep-col ul{margin:0}
+.sub-signs h3 svg{width:24px;height:24px;vertical-align:-4px;margin-inline-end:8px;color:var(--d-hot-deep)}
+html[lang="ru"] .sub-signs li svg{transform:scaleX(-1)}
+.fixrep-note.sub-signs-note{display:flex;align-items:flex-start;gap:12px;margin-top:16px;padding-top:16px;border-top:1.5px solid var(--q-hair);text-align:start;line-height:1.55}
+.sub-signs-note-ic{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--d-amber-soft);color:var(--d-hot-deep)}
+.sub-signs-note-ic svg{width:20px;height:20px}
+.sub-signs-note b{color:var(--q-navy);font-weight:800}
+.sub-signs-note a{color:var(--blue-bright);font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+.sub-signs-note a:hover{color:var(--blue-mid)}
+
+/* ---- Note box: a short cream note under a list, with an optional bold lead line ---- */
+.sub-note{max-width:760px;margin:20px auto 0;padding:14px 18px;border-radius:14px;background:var(--q-cream);box-shadow:0 0 0 1.5px var(--q-hair);color:var(--q-ink);font-size:14.5px;line-height:1.6;text-align:center;text-wrap:balance}
+.sub-note strong{display:block;margin-bottom:2px;font-family:var(--font-display);font-weight:400;font-size:16.5px;line-height:1.3;color:var(--q-navy)}
+
+/* ---- Service areas: index.html's city pills (PART A, made for the dark contact card) on the same navy, inside a white card ---- */
+ul.areas-cluster{list-style:none}
+.sub-areas .areas-glass-card{background:rgba(10,31,61,0.92);max-width:760px;margin:0 auto}
+.sub-areas .areas-cluster{justify-content:center;gap:8px}
+.sub-areas .area-pill{font-size:14.5px;padding:8px 15px}
+
+/* ---- Price cards: index.html's calculator cards (.q-card in .qw-cards, PART A), two of them ---- */
+@media(min-width:761px){
+  .pc-cards{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px;margin:30px auto 0;gap:22px}
+}
+.pc-cards .q-checks{grid-template-columns:minmax(0,1fr)}
+.pc-cards .q-feats{flex:1 0 auto;padding-bottom:16px}
+.pc-cards .q-card-pos{color:var(--q-muted)}
+.pc-cards .q-card-head{display:flex;align-items:center;justify-content:center;gap:10px}
+.pc-ic{display:flex;color:#fff}
+.pc-ic svg{width:26px;height:26px;flex-shrink:0}
+/* the price line (sanan-avnit's own markup, kept as it is): looks like index.html .q-price-row / .q-price */
+.pc-price{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:2px 6px;padding:12px 16px 0}
+.pc-price .pc-from{font-size:14px;font-weight:800;color:var(--b);margin-inline-end:-3px}
+html[lang="ru"] .pc-price .pc-from{margin-inline-end:0}
+.pc-price .amount{font-family:var(--q-display);font-weight:400;font-size:44px;line-height:1.05;color:var(--b);direction:ltr}
+/* the shekel sign smaller than the digits, as index.html .q-price .q-cur (26px of 44px) */
+.pc-price .amount::first-letter{font-size:.59em}
+.pc-price .q-vat,.pc-price .note{flex-basis:100%;text-align:center}
+.pc-price .note{font-size:13px;font-weight:700;color:var(--q-muted)}
+@media(max-width:420px){
+  .pc-price .amount{font-size:40px}
+}
+.price-footnote{max-width:620px;margin:22px auto 0;text-align:center;font-size:13px;line-height:1.6;color:var(--q-muted)}
+/* a section that a button jumps to (sanan-avnit #prices) stops below the fixed top bar */
+main>section[id]{scroll-margin-top:76px}
+
+
 /* ==== PART C: where the subpages go beyond index.html (approved Oct 2026). Motion stops, dialogs, high contrast,
    no blur and the floating-button wait now come from index.html itself (PART A). ==== */
 
@@ -676,6 +838,33 @@ main:focus{outline:none}
 
 /* visible keyboard focus inside the dialogs (index.html removes the outline on several of these buttons) */
 :is(.a11y-panel-close,.a11y-modal-close,.a11y-reset,.a11y-statement-link,.a11y-btn,.a11y-modal-footer-btn,.privacy-close,.nav-close,.cookie-accept,.cookie-decline,.lang-switcher):focus-visible{outline:3px solid var(--orange) !important;outline-offset:2px}
+
+/* ---- stage 3 (Oct 2026): high contrast and text zoom for the new boxes ---- */
+body.a11y-high-contrast :is(.sub-auth-tag,.sub-note){box-shadow:0 0 0 2px #fff !important}
+/* text zoom: index.html leaves the px headings as they are while p/li/span/a grow to 1.18em / 1.4em of an already larger body
+   (up to 32px); these keep one step of their own size, as for .how-text and .sub-prob-tx above */
+body.a11y-text-large .fixrep h3{font-size:calc(22px*1.18) !important}
+body.a11y-text-xlarge .fixrep h3{font-size:calc(22px*1.4) !important}
+@media(min-width:640px){
+  body.a11y-text-large .fixrep h3{font-size:calc(25px*1.18) !important}
+  body.a11y-text-xlarge .fixrep h3{font-size:calc(25px*1.4) !important}
+}
+body.a11y-text-large :is(.fixrep-col li,.sub-note,.sub-areas .area-pill){font-size:calc(14.5px*1.18) !important}
+body.a11y-text-xlarge :is(.fixrep-col li,.sub-note,.sub-areas .area-pill){font-size:calc(14.5px*1.4) !important}
+body.a11y-text-large .sub-auth p:not(.sub-auth-tag){font-size:calc(15px*1.18) !important}
+body.a11y-text-xlarge .sub-auth p:not(.sub-auth-tag){font-size:calc(15px*1.4) !important}
+body.a11y-text-large .fixrep-note{font-size:calc(14px*1.18) !important}
+body.a11y-text-xlarge .fixrep-note{font-size:calc(14px*1.4) !important}
+body.a11y-text-large :is(.sub-auth .sub-auth-tag,.pc-price .q-vat,.pc-price .note,.price-footnote){font-size:calc(13px*1.18) !important}
+body.a11y-text-xlarge :is(.sub-auth .sub-auth-tag,.pc-price .q-vat,.pc-price .note,.price-footnote){font-size:calc(13px*1.4) !important}
+body.a11y-text-large .sub-note strong{font-size:calc(16.5px*1.18) !important}
+body.a11y-text-xlarge .sub-note strong{font-size:calc(16.5px*1.4) !important}
+body.a11y-text-large .pc-price .amount{font-size:calc(44px*1.18) !important}
+body.a11y-text-xlarge .pc-price .amount{font-size:calc(44px*1.4) !important}
+body.a11y-text-large :is(.pc-price .pc-from,.pc-price .q-plusvat,.pc-cards .q-checks li,.pc-cards .q-card-pos){font-size:calc(14px*1.18) !important}
+body.a11y-text-xlarge :is(.pc-price .pc-from,.pc-price .q-plusvat,.pc-cards .q-checks li,.pc-cards .q-card-pos){font-size:calc(14px*1.4) !important}
+body.a11y-text-large .pc-cards .q-select{font-size:calc(16px*1.18) !important}
+body.a11y-text-xlarge .pc-cards .q-select{font-size:calc(16px*1.4) !important}
 
 /* print: all content, nothing fixed on top of it */
 @media print{

@@ -376,6 +376,23 @@
   if (saved === 'ru' || html.lang === 'ru') applyLang('ru'); else mark();
   menuInert();
 
+  // subpage-only: keep the floating buttons hidden until the hero entrance and the web fonts have settled
+  // (the copied observer below reads the hero buttons while the entrance still holds them 22px lower)
+  (function () {
+    var hb = document.querySelector('.sub-hero .hero-btns');
+    if (!hb) return;
+    html.classList.add('sticky-hold');
+    var anim = new Promise(function (r) {
+      if (!html.classList.contains('motion')) return r();
+      hb.addEventListener('animationend', function f(e) { if (e.target === hb) { hb.removeEventListener('animationend', f); r(); } });
+      setTimeout(r, 1600);
+    });
+    var fonts = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+    function off() { html.classList.remove('sticky-hold'); }
+    Promise.all([anim, fonts]).then(off, off);
+    setTimeout(off, 3000);
+  })();
+
   /* @src index.html #ardudim-order-js · floating WhatsApp / call wait for the hero buttons to scroll away */
 (function () {
   var html = document.documentElement;

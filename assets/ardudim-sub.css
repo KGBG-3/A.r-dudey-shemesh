@@ -670,6 +670,16 @@ a.sticky-call{text-decoration:none}
 .sub-prob-ic svg{width:24px;height:24px}
 .sub-prob-tx{min-width:0;font-family:var(--font-display);font-size:18.5px;line-height:1.25;color:var(--q-navy)}
 .how-text,.sub-prob-tx{overflow-wrap:anywhere;hyphens:auto}
+/* the floating buttons stay hidden until the hero entrance and the web fonts have settled (see the shared script) */
+html.sticky-hold .sticky-wa,html.sticky-hold .sticky-call{opacity:0;visibility:hidden;pointer-events:none}
+/* long Russian words wrap inside their boxes at every size; hyphens only in the bigger-text modes */
+.how-title,.calc-promise li>span,.fixrep h3,.sub-kicker>span{overflow-wrap:anywhere}
+.how-title,body:is(.a11y-text-large,.a11y-text-xlarge) :is(.calc-promise li>span,.fixrep h3,.sub-kicker>span){hyphens:auto}
+.sub-prob-tx{hyphens:manual}.sub-prob-tx>span{hyphens:auto}
+/* the skip link stays fully above the screen until it is focused (bigger Russian text made it peek into the top bar) */
+.skip-link:not(:focus){top:auto;bottom:100%}
+/* feature cards right under the price footnote (sanan-avnit) */
+.price-footnote+.sub-probs{margin-top:26px}
 .sub-prob-tx span{display:block;margin-top:3px;font-family:var(--font-body);font-size:14.5px;font-weight:600;line-height:1.45;color:var(--q-muted)}
 @media(min-width:600px){
   .sub-probs{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px}
@@ -872,4 +882,5 @@ body.a11y-text-xlarge .pc-cards .q-select{font-size:calc(16px*1.4) !important}
   .sticky-wa,.sticky-call,.a11y-toggle,.a11y-panel,.cookie-banner,.nav-hamburger,.nav-menu-overlay,.skip-link{display:none !important}
   nav{position:static !important;background:#fff !important}
   body::before{display:none}
+  .sub-hero,.sub-final,.q-card-head,.q-select{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }

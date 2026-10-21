@@ -63,9 +63,12 @@ PY
 - New logo since Sep 2026 (`images/logo-2026.webp`). Older quote PDFs still carry the previous logo, so never take the logo from them.
 
 ## Calculator pricing
-- `const PRICES` in `index.html` holds prices BEFORE VAT (18%). Every price shows "+ מע״מ", never "כולל מע״מ". Converting a VAT-inclusive price: `ceil(price_incl_vat / 1.18 / 100) * 100`, i.e. round up to the nearest ₪100.
-- Yardan = Amisragaz − ₪100, always.
-- Chromagen = exactly the prices in the current quotes (Drive folder "הצעות מחיר חדשות"; the old quotes are archived and outdated).
+- `const PRICES` holds prices INCLUDING VAT (18%), in whole ₪100. Every price on the site shows one number with "כולל מע״מ": never "+ מע״מ", never a before-VAT line, never ×1.18 in code.
+- Pricing method (21.10.2026, Moshe): Chromagen = Chromagen list price −28% + parts + worker ₪300 + profit, ×1.18, rounded to ₪100. Within each product family the profit equals that of its 150 L base: solar 150 = ₪3,100, heat exchanger 150 = ₪3,700, regular copper system 150 = ₪5,100 (Chromagen, incl. VAT). A bigger size is never cheaper.
+- Amisragaz stays at least ₪100 under Chromagen. Yardan = Amisragaz − ₪100, always.
+- תקן systems = regular + ₪600 (iron EXTRA 200: +₪700). The new galvanized stand is included in תקן, so a תקן system shows only the pipe extra.
+- Extras incl. VAT: pipe ₪70/m; new stand ₪350 (regular systems; solar "אם נדרש"); tile roof +₪200.
+- Chromagen = exactly the prices in the current quotes (Drive folder "הצעות מחיר חדשות").
 - Promotions go through a central `PROMOTION` config object, never by editing `PRICES`. The May 2026 campaign was removed and no `PROMOTION` object exists in the file right now; recreate it when the next promotion comes.
 - After regenerating any prices, cross-check them against the `const PRICES` block before showing the result.
 
@@ -73,7 +76,7 @@ PY
 - Chromagen manufacturer warranty: 4 years, not 5.
 - Chromagen copper 150L system: 6 years on the collector, 4 years on the boiler.
 - Amisragaz iron collector and system: 4 years, not 5.
-- Chromagen Super: closed-loop, anti-limescale, 150L only, Chromagen only. Flat roof: horizontal on a stand; tile roof: vertical. Antifreeze fluid and a water mixer included. Piping is aluminium, not copper. Warranty: 4 years + 2 years limited, including limescale damage to the collector. Site price: ₪5,800 + VAT; tile roof +₪200 as usual.
+- Chromagen Super: closed-loop, anti-limescale, 150L only, Chromagen only. Flat roof: horizontal on a stand; tile roof: vertical. Antifreeze fluid and a water mixer included. Piping is aluminium, not copper. Warranty: 4 years + 2 years limited, including limescale damage to the collector. Site price: ₪6,800 incl. VAT; tile roof +₪200 as usual.
 - Pipe insulation does not keep the heat in. Never claim it does.
 
 ## Known pitfalls

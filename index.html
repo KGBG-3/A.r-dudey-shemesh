@@ -2276,7 +2276,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
       <div id="q-result-slot"></div>
 
       <div class="result-note">
-        <strong>שים לב:</strong> כל המחירים באתר הם לפני מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.<br/>
+        <strong>שים לב:</strong> כל המחירים באתר כוללים מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.<br/>
         המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.
       </div>
 
@@ -2447,7 +2447,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
   <h2>איך זה עובד?</h2>
   <p class="section-desc">מהמחיר באתר ועד דוד חדש שעובד — בלי הפתעות בדרך.</p>
   <ol class="how-steps">
-    <li class="how-step s1"><span class="how-num">1</span><div class="how-title">מחשבים מחיר באתר</div><p class="how-text">בוחרים מוצר, גודל וסוג גג — ומקבלים מחיר מלא לפני מע"מ.</p></li>
+    <li class="how-step s1"><span class="how-num">1</span><div class="how-title">מחשבים מחיר באתר</div><p class="how-text">בוחרים מוצר, גודל וסוג גג — ומקבלים מחיר מלא כולל מע"מ.</p></li>
     <li class="how-step s2"><span class="how-num">2</span><div class="how-title">שולחים בוואטסאפ</div><p class="how-text">ההצעה נשלחת אלינו בלחיצה אחת, עם כל הפרטים.</p></li>
     <li class="how-step s3"><span class="how-num">3</span><div class="how-title">מתאמים הגעה</div><p class="how-text">חוזרים אליכם ומתאמים מועד שנוח לכם.</p></li>
     <li class="how-step s4"><span class="how-num">4</span><div class="how-title">מתקינים עם אחריות</div><p class="how-text">התקנה מקצועית, פינוי הישן ואחריות על העבודה.</p></li>
@@ -2971,7 +2971,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
     <a href="sanan-avnit.html">סנן אבנית לדוד שמש</a>
   </div>
   <div class="ft-legal">
-    המחירים המוצגים באתר אינם כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.<br/>
+    המחירים המוצגים באתר כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.<br/>
     © 2026 א.ר דודי שמש. כל הזכויות שמורות.<br/>
     <a href="#privacy" onclick="event.preventDefault(); openPrivacy()">מדיניות פרטיות</a> · <a href="#accessibility" onclick="event.preventDefault(); openA11yStatement()">הצהרת נגישות</a>
   </div>
@@ -2980,76 +2980,76 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
 <script>
 // ============================================================
 // כרומגן Super — מערכת סגורה (מחליף חום), 150 ליטר, כרומגן בלבד
-// המחיר לפני מע"מ, כולל התקנה על גג שטוח (רעפים +ROOF_SURCHARGE כרגיל). לעדכן כאן בלבד.
+// המחיר כולל מע"מ, כולל התקנה על גג שטוח (רעפים +ROOF_SURCHARGE כרגיל). לעדכן כאן בלבד.
 // ============================================================
-const SUPER_PRICE = 5800;
+const SUPER_PRICE = 6800;
 
 // ============================================================
-// PRICE DATABASE
+// PRICE DATABASE — המחירים כוללים מע"מ (18%)
 // ============================================================
 const PRICES = {
   solar: {
-    80:  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
-    120: { chromagen:{price:2700,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
-    150: { chromagen:{price:2800,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
-    200: { chromagen:{price:3200,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
+    80:  { chromagen:{price:2900,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
+    120: { chromagen:{price:3000,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
+    150: { chromagen:{price:3100,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
+    200: { chromagen:{price:3600,warranty:4}, amisragaz:{price:3300,warranty:5}, yardan:{price:3200,warranty:4} },
   },
   electric: {
-    30:  { chromagen:{price:2300,warranty:4}, amisragaz:{price:2000,warranty:5}, yardan:{price:1900,warranty:4} },
-    45:  { chromagen:{price:2400,warranty:4}, amisragaz:{price:2100,warranty:5}, yardan:{price:2000,warranty:4} },
-    60:  { chromagen:{price:2500,warranty:4}, amisragaz:{price:2200,warranty:5}, yardan:{price:2100,warranty:4} },
-    80:  { chromagen:{price:2600,warranty:4}, amisragaz:{price:2300,warranty:5}, yardan:{price:2200,warranty:4} },
-    120: { chromagen:{price:2700,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
-    150: { chromagen:{price:2800,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
+    30:  { chromagen:{price:2600,warranty:4}, amisragaz:{price:2400,warranty:5}, yardan:{price:2300,warranty:4} },
+    45:  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
+    60:  { chromagen:{price:2800,warranty:4}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
+    80:  { chromagen:{price:2900,warranty:4}, amisragaz:{price:2700,warranty:5}, yardan:{price:2600,warranty:4} },
+    120: { chromagen:{price:3000,warranty:4}, amisragaz:{price:2800,warranty:5}, yardan:{price:2700,warranty:4} },
+    150: { chromagen:{price:3100,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
   },
   boiler: {
-    80:        { chromagen:{price:3100,warranty:4}, amisragaz:{price:2900,warranty:5}, yardan:{price:2800,warranty:4} },
-    120:       { chromagen:{price:3300,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
-    '120slim': { chromagen:{price:3400,warranty:4}, amisragaz:{price:3200,warranty:5}, yardan:{price:3100,warranty:4} },
-    150:       { chromagen:{price:3300,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
-    '150slim': { chromagen:{price:3500,warranty:4}, amisragaz:{price:3400,warranty:5}, yardan:{price:3300,warranty:4} },
+    80:        { chromagen:{price:3500,warranty:4}, amisragaz:{price:3400,warranty:5}, yardan:{price:3300,warranty:4} },
+    120:       { chromagen:{price:3600,warranty:4}, amisragaz:{price:3500,warranty:5}, yardan:{price:3400,warranty:4} },
+    '120slim': { chromagen:{price:3700,warranty:4}, amisragaz:{price:3600,warranty:5}, yardan:{price:3500,warranty:4} },
+    150:       { chromagen:{price:3700,warranty:4}, amisragaz:{price:3600,warranty:5}, yardan:{price:3500,warranty:4} },
+    '150slim': { chromagen:{price:4000,warranty:4}, amisragaz:{price:3800,warranty:5}, yardan:{price:3700,warranty:4} },
   },
   kolat_copper: {
-    'mini':   { chromagen:{price:2100,warranty:4}, amisragaz:{price:1900,warranty:5}, yardan:{price:1800,warranty:4} },
-    'small':  { chromagen:{price:2300,warranty:4}, amisragaz:{price:2200,warranty:5}, yardan:{price:2100,warranty:4} },
-    'large':  { chromagen:{price:2400,warranty:6}, amisragaz:{price:2300,warranty:5}, yardan:{price:2200,warranty:4} },
-    'xlarge': { chromagen:{price:2600,warranty:4}, amisragaz:{price:2500,warranty:5}, yardan:{price:2400,warranty:4} },
+    'mini':   { chromagen:{price:2400,warranty:4}, amisragaz:{price:2200,warranty:5}, yardan:{price:2100,warranty:4} },
+    'small':  { chromagen:{price:2700,warranty:4}, amisragaz:{price:2600,warranty:5}, yardan:{price:2500,warranty:4} },
+    'large':  { chromagen:{price:2800,warranty:6}, amisragaz:{price:2700,warranty:5}, yardan:{price:2600,warranty:4} },
+    'xlarge': { chromagen:{price:3300,warranty:4}, amisragaz:{price:3000,warranty:5}, yardan:{price:2900,warranty:4} },
   },
   kolat_iron: {
-    'mini':  { chromagen:{price:2300,warranty:4}, amisragaz:{price:2100,warranty:4}, yardan:{price:2000,warranty:4} },
-    'small': { chromagen:{price:2500,warranty:4}, amisragaz:{price:2300,warranty:4}, yardan:{price:2200,warranty:4} },
-    'large': { chromagen:{price:2700,warranty:4}, amisragaz:{price:2400,warranty:4}, yardan:{price:2300,warranty:4} },
-    'xlarge': { chromagen:{price:2800,warranty:4}, amisragaz:{price:2600,warranty:4}, yardan:{price:2500,warranty:4} },
+    'mini':  { chromagen:{price:2800,warranty:4}, amisragaz:{price:2500,warranty:4}, yardan:{price:2400,warranty:4} },
+    'small': { chromagen:{price:3000,warranty:4}, amisragaz:{price:2700,warranty:4}, yardan:{price:2600,warranty:4} },
+    'large': { chromagen:{price:3200,warranty:4}, amisragaz:{price:2800,warranty:4}, yardan:{price:2700,warranty:4} },
+    'xlarge': { chromagen:{price:3500,warranty:4}, amisragaz:{price:3100,warranty:4}, yardan:{price:3000,warranty:4} },
   },
   system: {
     copper: {
       120: {
-        chromagen:{price:4300,warranty:4}, amisragaz:{price:3800,warranty:5}, yardan:{price:3700,warranty:4},
-        chromagen_std:{price:4500,warranty:4}, amisragaz_std:{price:4000,warranty:5}, yardan_std:{price:3900,warranty:4},
+        chromagen:{price:4900,warranty:4}, amisragaz:{price:4500,warranty:5}, yardan:{price:4400,warranty:4},
+        chromagen_std:{price:5500,warranty:4}, amisragaz_std:{price:5100,warranty:5}, yardan_std:{price:5000,warranty:4},
       },
       150: {
-        chromagen:{price:4500,warranty:4}, amisragaz:{price:3900,warranty:5}, yardan:{price:3800,warranty:4},
-        chromagen_std:{price:4700,warranty:4}, amisragaz_std:{price:4300,warranty:5}, yardan_std:{price:4200,warranty:4},
+        chromagen:{price:5100,warranty:4}, amisragaz:{price:4600,warranty:5}, yardan:{price:4500,warranty:4},
+        chromagen_std:{price:5700,warranty:4}, amisragaz_std:{price:5200,warranty:5}, yardan_std:{price:5100,warranty:4},
       },
       200: {
-        chromagen:{price:5100,warranty:4}, amisragaz:{price:4700,warranty:5}, yardan:{price:4600,warranty:4},
-        chromagen_std:{price:5300,warranty:4}, amisragaz_std:{price:4800,warranty:5}, yardan_std:{price:4700,warranty:4},
+        chromagen:{price:5900,warranty:4}, amisragaz:{price:5500,warranty:5}, yardan:{price:5400,warranty:4},
+        chromagen_std:{price:6500,warranty:4}, amisragaz_std:{price:6100,warranty:5}, yardan_std:{price:6000,warranty:4},
       },
     },
     iron: {
       120: {
-        chromagen:{price:4500,warranty:4}, amisragaz:{price:3900,warranty:4}, yardan:{price:3800,warranty:4},
-        chromagen_std:{price:4600,warranty:4}, amisragaz_std:{price:4100,warranty:4}, yardan_std:{price:4000,warranty:4},
+        chromagen:{price:5000,warranty:4}, amisragaz:{price:4600,warranty:4}, yardan:{price:4500,warranty:4},
+        chromagen_std:{price:5600,warranty:4}, amisragaz_std:{price:5200,warranty:4}, yardan_std:{price:5100,warranty:4},
       },
       150: {
-        chromagen:{price:4600,warranty:4}, amisragaz:{price:4100,warranty:4}, yardan:{price:4000,warranty:4},
-        chromagen_std:{price:4800,warranty:4}, amisragaz_std:{price:4300,warranty:4}, yardan_std:{price:4200,warranty:4},
+        chromagen:{price:5200,warranty:4}, amisragaz:{price:4800,warranty:4}, yardan:{price:4700,warranty:4},
+        chromagen_std:{price:5800,warranty:4}, amisragaz_std:{price:5400,warranty:4}, yardan_std:{price:5300,warranty:4},
       },
     },
     iron_extra: {
       200: {
-        chromagen:{price:6200,warranty:4}, amisragaz:{price:5600,warranty:4}, yardan:{price:5500,warranty:4},
-        chromagen_std:{price:6500,warranty:4}, amisragaz_std:{price:5900,warranty:4}, yardan_std:{price:5800,warranty:4},
+        chromagen:{price:7100,warranty:4}, amisragaz:{price:6600,warranty:4}, yardan:{price:6500,warranty:4},
+        chromagen_std:{price:7800,warranty:4}, amisragaz_std:{price:7300,warranty:4}, yardan_std:{price:7200,warranty:4},
       },
     },
   },
@@ -3058,10 +3058,6 @@ const PRICES = {
   },
 };
 
-const VAT_RATE = 0.18;
-function withVat(p) { return Math.round(p * (1 + VAT_RATE)); }
-function vatLine(p) { return `(₪${withVat(p).toLocaleString()} ${t('כולל מע"מ')})`; }
-
 const INCLUDES = {
   solar:       ['התקנה מקצועית','פינוי הדוד הישן','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
   electric:    ['התקנה מקצועית','פינוי הדוד הישן','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','וו תלייה','אחריות על העבודה','בדיקה כוללת לדוד בסוף העבודה'],
@@ -3069,7 +3065,7 @@ const INCLUDES = {
   kolat_copper:['התקנה מקצועית','פינוי הקולט הישן','זוויות ופקקים מותאמים','רקורדים וגומיות חדשים','ציפוי מגן מאלומיניום','זכוכית מחוסמת','חוט שיזור לתפיסת הקולט','אחריות על העבודה'],
   kolat_iron:  ['התקנה מקצועית','פינוי הקולט הישן','זוויות ופקקים מותאמים','רקורדים וגומיות חדשים','זכוכית מחוסמת','חוט שיזור לתפיסת הקולט','אחריות על העבודה'],
   system:      ['דוד שמש + קולט שמש תואם','התקנה מקצועית','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת למערכת בסוף העבודה'],
-  system_std:  ['דוד שמש + קולט שמש תואם','התקנה לפי תקן מלא','מערבל מים','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','צינור נחושת תחתון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת למערכת בסוף העבודה'],
+  system_std:  ['דוד שמש + קולט שמש תואם','התקנה לפי תקן מלא','מעמד מגולוון חדש (חובה בתקן)','מערבל מים','פינוי המערכת הישנה','שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור נחושת עליון + בידוד','צינור נחושת תחתון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט','עבודה + חלקים מלאים','אחריות על העבודה','בדיקה כוללת למערכת בסוף העבודה'],
 };
 
 
@@ -3100,10 +3096,12 @@ function warrantyLabel(brandKey, w) {
   return split ? t('6 שנים לקולט · 4 שנים לדוד') : yearsLabel(w);
 }
 
+// כולל מע"מ. בתקן המעמד כלול במחיר, ולכן system_std מקבל רק את תוספת הצנרת
 const EXTRAS = {
-  super:  ['תוספת צנרת מים וחשמל – ₪60 למטר + מע"מ'],
-  system: ['תוספת צנרת מים וחשמל – ₪60 למטר + מע"מ','מעמד מגולוון חדש – ₪300 + מע"מ'],
-  solar:  ['מעמד מגולוון חדש – ₪300 + מע"מ (אם נדרש)'],
+  super:      ['תוספת צנרת מים וחשמל – ₪70 למטר כולל מע"מ'],
+  system:     ['תוספת צנרת מים וחשמל – ₪70 למטר כולל מע"מ','מעמד מגולוון חדש – ₪350 כולל מע"מ'],
+  system_std: ['תוספת צנרת מים וחשמל – ₪70 למטר כולל מע"מ'],
+  solar:      ['מעמד מגולוון חדש – ₪350 כולל מע"מ (אם נדרש)'],
 };
 
 const BRAND_INFO = {
@@ -3126,7 +3124,7 @@ const VOL_P = ['', '<svg viewBox="-1 -1 12 20" fill="none" stroke="currentColor"
 const VOL_ICON    = {30:VOL_P[1],45:VOL_P[1],60:VOL_P[2],80:VOL_P[2],120:VOL_P[3],150:VOL_P[4],200:VOL_P[4],'120slim':'','150slim':'','mini':'','small':'','large':'','xlarge':''};
 const VOL_POPULAR = {solar:150, electric:80, boiler:150, kolat_copper:'large', kolat_iron:'small', system:150, super:150};
 
-const ROOF_SURCHARGE   = { flat:0, tile_inside:200, tile_outside:200, indoor:0 };
+const ROOF_SURCHARGE   = { flat:0, tile_inside:200, tile_outside:200, indoor:0 }; // ₪ כולל מע"מ
 const ACCESS_SURCHARGE = { ladder:0, key:0, none:0 };
 
 let sel = { product:null, sysType:null, kolatType:null, volume:null, roofType:null, tilePos:null, access:new Set(), brand:null };
@@ -3642,7 +3640,7 @@ function populateTiers() {
     {k:'trust',  icon:'🛡️', title:'שקט נפשי'},
   ];
   const ITEM_GROUP = {
-    'דוד שמש + קולט שמש תואם':'equip','מערבל מים':'equip','גוף חימום נגד אבנית':'equip','ציפוי אמייל נגד חלודה':'equip','ציפוי מגן מאלומיניום':'equip','זכוכית מחוסמת':'equip','קולט חזק יותר':'equip',
+    'דוד שמש + קולט שמש תואם':'equip','מעמד מגולוון חדש (חובה בתקן)':'equip','מערבל מים':'equip','גוף חימום נגד אבנית':'equip','ציפוי אמייל נגד חלודה':'equip','ציפוי מגן מאלומיניום':'equip','זכוכית מחוסמת':'equip','קולט חזק יותר':'equip',
     'התקנה מקצועית':'install','התקנה לפי תקן ישראלי':'install','התקנה לפי תקן מלא':'install','התקנה מלאה לפי תקן ישראלי':'install','התקנה מקצועית + כל החלקים':'install','עבודה + חלקים מלאים':'install',
     'פינוי הדוד הישן':'install','פינוי דוד ישן':'install','פינוי המערכת הישנה':'install','פינוי הקולט הישן':'install','פינוי קולט ישן':'install',
     'בדיקה כוללת לדוד בסוף העבודה':'install','בדיקה כוללת למערכת בסוף העבודה':'install',
@@ -3708,7 +3706,7 @@ function populateTiers() {
     div.innerHTML = qStepCardHTML({
       name: t(info.label), pos: t(info.pos), featured: isFeatured,
       proof: '',
-      price: displayPrice, vatText: vatLine(displayPrice), warranty: warrantyLabel(bKey, data.warranty),
+      price: displayPrice, warranty: warrantyLabel(bKey, data.warranty),
       feats: feats.map(f => t(f)),
       groups: groups.map(g => ({ title: t(g.title), items: g.items.map(f => t(f)) })),
       moreLabel: t('מה עוד כלול במחיר?'),
@@ -3924,7 +3922,7 @@ function showResult() {
   if (product === 'kolat_copper' && (brand === 'yardan' || brand === 'yardan_kolat')) {
     incList = incList.filter(item => item !== 'ציפוי מגן מאלומיניום');
   }
-  const extras = EXTRAS[product];
+  const extras = EXTRAS[inclKey];
 
   const roofLabel   = getRoofLabel();
   const accessLabel = getAccessLabel();
@@ -3941,7 +3939,7 @@ function showResult() {
   waMsg += `🔑 *גישה:* ${accessLabel}\n`;
   waMsg += `🛡️ *אחריות:* ${product === 'super' ? data.warranty + ' שנים + 2 שנים אחריות מוגבלת (כולל נזקי אבנית בקולט)' : ((sel.product === 'system' && (sel.kolatType || 'copper') === 'copper' && String(sel.volume) === '150' && sel.brand && sel.brand.indexOf('chromagen') === 0) ? '6 שנים לקולט · 4 שנים לדוד' : data.warranty + ' שנים')}\n\n✅ *כולל:*\n`;
   incList.forEach(i => { waMsg += `• ${i}\n`; });
-  waMsg += `\n💰 *מחיר: ₪${totalPrice.toLocaleString()} + מע"מ*\n(₪${withVat(totalPrice).toLocaleString()} כולל מע"מ)\n\n`;
+  waMsg += `\n💰 *מחיר: ₪${totalPrice.toLocaleString()} כולל מע"מ*\n\n`;
   if (extras) waMsg += `⚠️ תוספות אפשריות: ${extras.join(' | ')}\n\n`;
   waMsg += `📄 *הצעת המחיר המעוצבת:* ${qLinkFromSel()}\n\n`;
   waMsg += `אשמח להתייעץ איתך ולתאם ביקור.`;
@@ -4051,7 +4049,7 @@ const TRANSLATIONS = {
   'זוויות, פקקים ומקשרים חדשים': 'Уголки, заглушки и фитинги — новые',
   // Price disclaimer
   'המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.': 'Цены на сайте могут периодически обновляться; действительной считается цена, подтверждённая представителем компании при согласовании работы.',
-  'המחירים המוצגים באתר אינם כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.': 'Указанные на сайте цены не включают НДС и действительны на момент публикации. Компания оставляет за собой право изменять цены в любое время без предварительного уведомления; окончательной и обязательной является цена, подтверждённая представителем компании. Возможны опечатки.',
+  'המחירים המוצגים באתר כוללים מע"מ ונכונים למועד פרסומם. העסק שומר לעצמו את הזכות לעדכן ולשנות מחירים בכל עת וללא הודעה מוקדמת; המחיר הסופי והמחייב הוא זה שיאושר מול נציג העסק בלבד. ט.ל.ח.': 'Указанные на сайте цены включают НДС и действительны на момент публикации. Компания оставляет за собой право изменять цены в любое время без предварительного уведомления; окончательной и обязательной является цена, подтверждённая представителем компании. Возможны опечатки.',
   // FAQ
   'יש לך שאלה?': 'Есть вопрос?',
   'שאלות נפוצות': 'Частые вопросы',
@@ -4412,8 +4410,6 @@ const TRANSLATIONS = {
   '🔵 תקן מלא': '🔵 Полный стандарт',
   '💚 תקן + זול': '💚 Стандарт + дёшево',
   'כולל מע"מ': 'вкл. НДС',
-  '+ מע"מ': '+ НДС',
-  'לפני מע"מ': 'без НДС',
   'קבל הצעת מחיר 💰': 'Получить расчёт цены 💰',
   'החבילה המומלצת': 'Рекомендуемый пакет',
   'לבחירת החבילה': 'Выбрать пакет',
@@ -4442,9 +4438,10 @@ const TRANSLATIONS = {
   'מערבל מים': 'Смеситель воды',
   'אחריות יצרן: ': 'Гарантия производителя: ',
   '⚠️ תוספות אפשריות (יחושבו בשטח, בתיאום ואישור מול הלקוח):': '⚠️ Возможные доплаты (уточняются на месте по согласованию с клиентом):',
-  'תוספת צנרת מים וחשמל – ₪60 למטר + מע"מ': 'Доплата за трубы и кабель – ₪60/м + НДС',
-  'מעמד מגולוון חדש – ₪300 + מע"מ': 'Новый оцинкованный держатель – ₪300 + НДС',
-  'מעמד מגולוון חדש – ₪300 + מע"מ (אם נדרש)': 'Новый держатель – ₪300 + НДС (если нужно)',
+  'מעמד מגולוון חדש (חובה בתקן)': 'Новый оцинкованный держатель (обязателен по стандарту)',
+  'תוספת צנרת מים וחשמל – ₪70 למטר כולל מע"מ': 'Доплата за трубы и кабель – ₪70/м вкл. НДС',
+  'מעמד מגולוון חדש – ₪350 כולל מע"מ': 'Новый оцинкованный держатель – ₪350 вкл. НДС',
+  'מעמד מגולוון חדש – ₪350 כולל מע"מ (אם נדרש)': 'Новый держатель – ₪350 вкл. НДС (если нужно)',
   '💳 אמצעי תשלום': '💳 Способы оплаты',
   'מזומן': 'Наличные',
   'ביט': 'Bit',
@@ -4452,9 +4449,9 @@ const TRANSLATIONS = {
   "צ'ק": 'Чек',
   'צ׳ק': 'Чек',
   'אשראי עד 10 תשלומים ללא ריבית': 'Рассрочка до 10 платежей без процентов',
-  'כל המחירים באתר הם לפני מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.': 'все цены на сайте указаны без НДС. Цена включает все детали и работу; возможны доплаты по условиям монтажа — всегда по согласованию с клиентом перед выполнением.',
+  'כל המחירים באתר כוללים מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.': 'все цены на сайте указаны с НДС. Цена включает все детали и работу; возможны доплаты по условиям монтажа — всегда по согласованию с клиентом перед выполнением.',
   'שים לב': 'Внимание',
-  'כל המחירים באתר הם לפני מע"מ': 'Все цены на сайте указаны без НДС',
+  'כל המחירים באתר כוללים מע"מ': 'Все цены на сайте указаны с НДС',
   'המחיר כולל את כל החלקים והעבודה': 'Цена включает все детали и работу',
   'בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות': 'Возможны доплаты по условиям монтажа',
   'עבודה + חלקים מלאים': 'Работа + полный комплект',
@@ -5499,7 +5496,7 @@ function navGoto(id){
     'איך זה עובד?': 'Как это работает?',
     'מהמחיר באתר ועד דוד חדש שעובד — בלי הפתעות בדרך.': 'От цены на сайте до нового работающего бойлера — без сюрпризов.',
     'מחשבים מחיר באתר': 'Считаете цену на сайте',
-    'בוחרים מוצר, גודל וסוג גג — ומקבלים מחיר מלא לפני מע"מ.': 'Выбираете продукт, объём и тип крыши — и получаете полную цену без НДС.',
+    'בוחרים מוצר, גודל וסוג גג — ומקבלים מחיר מלא כולל מע"מ.': 'Выбираете продукт, объём и тип крыши — и получаете полную цену с НДС.',
     'שולחים בוואטסאפ': 'Отправляете в WhatsApp',
     'ההצעה נשלחת אלינו בלחיצה אחת, עם כל הפרטים.': 'Предложение приходит к нам в один клик, со всеми деталями.',
     'מתאמים הגעה': 'Согласуем приезд',
@@ -5798,7 +5795,7 @@ const Q_ROOF_HE = { flat: 'גג שטוח', 'tile-in': 'גג רעפים — בת�
 // Friendly landing slugs → generic slugs (generic ones work too: solar-120, electric-80, boiler-150slim,
 // kolat_copper-small, kolat_iron-large, system-120-copper, system-150-iron-std …)
 const Q_LANDING = { 'dud-shemesh-150': 'solar-150', 'maarechet-150': 'system-150-copper', 'kolat-nechoshet': 'kolat_copper-large', 'maarechet-super': 'super-150' };
-const Q_NOTE_1 = 'כל המחירים באתר הם לפני מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.';
+const Q_NOTE_1 = 'כל המחירים באתר כוללים מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.';
 const Q_NOTE_2 = 'המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.';
 
 // Russian for the new strings (used through qt(); the calculator's own strings come from TRANSLATIONS)
@@ -5936,13 +5933,13 @@ function qModel(spec) {
     const brands = order.filter(k => row[k] && BRAND_INFO[k]).map(k => {
       const base = k.replace('_std', ''), info = BRAND_INFO[k], price = row[k].price + roofAdd;
       // Super: Chromagen only — its own positioning line and ribbon text
-      return { key: k, base, name: info.label, pos: p === 'super' ? 'השדרוג של כרומגן למים קשים ולאזורים קרים' : info.pos, color: qBrandColor(k), price, vat: withVat(price),
+      return { key: k, base, name: info.label, pos: p === 'super' ? 'השדרוג של כרומגן למים קשים ולאזורים קרים' : info.pos, color: qBrandColor(k), price,
                warranty: warrantyLabel(k, row[k].warranty), featured: k === featuredKey, ribbon: p === 'super' ? 'מערכת Super' : 'הכי מומלץ' };
     });
     if (!brands.length) return null;
     const inclKey = p === 'system' ? (std ? 'system_std' : 'system') : p;
     return { spec, product: p, volume: v, std, kolatType: spec.kolatType || null, brands,
-             includes: p === 'super' ? superIncludes(sel.roofType) : (INCLUDES[inclKey] || []).slice(), extras: EXTRAS[p] || null,
+             includes: p === 'super' ? superIncludes(sel.roofType) : (INCLUDES[inclKey] || []).slice(), extras: EXTRAS[inclKey] || null,
              roofAdd, tileAdd: ROOF_SURCHARGE.tile_inside, roofLabel: spec.roof ? getRoofLabel() : '' };
   });
 }
@@ -5999,7 +5996,7 @@ function qRoofBase(m, lang) {
   return qTr(['electric', 'boiler'].includes(m.product) ? 'המחירים להתקנה בתוך הבית או על גג שטוח' : 'המחירים לגג שטוח', lang);
 }
 function qRoofNote(m, lang) {
-  return `${qRoofBase(m, lang)} · ${qTr('בגג רעפים תוספת', lang)} ₪${qn(m.tileAdd)} ${qTr('+ מע"מ', lang)}`;
+  return `${qRoofBase(m, lang)} · ${qTr('בגג רעפים תוספת', lang)} ₪${qn(m.tileAdd)}`;
 }
 // includes for one chosen brand (Yarden has no aluminium coating on copper collectors)
 function qIncludesFor(m, b) {
@@ -6018,7 +6015,7 @@ function qExtras(m, withRoof) {
     const tr = t(s), i = tr.indexOf(' – ');
     return { icon: s.indexOf('צנרת') !== -1 ? 'pipe' : 'stand', label: i > 0 ? tr.slice(0, i) : tr, price: i > 0 ? tr.slice(i + 3) : '' };
   });
-  if (withRoof) out.push({ icon: 'roof', label: qt('התקנה על גג רעפים'), price: `₪${qn(m.tileAdd)} ${t('+ מע"מ')}` });
+  if (withRoof) out.push({ icon: 'roof', label: qt('התקנה על גג רעפים'), price: `₪${qn(m.tileAdd)}` });
   return out;
 }
 function qFileName(m, b) {
@@ -6091,7 +6088,7 @@ function qParseP(slug) {
 
 // ---- WhatsApp messages (in Hebrew — they go to the business) ----
 function qWaHref(msg) { return `https://wa.me/${Q_WA}?text=${encodeURIComponent(msg)}`; }
-function qMsgPrice(b) { return `💰 *₪${qn(b.price)} + מע"מ* (₪${qn(b.vat)} כולל מע"מ)`; }
+function qMsgPrice(b) { return `💰 *₪${qn(b.price)} כולל מע"מ*`; }
 function qWaSingleMsg(m, b) {
   const s = m.spec;
   let msg = `היי שלום, צפיתי בהצעת המחיר באתר ואשמח לתאם התקנה:\n\n📋 *${qTitle(m, 'he')} – ${b.name}*\n`;
@@ -6122,8 +6119,7 @@ function qLi(text) {
 }
 function qRibbonHTML(b) { return `<div class="q-ribbon">${qIcon('star', { size: 14, fill: true })}<span>${qt((b && b.ribbon) || 'הכי מומלץ')}</span></div>`; }
 function qPriceHTML(price) {
-  return `<div class="q-price-row"><span class="q-price"><span class="q-cur">₪</span>${Number(price).toLocaleString()}</span><span class="q-plusvat">${t('+ מע"מ')}</span></div>
-<div class="q-vat">${vatLine(price)}</div>`;
+  return `<div class="q-price-row"><span class="q-price"><span class="q-cur">₪</span>${Number(price).toLocaleString()}</span><span class="q-plusvat">${t('כולל מע"מ')}</span></div>`;
 }
 function qWarrantyHTML(text) {
   // a split warranty ("6 שנים לקולט · 4 שנים לדוד") goes on two lines, as on the printed quote
@@ -6351,12 +6347,11 @@ ${ripples}
 </div>`;
 }
 function qSheetPrice(b, big) {
-  const f = big ? [58, 32, 16, 15] : [44, 26, 14, 13];
+  const f = big ? [58, 32, 16] : [44, 26, 14];
   return `<div data-price-row style="display:flex;align-items:baseline;justify-content:center;gap:6px;white-space:nowrap">
 <span style="${Q_DISPLAY}font-size:${f[0]}px;line-height:1.05;color:${b.color}"><span style="font-size:${f[1]}px">₪</span>${qn(b.price)}</span>
-<span style="font-size:${f[2]}px;font-weight:800;color:${b.color}">${qSheetText(t('+ מע"מ'))}</span>
-</div>
-<div style="margin-top:2px;font-size:${f[3]}px;font-weight:600;color:${Q_MUTED};text-align:center">(₪${qn(b.vat)} ${qSheetText(t('כולל מע"מ'))})</div>`;
+<span style="font-size:${f[2]}px;font-weight:800;color:${b.color}">${qSheetText(t('כולל מע"מ'))}</span>
+</div>`;
 }
 function qSheetWarranty(b, size) {
   const lines = String(b.warranty).split(' · ').map(w => w.charAt(0) === '+'

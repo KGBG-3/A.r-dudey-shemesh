@@ -65,7 +65,7 @@ PY
 ## Calculator pricing
 - `const PRICES` holds prices INCLUDING VAT (18%), in whole ₪100. Every price on the site shows one number with "כולל מע״מ": never "+ מע״מ", never a before-VAT line, never ×1.18 in code.
 - Pricing method (21.10.2026, Moshe): Chromagen = Chromagen list price −28% + parts + worker ₪300 + profit, ×1.18, rounded to ₪100. Within each product family the profit equals that of its 150 L base: solar 150 = ₪3,100, heat exchanger 150 = ₪3,700, regular copper system 150 = ₪5,100 (Chromagen, incl. VAT). A bigger size is never cheaper.
-- Amisragaz stays at least ₪100 under Chromagen. Yardan = Amisragaz − ₪100, always.
+- Amisragaz stays at least ₪100 under Chromagen. Yardan stays at least ₪100 under Amisragaz. Since 22.10.2026 Yardan has an extra cut: solar 80/120/150 = 2,600/2,600/2,700, electric 120/150 = 2,600/2,700, heat exchanger 80/120/120slim/150/150slim = 3,200/3,200/3,300/3,300/3,500 (incl. VAT). A bigger size is never cheaper; equal is allowed.
 - תקן systems = regular + ₪600 (iron EXTRA 200: +₪700). The new galvanized stand is included in תקן, so a תקן system shows only the pipe extra.
 - Extras incl. VAT: pipe ₪70/m; new stand ₪350 (regular systems; solar "אם נדרש"); tile roof +₪200.
 - Chromagen = exactly the prices in the current quotes (Drive folder "הצעות מחיר חדשות").

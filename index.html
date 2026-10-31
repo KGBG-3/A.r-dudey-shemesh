@@ -1768,6 +1768,68 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
 .areas-more{display:inline-block;margin-top:14px;color:rgba(255,255,255,0.85);font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,0.35)}
 .areas-more:hover{color:#fff}
 </style>
+<style id="ardudim-pricefirst-css">
+/* ===== PRICE FIRST (31.10.2026): the calculator comes before WhatsApp — see #ardudim-pricefirst-js =====
+   html.price-seen = the visitor has seen a full price (a calculator quote, or a ?q= / ?p= view) */
+
+/* floating button: "מחשבון מחיר" (the WhatsApp corner) until a price was seen; WhatsApp after.
+   Like the floating WhatsApp, it waits for the hero buttons to scroll away; it also steps aside while the calculator is on screen. */
+.sticky-calc{display:none}
+html.js .sticky-calc{position:fixed;bottom:90px;right:20px;z-index:9997;display:inline-flex;align-items:center;gap:8px;height:54px;padding:0 20px 0 18px;border-radius:999px;background:var(--q-orange);color:#fff;text-decoration:none;font-family:'Assistant',sans-serif;font-size:16px;font-weight:800;line-height:1;white-space:nowrap;box-shadow:0 10px 24px -8px rgba(234,88,12,.65);transition:opacity .25s ease,visibility .25s ease,transform .15s,background .2s;-webkit-tap-highlight-color:transparent}
+.sticky-calc svg{width:21px;height:21px;flex-shrink:0}
+.sticky-calc:hover{background:var(--d-hot)}
+@media(max-width:480px){html.js .sticky-calc{bottom:82px;right:14px;height:48px;padding:0 16px 0 14px;font-size:15px}.sticky-calc svg{width:19px;height:19px}}
+body.cookie-open .sticky-calc{bottom:calc(90px + var(--cookie-h,0px));transition:bottom .3s cubic-bezier(.2,.8,.2,1),opacity .25s ease,visibility .25s ease}
+body.hero-btns-on .sticky-calc,html.sticky-wait .sticky-calc,body.calc-on .sticky-calc,html.price-seen .sticky-calc{opacity:0;visibility:hidden;pointer-events:none}
+body.menu-open .sticky-calc{visibility:hidden}
+html.js:not(.price-seen) .sticky-wa{opacity:0;visibility:hidden;pointer-events:none}
+html.motion .sticky-calc:active{transform:scale(.97);transition-duration:.08s}
+body.a11y-high-contrast .sticky-calc{background:#fff !important;color:#000 !important;border:2px solid #fff !important;box-shadow:none !important}
+@media print{.sticky-calc{display:none !important}}
+
+/* hero: the calculator button is the only colored one — WhatsApp turns white like the call button (phones) / outlined (desktop) */
+.hero-btns>.btn-wa{background:#fff;color:var(--blue-dark);box-shadow:0 4px 14px rgba(10,31,61,0.08),inset 0 0 0 1.5px rgba(255,255,255,0.9)}
+.hero-btns>.btn-wa:hover{background:var(--blue-soft);box-shadow:0 10px 26px rgba(10,31,61,0.15)}
+.hero-btns>.btn-wa svg{color:var(--whatsapp-dark)}
+.hero-actions .hero-btn-whatsapp{background:transparent;box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+.hero-actions .hero-btn-whatsapp:hover{background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 2px rgba(255,255,255,.85)}
+.hero-actions .hero-btn-whatsapp svg{color:var(--whatsapp)}
+
+/* the WhatsApp chooser: the call dialog's box with three options; the calculator one leads */
+.wa-ask .call-box{max-width:400px;padding:26px 20px 18px}
+.wa-ask .call-box h3{margin:0 0 16px}
+.wa-ask-opt{display:flex;align-items:center;gap:14px;width:100%;padding:12px 14px;margin:0 0 10px;border-radius:16px;background:#fff;color:var(--q-navy);text-decoration:none;text-align:start;box-shadow:0 0 0 1.5px var(--q-hair);transition:transform .15s,box-shadow .15s,background .15s}
+.wa-ask-opt:hover{transform:translateY(-2px);box-shadow:0 0 0 1.5px #D8CCB6,0 12px 24px -16px rgba(10,31,61,.5)}
+.wa-ask-ic{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:44px;height:44px;border-radius:12px;background:var(--q-cream);color:var(--whatsapp-dark)}
+.wa-ask-ic svg{width:23px;height:23px}
+.wa-ask-txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.wa-ask-txt b{font-family:var(--font-display);font-weight:400;font-size:18px;line-height:1.2;color:var(--q-navy)}
+.wa-ask-txt small{font-size:14px;font-weight:600;line-height:1.3;color:var(--q-muted)}
+.wa-ask-calc{background:var(--q-orange);box-shadow:0 12px 24px -12px rgba(234,88,12,.7)}
+.wa-ask-calc:hover{background:var(--d-hot);box-shadow:0 14px 26px -12px rgba(234,88,12,.75)}
+.wa-ask-calc .wa-ask-ic{background:rgba(255,255,255,.18);color:#fff}
+.wa-ask-calc .wa-ask-txt b,.wa-ask-calc .wa-ask-txt small{color:#fff}
+.wa-ask .call-cancel{margin-top:2px}
+html[lang="ru"] .wa-ask .call-box{direction:ltr}
+html[lang="ru"] .wa-ask-txt b{font-size:17px}
+html.motion .wa-ask-opt:active{transform:scale(.97);transition-duration:.08s}
+body.a11y-high-contrast .wa-ask-opt{background:#fff !important;box-shadow:0 0 0 2px #fff !important}
+body.a11y-high-contrast .wa-ask-opt *{color:#000 !important}
+body.a11y-high-contrast .wa-ask-ic{background:#fff !important;box-shadow:0 0 0 2px #000}
+
+/* the calculator's first step: the lowest full price of each product, under its name */
+.prod-from:not([hidden]){display:flex;flex-direction:column;align-items:center;gap:1px;margin-top:7px;line-height:1.2}
+.prod-from span{font-size:13.5px;font-weight:700;color:var(--q-muted);white-space:nowrap}
+.prod-from bdi{font-family:var(--font-display);font-size:17px;color:var(--q-navy)}
+.prod-from small{font-size:11.5px;font-weight:600;color:var(--q-muted)}
+.prod-card.prod-card-full .prod-from{align-items:flex-start}
+@media(max-width:599px){.prod-from span{font-size:12.5px}.prod-from bdi{font-size:16px}.prod-from small{font-size:11px}}
+body.a11y-high-contrast .prod-card.selected .prod-from *{color:#000 !important}
+
+/* the contact line's link to the calculator */
+.contact-calc-link{color:var(--q-amber);font-weight:800;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.contact-calc-link:hover{color:#fff}
+</style>
 
   <!-- Language: the saved choice (ardudim_lang, shared with the subpages) sets the Russian layout and font before the first paint; the text switches at the end of the page -->
   <script id="ardudim-lang-boot">
@@ -1864,6 +1926,12 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
+<!-- Sticky calculator: until the visitor has seen a price, the floating button leads to the calculator (ardudim-pricefirst-js) -->
+<a href="#calculator" class="sticky-calc" onclick="event.preventDefault();navGoto('calculator')">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/></svg>
+  <span>מחשבון מחיר</span>
+</a>
+
 <!-- Sticky call (mobile) -->
 <button type="button" class="sticky-call" onclick="openCallModal()">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.1 3.5h3l1.6 4.1-2.1 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-2.1 4.1 1.6v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3.1 5.7a2 2 0 0 1 2-2.2z"/></svg>
@@ -1887,7 +1955,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
     <a href="#gallery" onclick="event.preventDefault();navGoto('gallery')">גלריה</a>
     <a href="#about" onclick="event.preventDefault();navGoto('about')">אודות</a>
     <a href="#contact" onclick="event.preventDefault();navGoto('contact')">צור קשר</a>
-    <div class="nav-menu-foot"><a class="nmf-wa" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>וואטסאפ</span></a><a class="nmf-call" href="javascript:void(0)" onclick="closeMobileMenu();openCallModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.1 3.5h3l1.6 4.1-2.1 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-2.1 4.1 1.6v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3.1 5.7a2 2 0 0 1 2-2.2z"/></svg><span>התקשר</span></a></div>
+    <div class="nav-menu-foot"><a class="nmf-wa" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" target="_blank" rel="noopener" data-wa-ask><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>וואטסאפ</span></a><a class="nmf-call" href="javascript:void(0)" onclick="closeMobileMenu();openCallModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.1 3.5h3l1.6 4.1-2.1 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-2.1 4.1 1.6v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3.1 5.7a2 2 0 0 1 2-2.2z"/></svg><span>התקשר</span></a></div>
   </div>
   <div class="nav-menu-overlay" id="nav-menu-overlay" onclick="closeMobileMenu()"></div>
   <div class="lang-wrapper">
@@ -1923,7 +1991,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
     <p class="hero-subtitle">דודי שמש, דודי חשמל, קולטים ותקלות חימום<br/>עם אחריות, מחיר הוגן ושירות משפחתי אמין</p>
     <div class="hero-actions">
       <a class="hero-btn hero-btn-quote" href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg><span>קבל הצעת מחיר</span></a>
-      <a class="hero-btn hero-btn-whatsapp" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>שלח הודעה בוואטסאפ</span></a>
+      <a class="hero-btn hero-btn-whatsapp" href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" target="_blank" rel="noopener" data-wa-ask><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>שלח הודעה בוואטסאפ</span></a>
     </div>
     <div class="hero-proof">
       <div class="hero-proof-g" role="img" aria-label="דירוג 5.0 בגוגל"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg><b aria-hidden="true">5.0</b><span aria-hidden="true">★★★★★</span></div>
@@ -1958,7 +2026,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
   </p>
   <div class="hero-btns">
     <a href="#calculator" onclick="event.preventDefault(); document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-quote btn-quote-wide">לקבלת <strong>הצעת מחיר</strong> באתר</a>
-    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener">
+    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener" data-wa-ask>
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       וואטסאפ
     </a>
@@ -2098,14 +2166,17 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
         <div class="prod-card" onclick="selectProd('electric')">
           <div class="prod-img-wrap"><img src="images/prod-electric.webp" alt="דוד חשמל" class="prod-img" loading="lazy"></div>
           <div class="prod-name">דוד חשמל</div>
+          <div class="prod-from" data-from="electric" hidden></div>
         </div>
         <div class="prod-card" onclick="selectProd('solar')">
           <div class="prod-img-wrap"><img src="images/prod-solar.webp" alt="דוד שמש" class="prod-img" loading="lazy"></div>
           <div class="prod-name">דוד שמש</div>
+          <div class="prod-from" data-from="solar" hidden></div>
         </div>
         <div class="prod-card" onclick="selectProd('boiler')">
           <div class="prod-img-wrap"><img src="images/prod-heat.webp" alt="מחליף חום" class="prod-img" loading="lazy"></div>
           <div class="prod-name">מחליף חום</div>
+          <div class="prod-from" data-from="boiler" hidden></div>
         </div>
       </div>
 
@@ -2115,10 +2186,12 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
         <div class="prod-card" onclick="selectProd('kolat_copper')">
           <div class="prod-img-wrap"><img src="images/prod-kolat-copper.webp" alt="קולט נחושת" class="prod-img" loading="lazy"></div>
           <div class="prod-name">קולט נחושת</div>
+          <div class="prod-from" data-from="kolat_copper" hidden></div>
         </div>
         <div class="prod-card" onclick="selectProd('kolat_iron')">
           <div class="prod-img-wrap"><img src="images/prod-kolat-iron.webp" alt="קולט ברזל" class="prod-img" loading="lazy"></div>
           <div class="prod-name">קולט ברזל</div>
+          <div class="prod-from" data-from="kolat_iron" hidden></div>
         </div>
       </div>
 
@@ -2128,12 +2201,14 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
         <div class="prod-card" onclick="selectProd('system')">
           <div class="prod-img-wrap"><img src="images/prod-system.webp" alt="מערכת מלאה" class="prod-img" loading="lazy"></div>
           <div class="prod-name">מערכת מלאה</div>
+          <div class="prod-from" data-from="system" hidden></div>
         </div>
         <div class="prod-card prod-card-super" onclick="selectProd('super')">
           <span class="prod-tag">כרומגן</span>
           <div class="prod-img-wrap"><img src="images/prod-system.webp" alt="מערכת Super של כרומגן — מערכת סגורה מוגנת מאבנית" class="prod-img" loading="lazy"></div>
           <div class="prod-name">מערכת Super</div>
           <div class="prod-micro">מוגנת מאבנית</div>
+          <div class="prod-from" data-from="super" hidden></div>
         </div>
       </div>
 
@@ -2757,7 +2832,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
 <section class="contact" id="contact">
   <div class="section-label">צור קשר</div>
   <h2 style="color:white;">מוכן לשוחח? אנחנו כאן</h2>
-  <p class="contact-desc">הדרך המהירה ביותר — וואטסאפ. אפשר גם להתקשר ישירות.</p>
+  <p class="contact-desc"><span data-pf="ask">רוצים לדעת כמה זה עולה?</span> <a class="contact-calc-link" href="#calculator" onclick="event.preventDefault();navGoto('calculator')" data-pf="askLink">התחילו במחשבון המחיר</a><br><span data-pf="askRest">לתיקונים ולשאלות — וואטסאפ או טלפון.</span></p>
   <div class="bizcard">
     <img class="bizcard-logo" src="images/logo-2026.webp" alt="א.ר דודי שמש" width="552" height="468" loading="lazy">
     <div class="bizcard-body">
@@ -2766,7 +2841,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
     </div>
   </div>
   <div class="contact-btns">
-    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener" style="flex:1;">
+    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="btn-wa" target="_blank" rel="noopener" style="flex:1;" data-wa-ask>
       <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       וואטסאפ
     </a>
@@ -2959,7 +3034,7 @@ body.a11y-high-contrast .q-ribbon,body.a11y-high-contrast .q-ribbon *{color:#000
   <div class="ft-tagline" data-nosnippet>תיקון והתקנת דודי שמש באזור פתח תקווה והמרכז<br/>מתקין מורשה כרומגן · שירות מהיר ואמין</div>
   <div class="ft-contact-row">
     <a href="javascript:void(0)" onclick="openCallModal()"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.1 3.5h3l1.6 4.1-2.1 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-2.1 4.1 1.6v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3.1 5.7a2 2 0 0 1 2-2.2z"/></svg><span dir="ltr">054-564-2426</span></a>
-    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>וואטסאפ</span></a>
+    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" data-wa-ask><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>וואטסאפ</span></a>
   </div>
   <div class="ft-links" role="navigation" aria-label="מידע נוסף">
     <span class="ft-links-title">מידע נוסף</span>
@@ -5390,6 +5465,27 @@ function toggleGalleryExtras(btn) {
 <script>
 function openCallModal(){document.getElementById('callModal').classList.add('open');}
 </script>
+
+<!-- WhatsApp chooser: a general WhatsApp button pressed before any price was seen asks what it is about (ardudim-pricefirst-js).
+     The texts are set by the script in Hebrew / Russian (data-pf). -->
+<div class="call-modal wa-ask" id="wa-ask" role="dialog" aria-modal="true" aria-labelledby="wa-ask-title" onclick="if(event.target===this)closeWaAsk()">
+  <div class="call-box">
+    <h3 id="wa-ask-title" data-pf="title">במה נוכל לעזור?</h3>
+    <a href="#calculator" class="wa-ask-opt wa-ask-calc">
+      <span class="wa-ask-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/></svg></span>
+      <span class="wa-ask-txt"><b data-pf="calc">דוד או מערכת חדשה</b><small data-pf="calcSub">רואים את המחיר עכשיו, במחשבון</small></span>
+    </a>
+    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר.%20יש%20לי%20תקלה%20בדוד%20—%20מצרף%20תמונה,%20אשמח%20להתייעץ%20איתך" class="wa-ask-opt wa-ask-wa" target="_blank" rel="noopener">
+      <span class="wa-ask-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.8 5.2a4.4 4.4 0 0 0-5.6 5.6L3.8 16.2a1.8 1.8 0 0 0 2.6 2.6l5.4-5.4a4.4 4.4 0 0 0 5.6-5.6l-2.6 2.6-2.3-.6-.6-2.3z"/></svg></span>
+      <span class="wa-ask-txt"><b data-pf="fix">תקלה בדוד</b><small data-pf="fixSub">שלחו לנו תמונה בוואטסאפ</small></span>
+    </a>
+    <a href="https://wa.me/972559976041?text=היי%20שלום,%20הגעתי%20מהאתר%20ואשמח%20לקבל%20פרטים%20נוספים%20על%20השירות" class="wa-ask-opt wa-ask-wa" target="_blank" rel="noopener">
+      <span class="wa-ask-ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+      <span class="wa-ask-txt"><b data-pf="other">שאלה אחרת</b><small data-pf="otherSub">כתבו לנו בוואטסאפ</small></span>
+    </a>
+    <button type="button" class="call-cancel" onclick="closeWaAsk()">ביטול</button>
+  </div>
+</div>
 <script>
 (function(){
   // Parallax — image pans UP across the FULL page scroll, never stops mid-way
@@ -6766,6 +6862,185 @@ function qDownloadPdf(mode, spec, btn) {
   if (params.get('l') === 'ru' && currentLang !== 'ru' && typeof switchToRussian === 'function') switchToRussian();
 })();
 </script>
+<script id="ardudim-pricefirst-js">
+/* ===== PRICE FIRST (31.10.2026) — the calculator comes before WhatsApp =====
+   Moshe: most visitors pressed WhatsApp straight away, and the price came only at the end of a long chat.
+   The site now leads to the calculator first, and WhatsApp comes with a price already in hand.
+   • html.price-seen: the visitor has seen a full price — the calculator's quote, or a ?q= / ?p= view (kept for the visit).
+   • Until then the general WhatsApp buttons (data-wa-ask: hero on phones and desktop, phone menu, contact, footer)
+     open a short chooser (#wa-ask): new boiler / system → the calculator · a fault → WhatsApp with a fault message ·
+     anything else → WhatsApp. While they wait their href is #calculator, so the Google Ads tag (which counts clicks on
+     wa.me links) counts a WhatsApp contact only when WhatsApp really opens. Once a price was seen, or the visitor chose
+     WhatsApp in the chooser, they are plain WhatsApp links again.
+   • The floating button is "מחשבון מחיר" until a price was seen (hidden while the calculator is on screen), then WhatsApp.
+   • With a quote on the page, the general WhatsApp buttons and the floating one send that quote, like the quote's own button.
+   • The calculator's first step shows "החל מ־₪…" on every product: the lowest full price (flat roof, any size, any company),
+     from PRICES through qModel, the quote's own price model — nothing to update by hand.
+   Untouched on purpose: the repair cards, "לתקן או להחליף?", the FAQ repair link and the quote's own buttons (straight to WhatsApp). */
+(function () {
+  var html = document.documentElement;
+  var KEY_SEEN = 'ardudim_price_seen', KEY_WA = 'ardudim_wa_ok';
+  function sget(k) { try { return sessionStorage.getItem(k) === '1'; } catch (e) { return false; } }
+  function sset(k) { try { sessionStorage.setItem(k, '1'); } catch (e) {} }
+  function isRu() { return typeof currentLang !== 'undefined' && currentLang === 'ru'; }
+  var waOk = sget(KEY_WA);
+
+  // ---- texts: the chooser, the "from" line and the contact line, set again after every language switch
+  //      (in the markup they are Hebrew; translateNodes may garble them on a switch, renderTexts then sets them whole)
+  var TXT = {
+    title:    ['במה נוכל לעזור?', 'Чем мы можем помочь?'],
+    calc:     ['דוד או מערכת חדשה', 'Новый бойлер или система'],
+    calcSub:  ['רואים את המחיר עכשיו, במחשבון', 'Цена сразу — в калькуляторе'],
+    fix:      ['תקלה בדוד', 'Неисправность бойлера'],
+    fixSub:   ['שלחו לנו תמונה בוואטסאפ', 'Отправьте нам фото в WhatsApp'],
+    other:    ['שאלה אחרת', 'Другой вопрос'],
+    otherSub: ['כתבו לנו בוואטסאפ', 'Напишите нам в WhatsApp'],
+    from:     ['החל מ־', 'от '],
+    ask:      ['רוצים לדעת כמה זה עולה?', 'Хотите узнать, сколько это стоит?'],
+    askLink:  ['התחילו במחשבון המחיר', 'Начните с калькулятора цены'],
+    askRest:  ['לתיקונים ולשאלות — וואטסאפ או טלפון.', 'Ремонт и вопросы — WhatsApp или телефон.']
+  };
+  function tx(k) { return TXT[k][isRu() ? 1 : 0]; }
+  // ---- "from" prices on the calculator's first step
+  function fromPrice(product) {
+    if (typeof qValidBase !== 'function' || typeof qModel !== 'function' || typeof VOLUMES === 'undefined') return null;
+    var specs = [];
+    if (product === 'system') {
+      ['copper', 'iron'].forEach(function (k) {
+        ((VOLUMES.system || {})[k] || []).forEach(function (v) {
+          specs.push(qValidBase('system', v, 'regular', k), qValidBase('system', v, 'standard', k));
+        });
+      });
+    } else {
+      (VOLUMES[product] || []).concat(product === 'boiler' ? ['120slim', '150slim'] : []).forEach(function (v) {
+        specs.push(qValidBase(product, v));
+      });
+    }
+    var min = Infinity;
+    specs.forEach(function (s) {
+      var m = s ? qModel(s) : null;
+      if (m) m.brands.forEach(function (b) { if (b.price < min) min = b.price; });
+    });
+    return isFinite(min) ? min : null;
+  }
+  function money(n) { return typeof qn === 'function' ? qn(n) : Number(n).toLocaleString('en-US'); }
+  function renderFrom() {
+    [].forEach.call(document.querySelectorAll('.prod-from[data-from]'), function (el) {
+      var p = null;
+      try { p = fromPrice(el.getAttribute('data-from')); } catch (e) { p = null; }
+      if (!p) { el.hidden = true; return; }
+      el.innerHTML = '<span>' + tx('from') + '<bdi>₪' + money(p) + '</bdi></span><small>' + t('כולל מע"מ') + '</small>';
+      el.hidden = false;
+    });
+  }
+  function renderTexts() {
+    [].forEach.call(document.querySelectorAll('[data-pf]'), function (el) {
+      var k = el.getAttribute('data-pf');
+      if (TXT[k]) el.textContent = tx(k);
+    });
+    renderFrom();
+  }
+
+  // ---- the general WhatsApp buttons
+  var links = [].slice.call(document.querySelectorAll('a[data-wa-ask]'));
+  links.forEach(function (a) {
+    a.setAttribute('data-wa-href', a.getAttribute('href'));
+    if (a.hasAttribute('target')) a.setAttribute('data-wa-target', a.getAttribute('target'));
+  });
+  function seen() { return html.classList.contains('price-seen'); }
+  function waiting() { return !waOk && !seen(); }
+  function sync() {
+    var w = waiting();
+    links.forEach(function (a) {
+      if (w) {
+        a.setAttribute('href', '#calculator');
+        a.removeAttribute('target');
+        a.setAttribute('aria-haspopup', 'dialog');
+      } else {
+        a.setAttribute('href', a.getAttribute('data-wa-href'));
+        if (a.hasAttribute('data-wa-target')) a.setAttribute('target', a.getAttribute('data-wa-target'));
+        a.removeAttribute('aria-haspopup');
+      }
+    });
+  }
+  function markSeen() {
+    if (seen()) return;
+    html.classList.add('price-seen');
+    sset(KEY_SEEN);
+    sync();
+  }
+  // the WhatsApp message to send now: the quote on the page if there is one (calculator result, then a ?q= / ?p= view)
+  function quoteHref() {
+    var res = document.getElementById('calc-result'), btn = document.getElementById('wa-result-btn');
+    var h = btn && btn.getAttribute('href');
+    if (res && res.classList.contains('visible') && h && h.indexOf('wa.me') >= 0) return h;
+    var top = document.querySelector('#q-top-inner .q-btn-wa');
+    return top ? top.getAttribute('href') : null;
+  }
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (waiting()) { e.preventDefault(); openWaAsk(); return; }
+      a.setAttribute('href', quoteHref() || a.getAttribute('data-wa-href'));
+    });
+  });
+  var sticky = document.querySelector('.sticky-wa');
+  if (sticky) {
+    var stickyHref = sticky.getAttribute('href');
+    sticky.addEventListener('click', function () { sticky.setAttribute('href', quoteHref() || stickyHref); });
+  }
+
+  // ---- the chooser (focus, Tab and Escape: #ardudim-dialogs-js)
+  var ask = document.getElementById('wa-ask');
+  function openWaAsk() {
+    if (!ask) return;
+    var menu = document.getElementById('nav-links');
+    if (menu && menu.classList.contains('open') && typeof closeMobileMenu === 'function') closeMobileMenu();
+    ask.classList.add('open');
+  }
+  function closeWaAsk() { if (ask) ask.classList.remove('open'); }
+  window.openWaAsk = openWaAsk;
+  window.closeWaAsk = closeWaAsk;
+  if (ask) {
+    var toCalc = ask.querySelector('.wa-ask-calc');
+    if (toCalc) toCalc.addEventListener('click', function (e) {
+      e.preventDefault();
+      closeWaAsk();
+      if (typeof navGoto === 'function') navGoto('calculator');
+      else { var c = document.getElementById('calculator'); if (c) c.scrollIntoView({ behavior: 'smooth' }); }
+    });
+    [].forEach.call(ask.querySelectorAll('.wa-ask-wa'), function (a) {
+      a.addEventListener('click', function () {
+        waOk = true; sset(KEY_WA); sync();
+        setTimeout(closeWaAsk, 0);
+      });
+    });
+  }
+
+  // ---- the floating calculator button steps aside while the calculator is on screen
+  var calc = document.getElementById('calculator');
+  if (calc && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { document.body.classList.toggle('calc-on', e.isIntersecting); });
+    }).observe(calc);
+  }
+
+  // ---- a price was seen: the calculator's quote appears, or the page opened on a quote / product link
+  var res = document.getElementById('calc-result');
+  if (res && 'MutationObserver' in window) {
+    new MutationObserver(function () { if (res.classList.contains('visible')) markSeen(); })
+      .observe(res, { attributes: true, attributeFilter: ['class'] });
+  }
+  if (window.__qView || sget(KEY_SEEN)) markSeen();
+  sync();
+
+  // ---- language: the texts above follow every switch (updateDynamicLang runs after translateNodes)
+  var upd = window.updateDynamicLang;
+  if (typeof upd === 'function') {
+    window.updateDynamicLang = function () { var r = upd.apply(this, arguments); renderTexts(); return r; };
+  }
+  renderTexts();
+})();
+</script>
 <script id="ardudim-lang-js">
 /* the visitor's saved language (ardudim_lang, the same key as the subpages); a ?l=ru quote link has already switched above */
 (function () {
@@ -6780,7 +7055,7 @@ function qDownloadPdf(mode, spec, btn) {
 </script>
 <script id="ardudim-dialogs-js">
 /* ===== dialogs: one helper for every popup on the page =====
-   The accessibility menu, the accessibility statement, the privacy policy, the call dialog,
+   The accessibility menu, the accessibility statement, the privacy policy, the call dialog, the WhatsApp chooser,
    the calculator's info dialogs (קולט / Super / מערבל מים) and the phone menu.
    It watches each dialog's open class, so every existing way of opening or closing one
    (the onclick handlers, "אישור והמשך", navGoto, the cancel button, a click outside) keeps working as is:
@@ -6822,6 +7097,7 @@ function qDownloadPdf(mode, spec, btn) {
     { sel: '#a11y-modal', cls: 'open', close: run('closeA11yStatement'), fallback: ['#a11y-toggle'] },
     { sel: '#privacy-modal', cls: 'open', close: run('closePrivacy'), focus: '#privacy-title', fallback: ['#cookie-banner.show .cookie-accept', 'footer a[href="#privacy"]', '#a11y-toggle'] },
     { sel: '#callModal', cls: 'open', close: function () { $('#callModal').classList.remove('open'); }, fallback: ['.sticky-call', '.nav-call', '.nav-hamburger', '#a11y-toggle'] },
+    { sel: '#wa-ask', cls: 'open', close: run('closeWaAsk'), focus: '.wa-ask-calc', fallback: ['.nav-hamburger', '#a11y-toggle'] },
     { sel: '#kolat-info-modal', cls: 'show', close: run('closeKolatModal'), focus: '.kolat-modal-close', fallback: calcStep },
     { sel: '#super-info-modal', cls: 'show', close: run('closeSuperModal'), focus: '.kolat-modal-close', fallback: calcStep },
     { sel: '#mixer-info-modal', cls: 'show', close: run('closeMixerModal'), focus: '.kolat-modal-close', fallback: calcStep },

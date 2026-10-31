@@ -59,6 +59,8 @@ PY
 
 ## Design direction
 - The price calculator is the main thing on the site. Visitors should reach it early, before they lose interest.
+- Price first (31.10.2026, Moshe): visitors should see prices and build a quote before they contact. The general WhatsApp buttons (hero, phone menu, contact, footer) carry `data-wa-ask`: until the visitor has seen a full price (`html.price-seen`: a calculator quote, or a `?q=` / `?p=` view) they open the chooser `#wa-ask` (new boiler or system → calculator · fault → WhatsApp · anything else → WhatsApp), and the floating button is "מחשבון מחיר" instead of WhatsApp. Repair links and the quote's own buttons go straight to WhatsApp. A new general WhatsApp button gets `data-wa-ask` too. Code: `#ardudim-pricefirst-css` / `#ardudim-pricefirst-js`.
+- The calculator's first step shows "החל מ־₪…" on each product, computed from `PRICES` through `qModel`. Never type those numbers by hand.
 - The site follows the "hot/cold" design of the new price quotes (approved Sep 2026). Keep new sections consistent with it.
 - New logo since Sep 2026 (`images/logo-2026.webp`). Older quote PDFs still carry the previous logo, so never take the logo from them.
 

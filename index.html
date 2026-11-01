@@ -1886,6 +1886,27 @@ html[lang="ru"] .jb-input[type=tel]{text-align:left}
 .jb-warn{background:#FEF3C7;color:#78350F}
 .jb-wait{background:#F6F0E6;color:var(--q-muted)}
 .calc-result.jb-open #wa-result-btn{display:none}
+/* closed, the card is the main action under the quote: orange, above a lighter WhatsApp button (1.11.2026) */
+.jb:not(.is-open){background:linear-gradient(180deg,#EA580C 0,#C2410C 100%);box-shadow:0 12px 26px -12px rgba(194,65,12,.75)}
+.jb:not(.is-open) .jb-head{padding:15px 14px;color:#fff}
+.jb:not(.is-open) .jb-head .jb-ico{width:44px;height:44px;background:#fff;color:#C2410C}
+.jb:not(.is-open) .jb-head .jb-ico svg{width:24px;height:24px}
+.jb:not(.is-open) .jb-title{color:#fff;font-size:19.5px}
+.jb:not(.is-open) .jb-sub{color:#fff;font-weight:600}
+.jb:not(.is-open) .jb-head .jb-chev{color:#fff;width:24px;height:24px}
+html.motion .jb:not(.is-open) .jb-head:active{transform:scale(.98)}
+.calc-result .btn-wa-result{background:#fff;color:#15803D;border:2px solid #22C55E;box-shadow:none;padding:14px 16px}
+.calc-result .btn-wa-result svg{color:#16A34A}
+.calc-result .btn-wa-result:hover{background:#F0FDF4;transform:none}
+.calc-result .btn-pdf-result:not(.is-ready){background:#fff}
+/* the cue under the price: the rest of the quote and the booking are further down */
+.jb-cue{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin:14px 0 0;padding:8px 2px;background:none;border:0;border-radius:12px;cursor:pointer;font-family:'Assistant',sans-serif;font-size:14px;font-weight:800;line-height:1.3;color:var(--q-navy);text-align:center}
+.jb-cue svg{width:18px;height:18px;flex:0 0 auto;color:var(--q-orange)}
+.jb-cue:focus-visible{outline:3px solid var(--q-sky);outline-offset:2px}
+html.motion .jb-cue{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) .5s backwards}
+html.motion .jb-cue svg{animation:jb-nudge 1s ease-in-out 1.3s 2}
+@keyframes jb-nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+body.a11y-high-contrast .jb-cue{color:#fff !important}
 html.motion .jb{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) .25s backwards}
 html.calm .jb-head .jb-chev{transition:none}
 body.a11y-high-contrast .jb,body.a11y-high-contrast .jb-day,body.a11y-high-contrast .jb-win,body.a11y-high-contrast .jb-input{background:#000 !important;color:#fff !important;box-shadow:0 0 0 2px #fff !important;border-color:#fff !important}
@@ -1894,7 +1915,7 @@ body.a11y-high-contrast .jb-day[aria-pressed="true"],body.a11y-high-contrast .jb
 body.a11y-high-contrast .jb-send{background:#fff !important;color:#000 !important}
 @media (min-width:520px){.jb-two{grid-template-columns:1fr 1fr}}
 @media (max-width:360px){.jb-day{font-size:14px}}
-@media print{.jb{display:none}}
+@media print{.jb,.jb-cue{display:none}}
 </style>
 
   <!-- Language: the saved choice (ardudim_lang, shared with the subpages) sets the Russian layout and font before the first paint; the text switches at the end of the page -->
@@ -7138,9 +7159,10 @@ function qDownloadPdf(mode, spec, btn) {
   var WA = typeof Q_WA !== 'undefined' ? Q_WA : '972559976041';
   var isRu = function () { return typeof currentLang !== 'undefined' && currentLang === 'ru'; };
   var TX = {
-    title:    ['רוצים לקבוע מועד?', 'Хотите назначить время?'],
+    title:    ['קביעת מועד להתקנה', 'Назначить время установки'],
     sub:      ['בחרו יישוב וימים נוחים, ונחזור אליכם לסגור שעה', 'Выберите населённый пункт и удобные дни, а время мы согласуем с вами'],
     titleOpen:['קביעת מועד', 'Назначить время'],
+    cue:      ['גללו לכל ההצעה ולקביעת מועד', 'Ниже — всё предложение и запись'],
     close:    ['סגירה', 'Закрыть'],
     where:    ['איפה הבית?', 'Где находится дом?'],
     pick:     ['בחרו יישוב', 'Выберите населённый пункт'],
@@ -7344,6 +7366,40 @@ function qDownloadPdf(mode, spec, btn) {
   // ---- drawing ----
   var ICON_CAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 3v3M16 3v3"/><path d="M8 13.5h3M8 17h3M14 13.5h2"/></svg>';
   var ICON_CHEV = '<svg class="jb-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  var ICON_DOWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+
+  // ---- the quote opens at its top (product, company, price); a small cue under the price says the rest is below ----
+  var qslot = document.getElementById('q-result-slot');
+  function navBottom() {
+    var n = document.querySelector('nav');
+    var b = n ? n.getBoundingClientRect().bottom : 0;
+    return b > 0 && b < 200 ? b : 0;
+  }
+  function scrollToEl(el, gap) {
+    if (!el) return;
+    var y = el.getBoundingClientRect().top + window.pageYOffset - navBottom() - (gap || 0);
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }
+  function addCue() {
+    var pick = qslot && qslot.querySelector('.qw-pick');
+    if (!pick) return;
+    var c = qslot.querySelector('.jb-cue');
+    if (c) { c.querySelector('span').textContent = T('cue'); return; }
+    c = document.createElement('button');
+    c.type = 'button';
+    c.className = 'jb-cue';
+    c.innerHTML = ICON_DOWN + '<span>' + esc(T('cue')) + '</span>' + ICON_DOWN;
+    pick.parentNode.insertBefore(c, pick.nextSibling);
+  }
+  if (qslot) {
+    // the quote is drawn again on a language switch: the cue comes back with it
+    if (window.MutationObserver) new MutationObserver(addCue).observe(qslot, { childList: true });
+    qslot.addEventListener('click', function (ev) {
+      var c = ev.target.closest ? ev.target.closest('.jb-cue') : null;
+      if (c) scrollToEl(c.nextElementSibling, 12);
+    });
+  }
+
   var ICON_X = '<svg class="jb-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
   function waIcon() { return '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="' + (typeof Q_WA_PATH !== 'undefined' ? Q_WA_PATH : '') + '"/></svg>'; }
 
@@ -7537,17 +7593,23 @@ function qDownloadPdf(mode, spec, btn) {
   var show = window.showResult;
   if (typeof show === 'function') {
     window.showResult = function () {
+      var first = !result.classList.contains('visible');
       var r = show.apply(this, arguments);
       var btn = document.getElementById('wa-result-btn');
       if (btn) btn.setAttribute('data-jb-base', btn.getAttribute('href') || '');
       S.sent = null;
       render();
+      if (first && result.classList.contains('visible')) {
+        addCue();
+        // the steps above are gone now: bring the top of the quote under the header
+        requestAnimationFrame(function () { scrollToEl(qslot || result, 10); });
+      }
       return r;
     };
   }
   var upd = window.updateDynamicLang;
   if (typeof upd === 'function') {
-    window.updateDynamicLang = function () { var r = upd.apply(this, arguments); render(); return r; };
+    window.updateDynamicLang = function () { var r = upd.apply(this, arguments); render(); addCue(); return r; };
   }
   render();
 })();

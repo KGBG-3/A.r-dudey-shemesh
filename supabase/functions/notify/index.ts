@@ -162,6 +162,7 @@ export function prefs(st: any) {
   return { site: n.site !== false, eveningHour: n.eveningHour === undefined || n.eveningHour === null || !Number.isFinite(h) ? 20 : h };
 }
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const PUSH_GAP = 2 * 60e3;
 
 // ---------- Israel time ----------
 const fmt = new Intl.DateTimeFormat('en-CA', {
@@ -345,14 +346,24 @@ async function onJob(id: string) {
     const marked = await rest(`jobs?id=eq.${id}&notified_at=is.null&select=id`,
       { method: 'PATCH', body: { notified_at: new Date().toISOString() }, prefer: 'return=representation' });
     if (marked.length && prefs(st).site) {
-      const days = (j.pref_days || []).map(dayShort).join(' / ');
-      const win = ({ morning: 'בוקר', noon: 'צהריים' } as Record<string, string>)[j.pref_window] || '';
-      out.push = await broadcast({
-        title: `בקשה חדשה מהאתר · #${j.ref}`,
-        body: `${j.title || 'בקשה'}${j.price ? ` · ₪${Number(j.price).toLocaleString('en-US')}` : ''}\n${j.city || ''}${days ? ' · ' + days : ''}${win ? ' · ' + win : ''}`,
-        tag: 'job-' + j.id,
-        url: ADMIN + '#job=' + j.id,
-      });
+      // at most one alert every 2 minutes: a burst of requests waits for the next alert (or the hourly check)
+      const gate = await kvGet('site-push');
+      const last = gate && gate.v ? Number(gate.v.at) || 0 : 0, held = gate && gate.v ? Number(gate.v.held) || 0 : 0;
+      if (Date.now() - last < PUSH_GAP) {
+        await kvPut('site-push', { at: last, held: held + 1 });
+        out.push = { ok: true, held: held + 1 };
+      } else {
+        await kvPut('site-push', { at: Date.now(), held: 0 });
+        const days = (j.pref_days || []).map(dayShort).join(' / ');
+        const win = ({ morning: 'בוקר', noon: 'צהריים' } as Record<string, string>)[j.pref_window] || '';
+        out.push = await broadcast({
+          title: `בקשה חדשה מהאתר · #${j.ref}`,
+          body: `${j.title || 'בקשה'}${j.price ? ` · ₪${Number(j.price).toLocaleString('en-US')}` : ''}\n${j.city || ''}${days ? ' · ' + days : ''}${win ? ' · ' + win : ''}` +
+            (held ? `\nועוד ${held === 1 ? 'בקשה אחת' : held + ' בקשות'} מהדקות האחרונות` : ''),
+          tag: 'job-' + j.id,
+          url: ADMIN + '#job=' + j.id,
+        });
+      }
     }
   }
 
@@ -363,6 +374,15 @@ async function onJob(id: string) {
 
 async function onHourly() {
   const pref = prefs(await settings());
+  // requests that arrived during a burst and were not announced yet
+  const gate = await kvGet('site-push');
+  if (gate && gate.v && Number(gate.v.held) > 0 && Date.now() - (Number(gate.v.at) || 0) >= PUSH_GAP) {
+    const held = Number(gate.v.held);
+    await kvPut('site-push', { at: Date.now(), held: 0 });
+    if (pref.site) {
+      await broadcast({ title: held === 1 ? 'עוד בקשה חדשה מהאתר' : `עוד ${held} בקשות חדשות מהאתר`, body: 'לחיצה כאן לרשימת הבקשות', tag: 'held', url: ADMIN + '#requests' });
+    }
+  }
   if (pref.eveningHour < 0) return { ok: true, skipped: 'off' };
   const now = il(Date.now());
   if (now.h !== pref.eveningHour) return { ok: true, skipped: 'hour' };

@@ -1882,7 +1882,9 @@ html[lang="ru"] .jb-input[type=tel]{text-align:left}
 .jb-after{margin-top:8px;font-size:13.5px;color:var(--q-muted);text-align:center}
 .jb-done{margin-top:12px;background:#DCFCE7;color:#14532D;border-radius:12px;padding:12px 14px;font-size:14.5px;font-weight:600;line-height:1.5}
 .jb-done b{font-weight:800}
-.jb-done button{background:none;border:0;padding:0;font:inherit;font-weight:800;color:#14532D;text-decoration:underline;cursor:pointer}
+.jb-done button,.jb-done a{background:none;border:0;padding:0;font:inherit;font-weight:800;color:inherit;text-decoration:underline;cursor:pointer}
+.jb-warn{background:#FEF3C7;color:#78350F}
+.jb-wait{background:#F6F0E6;color:var(--q-muted)}
 .calc-result.jb-open #wa-result-btn{display:none}
 html.motion .jb{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) .25s backwards}
 html.calm .jb-head .jb-chev{transition:none}
@@ -7117,8 +7119,11 @@ function qDownloadPdf(mode, spec, btn) {
      plus a name and a phone.
    • "שליחת הבקשה בוואטסאפ" opens WhatsApp with the quote's own message and the details added at the end, and
      saves the request in the jobs system (admin/, the "בקשות" list, with a phone alert). A failed save never
-     blocks WhatsApp. Until the details are complete the button is not a wa.me link, so the Google Ads tag
-     (it counts clicks on wa.me links) counts a contact only when WhatsApp really opens.
+     blocks WhatsApp; the card then says so, and asks to press send in WhatsApp ("נשלחה" only after a real save).
+     Until the details are complete the button is not a wa.me link, so the Google Ads tag (it counts clicks on
+     wa.me links) counts a contact only when WhatsApp really opens.
+   • Each visit keeps a random key (sessionStorage): sending again from the same browser updates that request,
+     and nobody else can change it.
    • Days marked with a green dot: a job is already booked that day in the visitor's area (no personal details).
    • The days, areas and hours come from the jobs system (public_info / public_days); without it the card still
      works with the defaults below, and the request goes by WhatsApp only.
@@ -7155,6 +7160,9 @@ function qDownloadPdf(mode, spec, btn) {
     send:     ['שליחת הבקשה בוואטסאפ', 'Отправить запрос в WhatsApp'],
     after:    ['נחזור אליכם בוואטסאפ לאשר שעה', 'Мы ответим в WhatsApp и подтвердим время'],
     done:     ['הבקשה נשלחה.', 'Запрос отправлен.'],
+    sending:  ['שולחים את הבקשה…', 'Отправляем запрос…'],
+    notYet:   ['הבקשה עוד לא הגיעה אלינו. כדי שתגיע, לחצו "שליחה" בהודעה שנפתחה בוואטסאפ.', 'Запрос ещё не дошёл до нас. Чтобы он дошёл, нажмите «Отправить» в сообщении, которое открылось в WhatsApp.'],
+    reopen:   ['לפתוח שוב את וואטסאפ', 'Открыть WhatsApp снова'],
     doneRef:  ['מספר הבקשה:', 'Номер запроса:'],
     doneNext: ['נחזור אליכם בוואטסאפ לאשר שעה.', 'Мы ответим в WhatsApp и подтвердим время.'],
     again:    ['שינוי הפרטים', 'Изменить данные'],
@@ -7216,11 +7224,28 @@ function qDownloadPdf(mode, spec, btn) {
   function rpc(fn, args, keepalive) {
     var c = cfg();
     if (!c || typeof fetch !== 'function') return Promise.resolve(null);
-    return fetch(String(c.url).replace(/\/$/, '') + '/rest/v1/rpc/' + fn, {
-      method: 'POST', keepalive: !!keepalive,
-      headers: { apikey: c.key, 'Content-Type': 'application/json' },
-      body: JSON.stringify(args || {})
-    }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    var go = function (ka) {
+      return fetch(String(c.url).replace(/\/$/, '') + '/rest/v1/rpc/' + fn, {
+        method: 'POST', keepalive: ka,
+        headers: { apikey: c.key, 'Content-Type': 'application/json' },
+        body: JSON.stringify(args || {})
+      }).then(function (r) { return r.ok ? r.json() : null; });
+    };
+    // the same key goes with a retry, so a request that did arrive is updated, not added twice
+    return go(!!keepalive).catch(function () { return keepalive ? go(false) : null; }).catch(function () { return null; });
+  }
+  var memKey = '';
+  function visitKey() {
+    var k = '';
+    try { k = sessionStorage.getItem('ardudim_jb_key') || ''; } catch (err) { k = memKey; }
+    if (/^[0-9a-f]{32}$/.test(k)) return k;
+    var b = new Uint8Array(16);
+    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(b);
+    else for (var i = 0; i < 16; i++) b[i] = Math.floor(Math.random() * 256);
+    k = Array.prototype.map.call(b, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+    memKey = k;
+    try { sessionStorage.setItem('ardudim_jb_key', k); } catch (err) { /* kept for this page only */ }
+    return k;
   }
   var infoAsked = false;
   function loadInfo() {
@@ -7383,9 +7408,15 @@ function qDownloadPdf(mode, spec, btn) {
       (S.open ? '' : '<span class="jb-sub">' + esc(T('sub')) + '</span>') + '</span>' + (S.open ? ICON_X.replace('<svg', '<svg aria-label="' + esc(T('close')) + '"') : ICON_CHEV) + '</button>';
     var body = '';
     if (S.open && S.sent) {
-      body = '<div class="jb-body" id="jb-body"><div class="jb-done" role="status"><b>' + esc(T('done')) + '</b> ' +
-        (S.sent.ref ? esc(T('doneRef')) + ' <b dir="ltr">#' + esc(S.sent.ref) + '</b>. ' : '') + esc(T('doneNext')) +
-        '<br><button type="button" id="jb-again">' + esc(T('again')) + '</button></div></div>';
+      var st = S.sent.state;
+      body = '<div class="jb-body" id="jb-body">' + (st === 'ok'
+        ? '<div class="jb-done" role="status"><b>' + esc(T('done')) + '</b> ' +
+          (S.sent.ref ? esc(T('doneRef')) + ' <b dir="ltr">#' + esc(S.sent.ref) + '</b>. ' : '') + esc(T('doneNext')) +
+          '<br><button type="button" id="jb-again">' + esc(T('again')) + '</button></div>'
+        : st === 'fail'
+        ? '<div class="jb-done jb-warn" role="status">' + esc(T('notYet')) +
+          '<br><a href="' + esc(waHref()) + '" target="_blank" rel="noopener">' + esc(T('reopen')) + '</a> · <button type="button" id="jb-again">' + esc(T('again')) + '</button></div>'
+        : '<div class="jb-done jb-wait" role="status">' + esc(T('sending')) + '</div>') + '</div>';
     } else if (S.open) {
       var ok = !Object.keys(errors()).length;
       body = '<div class="jb-body" id="jb-body" dir="' + (lang === 'ru' ? 'ltr' : 'rtl') + '">' + citySelect(e.city) + dayGrid(e.days) + winChips() +
@@ -7466,12 +7497,17 @@ function qDownloadPdf(mode, spec, btn) {
         return;
       }
       // WhatsApp opens through the link itself; the request goes to the jobs system alongside
-      var sent = { ref: null };
+      var sent = { state: 'sending', ref: null };
       S.sent = sent;
       rpc('request_job', {
         p_city: cityValue(), p_days: S.picked.slice().sort(), p_window: S.win, p_name: String(S.name).trim(), p_phone: S.phone,
-        p_title: quoteTitle(), p_price: quotePrice(), p_quote: (quoteLink().split('?q=')[1] || ''), p_link: quoteLink(), p_lang: isRu() ? 'ru' : 'he'
-      }, true).then(function (r) { if (r && r.ok) { sent.ref = r.ref; if (S.sent === sent) render(); } });
+        p_title: quoteTitle(), p_price: quotePrice(), p_quote: (quoteLink().split('?q=')[1] || ''), p_link: quoteLink(),
+        p_lang: isRu() ? 'ru' : 'he', p_key: visitKey()
+      }, true).then(function (r) {
+        sent.state = (r && r.ok) ? 'ok' : 'fail';
+        sent.ref = (r && r.ok && r.ref) || null;
+        if (S.sent === sent) render();
+      });
       setTimeout(render, 0);
     }
   });

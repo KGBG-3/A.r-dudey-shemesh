@@ -74,6 +74,8 @@ create table if not exists public.jobs (
   call_before boolean not null default false,  -- call the customer half an hour before arriving
   notes text not null default '',
   lang text not null default 'he' check (lang in ('he', 'ru')),
+  client_key text,                             -- md5 of the key the visitor's browser sent (site requests)
+  ip_hash text,                                -- md5 of the visitor's IP (site requests), for the per-address limit
   confirmed_at timestamptz,                    -- the date confirmation went out on WhatsApp
   reminded_at timestamptz,                     -- the day-before reminder went out
   notified_at timestamptz,                     -- the phones got the new-request alert
@@ -90,6 +92,8 @@ create table if not exists public.jobs (
   constraint jobs_dated check (status not in ('scheduled', 'done') or (starts_at is not null and ends_at is not null))
 );
 alter sequence public.jobs_ref_seq owned by public.jobs.ref;
+alter table public.jobs add column if not exists client_key text;
+alter table public.jobs add column if not exists ip_hash text;
 create index if not exists jobs_starts_at on public.jobs (starts_at);
 create index if not exists jobs_status on public.jobs (status);
 create index if not exists jobs_phone_norm on public.jobs (phone_norm);
@@ -250,27 +254,33 @@ begin
 end $$;
 
 -- a request from the calculator's "בחירת יישוב ומועד": waits in the admin's requests list for a date.
--- The same phone sending again within a day updates its open request instead of adding another.
+-- p_key is a random key the visitor's browser keeps for the visit: sending again with the same key and phone
+-- (a second tap, changed days) updates that request; anyone else gets a request of their own.
+-- Limits: 5 requests an hour from one address, 60 an hour in all, 3 a week for one phone.
+drop function if exists public.request_job(text, date[], text, text, text, text, numeric, text, text, text, text);
 create or replace function public.request_job(
   p_city text, p_days date[], p_window text, p_name text, p_phone text,
   p_title text default '', p_price numeric default null, p_quote text default '', p_link text default '',
-  p_lang text default 'he', p_note text default '')
+  p_lang text default 'he', p_note text default '', p_key text default '')
 returns jsonb
 language plpgsql volatile security definer set search_path = '' as $$
 declare
   tz constant text := 'Asia/Jerusalem';
   st jsonb;
   today date := (now() at time zone tz)::date;
-  v_city text := left(regexp_replace(btrim(coalesce(p_city, '')), '\s+', ' ', 'g'), 40);
-  v_name text := left(regexp_replace(btrim(coalesce(p_name, '')), '\s+', ' ', 'g'), 60);
-  v_phone text := public.norm_phone(p_phone);
-  v_window text := coalesce(nullif(btrim(coalesce(p_window, '')), ''), 'any');
-  v_title text := left(regexp_replace(btrim(coalesce(p_title, '')), '\s+', ' ', 'g'), 120);
+  v_city text := left(regexp_replace(btrim(left(coalesce(p_city, ''), 200)), '\s+', ' ', 'g'), 40);
+  v_name text := left(regexp_replace(btrim(left(coalesce(p_name, ''), 200)), '\s+', ' ', 'g'), 60);
+  v_phone text := public.norm_phone(left(coalesce(p_phone, ''), 40));
+  v_window text := coalesce(nullif(btrim(left(coalesce(p_window, ''), 20)), ''), 'any');
+  v_title text := left(regexp_replace(btrim(left(coalesce(p_title, ''), 400)), '\s+', ' ', 'g'), 120);
   v_quote text := left(btrim(coalesce(p_quote, '')), 80);
   v_link text := left(btrim(coalesce(p_link, '')), 240);
   v_lang text := case when p_lang = 'ru' then 'ru' else 'he' end;
-  v_note text := left(btrim(coalesce(p_note, '')), 300);
+  v_note text := left(btrim(left(coalesce(p_note, ''), 600)), 300);
   v_price numeric := case when p_price between 0 and 200000 then round(p_price, 2) end;
+  v_key text := case when coalesce(p_key, '') ~ '^[A-Za-z0-9_-]{16,64}$' then md5(p_key) end;
+  v_hdr jsonb;
+  v_ip text;
   v_days date[];
   ahead int; notice int;
   v_id uuid; v_ref int;
@@ -283,6 +293,7 @@ begin
     return jsonb_build_object('ok', false, 'error', 'phone');
   end if;
   if v_window not in ('morning', 'noon', 'any') then return jsonb_build_object('ok', false, 'error', 'window'); end if;
+  if cardinality(coalesce(p_days, '{}'::date[])) > 31 then return jsonb_build_object('ok', false, 'error', 'days'); end if;
 
   ahead := greatest(1, least(60, coalesce((st ->> 'daysAhead')::int, 14)));
   notice := greatest(0, least(14, coalesce((st ->> 'minNoticeDays')::int, 1)));
@@ -296,22 +307,39 @@ begin
   if v_link <> '' and v_link !~ '^https://ardudim\.co\.il/' then v_link := ''; end if;
   if v_quote !~ '^[a-z0-9_.-]*$' then v_quote := ''; end if;
 
+  -- the visitor's address as Supabase's proxy reports it (cf-connecting-ip cannot be set by the visitor)
+  begin
+    v_hdr := coalesce(nullif(current_setting('request.headers', true), ''), '{}')::jsonb;
+  exception when others then
+    v_hdr := '{}'::jsonb;
+  end;
+  v_ip := coalesce(nullif(btrim(v_hdr ->> 'cf-connecting-ip'), ''), nullif(btrim(v_hdr ->> 'x-real-ip'), ''),
+                   nullif(btrim(split_part(coalesce(v_hdr ->> 'x-forwarded-for', ''), ',', 1)), ''));
+  v_ip := case when v_ip is null then null else md5('ardudim:' || v_ip) end;
+
   perform pg_advisory_xact_lock(hashtext('ardudim.request'));
 
-  select j.id, j.ref into v_id, v_ref from public.jobs j
-   where j.source = 'site' and j.status = 'new' and j.phone_norm = v_phone and j.created_at > now() - interval '1 day'
-   order by j.created_at desc limit 1;
-  if v_id is not null then
-    update public.jobs set city = v_city, name = v_name, phone = v_phone, pref_days = v_days, pref_window = v_window,
-           title = case when v_title <> '' then v_title else title end, price = coalesce(v_price, price),
-           quote_code = case when v_quote <> '' then v_quote else quote_code end,
-           quote_link = case when v_link <> '' then v_link else quote_link end,
-           lang = v_lang, notes = case when v_note <> '' then v_note else notes end
-     where id = v_id;
-    return jsonb_build_object('ok', true, 'ref', v_ref, 'again', true);
+  if v_key is not null then
+    select j.id, j.ref into v_id, v_ref from public.jobs j
+     where j.source = 'site' and j.status = 'new' and j.client_key = v_key and j.phone_norm = v_phone
+       and j.created_at > now() - interval '1 day'
+     order by j.created_at desc limit 1;
+    if v_id is not null then
+      update public.jobs set city = v_city, name = v_name, pref_days = v_days, pref_window = v_window,
+             title = case when v_title <> '' then v_title else title end, price = coalesce(v_price, price),
+             quote_code = case when v_quote <> '' then v_quote else quote_code end,
+             quote_link = case when v_link <> '' then v_link else quote_link end,
+             lang = v_lang, notes = case when v_note <> '' then v_note else notes end
+       where id = v_id;
+      return jsonb_build_object('ok', true, 'ref', v_ref, 'again', true);
+    end if;
   end if;
 
-  if (select count(*) from public.jobs j where j.source = 'site' and j.created_at > now() - interval '1 hour') >= 30 then
+  if v_ip is not null and (select count(*) from public.jobs j
+       where j.source = 'site' and j.ip_hash = v_ip and j.created_at > now() - interval '1 hour') >= 5 then
+    return jsonb_build_object('ok', false, 'error', 'busy');
+  end if;
+  if (select count(*) from public.jobs j where j.source = 'site' and j.created_at > now() - interval '1 hour') >= 60 then
     return jsonb_build_object('ok', false, 'error', 'busy');
   end if;
   if (select count(*) from public.jobs j
@@ -320,20 +348,19 @@ begin
   end if;
 
   insert into public.jobs (status, source, title, name, phone, city, pref_days, pref_window,
-                           price, quote_code, quote_link, lang, notes)
+                           price, quote_code, quote_link, lang, notes, client_key, ip_hash)
   values ('new', 'site', v_title, v_name, v_phone, v_city, v_days, v_window,
-          v_price, v_quote, v_link, v_lang, v_note)
+          v_price, v_quote, v_link, v_lang, v_note, v_key, v_ip)
   returning ref into v_ref;
   return jsonb_build_object('ok', true, 'ref', v_ref);
 end $$;
 
--- Supabase grants new functions to anon directly, so admin-only ones are taken from anon by name too
 revoke execute on function public.public_info(), public.public_days(text),
-  public.request_job(text, date[], text, text, text, text, numeric, text, text, text, text),
+  public.request_job(text, date[], text, text, text, text, numeric, text, text, text, text, text),
   public.is_admin(), public.area_of(text) from public;
 revoke execute on function public.is_admin(), public.area_of(text) from anon;
 grant execute on function public.public_info(), public.public_days(text),
-  public.request_job(text, date[], text, text, text, text, numeric, text, text, text, text) to anon, authenticated;
+  public.request_job(text, date[], text, text, text, text, numeric, text, text, text, text, text) to anon, authenticated;
 grant execute on function public.is_admin(), public.area_of(text) to authenticated;
 
 -- merge a few settings keys in one statement (admins only, through the row rules above)
@@ -437,6 +464,14 @@ insert into public.settings (id, data) values ('main', $json${
   }
 }$json$::jsonb)
 on conflict (id) do nothing;
+
+-- ---------- a guard: the functions address must be filled in ----------
+do $$
+begin
+  if public.functions_url() !~ '^https?://' then
+    raise exception 'צריך למלא את כתובת הפרויקט בשורה של functions_url() לפני ההרצה';
+  end if;
+end $$;
 
 -- ---------- the two logins ----------
 -- Create the users first (Authentication → Users → Add user, "Auto Confirm User"), then run this file.

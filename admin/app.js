@@ -973,8 +973,9 @@ const ACT = {
   'delete-job': async el => {
     const id = el.dataset.id;
     if (!confirm('למחוק את העבודה לגמרי? אי אפשר לבטל את זה.')) return;
-    const { error } = await sb.from('jobs').delete().eq('id', id);
+    const { data, error } = await sb.from('jobs').delete().eq('id', id).select('id');
     if (error) { toast(errText(error)); return; }
+    if (!data || !data.length) { toast('העבודה כבר ביומן גוגל, אז מבטלים אותה במקום למחוק'); await reload(true); renderSheet(false); return; }
     S.jobs.delete(id);
     closeSheet(true);
     refresh();

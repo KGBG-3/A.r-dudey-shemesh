@@ -1039,11 +1039,11 @@ const ACT = {
   },
   'gcal-copy': async () => {
     try {
-      let g = S.settings.gcal || {};
-      if (!g.token) { g = Object.assign({}, g, { token: uid().replace(/-/g, '') + uid().replace(/-/g, '').slice(0, 8) }); await mergeSettings({ gcal: g }); }
-      const res = await fetch('gcal-script.txt?v=1', { cache: 'no-store' });
+      // the script keeps the password the system sends first, so the copied code holds no password
+      const g = S.settings.gcal || {};
+      const res = await fetch('gcal-script.txt?v=2', { cache: 'no-store' });
       const q = v => String(v || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-      const code = (await res.text()).replace('__TOKEN__', q(g.token)).replace('__CALENDAR__', q(g.calendar)).replace('__CALENDAR_NAME__', q(g.calendarName || 'עבודות דודים'));
+      const code = (await res.text()).replace('__CALENDAR__', q(g.calendar)).replace('__CALENDAR_NAME__', q(g.calendarName || 'עבודות דודים'));
       await navigator.clipboard.writeText(code);
       toast('הקוד הועתק');
     } catch (e) { toast('ההעתקה לא הצליחה: ' + errText(e)); }
@@ -1244,7 +1244,8 @@ const FORMS = {
     const url = String(form.url.value || '').trim();
     if (url && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(url)) { toast('הכתובת צריכה להיות ה-Web app URL שמסתיים ב-exec'); return; }
     const g = Object.assign({}, S.settings.gcal, { url, enabled: !!url });
-    if (!g.token) g.token = uid().replace(/-/g, '');
+    // the password between the system and the script: random, made once, never shown (the script keeps the first one it gets)
+    if (!g.token) g.token = Array.from(crypto.getRandomValues(new Uint8Array(24)), b => b.toString(16).padStart(2, '0')).join('');
     try {
       await mergeSettings({ gcal: g });
       if (!url) { renderSheet(false); refresh(); return; }

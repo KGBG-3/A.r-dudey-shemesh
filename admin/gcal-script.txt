@@ -1,7 +1,8 @@
 // א.ר דודי שמש · העתק של מערכת העבודות ליומן "עבודות דודים" בגוגל
-// הקוד רץ בחשבון הגוגל שלך. הוא מקבל עדכונים רק ממערכת העבודות, לפי הסיסמה שלמטה,
-// ויכול רק להוסיף, לעדכן ולמחוק אירועים ביומן אחד: היומן שהשם שלו כתוב למטה.
-const TOKEN = '__TOKEN__';
+// הקוד רץ בחשבון הגוגל שלך. הוא מקבל עדכונים רק ממערכת העבודות, ויכול רק להוסיף, לעדכן ולמחוק
+// אירועים ביומן אחד: היומן שכתוב למטה.
+// הסיסמה בין המערכת לקוד נקבעת לבד: בפנייה הראשונה של המערכת היא נשמרת כאן, ומאז רק היא מתקבלת.
+// אף אחד לא צריך להעתיק אותה. לחיבור מחדש מאפס: Project Settings ← Script Properties ← מוחקים את token.
 const CALENDAR_ID = '__CALENDAR__';          // אפשר להשאיר ריק: אז היומן נמצא לפי השם
 const CALENDAR_NAME = '__CALENDAR_NAME__';
 const COLORS = { chromagen: '11', site: '6', contractor: '3', private: '9', done: '10' };
@@ -9,10 +10,10 @@ const COLORS = { chromagen: '11', site: '6', contractor: '3', private: '9', done
 function doPost(e) {
   let body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) { return out({ ok: false, error: 'json' }); }
-  if (!body || body.token !== TOKEN) return out({ ok: false, error: 'token' });
   const lock = LockService.getScriptLock();
   lock.waitLock(25000);
   try {
+    if (!body || !tokenOk(body.token)) return out({ ok: false, error: 'token' });
     const cal = CALENDAR_ID ? CalendarApp.getCalendarById(CALENDAR_ID) : (CalendarApp.getCalendarsByName(CALENDAR_NAME)[0] || null);
     if (!cal) return out({ ok: false, error: 'calendar' });
     if (body.op === 'ping') return out({ ok: true, name: cal.getName() });
@@ -45,6 +46,15 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// the first password the system sends is kept in this project's properties; after that only it is accepted
+function tokenOk(t) {
+  if (typeof t !== 'string' || !/^[A-Za-z0-9_-]{32,128}$/.test(t)) return false;
+  const props = PropertiesService.getScriptProperties();
+  const known = props.getProperty('token');
+  if (!known) { props.setProperty('token', t); return true; }
+  return t === known;
 }
 
 function doGet() {

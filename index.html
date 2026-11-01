@@ -1853,6 +1853,29 @@ select.jb-input{appearance:auto}
 .jb-input[type=tel]{direction:ltr;text-align:right}
 html[lang="ru"] .jb-input[type=tel]{text-align:left}
 .jb-other{margin-top:8px}
+/* the town: a search field with the whole list under it (1.11.2026) */
+.jb-combo{position:relative}
+.jb-combo .jb-input{padding-inline-start:40px;padding-inline-end:46px}
+.jb-s-ico{position:absolute;inset-inline-start:13px;top:50%;width:18px;height:18px;margin-top:-9px;color:var(--q-muted);pointer-events:none}
+.jb-combo-all{position:absolute;inset-inline-end:3px;top:50%;width:42px;height:42px;margin-top:-21px;display:flex;align-items:center;justify-content:center;padding:0;background:none;border:0;border-radius:10px;color:var(--q-navy);cursor:pointer}
+.jb-combo-all svg{width:20px;height:20px;transition:transform .2s}
+.jb-combo-all[aria-expanded="true"] svg{transform:rotate(180deg)}
+.jb-list{position:absolute;z-index:6;inset-inline:0;top:calc(100% + 6px);max-height:min(300px,52vh);overflow-y:auto;overscroll-behavior:contain;background:#fff;border:1.5px solid var(--q-hair);border-radius:14px;box-shadow:0 18px 34px -16px rgba(10,31,61,.45);padding:4px 0 6px}
+.jb-list[hidden]{display:none}
+.jb-grp{position:sticky;top:-4px;z-index:1;background:#fff;padding:9px 14px 4px;font-size:12.5px;font-weight:800;color:var(--q-muted)}
+.jb-opt{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:11px 14px;font-size:16px;font-weight:600;line-height:1.25;color:var(--q-ink);cursor:pointer}
+.jb-opt small{font-size:12.5px;font-weight:600;color:var(--q-muted);white-space:nowrap}
+.jb-opt.is-active{background:#FFF1E6}
+@media (hover:hover){.jb-opt:hover{background:#FFF1E6}}
+.jb-opt[aria-selected="true"]{font-weight:800;color:var(--q-navy)}
+.jb-opt-other{border-top:1px solid var(--q-hair);margin-top:4px;color:#C2410C;font-weight:700}
+.jb-empty{padding:10px 14px 6px;font-size:14px;color:var(--q-muted)}
+.jb-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+html.calm .jb-combo-all svg{transition:none}
+body.a11y-high-contrast .jb-list,body.a11y-high-contrast .jb-grp{background:#000 !important;color:#fff !important;border-color:#fff !important}
+body.a11y-high-contrast .jb-opt{color:#fff !important}
+body.a11y-high-contrast .jb-opt.is-active{background:#fff !important;color:#000 !important}
+body.a11y-high-contrast .jb-s-ico,body.a11y-high-contrast .jb-combo-all{color:#fff !important}
 .jb-month{font-size:13.5px;font-weight:700;color:var(--q-muted);margin:-2px 0 6px}
 .jb-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
 .jb-wd{font-size:12.5px;font-weight:700;color:var(--q-muted);text-align:center;padding-bottom:1px}
@@ -1899,8 +1922,27 @@ html.motion .jb:not(.is-open) .jb-head:active{transform:scale(.98)}
 .calc-result .btn-wa-result svg{color:#16A34A}
 .calc-result .btn-wa-result:hover{background:#F0FDF4;transform:none}
 .calc-result .btn-pdf-result:not(.is-ready){background:#fff}
+/* under the price: small "back to the companies" / "start over" (moved up from the bottom, 1.11.2026) */
+.jb-mini{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:16px -8px 0}
+.jb-mini-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 9px;border-radius:999px;border:1.5px solid var(--q-hair);background:#fff;color:var(--q-navy);font-family:'Assistant',sans-serif;font-size:13px;white-space:nowrap;font-weight:700;line-height:1.2;cursor:pointer}
+.jb-mini-btn svg{width:13px;height:13px;flex:0 0 auto}
+.jb-mini-btn:focus-visible{outline:3px solid var(--q-sky);outline-offset:2px}
+html.motion .jb-mini-btn:active{transform:scale(.97)}
+html.motion .jb-mini{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) .45s backwards}
+.calc-result .result-btns .btn-back-brands,.calc-result .result-btns .btn-reset{display:none}
+@media print{.jb-mini{display:none}}
+body.a11y-high-contrast .jb-mini-btn{background:#000 !important;color:#fff !important;border-color:#fff !important}
+/* PDF and WhatsApp side by side (PDF on the right), the booking button above them */
+.calc-result .q-actions .btn-wa-result,.calc-result .q-actions .btn-pdf-result{grid-column:auto;min-height:58px;padding:9px 8px;font-size:14.5px;line-height:1.25;text-align:center;gap:6px}
+.calc-result .q-actions .btn-wa-result svg,.calc-result .q-actions .btn-pdf-result svg{width:20px;height:20px;flex:0 0 auto}
+@media (max-width:560px){.calc-result .q-actions .btn-wa-result,.calc-result .q-actions .btn-pdf-result{flex-direction:column;gap:4px;padding:10px 8px;min-height:78px}}
+.calc-result .q-actions .btn-pdf-result{order:1}
+.calc-result .q-actions .btn-wa-result{order:2}
+.calc-result .q-actions .q-reply-note{order:3}
+.calc-result.jb-open .q-actions .btn-pdf-result{grid-column:1/-1}
+.calc-result.jb-open .q-actions .q-reply-note{display:none}
 /* the cue under the price: the rest of the quote and the booking are further down */
-.jb-cue{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin:14px 0 0;padding:8px 2px;background:none;border:0;border-radius:12px;cursor:pointer;font-family:'Assistant',sans-serif;font-size:14px;font-weight:800;line-height:1.3;color:var(--q-navy);text-align:center}
+.jb-cue{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin:8px 0 0;padding:8px 2px;background:none;border:0;border-radius:12px;cursor:pointer;font-family:'Assistant',sans-serif;font-size:14px;font-weight:800;line-height:1.3;color:var(--q-navy);text-align:center}
 .jb-cue svg{width:18px;height:18px;flex:0 0 auto;color:var(--q-orange)}
 .jb-cue:focus-visible{outline:3px solid var(--q-sky);outline-offset:2px}
 html.motion .jb-cue{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) .5s backwards}
@@ -7167,6 +7209,14 @@ function qDownloadPdf(mode, spec, btn) {
     where:    ['איפה הבית?', 'Где находится дом?'],
     pick:     ['בחרו יישוב', 'Выберите населённый пункт'],
     other:    ['יישוב אחר', 'Другой населённый пункт'],
+    search:   ['הקלידו שם יישוב', 'Введите название'],
+    showAll:  ['כל היישובים', 'Все населённые пункты'],
+    noTown:   ['לא מצאנו יישוב בשם הזה ברשימה', 'Такого названия нет в списке'],
+    useOther: ['לא ברשימה? המשיכו עם "%s"', 'Нет в списке? Продолжить с «%s»'],
+    found:    ['%n יישובים מתאימים', 'Подходящих: %n'],
+    back:     ['לבחירת חברה', 'К выбору компании'],
+    backRoof: ['לבחירת הגג', 'К выбору крыши'],
+    reset:    ['התחלה מחדש', 'Начать заново'],
     otherName:['שם היישוב', 'Название населённого пункта'],
     days:     ['אילו ימים נוחים לכם?', 'Какие дни вам удобны?'],
     upTo:     ['עד 3 ימים', 'до 3 дней'],
@@ -7225,7 +7275,7 @@ function qDownloadPdf(mode, spec, btn) {
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var OTHER = '__other';
 
-  var S = { open: false, city: '', other: '', picked: [], win: 'any', name: '', phone: '', tried: false, note: '',
+  var S = { open: false, city: '', other: '', typing: false, query: '', listOpen: false, active: -1, opts: [], picked: [], win: 'any', name: '', phone: '', tried: false, note: '',
             areas: AREAS, windows: WINDOWS, workDays: WORKDAYS, daysAhead: 14, minNotice: 1,
             days: null, daysFor: null, loading: 0, sent: null };
 
@@ -7380,21 +7430,42 @@ function qDownloadPdf(mode, spec, btn) {
     var y = el.getBoundingClientRect().top + window.pageYOffset - navBottom() - (gap || 0);
     window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
   }
+  // the two small buttons do what the ones under the quote did (same icons, shorter labels so both fit in one row on a phone)
+  function miniHTML() {
+    var superQuote = typeof sel !== 'undefined' && sel && sel.product === 'super';
+    return [['back', '.btn-back-brands', superQuote ? 'backRoof' : 'back'], ['reset', '.btn-reset', 'reset']].map(function (b) {
+      var o = result.querySelector('.result-btns ' + b[1]), ic = o && o.querySelector('svg');
+      return o ? '<button type="button" class="jb-mini-btn" data-act="' + b[0] + '">' + (ic ? ic.outerHTML : '') + '<span>' + esc(T(b[2])) + '</span></button>' : '';
+    }).join('');
+  }
   function addCue() {
     var pick = qslot && qslot.querySelector('.qw-pick');
     if (!pick) return;
+    var mini = qslot.querySelector('.jb-mini');
+    if (!mini) {
+      mini = document.createElement('div');
+      mini.className = 'jb-mini';
+      pick.parentNode.insertBefore(mini, pick.nextSibling);
+    }
+    mini.innerHTML = miniHTML();
     var c = qslot.querySelector('.jb-cue');
     if (c) { c.querySelector('span').textContent = T('cue'); return; }
     c = document.createElement('button');
     c.type = 'button';
     c.className = 'jb-cue';
     c.innerHTML = ICON_DOWN + '<span>' + esc(T('cue')) + '</span>' + ICON_DOWN;
-    pick.parentNode.insertBefore(c, pick.nextSibling);
+    mini.parentNode.insertBefore(c, mini.nextSibling);
   }
   if (qslot) {
     // the quote is drawn again on a language switch: the cue comes back with it
     if (window.MutationObserver) new MutationObserver(addCue).observe(qslot, { childList: true });
     qslot.addEventListener('click', function (ev) {
+      var m = ev.target.closest ? ev.target.closest('.jb-mini-btn') : null;
+      if (m) {
+        var o = result.querySelector('.result-btns ' + (m.getAttribute('data-act') === 'back' ? '.btn-back-brands' : '.btn-reset'));
+        if (o) o.click();
+        return;
+      }
       var c = ev.target.closest ? ev.target.closest('.jb-cue') : null;
       if (c) scrollToEl(c.nextElementSibling, 12);
     });
@@ -7403,22 +7474,134 @@ function qDownloadPdf(mode, spec, btn) {
   var ICON_X = '<svg class="jb-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
   function waIcon() { return '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="' + (typeof Q_WA_PATH !== 'undefined' ? Q_WA_PATH : '') + '"/></svg>'; }
 
-  function citySelect(err) {
-    var cur = S.city, opts = '<option value="">' + esc(T('pick')) + '</option>';
-    var found = false;
-    S.areas.forEach(function (a) {
-      opts += '<optgroup label="' + esc(nameOf(a.name)) + '">' + (a.cities || []).map(function (c) {
-        if (c === cur) found = true;
-        return '<option value="' + esc(c) + '"' + (c === cur ? ' selected' : '') + '>' + esc(nameOf(c)) + '</option>';
-      }).join('') + '</optgroup>';
+  // ---- the town: type a few letters (any common spelling), or open the whole list by area ----
+  var ICON_SEARCH = '<svg class="jb-s-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>';
+  var FINALS = { 'ך': 'כ', 'ם': 'מ', 'ן': 'נ', 'ף': 'פ', 'ץ': 'צ' };
+  // a spelling-proof key: no vowel letters ו/י (תקוה = תקווה, קרית = קריית), no spaces, dashes or quotes
+  function skel(t) {
+    return String(t || '').toLowerCase().replace(/[֑-ׇ]/g, '').replace(/[ךםןףץ]/g, function (c) { return FINALS[c]; })
+      .replace(/[וי]/g, '').replace(/ё/g, 'е').replace(/[\s\-–־'"׳״.,()]/g, '');
+  }
+  function allCities() {
+    var out = [];
+    S.areas.forEach(function (a) { (a.cities || []).forEach(function (c) { out.push({ c: c, area: a.name }); }); });
+    return out;
+  }
+  function namesOf(c) { return RU[c] ? [c, RU[c]] : [c]; }
+  function isExact(x, q) { var k = skel(q); return !!k && namesOf(x.c).some(function (n) { return skel(n) === k; }); }
+  // the towns for what was typed: the name starts with it, then a later word starts with it (תקווה → פתח תקווה),
+  // then it is inside one word. Never across words (שוה is not ראש העין). null = nothing typed
+  function matches(q) {
+    var k = skel(q);
+    if (!k) return null;
+    var rank = [[], [], []];
+    allCities().forEach(function (x) {
+      var best = 3;
+      namesOf(x.c).forEach(function (n) {
+        var words = String(n).split(/[\s\-–־]+/).map(skel).filter(Boolean);
+        if (words.join('').indexOf(k) === 0) best = Math.min(best, 0);
+        else if (words.some(function (w, i) { return i > 0 && words.slice(i).join('').indexOf(k) === 0; })) best = Math.min(best, 1);
+        else if (k.length >= 2 && words.some(function (w) { return w.indexOf(k) > 0; })) best = Math.min(best, 2);
+      });
+      if (best < 3) rank[best].push(x);
     });
-    opts += '<option value="' + OTHER + '"' + (cur === OTHER ? ' selected' : '') + '>' + esc(T('other')) + '</option>';
-    if (cur && cur !== OTHER && !found) S.city = '';
-    return '<label class="jb-q" for="jb-city">' + esc(T('where')) + '</label>' +
-      '<select class="jb-input" id="jb-city" autocomplete="address-level2"' + (err ? ' aria-invalid="true" aria-describedby="jb-e-city"' : '') + '>' + opts + '</select>' +
-      (S.city === OTHER ? '<input class="jb-input jb-other" id="jb-other" type="text" maxlength="40" autocomplete="address-level2" placeholder="' + esc(T('otherName')) + '" aria-label="' + esc(T('otherName')) + '" value="' + esc(S.other) + '">' : '') +
+    return rank[0].concat(rank[1], rank[2]);
+  }
+  function optHTML(x, withArea) {
+    var n = S.opts.length;
+    S.opts.push(x);
+    return '<div role="option" class="jb-opt' + (n === S.active ? ' is-active' : '') + '" id="jb-o-' + n + '" data-i="' + n + '" data-city="' + esc(x.c) + '" aria-selected="' + (x.c === S.city) + '">' +
+      '<span>' + esc(nameOf(x.c)) + '</span>' + (withArea ? '<small>' + esc(nameOf(x.area)) + '</small>' : '') + '</div>';
+  }
+  function listHTML() {
+    S.opts = [];
+    var q = S.typing ? S.query : '', found = matches(q), html = '';
+    if (found === null) {
+      S.areas.forEach(function (a, gi) {
+        html += '<div role="group" aria-labelledby="jb-g' + gi + '"><div class="jb-grp" id="jb-g' + gi + '">' + esc(nameOf(a.name)) + '</div>' +
+          (a.cities || []).map(function (c) { return optHTML({ c: c, area: a.name }, false); }).join('') + '</div>';
+      });
+      return html;
+    }
+    html = found.map(function (x) { return optHTML(x, true); }).join('');
+    if (!found.length) html += '<div class="jb-empty">' + esc(T('noTown')) + '</div>';
+    var typed = String(q).replace(/\s+/g, ' ').trim();
+    if (typed.length >= 2 && !found.length) {
+      var n = S.opts.length;
+      S.opts.push({ other: typed });
+      html += '<div role="option" class="jb-opt jb-opt-other' + (n === S.active ? ' is-active' : '') + '" id="jb-o-' + n + '" data-i="' + n + '" aria-selected="false">' + esc(T('useOther').replace('%s', typed)) + '</div>';
+    }
+    return html;
+  }
+  function cityShown() { return S.typing ? S.query : S.city === OTHER ? S.other : S.city ? nameOf(S.city) : ''; }
+  function cityField(err) {
+    // a town that is no longer in the list (the areas were changed) is let go
+    if (S.city && S.city !== OTHER && !allCities().some(function (x) { return x.c === S.city; })) S.city = '';
+    var list = S.listOpen ? listHTML() : '';
+    var act = S.listOpen && S.opts[S.active] ? ' aria-activedescendant="jb-o-' + S.active + '"' : '';
+    return '<label class="jb-q" for="jb-city" id="jb-city-l">' + esc(T('where')) + '</label>' +
+      '<div class="jb-combo">' + ICON_SEARCH +
+      '<input class="jb-input" id="jb-city" type="text" role="combobox" aria-autocomplete="list" aria-controls="jb-city-list" aria-expanded="' + S.listOpen + '"' + act +
+      ' autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" maxlength="40" placeholder="' + esc(T('search')) + '" value="' + esc(cityShown()) + '"' +
+      (err ? ' aria-invalid="true" aria-describedby="jb-e-city"' : '') + '>' +
+      '<button type="button" class="jb-combo-all" id="jb-city-all" tabindex="-1" aria-label="' + esc(T('showAll')) + '" aria-controls="jb-city-list" aria-expanded="' + S.listOpen + '">' + ICON_DOWN + '</button>' +
+      '<div class="jb-list" id="jb-city-list" role="listbox" aria-labelledby="jb-city-l"' + (S.listOpen ? '' : ' hidden') + '>' + list + '</div>' +
+      '</div><div class="jb-vh" id="jb-city-n" aria-live="polite"></div>' +
       (err ? '<div class="jb-err" id="jb-e-city" role="alert">' + esc(err) + '</div>' : '');
   }
+  // the list changes while typing without drawing the card again (the keyboard and the caret stay)
+  function refreshList() {
+    var input = document.getElementById('jb-city'), list = document.getElementById('jb-city-list');
+    if (!input || !list) return;
+    list.innerHTML = S.listOpen ? listHTML() : '';
+    list.hidden = !S.listOpen;
+    input.setAttribute('aria-expanded', S.listOpen);
+    var all = document.getElementById('jb-city-all');
+    if (all) all.setAttribute('aria-expanded', S.listOpen);
+    var a = S.listOpen && S.opts[S.active] ? document.getElementById('jb-o-' + S.active) : null;
+    if (a) {
+      input.setAttribute('aria-activedescendant', a.id);
+      if (a.offsetTop < list.scrollTop) list.scrollTop = a.offsetTop;
+      else if (a.offsetTop + a.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = a.offsetTop + a.offsetHeight - list.clientHeight;
+    } else input.removeAttribute('aria-activedescendant');
+    var live = document.getElementById('jb-city-n');
+    if (live) live.textContent = S.listOpen && S.typing ? T('found').replace('%n', S.opts.filter(function (o) { return !o.other; }).length) : '';
+  }
+  function openList() {
+    if (S.listOpen) return;
+    S.listOpen = true;
+    S.active = -1;
+    refreshList();
+    // on a phone the keyboard takes half the screen: bring the field up under the header
+    if (window.innerWidth < 760) setTimeout(function () { scrollToEl(document.getElementById('jb-city-l'), 8); }, 250);
+  }
+  function chooseCity(i, byTap) {
+    var o = S.opts[i];
+    if (!o) return;
+    if (o.other) { S.city = OTHER; S.other = o.other; } else { S.city = o.c; S.other = ''; }
+    S.typing = false; S.query = ''; S.listOpen = false; S.active = -1;
+    render();
+    loadDays();
+    var input = document.getElementById('jb-city');
+    // after a tap the keyboard goes away, so the days are in sight; with the keyboard the caret goes to the end
+    if (input && document.activeElement === input) {
+      if (byTap) input.blur();
+      else try { input.setSelectionRange(input.value.length, input.value.length); } catch (err) { /* fine as it is */ }
+    }
+  }
+  // leaving the field: one town fits = that town; none fits = a town that is not in the list; several = nothing chosen yet
+  function settleCity() {
+    if (!S.typing) { S.listOpen = false; S.active = -1; refreshList(); return; }
+    var typed = String(S.query).replace(/\s+/g, ' ').trim();
+    if (!typed) { S.city = ''; S.other = ''; S.typing = false; S.listOpen = false; render(); return; }
+    var found = matches(typed) || [];
+    var exact = found.filter(function (x) { return isExact(x, typed); })[0];
+    if (exact || found.length === 1) { S.opts = [exact || found[0]]; chooseCity(0); return; }
+    if (!found.length && typed.length >= 2) { S.opts = [{ other: typed }]; chooseCity(0); return; }
+    S.city = ''; S.other = ''; S.listOpen = false; S.active = -1;
+    render();
+  }
+
   function dayGrid(err) {
     var list = days(), map = {};
     list.forEach(function (x) { map[x.d] = x; });
@@ -7456,6 +7639,8 @@ function qDownloadPdf(mode, spec, btn) {
     return '<div class="jb-q" id="jb-when-l">' + esc(T('when')) + '</div><div class="jb-wins" role="radiogroup" aria-labelledby="jb-when-l">' + chips + '</div>';
   }
   function render() {
+    var ae = document.activeElement, keep = null;
+    if (ae && ae.id && slot.contains(ae)) { keep = { id: ae.id }; try { keep.a = ae.selectionStart; keep.b = ae.selectionEnd; } catch (err) { /* not a text field */ } }
     var e = S.tried ? errors() : {};
     var lang = isRu() ? 'ru' : 'he';
     result.classList.toggle('jb-open', S.open);
@@ -7475,7 +7660,7 @@ function qDownloadPdf(mode, spec, btn) {
         : '<div class="jb-done jb-wait" role="status">' + esc(T('sending')) + '</div>') + '</div>';
     } else if (S.open) {
       var ok = !Object.keys(errors()).length;
-      body = '<div class="jb-body" id="jb-body" dir="' + (lang === 'ru' ? 'ltr' : 'rtl') + '">' + citySelect(e.city) + dayGrid(e.days) + winChips() +
+      body = '<div class="jb-body" id="jb-body" dir="' + (lang === 'ru' ? 'ltr' : 'rtl') + '">' + cityField(e.city) + dayGrid(e.days) + winChips() +
         '<div class="jb-two"><div><label for="jb-name">' + esc(T('name')) + '</label><input class="jb-input" id="jb-name" type="text" maxlength="60" autocomplete="name" value="' + esc(S.name) + '"' + (e.name ? ' aria-invalid="true" aria-describedby="jb-e-name"' : '') + '>' +
         (e.name ? '<div class="jb-err" id="jb-e-name" role="alert">' + esc(e.name) + '</div>' : '') + '</div>' +
         '<div><label for="jb-phone">' + esc(T('phone')) + '</label><input class="jb-input" id="jb-phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" value="' + esc(S.phone) + '"' + (e.phone ? ' aria-invalid="true" aria-describedby="jb-e-phone"' : '') + '>' +
@@ -7490,6 +7675,12 @@ function qDownloadPdf(mode, spec, btn) {
     sec.setAttribute('dir', lang === 'ru' ? 'ltr' : 'rtl');
     sec.setAttribute('aria-label', T('titleOpen'));
     sec.innerHTML = head + body;
+    if (keep) {
+      var n = document.getElementById(keep.id);
+      if (n && n !== document.activeElement) {
+        try { n.focus({ preventScroll: true }); if (keep.a != null && n.setSelectionRange) n.setSelectionRange(keep.a, keep.b); } catch (err) { /* nothing to restore */ }
+      }
+    }
   }
   // after a first try, each message goes away as soon as its field is right (without redrawing the field)
   function refreshErrors() {
@@ -7518,11 +7709,11 @@ function qDownloadPdf(mode, spec, btn) {
       S.open = !S.open;
       if (S.open) { loadInfo(); loadDays(); }
       render();
-      var f = document.getElementById(S.open ? (S.sent ? 'jb-again' : 'jb-city') : 'jb-toggle');
+      var f = document.getElementById(S.open ? (S.sent ? 'jb-again' : (coarse() ? 'jb-toggle' : 'jb-city')) : 'jb-toggle');
       if (f) f.focus();
       return;
     }
-    if (el.id === 'jb-again') { S.sent = null; render(); var c = document.getElementById('jb-city'); if (c) c.focus(); return; }
+    if (el.id === 'jb-again') { S.sent = null; render(); var c = document.getElementById(coarse() ? 'jb-toggle' : 'jb-city'); if (c) c.focus(); return; }
     if (el.id === 'jb-priv') { ev.preventDefault(); if (typeof openPrivacy === 'function') openPrivacy(); return; }
     if (el.classList.contains('jb-day')) {
       var d = el.getAttribute('data-d'), i = S.picked.indexOf(d);
@@ -7567,23 +7758,63 @@ function qDownloadPdf(mode, spec, btn) {
       setTimeout(render, 0);
     }
   });
-  slot.addEventListener('change', function (ev) {
-    if (ev.target.id === 'jb-city') {
-      S.city = ev.target.value;
-      if (S.city !== OTHER) S.other = '';
-      render();
-      loadDays();
-      var c = document.getElementById(S.city === OTHER ? 'jb-other' : 'jb-city');
-      if (c) c.focus();
-    } else if (ev.target.id === 'jb-other') {
-      loadDays();
+  function coarse() { return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches); }
+  // the town field
+  ['mousedown', 'pointerdown'].forEach(function (t) {
+    slot.addEventListener(t, function (ev) {
+      // a tap in the list or on the arrow keeps the focus in the field, so the list stays under the finger
+      if (ev.target.closest && ev.target.closest('#jb-city-list, #jb-city-all')) ev.preventDefault();
+    });
+  });
+  slot.addEventListener('click', function (ev) {
+    var t = ev.target;
+    var o = t.closest ? t.closest('.jb-opt') : null;
+    if (o) { chooseCity(Number(o.getAttribute('data-i')), true); return; }
+    if (t.id === 'jb-city') { openList(); return; }
+    if (t.closest && t.closest('#jb-city-all')) {
+      var input = document.getElementById('jb-city');
+      if (S.listOpen) { S.listOpen = false; refreshList(); }
+      else { if (input && document.activeElement !== input) input.focus({ preventScroll: true }); openList(); }
     }
+  });
+  slot.addEventListener('keydown', function (ev) {
+    if (ev.target.id !== 'jb-city') return;
+    var k = ev.key;
+    if (k === 'ArrowDown' || k === 'ArrowUp') {
+      ev.preventDefault();
+      if (!S.listOpen) { openList(); if (k === 'ArrowUp') return; }
+      var n = S.opts.length;
+      if (!n) return;
+      S.active = k === 'ArrowDown' ? (S.active + 1) % n : (S.active <= 0 ? n - 1 : S.active - 1);
+      refreshList();
+    } else if (k === 'Enter') {
+      if (S.listOpen && S.opts[S.active]) { ev.preventDefault(); chooseCity(S.active); }
+      else if (S.typing) { ev.preventDefault(); settleCity(); }
+    } else if (k === 'Escape' && S.listOpen) {
+      ev.preventDefault();
+      S.listOpen = false; S.active = -1;
+      if (S.typing) { S.typing = false; S.query = ''; ev.target.value = cityShown(); }
+      refreshList();
+    }
+  });
+  slot.addEventListener('focusout', function (ev) {
+    if (ev.target.id !== 'jb-city') return;
+    setTimeout(function () {
+      var a = document.activeElement;
+      if (a && a.closest && a.closest('.jb-combo')) return;
+      settleCity();
+    }, 120);
   });
   slot.addEventListener('input', function (ev) {
     var id = ev.target.id;
     if (id === 'jb-name') S.name = ev.target.value;
     else if (id === 'jb-phone') S.phone = ev.target.value;
-    else if (id === 'jb-other') S.other = ev.target.value;
+    else if (id === 'jb-city') {
+      S.query = ev.target.value; S.typing = true; S.listOpen = true;
+      S.active = String(S.query).trim() ? 0 : -1;
+      refreshList();
+      return;
+    }
     else return;
     syncLink();
     refreshErrors();

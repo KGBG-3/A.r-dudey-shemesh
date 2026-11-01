@@ -375,7 +375,7 @@ grant execute on function public.merge_settings(jsonb) to authenticated;
 -- The Edge Function "notify" (deployed with "Verify JWT" off; it checks every request itself).
 create or replace function public.functions_url() returns text
 language sql immutable set search_path = '' as $$
-  select '__FUNCTIONS_URL__'
+  select 'https://sbbljzrwfhnyknbojsau.supabase.co/functions/v1/'
 $$;
 
 -- every saved change pings the function: it sends the new-request alert and keeps the calendar copy in step.

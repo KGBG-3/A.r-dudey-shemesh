@@ -155,7 +155,7 @@ const S = {
   stack: [], ready: false, error: '', loginUser: null, loginBusy: false, loginErr: '',
 };
 let sb = null;
-const configured = () => /^https?:\/\/\S+$/.test(String(CFG.url || '')) && !!CFG.key && !/__/.test(String(CFG.url) + String(CFG.key));
+const configured = () => /^https?:\/\/\S+$/.test(String(CFG.url || '')) && !!CFG.key && !/__SUPABASE_/.test(String(CFG.url) + String(CFG.key));
 if (window.supabase && configured()) {
   sb = window.supabase.createClient(String(CFG.url).replace(/\/$/, ''), CFG.key, {
     auth: { persistSession: true, autoRefreshToken: true, storageKey: 'ardudim-jobs-auth' },

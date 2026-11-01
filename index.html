@@ -7220,7 +7220,7 @@ function qDownloadPdf(mode, spec, btn) {
   }
 
   // ---- the jobs system ----
-  function cfg() { var c = window.ARDUDIM_JOBS || {}; return (c.url && c.key && !/__/.test(c.url + c.key)) ? c : null; }
+  function cfg() { var c = window.ARDUDIM_JOBS || {}; return (c.url && c.key && !/__SUPABASE_/.test(c.url + c.key)) ? c : null; }
   function rpc(fn, args, keepalive) {
     var c = cfg();
     if (!c || typeof fetch !== 'function') return Promise.resolve(null);

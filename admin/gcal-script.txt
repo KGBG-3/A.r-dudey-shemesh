@@ -1,0 +1,56 @@
+// א.ר דודי שמש · העתק של מערכת העבודות ליומן "עבודות דודים" בגוגל
+// הקוד רץ בחשבון הגוגל שלך. הוא מקבל עדכונים רק ממערכת העבודות, לפי הסיסמה שלמטה,
+// ויכול רק להוסיף, לעדכן ולמחוק אירועים ביומן אחד: היומן שהשם שלו כתוב למטה.
+const TOKEN = '__TOKEN__';
+const CALENDAR_ID = '__CALENDAR__';          // אפשר להשאיר ריק: אז היומן נמצא לפי השם
+const CALENDAR_NAME = '__CALENDAR_NAME__';
+const COLORS = { chromagen: '11', site: '6', contractor: '3', private: '9', done: '10' };
+
+function doPost(e) {
+  let body = {};
+  try { body = JSON.parse(e.postData.contents); } catch (err) { return out({ ok: false, error: 'json' }); }
+  if (!body || body.token !== TOKEN) return out({ ok: false, error: 'token' });
+  const lock = LockService.getScriptLock();
+  lock.waitLock(25000);
+  try {
+    const cal = CALENDAR_ID ? CalendarApp.getCalendarById(CALENDAR_ID) : (CalendarApp.getCalendarsByName(CALENDAR_NAME)[0] || null);
+    if (!cal) return out({ ok: false, error: 'calendar' });
+    if (body.op === 'ping') return out({ ok: true, name: cal.getName() });
+    const props = PropertiesService.getScriptProperties();
+    const key = 'job:' + body.job;
+    if (body.op === 'upsert') {
+      let ev = null;
+      const known = body.eventId || props.getProperty(key);
+      if (known) { try { ev = cal.getEventById(known); } catch (err) { ev = null; } }
+      const start = new Date(body.start), end = new Date(body.end);
+      if (ev) {
+        ev.setTitle(body.title || '');
+        ev.setTime(start, end);
+        ev.setLocation(body.location || '');
+        ev.setDescription(body.description || '');
+      } else {
+        ev = cal.createEvent(body.title || '', start, end, { location: body.location || '', description: body.description || '' });
+      }
+      if (COLORS[body.color]) { try { ev.setColor(COLORS[body.color]); } catch (err) { /* colour is optional */ } }
+      props.setProperty(key, ev.getId());
+      return out({ ok: true, eventId: ev.getId() });
+    }
+    if (body.op === 'delete') {
+      const known = body.eventId || props.getProperty(key);
+      if (known) { try { const ev = cal.getEventById(known); if (ev) ev.deleteEvent(); } catch (err) { /* already gone */ } }
+      props.deleteProperty(key);
+      return out({ ok: true });
+    }
+    return out({ ok: false, error: 'op' });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function doGet() {
+  return out({ ok: true, hello: 'א.ר דודי שמש' });
+}
+
+function out(o) {
+  return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+}

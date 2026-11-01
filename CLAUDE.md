@@ -12,7 +12,7 @@ Website for a family solar water heater business: installation and repair of sol
 - This repo is public, and the deployed branch (`main`) is the live site. Anything committed is published.
 
 ## Repo map
-- `index.html` — the main page (~550 KB, single file). Sections in order: hero/quick-quote (`#q-top`), `#stats`, `#calculator`, `#reviews`, `#how`, `#repairs`, `#gallery`, `#about`, `#faq`, `#contact`. ~19 `<script>` blocks; the later ones carry ids like `ardudim-motion-js`, `ardudim-design-js`, `ardudim-quote-js`, which is how to locate them.
+- `index.html` — the main page (~570 KB, single file). Sections in order: hero/quick-quote (`#q-top`), `#stats`, `#calculator`, `#reviews`, `#how`, `#repairs`, `#gallery`, `#about`, `#faq`, `#contact`. ~20 `<script>` blocks; the later ones carry ids like `ardudim-motion-js`, `ardudim-design-js`, `ardudim-quote-js`, `ardudim-booking-js`, which is how to locate them.
 - Standalone landing pages in the repo root: `tikun-dahuf.html` (urgent repair), `mehshvon-mehirim.html` (calculator), `azorey-sherut.html` (service areas), `chromagen.html`, `guf-himum.html` (heating element), `sanan-avnit.html` (limescale filter). They are being moved (Oct 2026) onto the main site's design through the shared files; `tikun-dahuf.html` is done, the others still carry the old inline template until they are restyled.
 - `assets/ardudim-sub.css` / `assets/ardudim-sub.js` — the subpages' design and behaviour, copied from `index.html`. PART A of the CSS and every `@src … @end-src` block of the JS are word-for-word copies of `index.html`; PART B/C and the rest are subpage-only. The subpages' `<script id="ardudim-lang-boot">` and `<script id="ardudim-motion-flag">` in `<head>` are copies of index's too. `python3 tools/check-shared.py` verifies all of it (and that pages loading the shared JS have no `onclick=`). After changing a copied part of `index.html`, copy it again and bump `?v=` in the pages.
 - `solar-a7f3.html` — internal `noindex` survey/fault-map tool, not part of the public site design. `solar-a7f3.html.html` is an older variant of it (not a byte duplicate).
@@ -63,6 +63,14 @@ PY
 - The calculator's first step shows "החל מ־₪…" on each product, computed from `PRICES` through `qModel`. Never type those numbers by hand.
 - The site follows the "hot/cold" design of the new price quotes (approved Sep 2026). Keep new sections consistent with it.
 - New logo since Sep 2026 (`images/logo-2026.webp`). Older quote PDFs still carry the previous logo, so never take the logo from them.
+
+## Jobs system (1.11.2026)
+Moshe and Iliya's jobs calendar replaced the Google Calendar "עבודות דודים" as the main calendar (Google keeps a copy of every scheduled job). Setup steps for Moshe: `supabase/README.md` (Hebrew).
+- `admin/` — the admin app at ardudim.co.il/admin (noindex, not in the sitemap). Plain files, no build: `index.html`, `app.css`, `app.js`, `sw.js` (push alerts only, no page cache), `vendor/supabase-2.117.3.js`. Two logins (`moshe@` / `iliya@ardudim.co.il`, names in `assets/jobs-config.js`). Israel time everywhere, whatever the phone's zone.
+- `supabase/schema.sql` — tables `jobs`, `blocks`, `settings`, `admins`, `push_subs`, `server_kv`; row rules: only `admins` read or write. Visitors may only call `public_info()`, `public_days(p_city)` (open windows + "near" per day, no personal data) and `request_job(...)` (validated, rate-limited; the same phone within a day updates its open request). Safe to run again. `functions_url()` holds the project's functions address.
+- `supabase/functions/notify/index.ts` — Edge Function, "Verify JWT" off; every op limits itself (see its header). Push alerts (VAPID keys made on first use), the evening list for tomorrow, and the Google Calendar copy through a Google Apps Script web app (`admin/gcal-script.txt`, its URL + token in `settings.gcal`).
+- The calculator card "רוצים לקבוע מועד?" — `#jb-slot` in `#calc-result`, `#ardudim-booking-css` / `#ardudim-booking-js` (after the price-first block; wraps `showResult` and `updateDynamicLang`). Its button is a wa.me link only once the details are complete, so the Google Ads tag counts a contact only when WhatsApp opens. The areas, days and hours lists in that script are the fallback copy of the database's first settings; the database's own settings win when it answers.
+- The repo is public: never commit customer data (names, phones, addresses), exports or test dumps.
 
 ## Calculator pricing
 - `const PRICES` holds prices INCLUDING VAT (18%), in whole ₪100. Every price on the site shows one number with "כולל מע״מ": never "+ מע״מ", never a before-VAT line, never ×1.18 in code.

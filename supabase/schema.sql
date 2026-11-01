@@ -477,9 +477,9 @@ end $$;
 -- Create the users first (Authentication → Users → Add user, "Auto Confirm User"), then run this file.
 -- Running it again after adding a user later is fine.
 insert into public.admins (user_id, name)
-select u.id, case lower(u.email) when 'moshe@ardudim.co.il' then 'משה' when 'iliya@ardudim.co.il' then 'אבא' else '' end
+select u.id, case lower(u.email) when 'moshe@ardudim.co.il' then 'משה' when 'ilya@ardudim.co.il' then 'אבא' else '' end
   from auth.users u
- where lower(u.email) in ('moshe@ardudim.co.il', 'iliya@ardudim.co.il')
+ where lower(u.email) in ('moshe@ardudim.co.il', 'ilya@ardudim.co.il')
 on conflict (user_id) do nothing;
 
 commit;

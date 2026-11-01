@@ -12,7 +12,7 @@
 ## הקמה (פעם אחת)
 
 1. ב-Supabase: פרויקט חדש (אזור Frankfurt).
-2. Authentication ← Users ← Add user: `moshe@ardudim.co.il` ו-`iliya@ardudim.co.il`, עם סיסמה ו-Auto Confirm User. אלה רק שמות כניסה, בלי תיבת מייל.
+2. Authentication ← Users ← Add user: `moshe@ardudim.co.il` ו-`ilya@ardudim.co.il`, עם סיסמה ו-Auto Confirm User. אלה רק שמות כניסה, בלי תיבת מייל.
 3. Authentication ← Sign In / Providers: מכבים את Allow new users to sign up, כדי שאף אחד אחר לא יוכל לפתוח משתמש.
 4. SQL Editor: מדביקים את כל `supabase/schema.sql` ומריצים. בשורה של `functions_url()` צריכה להיות כתובת הפרויקט (אם לא, ההרצה נעצרת עם הודעה ולא משנה כלום). מריצים שוב אם מוסיפים משתמש אחר כך.
 5. Edge Functions ← Deploy a new function ← Via Editor: השם `notify`, מדביקים את `supabase/functions/notify/index.ts`, ובהגדרות של הפונקציה מכבים את Verify JWT.

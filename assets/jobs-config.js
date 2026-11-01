@@ -7,7 +7,7 @@ window.ARDUDIM_JOBS = {
   key: 'sb_publishable_-Lxhudphtha0zfVar7VDsw_6ykvdigu',
   users: [
     { name: 'משה', email: 'moshe@ardudim.co.il' },
-    { name: 'אבא', email: 'iliya@ardudim.co.il' }
+    { name: 'אבא', email: 'ilya@ardudim.co.il' }
   ],
   zone: 'Asia/Jerusalem'
 };

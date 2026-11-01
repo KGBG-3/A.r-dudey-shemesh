@@ -1,0 +1,66 @@
+// א.ר דודי שמש · העתק של מערכת העבודות ליומן "עבודות דודים" בגוגל
+// הקוד רץ בחשבון הגוגל שלך. הוא מקבל עדכונים רק ממערכת העבודות, ויכול רק להוסיף, לעדכן ולמחוק
+// אירועים ביומן אחד: היומן שכתוב למטה.
+// הסיסמה בין המערכת לקוד נקבעת לבד: בפנייה הראשונה של המערכת היא נשמרת כאן, ומאז רק היא מתקבלת.
+// אף אחד לא צריך להעתיק אותה. לחיבור מחדש מאפס: Project Settings ← Script Properties ← מוחקים את token.
+const CALENDAR_ID = '__CALENDAR__';          // אפשר להשאיר ריק: אז היומן נמצא לפי השם
+const CALENDAR_NAME = '__CALENDAR_NAME__';
+const COLORS = { chromagen: '11', site: '6', contractor: '3', private: '9', done: '10' };
+
+function doPost(e) {
+  let body = {};
+  try { body = JSON.parse(e.postData.contents); } catch (err) { return out({ ok: false, error: 'json' }); }
+  const lock = LockService.getScriptLock();
+  lock.waitLock(25000);
+  try {
+    if (!body || !tokenOk(body.token)) return out({ ok: false, error: 'token' });
+    const cal = CALENDAR_ID ? CalendarApp.getCalendarById(CALENDAR_ID) : (CalendarApp.getCalendarsByName(CALENDAR_NAME)[0] || null);
+    if (!cal) return out({ ok: false, error: 'calendar' });
+    if (body.op === 'ping') return out({ ok: true, name: cal.getName() });
+    const props = PropertiesService.getScriptProperties();
+    const key = 'job:' + body.job;
+    if (body.op === 'upsert') {
+      let ev = null;
+      const known = body.eventId || props.getProperty(key);
+      if (known) { try { ev = cal.getEventById(known); } catch (err) { ev = null; } }
+      const start = new Date(body.start), end = new Date(body.end);
+      if (ev) {
+        ev.setTitle(body.title || '');
+        ev.setTime(start, end);
+        ev.setLocation(body.location || '');
+        ev.setDescription(body.description || '');
+      } else {
+        ev = cal.createEvent(body.title || '', start, end, { location: body.location || '', description: body.description || '' });
+      }
+      if (COLORS[body.color]) { try { ev.setColor(COLORS[body.color]); } catch (err) { /* colour is optional */ } }
+      props.setProperty(key, ev.getId());
+      return out({ ok: true, eventId: ev.getId() });
+    }
+    if (body.op === 'delete') {
+      const known = body.eventId || props.getProperty(key);
+      if (known) { try { const ev = cal.getEventById(known); if (ev) ev.deleteEvent(); } catch (err) { /* already gone */ } }
+      props.deleteProperty(key);
+      return out({ ok: true });
+    }
+    return out({ ok: false, error: 'op' });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+// the first password the system sends is kept in this project's properties; after that only it is accepted
+function tokenOk(t) {
+  if (typeof t !== 'string' || !/^[A-Za-z0-9_-]{32,128}$/.test(t)) return false;
+  const props = PropertiesService.getScriptProperties();
+  const known = props.getProperty('token');
+  if (!known) { props.setProperty('token', t); return true; }
+  return t === known;
+}
+
+function doGet() {
+  return out({ ok: true, hello: 'א.ר דודי שמש' });
+}
+
+function out(o) {
+  return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+}

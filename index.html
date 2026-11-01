@@ -1830,6 +1830,72 @@ body.a11y-high-contrast .prod-card.selected .prod-from *{color:#000 !important}
 .contact-calc-link{color:var(--q-amber);font-weight:800;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
 .contact-calc-link:hover{color:#fff}
 </style>
+<style id="ardudim-booking-css">
+/* ===== BOOKING (1.11.2026): "רוצים לקבוע מועד?" under the calculator's quote ===== */
+.jb{margin:0 0 14px;background:#fff;border-radius:18px;box-shadow:0 0 0 1.5px var(--q-hair);font-family:'Assistant',sans-serif;color:var(--q-ink);text-align:start}
+.jb-head{width:100%;display:flex;align-items:center;gap:10px;padding:14px 14px;background:none;border:0;border-radius:18px;cursor:pointer;text-align:start;color:inherit;font:inherit}
+.jb-head .jb-ico{flex:0 0 auto;width:40px;height:40px;border-radius:12px;background:#FFEDD5;color:#C2410C;display:flex;align-items:center;justify-content:center}
+.jb-head .jb-ico svg{width:22px;height:22px}
+.jb-head .jb-t{flex:1;min-width:0}
+.jb-title{display:block;font-family:'Secular One','Rubik','Assistant',sans-serif;font-size:18.5px;line-height:1.25;color:var(--q-navy)}
+.jb-sub{display:block;margin-top:2px;font-size:14.5px;color:var(--q-muted);line-height:1.4}
+.jb-head .jb-chev{flex:0 0 auto;width:22px;height:22px;color:var(--q-navy);transition:transform .2s}
+.jb.is-open .jb-head .jb-chev{transform:rotate(180deg)}
+.jb-body{padding:2px 14px 16px}
+.jb-q{display:block;margin:14px 0 7px;font-weight:800;font-size:15.5px;color:var(--q-navy)}
+.jb-q small{font-weight:600;color:var(--q-muted);font-size:13.5px}
+.jb fieldset{border:0;margin:0;padding:0;min-width:0}
+.jb legend{padding:0}
+.jb-input{width:100%;min-width:0;box-sizing:border-box;border:1.5px solid var(--q-hair);border-radius:12px;background:#fff;padding:11px 12px;font:inherit;font-size:16px;color:var(--q-ink);line-height:1.3}
+.jb-input:focus{outline:3px solid var(--q-sky);outline-offset:1px;border-color:var(--q-blue)}
+.jb-input[aria-invalid="true"]{border-color:#B91C1C}
+select.jb-input{appearance:auto}
+.jb-input[type=tel]{direction:ltr;text-align:right}
+html[lang="ru"] .jb-input[type=tel]{text-align:left}
+.jb-other{margin-top:8px}
+.jb-month{font-size:13.5px;font-weight:700;color:var(--q-muted);margin:-2px 0 6px}
+.jb-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.jb-wd{font-size:12.5px;font-weight:700;color:var(--q-muted);text-align:center;padding-bottom:1px}
+.jb-day{position:relative;min-width:0;border:1.5px solid var(--q-hair);background:#fff;border-radius:10px;min-height:44px;padding:4px 0 8px;font:inherit;font-size:16px;font-weight:700;color:var(--q-ink);cursor:pointer;font-variant-numeric:tabular-nums;line-height:1.2}
+.jb-day[aria-pressed="true"]{background:var(--q-navy);border-color:var(--q-navy);color:#fff}
+.jb-day:disabled{background:#F6F0E6;border-color:transparent;color:#A8A29A;cursor:default;font-weight:600}
+.jb-day .jb-m1{font-size:12.5px}
+.jb-day .jb-near{position:absolute;bottom:5px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#15803D}
+.jb-day[aria-pressed="true"] .jb-near{background:#86EFAC}
+.jb-blank{min-height:44px}
+.jb-legend{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:13.5px;color:#15803D;font-weight:700}
+.jb-legend i{width:7px;height:7px;border-radius:50%;background:#15803D;flex:0 0 auto}
+.jb-note{margin-top:7px;font-size:13.5px;color:var(--q-muted)}
+.jb-wins{display:flex;flex-wrap:wrap;gap:7px}
+.jb-win{border:1.5px solid var(--q-hair);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-size:14.5px;font-weight:700;color:var(--q-ink);cursor:pointer;line-height:1.2}
+.jb-win small{font-weight:600;color:var(--q-muted);font-size:13px}
+.jb-win[aria-checked="true"]{background:var(--q-navy);border-color:var(--q-navy);color:#fff}
+.jb-win[aria-checked="true"] small{color:#C9D4E5}
+.jb-two{display:grid;grid-template-columns:1fr;gap:0 10px}
+.jb-two label{display:block;margin:14px 0 6px;font-weight:800;font-size:15px;color:var(--q-navy)}
+.jb-err{color:#B91C1C;font-size:13.5px;font-weight:700;margin-top:6px}
+.jb-priv{margin:12px 0 0;font-size:13px;color:var(--q-muted);line-height:1.5}
+.jb-priv a{color:inherit;text-decoration:underline}
+.jb-send{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;background:var(--whatsapp,#25D366);color:#fff;text-decoration:none;padding:15px 16px;border-radius:14px;font-size:16px;font-weight:800;line-height:1.25;box-shadow:0 4px 16px rgba(37,211,102,.3);text-align:center}
+.jb-send svg{width:22px;height:22px;flex:0 0 auto}
+.jb-send:active{transform:scale(.97)}
+.jb-after{margin-top:8px;font-size:13.5px;color:var(--q-muted);text-align:center}
+.jb-done{margin-top:12px;background:#DCFCE7;color:#14532D;border-radius:12px;padding:12px 14px;font-size:14.5px;font-weight:600;line-height:1.5}
+.jb-done b{font-weight:800}
+.jb-done button,.jb-done a{background:none;border:0;padding:0;font:inherit;font-weight:800;color:inherit;text-decoration:underline;cursor:pointer}
+.jb-warn{background:#FEF3C7;color:#78350F}
+.jb-wait{background:#F6F0E6;color:var(--q-muted)}
+.calc-result.jb-open #wa-result-btn{display:none}
+html.motion .jb{animation:m-rise .6s cubic-bezier(.2,.8,.2,1) .25s backwards}
+html.calm .jb-head .jb-chev{transition:none}
+body.a11y-high-contrast .jb,body.a11y-high-contrast .jb-day,body.a11y-high-contrast .jb-win,body.a11y-high-contrast .jb-input{background:#000 !important;color:#fff !important;box-shadow:0 0 0 2px #fff !important;border-color:#fff !important}
+body.a11y-high-contrast .jb-title,body.a11y-high-contrast .jb-q,body.a11y-high-contrast .jb-two label,body.a11y-high-contrast .jb-sub,body.a11y-high-contrast .jb-priv{color:#fff !important}
+body.a11y-high-contrast .jb-day[aria-pressed="true"],body.a11y-high-contrast .jb-win[aria-checked="true"]{background:#fff !important;color:#000 !important}
+body.a11y-high-contrast .jb-send{background:#fff !important;color:#000 !important}
+@media (min-width:520px){.jb-two{grid-template-columns:1fr 1fr}}
+@media (max-width:360px){.jb-day{font-size:14px}}
+@media print{.jb{display:none}}
+</style>
 
   <!-- Language: the saved choice (ardudim_lang, shared with the subpages) sets the Russian layout and font before the first paint; the text switches at the end of the page -->
   <script id="ardudim-lang-boot">
@@ -2354,6 +2420,9 @@ body.a11y-high-contrast .prod-card.selected .prod-from *{color:#000 !important}
         <strong>שים לב:</strong> כל המחירים באתר כוללים מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.<br/>
         המחירים המוצגים באתר עשויים להתעדכן מעת לעת; המחיר הקובע הוא המחיר שאושר מול נציג העסק בעת סגירת העבודה.
       </div>
+
+      <!-- "רוצים לקבוע מועד?" (#ardudim-booking-js) -->
+      <div id="jb-slot" class="jb-slot"></div>
 
       <div class="result-btns q-actions">
         <a href="#" id="wa-result-btn" class="btn-wa-result" target="_blank" rel="noopener">
@@ -4694,14 +4763,14 @@ const TRANSLATIONS = {
   'לכל אזורי השירות': 'Все зоны обслуживания',
   // מודאל פרטיות
   'מה האתר אוסף?': 'Что собирает сайт?',
-  'האתר אינו אוסף מידע אישי אוטומטית. הנתונים היחידים שנמסרים הם אלה שאתה בוחר לשתף בעת שליחת הודעה בוואטסאפ או שיחת טלפון ישירה.': 'Сайт не собирает персональные данные автоматически. Передаются только те данные, которыми вы сами решаете поделиться при отправке сообщения в WhatsApp или прямом звонке.',
+  'האתר אינו אוסף מידע אישי אוטומטית. הנתונים היחידים שנמסרים הם אלה שאתה בוחר לשתף: בהודעה בוואטסאפ, בשיחת טלפון, או בבקשה לתיאום מועד במחשבון (שם, טלפון, יישוב והימים שבחרת). פרטי הבקשה נשמרים במערכת התיאום שלנו ומשמשים רק כדי לתאם איתך את העבודה.': 'Сайт не собирает персональные данные автоматически. Передаются только те данные, которыми вы сами решаете поделиться: в сообщении в WhatsApp, в телефонном звонке или в запросе на согласование времени в калькуляторе (имя, телефон, населённый пункт и выбранные дни). Данные запроса хранятся в нашей системе согласования и используются только для того, чтобы согласовать с вами работу.',
   'עוגיות (Cookies)': 'Файлы cookie',
   'האתר משתמש בעוגיות טכניות בסיסיות לתפקוד תקין. בנוסף, האתר מודד המרות של Google Ads (פניות בטלפון ובוואטסאפ שמגיעות מהמודעות שלנו) באמצעות עוגיות של Google. אפשר לסרב לעוגיות האלה בבאנר העוגיות, והבחירה נשמרת בדפדפן.': 'Сайт использует базовые технические файлы cookie для корректной работы. Кроме того, сайт учитывает конверсии Google Ads (звонки и сообщения в WhatsApp, пришедшие из нашей рекламы) с помощью файлов cookie Google. От этих файлов cookie можно отказаться в баннере cookie, и ваш выбор сохраняется в браузере.',
   'שיתוף מידע': 'Передача данных',
-  'פנייתך מגיעה ישירות אלינו בלבד, ואיננו מעבירים את פרטיה לצד שלישי. הנתונים היחידים שמגיעים לגוגל הם נתוני מדידת ההמרות שמתוארים בסעיף העוגיות.': 'Ваше обращение поступает напрямую только к нам, и мы не передаём его данные третьим лицам. Google получает только данные учёта конверсий, описанные в разделе о файлах cookie.',
+  'פנייתך מגיעה ישירות אלינו בלבד, ואיננו מעבירים את פרטיה לצד שלישי. בקשות לתיאום מועד נשמרות אצל ספק האחסון של מערכת התיאום (Supabase) ובלוח העבודות שלנו ב-Google Calendar, רק לצורך התיאום. הנתונים היחידים שמגיעים לגוגל לצורכי פרסום הם נתוני מדידת ההמרות שמתוארים בסעיף העוגיות.': 'Ваше обращение поступает напрямую только к нам, и мы не передаём его данные третьим лицам. Запросы на согласование времени хранятся у поставщика хостинга нашей системы согласования (Supabase) и в нашем рабочем календаре Google Calendar, только для согласования. Для рекламы Google получает только данные учёта конверсий, описанные в разделе о файлах cookie.',
   'יצירת קשר בנושא פרטיות': 'Контакт по вопросам конфиденциальности',
   'לכל שאלה בנושא —': 'По любым вопросам —',
-  'עדכון אחרון: אוקטובר 2026': 'Последнее обновление: октябрь 2026',
+  'עדכון אחרון: נובמבר 2026': 'Последнее обновление: ноябрь 2026',
   // ווידג'ט נגישות
   'הדגשת קישורים': 'Подсветка ссылок',
   'בצבע ובקו תחתי בולט': 'цветом и заметным подчёркиванием',
@@ -4997,14 +5066,14 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="privacy-box">
     <h3 id="privacy-title" tabindex="-1"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10.5" rx="2.5"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>מדיניות פרטיות — א.ר דודי שמש</h3>
     <p><strong>מה האתר אוסף?</strong><br/>
-    האתר אינו אוסף מידע אישי אוטומטית. הנתונים היחידים שנמסרים הם אלה שאתה בוחר לשתף בעת שליחת הודעה בוואטסאפ או שיחת טלפון ישירה.</p>
+    האתר אינו אוסף מידע אישי אוטומטית. הנתונים היחידים שנמסרים הם אלה שאתה בוחר לשתף: בהודעה בוואטסאפ, בשיחת טלפון, או בבקשה לתיאום מועד במחשבון (שם, טלפון, יישוב והימים שבחרת). פרטי הבקשה נשמרים במערכת התיאום שלנו ומשמשים רק כדי לתאם איתך את העבודה.</p>
     <p><strong>עוגיות (Cookies)</strong><br/>
     האתר משתמש בעוגיות טכניות בסיסיות לתפקוד תקין. בנוסף, האתר מודד המרות של Google Ads (פניות בטלפון ובוואטסאפ שמגיעות מהמודעות שלנו) באמצעות עוגיות של Google. אפשר לסרב לעוגיות האלה בבאנר העוגיות, והבחירה נשמרת בדפדפן.</p>
     <p><strong>שיתוף מידע</strong><br/>
-    פנייתך מגיעה ישירות אלינו בלבד, ואיננו מעבירים את פרטיה לצד שלישי. הנתונים היחידים שמגיעים לגוגל הם נתוני מדידת ההמרות שמתוארים בסעיף העוגיות.</p>
+    פנייתך מגיעה ישירות אלינו בלבד, ואיננו מעבירים את פרטיה לצד שלישי. בקשות לתיאום מועד נשמרות אצל ספק האחסון של מערכת התיאום (Supabase) ובלוח העבודות שלנו ב-Google Calendar, רק לצורך התיאום. הנתונים היחידים שמגיעים לגוגל לצורכי פרסום הם נתוני מדידת ההמרות שמתוארים בסעיף העוגיות.</p>
     <p><strong>יצירת קשר בנושא פרטיות</strong><br/>
     לכל שאלה בנושא — <a href="javascript:void(0)" onclick="openCallModal()">054-564-2426</a></p>
-    <p style="font-size:11px;color:#aaa;">עדכון אחרון: אוקטובר 2026</p>
+    <p style="font-size:11px;color:#aaa;">עדכון אחרון: נובמבר 2026</p>
     <button class="privacy-close" onclick="closePrivacy()">סגור</button>
   </div>
 </div>
@@ -7039,6 +7108,448 @@ function qDownloadPdf(mode, spec, btn) {
     window.updateDynamicLang = function () { var r = upd.apply(this, arguments); renderTexts(); return r; };
   }
   renderTexts();
+})();
+</script>
+<script src="assets/jobs-config.js?v=1" defer></script>
+<script id="ardudim-booking-js">
+/* ===== BOOKING (1.11.2026) — "רוצים לקבוע מועד?" under the calculator's quote =====
+   Moshe: customers pick where the job is and which days suit them; Moshe closes the exact hour with them.
+   • A card under the quote (#jb-slot), closed by default. Open, it asks for the town (from the service areas),
+     up to 3 days (the next two weeks; closed, full and days off are greyed out) and morning / midday / either,
+     plus a name and a phone.
+   • "שליחת הבקשה בוואטסאפ" opens WhatsApp with the quote's own message and the details added at the end, and
+     saves the request in the jobs system (admin/, the "בקשות" list, with a phone alert). A failed save never
+     blocks WhatsApp; the card then says so, and asks to press send in WhatsApp ("נשלחה" only after a real save).
+     Until the details are complete the button is not a wa.me link, so the Google Ads tag (it counts clicks on
+     wa.me links) counts a contact only when WhatsApp really opens.
+   • Each visit keeps a random key (sessionStorage): sending again from the same browser updates that request,
+     and nobody else can change it.
+   • Days marked with a green dot: a job is already booked that day in the visitor's area (no personal details).
+   • The days, areas and hours come from the jobs system (public_info / public_days); without it the card still
+     works with the defaults below, and the request goes by WhatsApp only.
+   • Hebrew and Russian: the card is rebuilt after every language switch; the WhatsApp text stays in Hebrew.
+   Code: #ardudim-booking-css / #ardudim-booking-js, connection: assets/jobs-config.js. */
+(function () {
+  var slot = document.getElementById('jb-slot');
+  var result = document.getElementById('calc-result');
+  if (!slot || !result) return;
+
+  var ZONE = 'Asia/Jerusalem';
+  var WA = typeof Q_WA !== 'undefined' ? Q_WA : '972559976041';
+  var isRu = function () { return typeof currentLang !== 'undefined' && currentLang === 'ru'; };
+  var TX = {
+    title:    ['רוצים לקבוע מועד?', 'Хотите назначить время?'],
+    sub:      ['בחרו יישוב וימים נוחים, ונחזור אליכם לסגור שעה', 'Выберите населённый пункт и удобные дни, а время мы согласуем с вами'],
+    titleOpen:['קביעת מועד', 'Назначить время'],
+    close:    ['סגירה', 'Закрыть'],
+    where:    ['איפה הבית?', 'Где находится дом?'],
+    pick:     ['בחרו יישוב', 'Выберите населённый пункт'],
+    other:    ['יישוב אחר', 'Другой населённый пункт'],
+    otherName:['שם היישוב', 'Название населённого пункта'],
+    days:     ['אילו ימים נוחים לכם?', 'Какие дни вам удобны?'],
+    upTo:     ['עד 3 ימים', 'до 3 дней'],
+    near:     ['כבר עובדים באזור שלכם בימים המסומנים', 'В отмеченные дни мы уже работаем в вашем районе'],
+    max3:     ['אפשר לסמן עד 3 ימים', 'Можно отметить до 3 дней'],
+    full:     ['מלא', 'занято'],
+    when:     ['באיזה חלק של היום?', 'В какое время дня?'],
+    any:      ['לא משנה', 'Неважно'],
+    name:     ['שם', 'Имя'],
+    phone:    ['טלפון', 'Телефон'],
+    priv:     ['הפרטים נשמרים אצלנו רק כדי לתאם איתכם את העבודה.', 'Данные сохраняются у нас только для согласования работы с вами.'],
+    privLink: ['מדיניות הפרטיות', 'Политика конфиденциальности'],
+    send:     ['שליחת הבקשה בוואטסאפ', 'Отправить запрос в WhatsApp'],
+    after:    ['נחזור אליכם בוואטסאפ לאשר שעה', 'Мы ответим в WhatsApp и подтвердим время'],
+    done:     ['הבקשה נשלחה.', 'Запрос отправлен.'],
+    sending:  ['שולחים את הבקשה…', 'Отправляем запрос…'],
+    notYet:   ['הבקשה עוד לא הגיעה אלינו. כדי שתגיע, לחצו "שליחה" בהודעה שנפתחה בוואטסאפ.', 'Запрос ещё не дошёл до нас. Чтобы он дошёл, нажмите «Отправить» в сообщении, которое открылось в WhatsApp.'],
+    reopen:   ['לפתוח שוב את וואטסאפ', 'Открыть WhatsApp снова'],
+    doneRef:  ['מספר הבקשה:', 'Номер запроса:'],
+    doneNext: ['נחזור אליכם בוואטסאפ לאשר שעה.', 'Мы ответим в WhatsApp и подтвердим время.'],
+    again:    ['שינוי הפרטים', 'Изменить данные'],
+    eCity:    ['בחרו יישוב', 'Выберите населённый пункт'],
+    eDays:    ['סמנו לפחות יום אחד', 'Отметьте хотя бы один день'],
+    eName:    ['כתבו את השם', 'Укажите имя'],
+    ePhone:   ['מספר הטלפון לא נראה תקין', 'Номер телефона выглядит неверно']
+  };
+  function T(k) { var v = TX[k]; return v ? v[isRu() ? 1 : 0] : k; }
+  var WDS = { he: ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'], ru: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'] };
+  var MONTHS = { he: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'],
+                 ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'] };
+  var WDL = { he: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'], ru: ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'] };
+
+  // the same lists as the database's first settings (supabase/schema.sql); the jobs system's own lists win when it answers
+  var AREAS = [
+    { name: 'פתח תקווה והסביבה', cities: ['פתח תקווה', 'ראש העין', 'גבעת שמואל', 'קריית אונו', 'יהוד-מונוסון', 'אור יהודה', 'גני תקווה', 'סביון', 'שוהם', 'אלעד', 'כפר קאסם'] },
+    { name: 'תל אביב ורמת גן', cities: ['תל אביב-יפו', 'רמת גן', 'גבעתיים', 'בני ברק', 'רמת השרון'] },
+    { name: 'דרום גוש דן והשפלה', cities: ['חולון', 'בת ים', 'אזור', 'ראשון לציון', 'נס ציונה', 'רחובות', 'באר יעקב'] },
+    { name: 'השרון', cities: ['הרצליה', 'רעננה', 'כפר סבא', 'הוד השרון', 'כוכב יאיר-צור יגאל', 'נתניה', 'קדימה-צורן', 'אבן יהודה', 'תל מונד'] },
+    { name: 'השומרון', cities: ['אריאל', 'אלקנה', 'עץ אפרים', 'שערי תקווה', 'אורנית', 'קרני שומרון', 'יקיר', 'נופים', 'ברקן', 'ברוכין', 'עלי זהב', 'פדואל'] }
+  ];
+  var WINDOWS = { morning: { he: 'בוקר', ru: 'Утро', from: '08:00', to: '12:00' }, noon: { he: 'צהריים', ru: 'День', from: '12:00', to: '16:00' } };
+  var WORKDAYS = { 0: ['morning', 'noon'], 1: ['morning', 'noon'], 2: ['morning', 'noon'], 3: ['morning', 'noon'], 4: ['morning', 'noon'], 5: ['morning'], 6: [] };
+  var RU = {
+    'פתח תקווה והסביבה': 'Петах-Тиква и окрестности', 'תל אביב ורמת גן': 'Тель-Авив и Рамат-Ган', 'דרום גוש דן והשפלה': 'Юг Гуш-Дана и Шфела',
+    'השרון': 'Шарон', 'השומרון': 'Самария',
+    'פתח תקווה': 'Петах-Тиква', 'ראש העין': 'Рош-ха-Аин', 'גבעת שמואל': 'Гиват-Шмуэль', 'קריית אונו': 'Кирьят-Оно', 'יהוד-מונוסון': 'Иехуд-Моноссон',
+    'אור יהודה': 'Ор-Иехуда', 'גני תקווה': 'Ганей-Тиква', 'סביון': 'Савьон', 'שוהם': 'Шоам', 'אלעד': 'Эльад', 'כפר קאסם': 'Кафр-Касем',
+    'תל אביב-יפו': 'Тель-Авив-Яффо', 'רמת גן': 'Рамат-Ган', 'גבעתיים': 'Гиватаим', 'בני ברק': 'Бней-Брак', 'רמת השרון': 'Рамат-ха-Шарон',
+    'חולון': 'Холон', 'בת ים': 'Бат-Ям', 'אזור': 'Азор', 'ראשון לציון': 'Ришон-ле-Цион', 'נס ציונה': 'Нес-Циона', 'רחובות': 'Реховот', 'באר יעקב': 'Беэр-Яаков',
+    'הרצליה': 'Герцлия', 'רעננה': 'Раанана', 'כפר סבא': 'Кфар-Саба', 'הוד השרון': 'Ход-ха-Шарон', 'כוכב יאיר-צור יגאל': 'Кохав-Яир-Цур-Игаль',
+    'נתניה': 'Нетания', 'קדימה-צורן': 'Кадима-Цоран', 'אבן יהודה': 'Эвен-Иехуда', 'תל מונד': 'Тель-Монд',
+    'אריאל': 'Ариэль', 'אלקנה': 'Элкана', 'עץ אפרים': 'Эц-Эфраим', 'שערי תקווה': 'Шаарей-Тиква', 'אורנית': 'Оранит', 'קרני שומרון': 'Карней-Шомрон',
+    'יקיר': 'Якир', 'נופים': 'Нофим', 'ברקן': 'Баркан', 'ברוכין': 'Брухин', 'עלי זהב': 'Алей-Захав', 'פדואל': 'Педуэль'
+  };
+  var nameOf = function (he) { return isRu() && RU[he] ? RU[he] : he; };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var OTHER = '__other';
+
+  var S = { open: false, city: '', other: '', picked: [], win: 'any', name: '', phone: '', tried: false, note: '',
+            areas: AREAS, windows: WINDOWS, workDays: WORKDAYS, daysAhead: 14, minNotice: 1,
+            days: null, daysFor: null, loading: 0, sent: null };
+
+  // ---- dates (Israel) ----
+  function todayKey() { return new Intl.DateTimeFormat('en-CA', { timeZone: ZONE, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
+  function addDays(key, n) { var p = key.split('-').map(Number); return new Date(Date.UTC(p[0], p[1] - 1, p[2] + n)).toISOString().slice(0, 10); }
+  function wdOf(key) { var p = key.split('-').map(Number); return new Date(Date.UTC(p[0], p[1] - 1, p[2])).getUTCDay(); }
+  function dm(key) { var p = key.split('-').map(Number); return p[2] + '.' + p[1]; }
+  function heDay(key) { return WDS.he[wdOf(key)] + ' ' + dm(key); }
+  function fallbackDays() {
+    var out = [], t = todayKey();
+    for (var i = S.minNotice; i <= S.daysAhead; i++) { var k = addDays(t, i); out.push({ d: k, w: S.workDays[wdOf(k)] || [], full: false, near: false }); }
+    return out;
+  }
+
+  // ---- the jobs system ----
+  function cfg() { var c = window.ARDUDIM_JOBS || {}; return (c.url && c.key && !/__SUPABASE_/.test(c.url + c.key)) ? c : null; }
+  function rpc(fn, args, keepalive) {
+    var c = cfg();
+    if (!c || typeof fetch !== 'function') return Promise.resolve(null);
+    var go = function (ka) {
+      return fetch(String(c.url).replace(/\/$/, '') + '/rest/v1/rpc/' + fn, {
+        method: 'POST', keepalive: ka,
+        headers: { apikey: c.key, 'Content-Type': 'application/json' },
+        body: JSON.stringify(args || {})
+      }).then(function (r) { return r.ok ? r.json() : null; });
+    };
+    // the same key goes with a retry, so a request that did arrive is updated, not added twice
+    return go(!!keepalive).catch(function () { return keepalive ? go(false) : null; }).catch(function () { return null; });
+  }
+  var memKey = '';
+  function visitKey() {
+    var k = '';
+    try { k = sessionStorage.getItem('ardudim_jb_key') || ''; } catch (err) { k = memKey; }
+    if (/^[0-9a-f]{32}$/.test(k)) return k;
+    var b = new Uint8Array(16);
+    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(b);
+    else for (var i = 0; i < 16; i++) b[i] = Math.floor(Math.random() * 256);
+    k = Array.prototype.map.call(b, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+    memKey = k;
+    try { sessionStorage.setItem('ardudim_jb_key', k); } catch (err) { /* kept for this page only */ }
+    return k;
+  }
+  var infoAsked = false;
+  function loadInfo() {
+    if (infoAsked) return;
+    infoAsked = true;
+    S.loading++;
+    rpc('public_info', {}).then(function (r) {
+      S.loading--;
+      var st = r && r.settings;
+      if (st) {
+        if (Array.isArray(st.areas) && st.areas.length) S.areas = st.areas;
+        if (st.windows) S.windows = st.windows;
+        if (st.workDays) S.workDays = st.workDays;
+        if (st.daysAhead) S.daysAhead = Number(st.daysAhead) || 14;
+        if (st.minNoticeDays != null) S.minNotice = Number(st.minNoticeDays);
+      }
+      if (S.open) render();
+    });
+  }
+  function loadDays() {
+    var city = cityValue();
+    if (S.daysFor === city && S.days) return;
+    S.daysFor = city;
+    S.loading++;
+    rpc('public_days', { p_city: city }).then(function (r) {
+      S.loading--;
+      if (S.daysFor !== city) return;
+      if (Array.isArray(r) && r.length) {
+        S.days = r;
+        var ok = {};
+        r.forEach(function (x) { if (x.w && x.w.length) ok[x.d] = 1; });
+        S.picked = S.picked.filter(function (k) { return ok[k]; });
+      }
+      if (S.open) render();
+    });
+  }
+  function cityValue() { return S.city === OTHER ? String(S.other || '').replace(/\s+/g, ' ').trim() : S.city; }
+  function days() { return S.days || fallbackDays(); }
+
+  // ---- the message ----
+  function normPhone(p) {
+    var d = String(p || '').replace(/\D/g, '');
+    if (d.indexOf('00') === 0) d = d.slice(2);
+    if (d.indexOf('972') === 0) d = '0' + d.slice(3);
+    else if (/^5\d{8}$/.test(d)) d = '0' + d;
+    return d;
+  }
+  function showPhone(p) {
+    var d = normPhone(p);
+    if (/^0[57]\d{8}$/.test(d)) return d.slice(0, 3) + '-' + d.slice(3, 6) + '-' + d.slice(6);
+    if (/^0[2-9]\d{7}$/.test(d)) return d.slice(0, 2) + '-' + d.slice(2);
+    return String(p || '').trim();
+  }
+  function errors() {
+    var e = {};
+    if (cityValue().length < 2) e.city = T('eCity');
+    if (!S.picked.length) e.days = T('eDays');
+    if (String(S.name || '').replace(/\s+/g, ' ').trim().length < 2) e.name = T('eName');
+    var ph = normPhone(S.phone);
+    if (!/^0[2-9]\d{7,8}$/.test(ph) && !/^[1-9]\d{9,14}$/.test(ph)) e.phone = T('ePhone');
+    return e;
+  }
+  function baseMessage() {
+    var btn = document.getElementById('wa-result-btn');
+    var h = btn ? (btn.getAttribute('data-jb-base') || btn.getAttribute('href') || '') : '';
+    var m = /[?&]text=([^&]*)/.exec(h);
+    try { return m ? decodeURIComponent(m[1]) : ''; } catch (err) { return ''; }
+  }
+  function winText(k) {
+    var w = S.windows[k];
+    return w ? w.he + ' (' + w.from + '–' + w.to + ')' : 'לא משנה';
+  }
+  function message() {
+    var base = baseMessage().replace(/\n*אשמח להתייעץ איתך ולתאם ביקור\.\s*$/, '');
+    var lines = ['🗓️ *תיאום מועד*', '📍 *יישוב:* ' + cityValue(), '📅 *ימים שנוחים לי:* ' + S.picked.slice().sort().map(heDay).join(', '),
+                 '🕘 *שעות:* ' + winText(S.win), '👤 *שם:* ' + String(S.name).replace(/\s+/g, ' ').trim(), '📞 *טלפון:* ' + showPhone(S.phone)];
+    return (base ? base + '\n\n' : 'היי שלום, הגעתי מהאתר.\n\n') + lines.join('\n') + '\n\nאשמח לתאם ביקור.';
+  }
+  function quoteTitle() {
+    try {
+      var spec = window.__qResultSpec, m = spec && qModel(spec);
+      var b = m && m.brands.filter(function (x) { return x.key === sel.brand; })[0];
+      return m ? qTitle(m, 'he') + (b ? ' – ' + b.name : '') : '';
+    } catch (err) { return ''; }
+  }
+  function quotePrice() {
+    try {
+      var spec = window.__qResultSpec, m = spec && qModel(spec);
+      var b = m && m.brands.filter(function (x) { return x.key === sel.brand; })[0];
+      return b ? b.price : null;
+    } catch (err) { return null; }
+  }
+  function quoteLink() { try { return window.__qResultSpec ? qLink(window.__qResultSpec).replace(/&l=ru$/, '') : ''; } catch (err) { return ''; } }
+  function waHref() { return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(message()); }
+
+  // ---- drawing ----
+  var ICON_CAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 3v3M16 3v3"/><path d="M8 13.5h3M8 17h3M14 13.5h2"/></svg>';
+  var ICON_CHEV = '<svg class="jb-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  var ICON_X = '<svg class="jb-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+  function waIcon() { return '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="' + (typeof Q_WA_PATH !== 'undefined' ? Q_WA_PATH : '') + '"/></svg>'; }
+
+  function citySelect(err) {
+    var cur = S.city, opts = '<option value="">' + esc(T('pick')) + '</option>';
+    var found = false;
+    S.areas.forEach(function (a) {
+      opts += '<optgroup label="' + esc(nameOf(a.name)) + '">' + (a.cities || []).map(function (c) {
+        if (c === cur) found = true;
+        return '<option value="' + esc(c) + '"' + (c === cur ? ' selected' : '') + '>' + esc(nameOf(c)) + '</option>';
+      }).join('') + '</optgroup>';
+    });
+    opts += '<option value="' + OTHER + '"' + (cur === OTHER ? ' selected' : '') + '>' + esc(T('other')) + '</option>';
+    if (cur && cur !== OTHER && !found) S.city = '';
+    return '<label class="jb-q" for="jb-city">' + esc(T('where')) + '</label>' +
+      '<select class="jb-input" id="jb-city" autocomplete="address-level2"' + (err ? ' aria-invalid="true" aria-describedby="jb-e-city"' : '') + '>' + opts + '</select>' +
+      (S.city === OTHER ? '<input class="jb-input jb-other" id="jb-other" type="text" maxlength="40" autocomplete="address-level2" placeholder="' + esc(T('otherName')) + '" aria-label="' + esc(T('otherName')) + '" value="' + esc(S.other) + '">' : '') +
+      (err ? '<div class="jb-err" id="jb-e-city" role="alert">' + esc(err) + '</div>' : '');
+  }
+  function dayGrid(err) {
+    var list = days(), map = {};
+    list.forEach(function (x) { map[x.d] = x; });
+    var first = list[0].d, last = list[list.length - 1].d;
+    var start = addDays(first, -wdOf(first)), end = addDays(last, 6 - wdOf(last));
+    var lang = isRu() ? 'ru' : 'he';
+    var cells = WDS[lang].map(function (w) { return '<span class="jb-wd" aria-hidden="true">' + w + '</span>'; }).join('');
+    var anyNear = false;
+    for (var k = start; k <= end; k = addDays(k, 1)) {
+      var x = map[k];
+      if (!x) { cells += '<span class="jb-blank" aria-hidden="true"></span>'; continue; }
+      var open = x.w && x.w.length > 0, on = S.picked.indexOf(k) >= 0, near = !!x.near && open;
+      if (near) anyNear = true;
+      var label = (lang === 'ru' ? WDL.ru[wdOf(k)] + ' ' + dm(k) : 'יום ' + WDL.he[wdOf(k)] + ' ' + dm(k)) + (near ? ', ' + T('near') : '') + (x.full ? ', ' + T('full') : '');
+      var dn = Number(k.slice(8));
+      cells += '<button type="button" class="jb-day" data-d="' + k + '" aria-pressed="' + on + '"' + (open ? '' : ' disabled') + ' aria-label="' + esc(label) + '"' + (x.full ? ' title="' + esc(T('full')) + '"' : '') + '>' +
+        (dn === 1 && k !== first ? '<span class="jb-m1">' + dm(k) + '</span>' : dn) + (near ? '<i class="jb-near" aria-hidden="true"></i>' : '') + '</button>';
+    }
+    var m1 = Number(first.slice(5, 7)) - 1, m2 = Number(last.slice(5, 7)) - 1;
+    var months = MONTHS[lang][m1] + (m2 !== m1 ? ' – ' + MONTHS[lang][m2] : '');
+    return '<fieldset><legend class="jb-q">' + esc(T('days')) + ' <small>' + esc(T('upTo')) + '</small></legend>' +
+      '<div class="jb-month">' + esc(months) + '</div><div class="jb-week">' + cells + '</div>' +
+      (anyNear && cityValue() ? '<div class="jb-legend"><i aria-hidden="true"></i>' + esc(T('near')) + '</div>' : '') +
+      (S.note ? '<div class="jb-note" role="status">' + esc(S.note) + '</div>' : '') +
+      (err ? '<div class="jb-err" role="alert">' + esc(err) + '</div>' : '') + '</fieldset>';
+  }
+  function winChips() {
+    var lang = isRu() ? 'ru' : 'he';
+    var keys = Object.keys(S.windows).filter(function (k) { return S.windows[k] && S.windows[k].from; });
+    var chips = keys.map(function (k) {
+      var w = S.windows[k];
+      return '<button type="button" class="jb-win" role="radio" data-w="' + k + '" aria-checked="' + (S.win === k) + '">' + esc(w[lang] || w.he) +
+        ' <small dir="ltr">' + esc(w.from.replace(/^0/, '') + '–' + w.to.replace(/^0/, '')) + '</small></button>';
+    }).join('') + '<button type="button" class="jb-win" role="radio" data-w="any" aria-checked="' + (S.win === 'any') + '">' + esc(T('any')) + '</button>';
+    return '<div class="jb-q" id="jb-when-l">' + esc(T('when')) + '</div><div class="jb-wins" role="radiogroup" aria-labelledby="jb-when-l">' + chips + '</div>';
+  }
+  function render() {
+    var e = S.tried ? errors() : {};
+    var lang = isRu() ? 'ru' : 'he';
+    result.classList.toggle('jb-open', S.open);
+    var head = '<button type="button" class="jb-head" id="jb-toggle" aria-expanded="' + S.open + '" aria-controls="jb-body">' +
+      '<span class="jb-ico">' + ICON_CAL + '</span><span class="jb-t"><span class="jb-title">' + esc(T(S.open ? 'titleOpen' : 'title')) + '</span>' +
+      (S.open ? '' : '<span class="jb-sub">' + esc(T('sub')) + '</span>') + '</span>' + (S.open ? ICON_X.replace('<svg', '<svg aria-label="' + esc(T('close')) + '"') : ICON_CHEV) + '</button>';
+    var body = '';
+    if (S.open && S.sent) {
+      var st = S.sent.state;
+      body = '<div class="jb-body" id="jb-body">' + (st === 'ok'
+        ? '<div class="jb-done" role="status"><b>' + esc(T('done')) + '</b> ' +
+          (S.sent.ref ? esc(T('doneRef')) + ' <b dir="ltr">#' + esc(S.sent.ref) + '</b>. ' : '') + esc(T('doneNext')) +
+          '<br><button type="button" id="jb-again">' + esc(T('again')) + '</button></div>'
+        : st === 'fail'
+        ? '<div class="jb-done jb-warn" role="status">' + esc(T('notYet')) +
+          '<br><a href="' + esc(waHref()) + '" target="_blank" rel="noopener">' + esc(T('reopen')) + '</a> · <button type="button" id="jb-again">' + esc(T('again')) + '</button></div>'
+        : '<div class="jb-done jb-wait" role="status">' + esc(T('sending')) + '</div>') + '</div>';
+    } else if (S.open) {
+      var ok = !Object.keys(errors()).length;
+      body = '<div class="jb-body" id="jb-body" dir="' + (lang === 'ru' ? 'ltr' : 'rtl') + '">' + citySelect(e.city) + dayGrid(e.days) + winChips() +
+        '<div class="jb-two"><div><label for="jb-name">' + esc(T('name')) + '</label><input class="jb-input" id="jb-name" type="text" maxlength="60" autocomplete="name" value="' + esc(S.name) + '"' + (e.name ? ' aria-invalid="true" aria-describedby="jb-e-name"' : '') + '>' +
+        (e.name ? '<div class="jb-err" id="jb-e-name" role="alert">' + esc(e.name) + '</div>' : '') + '</div>' +
+        '<div><label for="jb-phone">' + esc(T('phone')) + '</label><input class="jb-input" id="jb-phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" value="' + esc(S.phone) + '"' + (e.phone ? ' aria-invalid="true" aria-describedby="jb-e-phone"' : '') + '>' +
+        (e.phone ? '<div class="jb-err" id="jb-e-phone" role="alert">' + esc(e.phone) + '</div>' : '') + '</div></div>' +
+        '<p class="jb-priv">' + esc(T('priv')) + ' <a href="#privacy" id="jb-priv">' + esc(T('privLink')) + '</a></p>' +
+        '<a class="jb-send" id="jb-send" href="' + (ok ? esc(waHref()) : '#jb-body') + '"' + (ok ? ' target="_blank" rel="noopener"' : '') + '>' + waIcon() + '<span>' + esc(T('send')) + '</span></a>' +
+        '<div class="jb-after">' + esc(T('after')) + '</div></div>';
+    }
+    var sec = slot.querySelector('div.jb');
+    if (!sec) { slot.innerHTML = '<div class="jb" role="group"></div>'; sec = slot.firstChild; }
+    sec.className = 'jb' + (S.open ? ' is-open' : '');
+    sec.setAttribute('dir', lang === 'ru' ? 'ltr' : 'rtl');
+    sec.setAttribute('aria-label', T('titleOpen'));
+    sec.innerHTML = head + body;
+  }
+  // after a first try, each message goes away as soon as its field is right (without redrawing the field)
+  function refreshErrors() {
+    if (!S.tried) return;
+    var e = errors();
+    [['name', 'jb-name'], ['phone', 'jb-phone']].forEach(function (f) {
+      var input = document.getElementById(f[1]), msg = document.getElementById('jb-e-' + f[0]);
+      if (!input) return;
+      if (!e[f[0]]) { input.removeAttribute('aria-invalid'); input.removeAttribute('aria-describedby'); if (msg) msg.parentNode.removeChild(msg); }
+    });
+  }
+  // keep the typed values and the link in step without redrawing the field being typed in
+  function syncLink() {
+    var a = document.getElementById('jb-send');
+    if (!a) return;
+    var ok = !Object.keys(errors()).length;
+    if (ok) { a.setAttribute('href', waHref()); a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); }
+    else { a.setAttribute('href', '#jb-body'); a.removeAttribute('target'); }
+  }
+
+  // ---- events ----
+  slot.addEventListener('click', function (ev) {
+    var el = ev.target.closest ? ev.target.closest('button, a') : null;
+    if (!el || !slot.contains(el)) return;
+    if (el.id === 'jb-toggle') {
+      S.open = !S.open;
+      if (S.open) { loadInfo(); loadDays(); }
+      render();
+      var f = document.getElementById(S.open ? (S.sent ? 'jb-again' : 'jb-city') : 'jb-toggle');
+      if (f) f.focus();
+      return;
+    }
+    if (el.id === 'jb-again') { S.sent = null; render(); var c = document.getElementById('jb-city'); if (c) c.focus(); return; }
+    if (el.id === 'jb-priv') { ev.preventDefault(); if (typeof openPrivacy === 'function') openPrivacy(); return; }
+    if (el.classList.contains('jb-day')) {
+      var d = el.getAttribute('data-d'), i = S.picked.indexOf(d);
+      S.note = '';
+      if (i >= 0) S.picked.splice(i, 1);
+      else if (S.picked.length >= 3) S.note = T('max3');
+      else S.picked.push(d);
+      render();
+      var again = slot.querySelector('.jb-day[data-d="' + d + '"]');
+      if (again) again.focus();
+      return;
+    }
+    if (el.classList.contains('jb-win')) {
+      S.win = el.getAttribute('data-w');
+      render();
+      var w = slot.querySelector('.jb-win[data-w="' + S.win + '"]');
+      if (w) w.focus();
+      return;
+    }
+    if (el.id === 'jb-send') {
+      var e = errors();
+      if (Object.keys(e).length) {
+        ev.preventDefault();
+        S.tried = true;
+        render();
+        var first = slot.querySelector('[aria-invalid="true"], .jb-err');
+        if (first) { first.scrollIntoView({ block: 'center', behavior: 'smooth' }); if (first.focus && first.tagName !== 'DIV') first.focus(); }
+        return;
+      }
+      // WhatsApp opens through the link itself; the request goes to the jobs system alongside
+      var sent = { state: 'sending', ref: null };
+      S.sent = sent;
+      rpc('request_job', {
+        p_city: cityValue(), p_days: S.picked.slice().sort(), p_window: S.win, p_name: String(S.name).trim(), p_phone: S.phone,
+        p_title: quoteTitle(), p_price: quotePrice(), p_quote: (quoteLink().split('?q=')[1] || ''), p_link: quoteLink(),
+        p_lang: isRu() ? 'ru' : 'he', p_key: visitKey()
+      }, true).then(function (r) {
+        sent.state = (r && r.ok) ? 'ok' : 'fail';
+        sent.ref = (r && r.ok && r.ref) || null;
+        if (S.sent === sent) render();
+      });
+      setTimeout(render, 0);
+    }
+  });
+  slot.addEventListener('change', function (ev) {
+    if (ev.target.id === 'jb-city') {
+      S.city = ev.target.value;
+      if (S.city !== OTHER) S.other = '';
+      render();
+      loadDays();
+      var c = document.getElementById(S.city === OTHER ? 'jb-other' : 'jb-city');
+      if (c) c.focus();
+    } else if (ev.target.id === 'jb-other') {
+      loadDays();
+    }
+  });
+  slot.addEventListener('input', function (ev) {
+    var id = ev.target.id;
+    if (id === 'jb-name') S.name = ev.target.value;
+    else if (id === 'jb-phone') S.phone = ev.target.value;
+    else if (id === 'jb-other') S.other = ev.target.value;
+    else return;
+    syncLink();
+    refreshErrors();
+  });
+
+  // ---- hooks: a new quote, a language switch ----
+  var show = window.showResult;
+  if (typeof show === 'function') {
+    window.showResult = function () {
+      var r = show.apply(this, arguments);
+      var btn = document.getElementById('wa-result-btn');
+      if (btn) btn.setAttribute('data-jb-base', btn.getAttribute('href') || '');
+      S.sent = null;
+      render();
+      return r;
+    };
+  }
+  var upd = window.updateDynamicLang;
+  if (typeof upd === 'function') {
+    window.updateDynamicLang = function () { var r = upd.apply(this, arguments); render(); return r; };
+  }
+  render();
 })();
 </script>
 <script id="ardudim-lang-js">

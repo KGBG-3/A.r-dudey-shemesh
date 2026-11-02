@@ -8,6 +8,7 @@
 //
 // What it does:
 //   • a phone alert (Web Push) for every new request from the site, once per request
+//   • a phone alert for every job added in the system (Chromagen, a contractor, private), to the other admin's phones
 //   • in the evening (Israel time), the list of tomorrow's jobs
 //   • keeps a copy of every scheduled job in the Google Calendar "עבודות דודים", through a small
 //     Google Apps Script that runs in Moshe's Google account (its address and password are kept in
@@ -15,7 +16,7 @@
 //
 // Deploy with "Verify JWT" turned off. Every request is limited here instead:
 //   job     only reads the job from the database and acts on what is stored there, so a stray call changes nothing;
-//           the new-request alert goes out once (notified_at)
+//           the new-job alert goes out once (notified_at), only while the job is fresh
 //   hourly  acts only at the evening hour, once a day
 //   test    only to a phone that is already registered, at most once every 20 seconds
 //   gcal    only for a logged-in admin (checked with the caller's own login)
@@ -159,7 +160,7 @@ async function settings(): Promise<any> {
 export function prefs(st: any) {
   const n = (st && st.notify) || {};
   const h = Number(n.eveningHour);
-  return { site: n.site !== false, eveningHour: n.eveningHour === undefined || n.eveningHour === null || !Number.isFinite(h) ? 20 : h };
+  return { site: n.site !== false, added: n.added !== false, eveningHour: n.eveningHour === undefined || n.eveningHour === null || !Number.isFinite(h) ? 20 : h };
 }
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const PUSH_GAP = 2 * 60e3;
@@ -203,11 +204,12 @@ function showPhone(p: string): string {
 }
 
 // ---------- sending alerts ----------
-type Sub = { endpoint: string; p256dh: string; auth: string; fails: number };
-async function broadcast(payload: Record<string, string>, only?: string) {
+type Sub = { endpoint: string; p256dh: string; auth: string; fails: number; user_id: string | null };
+async function broadcast(payload: Record<string, string>, only?: string, skipUser?: string) {
   const v = await vapidKeys();
-  let subs: Sub[] = await rest('push_subs?select=endpoint,p256dh,auth,fails');
+  let subs: Sub[] = await rest('push_subs?select=endpoint,p256dh,auth,fails,user_id');
   if (only) subs = subs.filter((s) => s.endpoint === only);
+  if (skipUser) subs = subs.filter((s) => s.user_id !== skipUser);
   const body = enc(JSON.stringify(payload));
   const results = await Promise.all(subs.map(async (s) => {
     try {
@@ -333,6 +335,26 @@ async function gcalSync(id: string, g: any, force = false): Promise<string> {
   }
 }
 
+// the alert for a job added in the system: what, from where, when, where, and who added it
+const PUSH_SOURCE: Record<string, string> = { chromagen: 'כרומגן', contractor: 'קבלן', private: 'פרטי', site: 'מהאתר' };
+export function addedPush(j: Job, by: string) {
+  const src = (PUSH_SOURCE[j.source] || 'עבודה') + (j.source_name ? ` · ${j.source_name}` : '');
+  const when = j.starts_at && j.ends_at
+    ? `${dayShort(il(Date.parse(j.starts_at)).key)} · ${hm(Date.parse(j.starts_at))}–${hm(Date.parse(j.ends_at))}`
+    : 'עוד בלי מועד';
+  const lines = [
+    `${j.title || 'עבודה'}${j.price ? ` · ₪${Number(j.price).toLocaleString('en-US')}` : ''}`,
+    [when, j.city].filter(Boolean).join(' · '),
+    by ? `נוספה ע״י ${by}` : '',
+  ].filter(Boolean);
+  return { title: `עבודה חדשה · ${src} · #${j.ref}`, body: lines.join('\n'), tag: 'job-' + j.id, url: ADMIN + '#job=' + j.id };
+}
+async function adminName(id: string): Promise<string> {
+  if (!/^[0-9a-f-]{36}$/i.test(String(id || ''))) return '';
+  const rows = await rest(`admins?select=name&user_id=eq.${id}`);
+  return (rows[0] && rows[0].name) || '';
+}
+
 // ---------- operations ----------
 async function onJob(id: string) {
   if (!/^[0-9a-f-]{36}$/i.test(id)) return { ok: false, error: 'id' };
@@ -341,8 +363,15 @@ async function onJob(id: string) {
   const st = await settings();
   const out: Record<string, unknown> = { ok: true };
 
+  const fresh = !j.notified_at && Date.parse(j.created_at) > Date.now() - 30 * 60e3;
+  // a job added in the system (Chromagen, a contractor, private): one alert to the phones of the other admin
+  if (fresh && j.created_by) {
+    const marked = await rest(`jobs?id=eq.${id}&notified_at=is.null&select=id`,
+      { method: 'PATCH', body: { notified_at: new Date().toISOString() }, prefer: 'return=representation' });
+    if (marked.length && prefs(st).added) out.push = await broadcast(addedPush(j, await adminName(j.created_by)), undefined, j.created_by);
+  }
   // a new request from the site: one alert, only while it is fresh
-  if (j.source === 'site' && j.status === 'new' && !j.notified_at && Date.parse(j.created_at) > Date.now() - 30 * 60e3) {
+  else if (fresh && j.source === 'site' && j.status === 'new') {
     const marked = await rest(`jobs?id=eq.${id}&notified_at=is.null&select=id`,
       { method: 'PATCH', body: { notified_at: new Date().toISOString() }, prefer: 'return=representation' });
     if (marked.length && prefs(st).site) {

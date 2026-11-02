@@ -844,11 +844,12 @@ ${pushState.hint ? `<p class="small muted">${esc(pushState.hint)}</p>` : ''}
 ${pushState.on ? `<button type="button" class="btn ghost" data-act="push-test">שליחת התראת בדיקה</button><button type="button" class="btn ghost" data-act="push-off">כיבוי בטלפון הזה</button>` : ''}</div>
 <form data-form="notify" class="box"><h3>מה שולחים</h3>
 <label class="switch"><input type="checkbox" name="site"${n.site !== false ? ' checked' : ''}> כל בקשה חדשה מהאתר</label>
+<label class="switch"><input type="checkbox" name="added"${n.added !== false ? ' checked' : ''}> כל עבודה שמוסיפים כאן (כרומגן, קבלן, פרטי)</label>
 <div class="field"><label for="n-hour">רשימת העבודות של מחר, בשעה</label><select class="input" id="n-hour" name="eveningHour">
 <option value="-1"${Number(n.eveningHour) === -1 ? ' selected' : ''}>לא לשלוח</option>
 ${[17, 18, 19, 20, 21, 22].map(h => `<option value="${h}"${Number(n.eveningHour == null ? 20 : n.eveningHour) === h ? ' selected' : ''}>${h}:00</option>`).join('')}</select></div>
 <button class="btn primary block" type="submit">שמירה</button></form>
-<p class="small muted">כל טלפון שמפעילים בו התראות מקבל אותן, גם של אבא וגם של משה.</p>`;
+<p class="small muted">כל טלפון שמפעילים בו התראות מקבל אותן, גם של אבא וגם של משה. על עבודה שמוסיפים כאן, ההתראה מגיעה לטלפון של השני: מי שהוסיף לא מקבל התראה על עצמו.</p>`;
 };
 SHEETS.gcal = spec => {
   const g = S.settings.gcal || {};
@@ -1238,7 +1239,7 @@ const FORMS = {
   },
   async notify(form) {
     const f = new FormData(form);
-    try { await mergeSettings({ notify: { site: !!f.get('site'), eveningHour: Number(f.get('eveningHour')) } }); toast('נשמר'); closeSheet(); refresh(); } catch (e) { toast(errText(e)); }
+    try { await mergeSettings({ notify: { site: !!f.get('site'), added: !!f.get('added'), eveningHour: Number(f.get('eveningHour')) } }); toast('נשמר'); closeSheet(); refresh(); } catch (e) { toast(errText(e)); }
   },
   async gcal(form, spec) {
     const url = String(form.url.value || '').trim();
@@ -1297,7 +1298,7 @@ async function pushOn() {
     const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
     const j = sub.toJSON();
     const label = `${S.me ? S.me.name : ''} · ${/iPhone|iPad/.test(navigator.userAgent) ? 'אייפון' : /Android/.test(navigator.userAgent) ? 'אנדרואיד' : 'מחשב'}`;
-    const { error } = await sb.from('push_subs').upsert({ endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth, label });
+    const { error } = await sb.from('push_subs').upsert({ endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth, label, user_id: S.session.user.id });
     if (error) throw error;
     await pushCheck();
     toast('ההתראות הופעלו');

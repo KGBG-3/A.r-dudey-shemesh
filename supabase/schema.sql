@@ -453,7 +453,7 @@ insert into public.settings (id, data) values ('main', $json${
   "minNoticeDays": 1,
   "maxPerDay": 4,
   "jobHours": 2,
-  "notify": {"site": true, "eveningHour": 20},
+  "notify": {"site": true, "added": true, "eveningHour": 20},
   "gcal": {"enabled": false, "url": "", "token": "", "calendar": "", "calendarName": "עבודות דודים"},
   "templates": {
     "confirm": "שלום {שם}, כאן א.ר דודי שמש.\nקבענו לכם ביקור ביום {יום} {תאריך}, בין {משעה} ל-{עד}.\nנתקשר חצי שעה לפני שאנחנו מגיעים.\nאם משהו משתנה, אפשר לכתוב לנו כאן.",

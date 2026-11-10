@@ -179,6 +179,7 @@ async function loadAll() {
   S.blocks = bl.data || [];
   S.jobs = new Map();
   (jb.data || []).forEach(setJob);
+  S.caseCol = (jb.data || []).some(r => 'case_no' in r);
   S.loadedFrom = from;
 }
 async function ensureFrom(key) {
@@ -297,14 +298,30 @@ const tplText = (k, j) => k === 'free' ? '' : fillTpl((S.settings.templates || {
 // ======================================================================
 // reading a pasted message: Chromagen coordination, or a request sent from the site
 // ======================================================================
+// a water-heater size next to the product name: a number right after it ("מחליף חום 120"), or "150 ליטר" / "ליטר 150"
+// nearest to it. Never the day of a date (01/04/2026) or a piece of a serial number (CH55749), and only a real size (40–500)
+function sizeNear(t, from, to) {
+  const real = v => +v >= 40 && +v <= 500;
+  const after = /^[^\n/\\.,\d]{0,25}?(\d{2,3})(?![\d/.:])/.exec(t.slice(to));
+  if (after && real(after[1])) return after[1];
+  let best = null;
+  for (const m of t.matchAll(/(?<![\d/.:])(\d{2,3})\s*ל(?:יטר|׳|')|ליטר\s*(\d{2,3})(?![\d/.:])/g)) {
+    const v = m[1] || m[2];
+    if (!real(v)) continue;
+    const d = Math.min(Math.abs(m.index - from), Math.abs(m.index - to));
+    if (!best || d < best.d) best = { v, d };
+  }
+  return best ? best.v : '';
+}
 function guessTitle(text, kind) {
   const t = String(text || '');
+  // [what to look for, the title from it (s = the size near it); a rule that returns '' passes to the next one]
   const rules = [
     [/מערכת\s*(?:סופר|super)/i, () => 'מערכת Super'],
-    [/קומפלט\s+([^\s(]+)\s*(\d{2,3})/, m => `מערכת ${m[1]} ${m[2]}`],
-    [/מערכת[^\n/\\.,]{0,25}?(\d{2,3})/, m => `מערכת ${m[1]} ליטר`],
-    [/מחליף(?:\s+|-)חום\s*(\d{2,3})?/, m => `מחליף חום${m[1] ? ' ' + m[1] + ' ליטר' : ''}`],
-    [/דוד\s+חשמל\s*(\d{2,3})?/, m => `דוד חשמל${m[1] ? ' ' + m[1] + ' ליטר' : ''}`],
+    [/קומפלט\s+([^\s(]+)\s*(\d{2,3})(?![\d/.:])/, m => `מערכת ${m[1]} ${m[2]}`],
+    [/מערכת/, (m, s) => s ? `מערכת ${s} ליטר` : ''],
+    [/מחליף(?:\s+|-)חום/, (m, s) => `מחליף חום${s ? ' ' + s + ' ליטר' : ''}`],
+    [/דוד\s+חשמל/, (m, s) => `דוד חשמל${s ? ' ' + s + ' ליטר' : ''}`],
     [/דוד\s+(?:שמש\s*)?(\d{2,3})\s*ל/, m => `דוד ${m[1]} ליטר`],
     [/גוף\s+חימום/, () => 'החלפת גוף חימום'],
     [/קולט/, () => 'קולט'],
@@ -314,7 +331,10 @@ function guessTitle(text, kind) {
     [/טרמוסטט/, () => 'טרמוסטט'],
   ];
   let title = '';
-  for (const [re, f] of rules) { const m = re.exec(t); if (m) { title = f(m); break; } }
+  for (const [re, f] of rules) {
+    const m = re.exec(t);
+    if (m) { title = f(m, sizeNear(t, m.index, m.index + m[0].length)); if (title) break; }
+  }
   const service = /שירות/.test(kind || '');
   if (!title) return service ? 'שירות' : (kind || '').trim() === 'מכירה' ? 'התקנה' : (kind || '').trim();
   return service ? `שירות – ${title}` : title;
@@ -338,6 +358,8 @@ function parseChromagen(raw) {
   if (f) out.from = toHHMM(toMin(f));
   if (to) out.to = toHHMM(toMin(to));
   out.sale_no = g(/מספר מכירה:\s*([\d,]+)/);
+  // a warranty call: Chromagen's מספר פניה is CAS-225153-H5K9D9; what they ask for on the phone is the digits in the middle
+  out.case_no = g(/CAS-(\d{5,8})-/i) || g(/מספר\s*פני(?:י)?ה:?\s*(\d{5,8})/);
   out.ext_link = g(/קישור לעדכון אחרי ביקור:\s*(https?:\/\/\S+)/);
   out.call_before = /התראה\s*חצי\s*שעה/.test(t);
   if (/עמידר/.test(t)) out.source_name = 'עמידר';
@@ -347,7 +369,7 @@ function parseChromagen(raw) {
   notes = notes.replace(/\*{2,}\s*התראה\s*חצי\s*שעה\s*\*{2,}\.?/g, '').split(/\/\/|\\\\|\n/).map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean).join('\n');
   out.notes = [kind && !/^מכירה$/.test(kind) ? kind : '', notes].filter(Boolean).join('\n');
   out.title = guessTitle(notes, kind) + (out.source_name === 'עמידר' ? ' (עמידר)' : '');
-  return (out.name || out.date || out.sale_no) ? out : null;
+  return (out.name || out.date || out.sale_no || out.case_no) ? out : null;
 }
 function parseSiteMsg(raw) {
   const t = String(raw || '').replace(/\r/g, '');
@@ -623,7 +645,6 @@ SHEETS.job = spec => {
   if (j.phone) dl.push(['טלפון', `<a class="ltr" href="${esc(telHref(j.phone))}">${esc(showPhone(j.phone))}</a>`]);
   if (j.city || j.address) dl.push(['כתובת', esc(fullAddress(j)) + (areaOf(j.city) ? ` <span class="muted small">· ${esc(areaOf(j.city))}</span>` : '')]);
   if (j.price != null) dl.push(['מחיר', `<span class="num">₪${fmtNum(j.price)}</span>`]);
-  if (j.sale_no) dl.push(['מספר מכירה', `<span class="num">${esc(j.sale_no)}</span>`]);
   if (j.status === 'new' && j.pref_days && j.pref_days.length) dl.push(['ימים שהלקוח סימן', esc(j.pref_days.map(dayShort).join(', ')) + (j.pref_window ? ' · ' + esc(windowText(j)) : '')]);
   const links = [];
   if (safeUrl(j.ext_link)) links.push(`<a class="btn ghost sm" href="${esc(safeUrl(j.ext_link))}" target="_blank" rel="noopener">${ic('link', 'sm')}עדכון אחרי ביקור (כרומגן)</a>`);
@@ -635,8 +656,10 @@ SHEETS.job = spec => {
   if (j.status === 'done') actions.push(`<button type="button" class="btn ghost" data-act="set-status" data-id="${esc(j.id)}" data-s="scheduled">${ic('undo', 'sm')}עוד לא בוצע</button>`);
   if (j.status === 'cancelled') actions.push(`<button type="button" class="btn ghost" data-act="set-status" data-id="${esc(j.id)}" data-s="${j.starts_at ? 'scheduled' : 'new'}">${ic('undo', 'sm')}החזרה</button>`);
   actions.push(`<button type="button" class="btn ghost" data-act="edit-job" data-id="${esc(j.id)}">${ic('edit', 'sm')}עריכה</button>`);
+  const refs = [['מספר מכירה', j.sale_no], ['מספר פניה', j.case_no]].filter(r => r[1]);
+  const refBox = refs.length ? `<div class="refnum">${refs.map(([k, v]) => `<button type="button" class="refnum-item" data-act="copy" data-copy="${esc(v)}" aria-label="${k} ${esc(v)}. לחיצה מעתיקה"><span class="refnum-k">${k}</span><b class="num">${esc(v)}</b>${ic('copy', 'sm')}</button>`).join('')}</div>` : '';
   return `${head(esc(j.title || 'עבודה'), `#${esc(j.ref)} · ${sourceTag(j)} <span class="pill ${esc(j.status)}">${esc(statusLabel(j))}</span>`)}
-<div class="box" style="margin-top:0"><b>${when}</b>${j.call_before && j.status === 'scheduled' ? `<div class="flag" style="margin-top:4px">${ic('phone', 'sm')}להתקשר ללקוח חצי שעה לפני ההגעה</div>` : ''}
+${refBox}<div class="box" style="margin-top:0"><b>${when}</b>${j.call_before && j.status === 'scheduled' ? `<div class="flag" style="margin-top:4px">${ic('phone', 'sm')}להתקשר ללקוח חצי שעה לפני ההגעה</div>` : ''}
 ${L && L.list.length > 1 ? `<div class="small muted" style="margin-top:4px">באותו יום: ${L.list.filter(x => x.id !== j.id).map(x => `${esc(jobTime(x))} ${esc(x.city || x.title)}`).join(' · ')}</div>` : ''}</div>
 <div class="row-btns" style="margin:12px 0">
 ${j.phone ? `<button type="button" class="btn wa" data-act="wa" data-id="${esc(j.id)}" data-tpl="${j.status === 'new' ? (j.source === 'site' ? 'request' : 'free') : j.status === 'done' ? 'review' : 'confirm'}">${waIc('sm')}וואטסאפ</button><a class="btn ghost" href="${esc(telHref(j.phone))}">${ic('phone', 'sm')}חיוג</a>` : ''}
@@ -661,7 +684,7 @@ SHEETS.form = spec => {
   const d = spec.values || {
     source: j.source || 'private', source_name: j.source_name || '', title: j.title || '', name: j.name || '', phone: j.phone ? showPhone(j.phone) : '',
     city: j.city || '', address: j.address || '', date: j.starts_at ? jobKey(j) : (j.date || ''), from: j.starts_at ? jobTime(j) : (j.from || ''),
-    to: j.ends_at ? jobEnd(j) : (j.to || ''), price: j.price != null ? j.price : '', sale_no: j.sale_no || '', ext_link: j.ext_link || '',
+    to: j.ends_at ? jobEnd(j) : (j.to || ''), price: j.price != null ? j.price : '', sale_no: j.sale_no || '', case_no: j.case_no || '', ext_link: j.ext_link || '',
     call_before: !!j.call_before, notes: j.notes || '', quote_link: j.quote_link || '', quote_code: j.quote_code || '',
     pref_days: j.pref_days || [], pref_window: j.pref_window || '',
   };
@@ -690,6 +713,7 @@ ${timeChips('f')}
 <p class="small muted" style="margin:6px 0 12px">בלי תאריך, העבודה נשמרת ברשימה "עבודות בלי מועד" בלשונית הבקשות.</p>
 <div class="grid2"><div class="field"><label for="f-price">מחיר (₪)</label><input class="input num" id="f-price" name="price" type="number" inputmode="decimal" min="0" step="1" value="${esc(d.price)}"></div>
 <div class="field"><label for="f-sale_no">מספר מכירה</label><input class="input num" id="f-sale_no" name="sale_no" value="${esc(d.sale_no)}" maxlength="20" inputmode="numeric"></div></div>
+<div class="field"><label for="f-case_no">מספר פניה (אחריות)</label><input class="input num" id="f-case_no" name="case_no" value="${esc(d.case_no || '')}" maxlength="20" inputmode="numeric" placeholder="225153"></div>
 <label class="switch"><input type="checkbox" name="call_before"${d.call_before ? ' checked' : ''}> להתקשר ללקוח חצי שעה לפני ההגעה</label>
 <div class="field"><label for="f-notes">הערות ודגשים</label><textarea class="input" id="f-notes" name="notes" rows="4" maxlength="2000">${esc(d.notes)}</textarea></div>
 <div class="field"><label for="f-ext_link">קישור לעדכון אחרי ביקור (כרומגן)</label><input class="input" id="f-ext_link" name="ext_link" type="url" value="${esc(d.ext_link)}" maxlength="400" dir="ltr"></div>
@@ -781,7 +805,7 @@ function searchResultsHTML(spec) {
 function searchLocal(q) {
   const k = q.replace(/\s+/g, ' ').toLowerCase(), digits = q.replace(/\D/g, '');
   return [...S.jobs.values()].filter(j => {
-    if (digits.length >= 3 && (String(j.phone_norm || '').includes(digits) || String(j.ref) === digits || String(j.sale_no || '').replace(/\D/g, '').includes(digits))) return true;
+    if (digits.length >= 3 && (String(j.phone_norm || '').includes(digits) || String(j.ref) === digits || String(j.sale_no || '').replace(/\D/g, '').includes(digits) || String(j.case_no || '').includes(digits))) return true;
     return [j.name, j.city, j.address, j.title, j.notes, j.source_name].some(s => String(s || '').toLowerCase().includes(k));
   }).sort((a, b) => Date.parse(b.starts_at || b.created_at) - Date.parse(a.starts_at || a.created_at));
 }
@@ -909,6 +933,11 @@ const ACT = {
   'open-job': el => openSheet({ type: 'job', id: el.dataset.id, live: true }),
   'new-job': () => openSheet({ type: 'form', draft: { date: S.view === 'cal' && S.day >= todayKey() ? S.day : '' } }),
   'edit-job': el => openSheet({ type: 'form', id: el.dataset.id }),
+  copy: async el => {
+    const v = el.dataset.copy || '';
+    try { await navigator.clipboard.writeText(v); toast('הועתק: ' + v); }
+    catch (_) { toast(v); }
+  },
   'schedule': el => openSheet({ type: 'schedule', id: el.dataset.id }),
   'search': () => openSheet({ type: 'search', q: '' }),
   'sheet-close': () => closeSheet(),
@@ -946,13 +975,13 @@ const ACT = {
       if (ex) { closeSheet(); setTimeout(() => openSheet({ type: 'job', id: ex.id, live: true }), 280); toast(`הבקשה #${ex.ref} כבר במערכת`); return; }
     }
     const v = spec.values;
-    for (const k of ['source', 'source_name', 'title', 'name', 'phone', 'city', 'address', 'date', 'from', 'to', 'sale_no', 'ext_link', 'notes', 'quote_link', 'quote_code', 'pref_window']) {
+    for (const k of ['source', 'source_name', 'title', 'name', 'phone', 'city', 'address', 'date', 'from', 'to', 'sale_no', 'case_no', 'ext_link', 'notes', 'quote_link', 'quote_code', 'pref_window']) {
       if (p[k] != null && p[k] !== '') v[k] = p[k];
     }
     if (p.price != null) v.price = p.price;
     if (p.call_before) v.call_before = true;
     if (p.pref_days && p.pref_days.length) v.pref_days = p.pref_days;
-    const got = [p.name && 'שם', p.phone && 'טלפון', (p.city || p.address) && 'כתובת', p.date && 'תאריך ושעה', p.sale_no && 'מספר מכירה', p.title && 'עבודה'].filter(Boolean);
+    const got = [p.name && 'שם', p.phone && 'טלפון', (p.city || p.address) && 'כתובת', p.date && 'תאריך ושעה', p.sale_no && 'מספר מכירה', p.case_no && 'מספר פניה', p.title && 'עבודה'].filter(Boolean);
     spec.found = `${c ? 'הודעת כרומגן' : 'הודעה מהאתר'}: מילאתי ${got.join(', ')}. כדאי לעבור על הפרטים לפני השמירה.`;
     renderSheet(false);
   },
@@ -1003,6 +1032,7 @@ const ACT = {
     const digits = q.replace(/\D/g, '');
     const ors = ['name', 'city', 'address', 'title', 'notes'].map(c => `${c}.ilike.*${q}*`);
     if (digits.length >= 3) ors.push(`phone_norm.like.*${digits}*`);
+    if (digits.length >= 4 && S.caseCol) ors.push(`case_no.like.*${digits}*`);
     const { data, error } = await sb.from('jobs').select('*').or(ors.join(',')).order('created_at', { ascending: false }).limit(60);
     if (error) { toast(errText(error)); return; }
     spec.remote = data || [];
@@ -1146,6 +1176,9 @@ const FORMS = {
       price: has(d.price) ? Number(d.price) : null, sale_no: String(d.sale_no || '').trim(), ext_link: String(d.ext_link || '').trim(),
       call_before: !!d.call_before, notes: String(d.notes || '').trim(),
     };
+    const caseNo = String(d.case_no || '').replace(/\s+/g, '').trim();
+    if (S.caseCol) row.case_no = caseNo;
+    else if (caseNo && !row.notes.includes(caseNo)) row.notes = `מספר פניה: ${caseNo}` + (row.notes ? '\n' + row.notes : '');
     if (row.ext_link && !safeUrl(row.ext_link)) { err.textContent = 'הקישור צריך להתחיל ב-https://'; return; }
     if (!spec.id) Object.assign(row, { quote_link: d.quote_link || '', quote_code: d.quote_code || '', pref_days: d.pref_days || [], pref_window: d.pref_window || '' });
     const btn = $('button[type=submit]', form);

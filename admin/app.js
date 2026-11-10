@@ -675,6 +675,19 @@ ${(j.status === 'cancelled' || j.status === 'new') && !j.gcal_id ? `<button type
 };
 
 // ---------- new / edit ----------
+// a short list of whole and half hours: the iPhone's own clock offers every minute
+const HALF_HOURS = Array.from({ length: 31 }, (_, i) => toHHMM(360 + i * 30)); // 06:00–21:00
+function timeSel(attrs, value, empty) {
+  const v = toMin(value) == null ? '' : toHHMM(toMin(value));
+  const list = HALF_HOURS.slice();
+  if (v && !list.includes(v)) { list.push(v); list.sort(); } // a time like 12:15 from a message stays as it is
+  return `<select class="input num" ${attrs}>${empty || !v ? `<option value="">—</option>` : ''}${list.map(t => `<option value="${t}"${t === v ? ' selected' : ''}>${t}</option>`).join('')}</select>`;
+}
+function setTime(sel, t) {
+  if (!sel) return;
+  if (t && !Array.from(sel.options).some(o => o.value === t)) sel.add(new Option(t, t), Array.from(sel.options).find(o => o.value > t) || null);
+  sel.value = t;
+}
 function timeChips(name) {
   const slots = [['08:00', '10:00'], ['10:00', '12:00'], ['12:00', '14:00'], ['14:00', '16:00']];
   return `<div class="chips" style="margin-top:6px">${slots.map(([a, b]) => `<button type="button" class="chip num" data-act="slot" data-f="${a}" data-t="${b}" data-n="${name}"><span class="ltr">${a}–${b}</span></button>`).join('')}</div>`;
@@ -707,8 +720,8 @@ ${spec.found ? `<div class="found" role="status">${esc(spec.found)}</div>` : ''}
 <datalist id="cities">${allCities().map(c => `<option value="${esc(c)}">`).join('')}</datalist>
 <div class="field"><label for="f-date">תאריך</label><input class="input" id="f-date" name="date" type="date" value="${esc(d.date)}"></div>
 <div id="f-dayload">${dayLoadHTML(d.date, spec.id, d.city)}</div>
-<div class="grid2"><div class="field"><label for="f-from">משעה</label><input class="input num" id="f-from" name="from" type="time" step="900" value="${esc(d.from)}"></div>
-<div class="field"><label for="f-to">עד שעה</label><input class="input num" id="f-to" name="to" type="time" step="900" value="${esc(d.to)}"></div></div>
+<div class="grid2"><div class="field"><label for="f-from">משעה</label>${timeSel('id="f-from" name="from"', d.from, true)}</div>
+<div class="field"><label for="f-to">עד שעה</label>${timeSel('id="f-to" name="to"', d.to, true)}</div></div>
 ${timeChips('f')}
 <p class="small muted" style="margin:6px 0 12px">בלי תאריך, העבודה נשמרת ברשימה "עבודות בלי מועד" בלשונית הבקשות.</p>
 <div class="grid2"><div class="field"><label for="f-price">מחיר (₪)</label><input class="input num" id="f-price" name="price" type="number" inputmode="decimal" min="0" step="1" value="${esc(d.price)}"></div>
@@ -763,8 +776,8 @@ SHEETS.schedule = spec => {
 ${chips ? `<div class="field"><span class="lbl">הימים שהלקוח סימן${j.pref_window ? ' · ' + esc(windowText(j)) : ''}</span><div class="chips">${chips}</div></div>` : ''}
 <div class="field"><label for="s-date">תאריך</label><input class="input" id="s-date" name="date" type="date" value="${esc(v.date)}" required></div>
 <div id="s-dayload">${dayLoadHTML(v.date, j.id, j.city)}</div>
-<div class="grid2"><div class="field"><label for="s-from">משעה</label><input class="input num" id="s-from" name="from" type="time" step="900" value="${esc(v.from)}" required></div>
-<div class="field"><label for="s-to">עד שעה</label><input class="input num" id="s-to" name="to" type="time" step="900" value="${esc(v.to)}" required></div></div>
+<div class="grid2"><div class="field"><label for="s-from">משעה</label>${timeSel('id="s-from" name="from" required', v.from)}</div>
+<div class="field"><label for="s-to">עד שעה</label>${timeSel('id="s-to" name="to" required', v.to)}</div></div>
 ${timeChips('s')}
 <div class="grid2" style="margin-top:12px"><div class="field"><label for="s-city">יישוב</label><input class="input" id="s-city" name="city" list="cities2" value="${esc(v.city)}" maxlength="40"></div>
 <div class="field"><label for="s-address">רחוב ומספר</label><input class="input" id="s-address" name="address" value="${esc(v.address)}" maxlength="120"></div></div>
@@ -826,10 +839,10 @@ SHEETS.hours = () => {
 ${[0, 1, 2, 3, 4, 5, 6].map(i => `<div style="display:flex;align-items:center;gap:8px;margin:4px 0"><b style="min-width:52px">${WD[i]}</b>
 <label class="chip"><input type="checkbox" name="wd-${i}-morning"${(wd[i] || []).includes('morning') ? ' checked' : ''}> בוקר</label>
 <label class="chip"><input type="checkbox" name="wd-${i}-noon"${(wd[i] || []).includes('noon') ? ' checked' : ''}> צהריים</label></div>`).join('')}</div>
-<div class="grid2"><div class="field"><label>בוקר משעה</label><input class="input num" type="time" name="morning-from" value="${esc((w.morning || {}).from || '08:00')}"></div>
-<div class="field"><label>עד שעה</label><input class="input num" type="time" name="morning-to" value="${esc((w.morning || {}).to || '12:00')}"></div></div>
-<div class="grid2"><div class="field"><label>צהריים משעה</label><input class="input num" type="time" name="noon-from" value="${esc((w.noon || {}).from || '12:00')}"></div>
-<div class="field"><label>עד שעה</label><input class="input num" type="time" name="noon-to" value="${esc((w.noon || {}).to || '16:00')}"></div></div>
+<div class="grid2"><div class="field"><label for="h-mf">בוקר משעה</label>${timeSel('id="h-mf" name="morning-from"', (w.morning || {}).from || '08:00')}</div>
+<div class="field"><label for="h-mt">עד שעה</label>${timeSel('id="h-mt" name="morning-to"', (w.morning || {}).to || '12:00')}</div></div>
+<div class="grid2"><div class="field"><label for="h-nf">צהריים משעה</label>${timeSel('id="h-nf" name="noon-from"', (w.noon || {}).from || '12:00')}</div>
+<div class="field"><label for="h-nt">עד שעה</label>${timeSel('id="h-nt" name="noon-to"', (w.noon || {}).to || '16:00')}</div></div>
 <div class="grid2"><div class="field"><label for="h-max">עבודות ביום לכל היותר</label><input class="input num" id="h-max" type="number" min="1" max="12" name="maxPerDay" value="${esc(st.maxPerDay || 4)}"></div>
 <div class="field"><label for="h-ahead">כמה ימים קדימה</label><input class="input num" id="h-ahead" type="number" min="3" max="60" name="daysAhead" value="${esc(st.daysAhead || 14)}"></div></div>
 <div class="field"><label for="h-notice">היום הראשון שאפשר לבחור</label><select class="input" id="h-notice" name="minNoticeDays">
@@ -950,9 +963,8 @@ const ACT = {
   },
   'slot': el => {
     const p = el.dataset.n;
-    const f = $(`#${p}-from`, inner), t = $(`#${p}-to`, inner);
-    if (f) f.value = el.dataset.f;
-    if (t) t.value = el.dataset.t;
+    setTime($(`#${p}-from`, inner), el.dataset.f);
+    setTime($(`#${p}-to`, inner), el.dataset.t);
   },
   'pick-date': el => {
     const spec = S.stack[S.stack.length - 1];
@@ -1129,7 +1141,15 @@ document.addEventListener('input', e => {
     $('#s-dayload', inner).innerHTML = dayLoadHTML(($('#s-date', inner) || {}).value, spec.id, ($('#s-city', inner) || {}).value || (j && j.city));
   }
 });
-document.addEventListener('change', e => { if (e.target.id === 'f-date' || e.target.id === 's-date') e.target.dispatchEvent(new Event('input', { bubbles: true })); });
+document.addEventListener('change', e => {
+  const id = e.target.id;
+  if (id === 'f-date' || id === 's-date') e.target.dispatchEvent(new Event('input', { bubbles: true }));
+  // a start at or after the end (or no end yet): the end moves to the usual length of a job, so there is one less list to open
+  if (id === 'f-from' || id === 's-from') {
+    const to = $(`#${id[0]}-to`, inner), a = toMin(e.target.value);
+    if (to && a != null && !(toMin(to.value) > a)) setTime(to, toHHMM(Math.min(a + 60 * (Number(S.settings.jobHours) || 2), 23 * 60 + 30)));
+  }
+});
 
 // ---------- forms ----------
 const FORMS = {

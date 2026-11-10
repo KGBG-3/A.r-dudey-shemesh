@@ -70,6 +70,7 @@ create table if not exists public.jobs (
   quote_code text not null default '',         -- the calculator's ?q= spec
   quote_link text not null default '',
   sale_no text not null default '',            -- Chromagen's מספר מכירה
+  case_no text not null default '',            -- Chromagen's מספר פניה for a warranty call (the digits of CAS-225153-H5K9D9)
   ext_link text not null default '',           -- Chromagen's "קישור לעדכון אחרי ביקור"
   call_before boolean not null default false,  -- call the customer half an hour before arriving
   notes text not null default '',
@@ -94,6 +95,7 @@ create table if not exists public.jobs (
 alter sequence public.jobs_ref_seq owned by public.jobs.ref;
 alter table public.jobs add column if not exists client_key text;
 alter table public.jobs add column if not exists ip_hash text;
+alter table public.jobs add column if not exists case_no text not null default '';  -- added 10.11.2026
 create index if not exists jobs_starts_at on public.jobs (starts_at);
 create index if not exists jobs_status on public.jobs (status);
 create index if not exists jobs_phone_norm on public.jobs (phone_norm);
@@ -397,7 +399,7 @@ begin
 end $$;
 drop trigger if exists jobs_notify on public.jobs;
 create trigger jobs_notify after insert or update of status, source, source_name, title, name, phone, city, address,
-  starts_at, ends_at, price, sale_no, ext_link, call_before, notes, quote_link
+  starts_at, ends_at, price, sale_no, case_no, ext_link, call_before, notes, quote_link
   on public.jobs for each row execute function public.jobs_notify();
 
 revoke execute on function public.jobs_notify(), public.functions_url(), public.jobs_touch(), public.touch_updated_at()

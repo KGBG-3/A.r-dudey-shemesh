@@ -251,6 +251,7 @@ export function eventFor(j: Job) {
   if (addr) lines.push(`כתובת: ${addr}`);
   if (j.phone) lines.push(`טלפון: ${showPhone(j.phone)}`);
   if (j.sale_no) lines.push(`מספר מכירה: ${j.sale_no}`);
+  if (j.case_no) lines.push(`מספר פניה: ${j.case_no}`);
   if (j.price !== null && j.price !== undefined) lines.push(`מחיר: ₪${Number(j.price).toLocaleString('en-US')}`);
   if (j.call_before) lines.push('', '⚠️ להתקשר ללקוח חצי שעה לפני ההגעה');
   if (j.notes) lines.push('', String(j.notes));

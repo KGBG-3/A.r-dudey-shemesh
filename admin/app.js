@@ -137,18 +137,32 @@ const TOWN_ALIAS = [['תל אביב', 'תל אביב -יפו'], ['ת"א', 'תל 
                     ['ב"ב', 'בני ברק'], ['ראשל"צ', 'ראשון לציון'], ['מודיעין', 'מודיעין-מכבים-רעות']];
 let TOWNS = null;
 const townName = t => String(t || '').replace(/\s+/g, ' ').trim();
-function townLL(city) {
+function towns() {
   if (!TOWNS) {
-    TOWNS = { exact: new Map(), loose: new Map() };
+    TOWNS = { exact: new Map(), loose: new Map(), names: new Map() };
     String(self.ARDUDIM_TOWNS || '').split('|').forEach(s => {
       const i = s.lastIndexOf(':'); if (i < 1) return;
       const n = s.slice(0, i), v = s.slice(i + 1), k = townKey(n);
       TOWNS.exact.set(townName(n), v);
       TOWNS.loose.set(k, TOWNS.loose.has(k) ? '' : v); // two towns with one spelling (צוקים, צוקי ים): only the exact name counts
+      TOWNS.names.set(k, townName(n).replace(/\s+-/g, '-'));
     });
-    TOWN_ALIAS.forEach(([a, b]) => { const v = TOWNS.exact.get(b); if (v && !TOWNS.loose.has(townKey(a))) TOWNS.loose.set(townKey(a), v); });
+    TOWN_ALIAS.forEach(([a, b]) => {
+      const v = TOWNS.exact.get(b), k = townKey(a);
+      if (v && !TOWNS.loose.has(k)) { TOWNS.loose.set(k, v); TOWNS.names.set(k, TOWNS.names.get(townKey(b))); }
+    });
   }
-  return TOWNS.exact.get(townName(city)) || TOWNS.loose.get(townKey(city)) || '';
+  return TOWNS;
+}
+const townLL = city => { const T = towns(); return T.exact.get(townName(city)) || T.loose.get(townKey(city)) || ''; };
+// the town's name as Moshe's area lists write it, else as the CBS list does; '' when it is not a town
+function townOf(s) {
+  const T = towns(), n = townName(s), k = townKey(n);
+  if (!k || /\d/.test(n)) return '';
+  const mine = allCities().find(c => townKey(c) === k);
+  if (mine) return mine;
+  if (T.exact.has(n)) return n.replace(/\s+-/g, '-');
+  return T.loose.get(k) ? T.names.get(k) : '';
 }
 const wazeHref = j => {
   const ll = townLL(j.city);
@@ -434,6 +448,183 @@ function parseSiteMsg(raw) {
     out.pref_days.push(key);
   }
   return out;
+}
+
+// any other message, such as a customer's details forwarded on WhatsApp ("הכתובת אנדרסן 12 פתח תקווה / הלקוח הוא ... / 054...").
+// Each line goes to the field it fits; a line that fits none goes to the notes. The job itself is filled only when the
+// message names it (guessTitle), otherwise Moshe types it.
+const PHONE_RE = /(?<![\d+])(?:\+?972[-\s.]?|0)(?:5\d|7\d|[2-489])(?:[-\s.]?\d){7}(?!\d)/g;
+const tidy = s => String(s || '').replace(/\s+/g, ' ').replace(/^[\s,.\-–:;]+|[\s,.\-–:;]+$/g, '');
+// words that are not a customer's name (job words, greetings, verbs), with or without ה/ו/ש in front
+const NOT_NAME = /(?:^|\s)[והש]?(?:דוד|דודים|שמש|מערכת|קולט|קולטים|גג|מים|חשמל|מחליף|חום|צנרת|צינור|ברז|טרמוסטט|גוף|חימום|נזילה|דולף|נוזל|תקלה|תיקון|להחליף|החלפת|התקנה|להתקין|תתקשר|להתקשר|לפני|אחרי|אתה|שאתה|מגיע|להגיע|תודה|שלום|היי|הי|בוקר|ערב|טוב|רוצה|צריך|צריכה|יש|אין|לא|כן|על|עם|קומה|דירה|בית|רחוב|כתובת|טלפון|נייד|מספר|לקוח|לקוחה|אצל|של|את|זה|זו|הוא|היא|אני|אנחנו|מחר|היום|שעה|בשעה|ליטר|כניסה|בניין|מחיר|עבודה|תאום|תיאום)(?=$|\s)/;
+// right next to the phone a one-word place that is not in the area lists is a name (עדי, עומר); "פתח תקווה" or an area town is not
+const looksLikeName = (s, byPhone) => s.length <= 30 && /^[א-ת][א-ת'׳"״\-]*(?:\s+[א-ת][א-ת'׳"״\-]*){0,3}$/.test(s) && !NOT_NAME.test(s)
+  && (!townOf(s) || (byPhone && !/\s/.test(s) && !allCities().some(c => townKey(c) === townKey(s))));
+const looksLikeStreet = s => /^(?:(?:ב?רחוב|ב?רח['׳]|ב?שד(?:רות|['׳])|ב?דרך|ב?סמטת|ב?כיכר)\s*)?[א-ת][א-ת'׳"״\-]*(?:\s+[א-ת'׳"״\-]+){0,4}\s+\d{1,4}[א-ת]?(?:\s*\/\s*\d{1,3})?(?=$|[\s,])/.test(s)
+  && !/^(?:קומה|דירה|כניסה|בניין)/.test(s) && !/ליטר|₪|ש"ח|ש״ח|שקל|שעה|מחיר|דוד|מערכת|קולט|מחליף|(?:^|\s)(?:ב?יום|ב?תאריך|מועד|מחר|מחרתיים|היום)(?=$|\s)/.test(s);
+// the town of an address: it comes last ("אנדרסן 12 פתח תקווה") or first ("בפתח תקווה ברחוב אנדרסן 12"), never in the
+// middle, and never a street named after a town ("ירושלים 5"). Longest first: "בני ברק", not the moshav "ברק".
+const STREET_WORD = /^(?:רחוב|רח['׳]|שדרות|שד['׳]|דרך|סמטת|כיכר|שכונת)$/;
+function findTown(s) {
+  s = String(s);
+  const w = [...s.matchAll(/[^\s,]+/g)];
+  const at = (i, n) => {
+    const a = w[i].index, b = w[i + n - 1].index + w[i + n - 1][0].length;
+    if (s.slice(a, b).includes(',')) return null;
+    const raw = s.slice(a, b).replace(/^[("']+|[.!?:;)"']+$/g, ''), bare = raw.replace(/^[בלמו]-?/, '');
+    if (n === 1 && (STREET_WORD.test(raw) || STREET_WORD.test(bare))) return null;
+    const name = townOf(raw) || (bare !== raw && (n > 1 || bare.length >= 4) ? townOf(bare) : '');
+    return name ? { name, a, b } : null;
+  };
+  for (let n = Math.min(4, w.length); n >= 1; n--) { const m = at(w.length - n, n); if (m) return m; }
+  for (let n = Math.min(4, w.length - 1); n >= 1; n--) { const m = at(0, n); if (m && !/^\d/.test(w[n][0])) return m; }
+  return null;
+}
+// street, number and town from "אנדרסן 12 פתח תקווה", "ברחוב אנדרסן 12 בפתח תקווה" or "פתח תקווה, אנדרסן 12"
+function splitAddress(s) {
+  const tw = findTown(s);
+  let addr = tw ? s.slice(0, tw.a) + ' ' + s.slice(tw.b) : s;
+  addr = tidy(addr.replace(/(^|\s)(?:ב|ב-|בעיר|ביישוב)\s*$/, '')).replace(/^(?:ב?רחוב|ב?רח['׳])\s*/, '');
+  return { address: tidy(addr.split(',').map(tidy).filter(Boolean).join(', ')), city: tw ? tw.name : '' };
+}
+const DAYS_HE = { 'ראשון': 0, 'שני': 1, 'שלישי': 2, 'רביעי': 3, 'חמישי': 4, 'שישי': 5, 'א': 0, 'ב': 1, 'ג': 2, 'ד': 3, 'ה': 4, 'ו': 5 };
+// a date in digits (15/11, 15.11.26) and a time (10:30, בשעה 10, בין 8 ל-12, 08:00-12:00). A day in words (מחר, ביום רביעי)
+// counts only next to a time, so "תתקשר מחר" does not become the date
+function whenIn(s) {
+  const out = {}, hour = (h, m) => { h = +h; if (h >= 1 && h < 6) h += 12; return h >= 6 && h <= 22 && (+m || 0) < 60 ? toHHMM(h * 60 + (+m || 0)) : ''; };
+  const rng = /(?:בין|משעה|מ-?)\s*(\d{1,2})(?::(\d{2}))?\s*(?:ל-?|עד(?:\s*שעה)?|[-–])\s*(\d{1,2})(?::(\d{2}))?(?![\d/.])/.exec(s)
+    || /(?<![\d/.:])(\d{1,2}):(\d{2})\s*[-–]\s*(\d{1,2}):(\d{2})(?![\d:])/.exec(s);
+  if (rng) { out.from = hour(rng[1], rng[2]); out.to = hour(rng[3], rng[4]); }
+  else {
+    const one = /(?:בשעה|שעה)\s*(\d{1,2})(?::(\d{2}))?(?![\d/.])/.exec(s) || /(?<![\d/.:])(\d{1,2}):(\d{2})(?![\d:])/.exec(s);
+    if (one) out.from = hour(one[1], one[2]);
+  }
+  if (!out.from) delete out.from;
+  if (!out.to) delete out.to;
+  const dm = /(?<![\d/.:])(\d{1,2})[./](\d{1,2})(?:[./](\d{4}|\d{2}))?(?![\d/.:])/.exec(s);
+  if (dm && +dm[1] >= 1 && +dm[1] <= 31 && +dm[2] >= 1 && +dm[2] <= 12) {
+    let y = dm[3] ? +dm[3] : il(Date.now()).y;
+    if (y < 100) y += 2000;
+    let key = `${y}-${pad(dm[2])}-${pad(dm[1])}`;
+    if (!dm[3] && key < addDays(todayKey(), -30)) key = `${y + 1}-${pad(dm[2])}-${pad(dm[1])}`;
+    out.date = key;
+  } else if (out.from) {
+    const rel = /(?:^|\s)(מחרתיים|מחר|היום)(?=$|[\s,.])/.exec(s);
+    const day = /(?:^|\s)[בל]?יום\s+(ראשון|שני|שלישי|רביעי|חמישי|שישי|[א-ו](?=['׳]))/.exec(s);
+    if (rel) out.date = addDays(todayKey(), { 'היום': 0, 'מחר': 1, 'מחרתיים': 2 }[rel[1]]);
+    else if (day) out.date = addDays(todayKey(), ((DAYS_HE[day[1]] - wdOf(todayKey()) + 7) % 7) || 7);
+  }
+  return out;
+}
+const PRICE_RE = /(?:מחיר|סה"כ|סה״כ|סך\s+הכל|עלות|לשלם)\s*[:\-–]?\s*₪?\s*(\d{1,3}(?:,\d{3})+|\d{3,6})|₪\s*(\d{1,3}(?:,\d{3})+|\d{3,6})|(\d{1,3}(?:,\d{3})+|\d{3,6})\s*(?:₪|ש"ח|ש״ח|שח|שקל(?:ים)?)(?![א-ת])/;
+// what is left of a piece once its phone is taken out, when it only said whose phone it is ("הטלפון שלי", "נייד:")
+const PHONE_LABEL = /^ו?(?:ה?טלפון|ה?נייד|ה?פלאפון|ה?סלולרי|ה?מספר|מס['׳]|טל['׳]|פלא['׳])(?:\s+(?:שלי|שלו|שלה|שלנו|הוא|היא|זה|של\s+\S+(?:\s+\S+)?))?$/;
+const GREETING = /^(?:היי|הי|שלום|שלום רב|היי שלום|אהלן|בוקר טוב|ערב טוב|צהריים טובים|תודה|תודה רבה|תודה מראש|בברכה)$/;
+function parseFree(raw) {
+  const t = String(raw || '').replace(/\r/g, '').replace(/[\u200e\u200f\u202a-\u202e]/g, '').replace(/[*_~]/g, '');
+  const out = {}, notes = [], details = [], phones = [];
+  // each line in pieces at commas and full stops (not inside a number: 4,500), so "שמי רחל, גרה ב..., הטלפון 05..." works too
+  const lines = [];
+  t.split('\n').forEach((line, li) => {
+    const found = [];
+    const marked = line.replace(PHONE_RE, m => `\u0001${found.push(m) - 1}\u0002`)
+      // "טלפון:", "הנייד שלי" right before a phone only say whose phone it is
+      .replace(/(?:^|\s)ו?(?:מספר\s+)?(?:ה?טלפון|ה?נייד|ה?פלאפון|ה?סלולרי|ה?מספר|מס['׳]|טל['׳]|פלא['׳])(?:\s+(?:שלי|שלו|שלה|שלנו|הוא|היא|זה))?\s*[:\-–]?\s*(?=\u0001)/g, ' ');
+    marked.split(/(?<!\d),|,(?!\d)|[.!?](?=\s|$)|\s[-–]\s|(?=\u0001)|(?<=\u0002)/).forEach(part => {
+      const mine = [...part.matchAll(/\u0001(\d+)\u0002/g)].map(m => found[+m[1]]);
+      phones.push(...mine);
+      let s = tidy(part.replace(/\u0001\d+\u0002/g, ' '));
+      if (PHONE_LABEL.test(s)) s = '';
+      const orig = tidy(part.replace(/\u0001(\d+)\u0002/g, (_, k) => found[+k]));
+      if (orig && (mine.length || /[א-תA-Za-z0-9]/.test(s)) && !GREETING.test(s)) lines.push({ s, ph: mine.length > 0, mine, orig, li });
+    });
+  });
+  // a piece right next to a phone on the same line ("ניר אהרון 054...") is the name before anything else, even a town's name (עדי)
+  lines.forEach((ln, i) => { ln.byPhone = [lines[i - 1], lines[i + 1]].some(o => o && o.ph && o.li === ln.li); });
+  const first = phones.length ? normPhone(phones[0]) : '', noted = new Set();
+  const note = (text, li) => notes.push({ text, li });
+  const LABELS = [
+    ['name', /^(?:שם\s+(?:ה)?לקוח(?:ה)?\s*[:\-–]?|שם\s*[:\-–]|(?:ה)?לקוח(?:ה)?\s*(?:[:\-–]|(?:הוא|היא)(?=\s|$))|שמו\s|שמה\s|קוראים\s+(?:לו|לה)\s|איש(?:ת)?\s+(?:ה)?קשר\s*[:\-–]?)\s*(.*)$/],
+    ['address', /^(?:(?:ה)?כתובת(?:\s+(?:היא|הלקוח(?:ה)?|של\s+הלקוח(?:ה)?|מגורים))?\s*[:\-–]?|גר(?:ה|ים)?\s+ב|מגיעים\s+ל)\s*(.*)$/],
+    ['city', /^(?:עיר|יישוב|ישוב)\s*[:\-–]\s*(.*)$/],
+    ['title', /^(?:עבודה|מוצר|סוג\s+(?:ה)?(?:עבודה|מוצר|דוד)|דגם|מה\s+צריך)\s*[:\-–]\s*(.*)$/],
+    ['notes', /^(?:הערה|הערות|דגשים)\s*[:\-–]\s*(.*)$/],
+  ];
+  const put = (kind, v) => {
+    v = tidy(v);
+    if (!v) return false;
+    if (kind === 'name') { if (out.name) return false; out.name = v.split(/\s+/).slice(0, 4).join(' '); return true; }
+    if (kind === 'address') {
+      if (out.address) return false;
+      const a = splitAddress(v);
+      out.address = a.address;
+      if (a.city && !out.city) out.city = a.city;
+      return !!(a.address || a.city);
+    }
+    if (kind === 'city') { if (out.city) return false; out.city = townOf(v.replace(/^[ב]-?(?=[א-ת]{4})/, '')) || townOf(v) || v; return true; }
+    if (kind === 'title') { if (out.title) return false; out.title = guessTitle(v) || v; return true; }
+    if (kind === 'notes') { note(v, -2); return true; }
+    return false;
+  };
+  let pending = '';
+  lines.forEach((ln, i) => {
+    const s = ln.s;
+    // a line with another phone ("או לבעלה 054...") stays in the notes as it was written
+    const other = ln.mine.filter(m => normPhone(m) !== first);
+    if (other.length && !ln.mine.some(m => normPhone(m) === first)) { other.forEach(m => noted.add(normPhone(m))); note(ln.orig, ln.li); return; }
+    if (!s) return;
+    if (pending) { const k = pending; pending = ''; if (put(k, s)) return; }
+    for (const [kind, re] of LABELS) {
+      const m = re.exec(s);
+      if (!m) continue;
+      if (!tidy(m[1])) { pending = kind; return; }
+      if (put(kind, m[1])) return;
+      break;
+    }
+    // call before arriving: the switch says half an hour; any other length stays in the notes too
+    if (/(?:תתקשר|תתקשרו|להתקשר|תצלצל|לצלצל|תודיע|להודיע|(?:ל|ת)הרים\s+טלפון)[^\n]{0,40}?לפני/.test(s)) {
+      out.call_before = true;
+      if (/(?:^|\s)(?:שעה|שעתיים|רבע\s+שעה|\d+\s*דק)/.test(s) && !/חצי\s*שעה/.test(s)) note(s, ln.li);
+      return;
+    }
+    if (/^(?:קומה|דירה|כניסה|בניין)\s/.test(s)) { details.push(s); return; }
+    if (!out.address && (looksLikeStreet(s) || (/\d/.test(s) && looksLikeStreet(splitAddress(s).address))) && put('address', s)) return;
+    const w = whenIn(s);
+    if (w.date || w.from) {
+      if (w.date && !out.date) out.date = w.date;
+      if (w.from && !out.from) { out.from = w.from; if (w.to) out.to = w.to; }
+      const rest = s.replace(/(?:^|\s)(?:ב?יום|ב?תאריך|מועד|בשעה|שעה|בין|משעה|עד|ל-?|ב-?|בבוקר|בצהריים|אחה"צ|אחה״צ|בערב|מחרתיים|מחר|היום|ראשון|שני|שלישי|רביעי|חמישי|שישי|[א-ו]['׳])(?=$|\s)/g, ' ')
+        .replace(/[\d:./\-–]+/g, ' ');
+      if (tidy(rest).split(' ').filter(x => x.length > 1).length >= 2) note(s, ln.li);
+      return;
+    }
+    const me = /^(?:(?:היי|הי|שלום)[,!.]?\s*)?(?:אני|שמי|קוראים\s+לי)\s+(.+)$/.exec(s);
+    if (me && !out.name && looksLikeName(tidy(me[1]), true)) { out.name = tidy(me[1]); return; }
+    if (!out.name && ln.byPhone && looksLikeName(s, true)) { out.name = s; return; }
+    if (!out.city) { const c = townOf(s) || townOf(s.replace(/^ב-?/, '')); if (c && s.split(' ').length <= 4) { out.city = c; return; } }
+    const nearPhone = (lines[i - 1] && lines[i - 1].ph) || (lines[i + 1] && lines[i + 1].ph);
+    if (!out.name && nearPhone && looksLikeName(s)) { out.name = s; return; }
+    const pr = PRICE_RE.exec(s);
+    if (pr && out.price == null) {
+      out.price = Number((pr[1] || pr[2] || pr[3]).replace(/,/g, ''));
+      if (tidy(s.replace(pr[0], ' ')).split(' ').filter(x => x.length > 1).length < 2) return;
+    }
+    note(s, ln.li);
+  });
+  if (phones.length) out.phone = showPhone(phones[0]);
+  [...new Set(phones.map(normPhone))].filter(p => p !== first && !noted.has(p)).forEach(p => note(`טלפון נוסף: ${showPhone(p)}`, -1));
+  if (details.length) out.address = [out.address, ...details].filter(Boolean).join(', ');
+  if (!out.title) { const g = guessTitle(t); if (g) out.title = g; }
+  // pieces of one line that all went to the notes are put back together
+  const joined = [];
+  const phoneOnly = x => /^[+\d][\d\s.\-]+$/.test(x);
+  notes.forEach(n => {
+    const last = joined[joined.length - 1];
+    if (last && n.li >= 0 && last.li === n.li) last.text += (phoneOnly(n.text) || phoneOnly(last.text) ? ' ' : ', ') + n.text;
+    else joined.push({ ...n });
+  });
+  out.notes = [...new Set(joined.map(n => n.text))].join('\n');
+  return (out.phone || out.name || out.address || out.city || out.date) ? out : null;
 }
 
 // ======================================================================
@@ -738,7 +929,7 @@ SHEETS.form = spec => {
   const srcs = spec.id && j.source === 'site' ? ['site'] : ['chromagen', 'contractor', 'private'].concat(!spec.id && d.source === 'site' ? ['site'] : []);
   return `${head(spec.id ? 'עריכת עבודה' : 'עבודה חדשה')}
 ${spec.id ? '' : `<div class="paste"><label class="lbl small" for="f-paste" style="font-weight:700;color:var(--muted)">${ic('paste', 'sm')} הדבקת הודעה</label>
-<textarea class="input" id="f-paste" rows="3" placeholder="הדביקו כאן הודעת תיאום מכרומגן או הודעה שלקוח שלח מהאתר, והפרטים יתמלאו לבד"></textarea>
+<textarea class="input" id="f-paste" rows="3" placeholder="הדביקו כאן כל הודעה עם פרטי לקוח: תיאום מכרומגן, בקשה מהאתר, או הודעה רגילה עם שם, טלפון וכתובת. הפרטים יתמלאו לבד"></textarea>
 <button type="button" class="btn navy sm block" style="margin-top:8px" data-act="parse">מילוי הפרטים מההודעה</button>
 ${spec.found ? `<div class="found" role="status">${esc(spec.found)}</div>` : ''}</div>`}
 <form data-form="job" novalidate>
@@ -1010,9 +1201,9 @@ const ACT = {
     const spec = S.stack[S.stack.length - 1];
     const raw = ($('#f-paste', inner) || {}).value || '';
     readForm(spec);
-    const c = parseChromagen(raw), s = c ? null : parseSiteMsg(raw);
-    const p = c || s;
-    if (!p) { spec.found = 'לא זיהיתי את ההודעה. אפשר למלא את הפרטים ידנית.'; renderSheet(false); return; }
+    const c = parseChromagen(raw), s = c ? null : parseSiteMsg(raw), fr = c || s ? null : parseFree(raw);
+    const p = c || s || fr;
+    if (!p) { spec.found = 'לא מצאתי בהודעה שם, טלפון או כתובת. אפשר למלא את הפרטים ידנית.'; renderSheet(false); return; }
     if (s) {
       // the same request was already saved from the site: open it instead of adding it again
       const ph = normPhone(s.phone);
@@ -1020,14 +1211,22 @@ const ACT = {
       if (ex) { closeSheet(); setTimeout(() => openSheet({ type: 'job', id: ex.id, live: true }), 280); toast(`הבקשה #${ex.ref} כבר במערכת`); return; }
     }
     const v = spec.values;
+    // a second message adds to the notes of the first (the customer's details, then the day from Iliya)
+    if (fr && fr.notes && v.notes && !v.notes.includes(fr.notes)) fr.notes = `${v.notes}\n${fr.notes}`;
     for (const k of ['source', 'source_name', 'title', 'name', 'phone', 'city', 'address', 'date', 'from', 'to', 'sale_no', 'case_no', 'ext_link', 'notes', 'quote_link', 'quote_code', 'pref_window']) {
       if (p[k] != null && p[k] !== '') v[k] = p[k];
     }
     if (p.price != null) v.price = p.price;
     if (p.call_before) v.call_before = true;
     if (p.pref_days && p.pref_days.length) v.pref_days = p.pref_days;
-    const got = [p.name && 'שם', p.phone && 'טלפון', (p.city || p.address) && 'כתובת', p.date && 'תאריך ושעה', p.sale_no && 'מספר מכירה', p.case_no && 'מספר פניה', p.title && 'עבודה'].filter(Boolean);
-    spec.found = `${c ? 'הודעת כרומגן' : 'הודעה מהאתר'}: מילאתי ${got.join(', ')}. כדאי לעבור על הפרטים לפני השמירה.`;
+    const got = [p.name && 'שם', p.phone && 'טלפון', (p.city || p.address) && 'כתובת', p.date && (p.from ? 'תאריך ושעה' : 'תאריך'), !p.date && p.from && 'שעה',
+      p.sale_no && 'מספר מכירה', p.case_no && 'מספר פניה', p.title && 'עבודה', fr && p.price != null && 'מחיר', fr && p.call_before && 'להתקשר לפני', fr && p.notes && 'הערות'].filter(Boolean);
+    if (fr) {
+      const left = [!v.title && 'מה העבודה', !v.date && 'תאריך'].filter(Boolean);
+      const dateNote = !p.date && v.date ? ` התאריך לא כתוב בהודעה, כרגע ${dayShort(v.date)}.` : '';
+      const ph = normPhone(v.phone), twin = ph.length >= 9 && [...S.jobs.values()].find(j => j.phone_norm === ph && (j.status === 'new' || j.status === 'scheduled'));
+      spec.found = `מילאתי ${got.join(', ')}.${left.length ? ` נשאר למלא: ${left.join(' ו')}.` : ''}${dateNote}${twin ? ` שימו לב: כבר יש עבודה פתוחה עם הטלפון הזה (#${twin.ref}).` : ''} כדאי לעבור על הפרטים לפני השמירה.`;
+    } else spec.found = `${c ? 'הודעת כרומגן' : 'הודעה מהאתר'}: מילאתי ${got.join(', ')}. כדאי לעבור על הפרטים לפני השמירה.`;
     renderSheet(false);
   },
   'set-status': async el => {

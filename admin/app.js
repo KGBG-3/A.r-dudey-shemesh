@@ -119,8 +119,41 @@ const waHref = (phone, text) => `https://wa.me/${waNumber(phone)}?text=${encodeU
 const telHref = phone => `tel:${normPhone(phone)}`;
 const safeUrl = u => /^https?:\/\//i.test(String(u || '').trim()) ? String(u).trim() : '';
 const fullAddress = j => [j.address, j.city].map(s => String(s || '').trim()).filter(Boolean).join(', ');
-const wazeHref = j => `https://waze.com/ul?q=${encodeURIComponent(fullAddress(j))}&navigate=yes`;
 const cityKey = t => String(t || '').replace(/[\s\-–—־"״'׳`]/g, '');
+
+// ---------- navigation ----------
+// Waze searches near the phone and takes the first match: "הבעל שם טוב 32, דירה 3, עמנואל" sent Moshe to a shop
+// in Tel Aviv. So Waze gets the street, number and town only, plus the town's centre (towns.js) to search around.
+function navAddress(a) {
+  return String(a || '')
+    .replace(/(^|[\s,(])(?:מספר\s+)?(?:דירה|דיר[׳']|קומה|כניסה)\s*[:.]?\s*[\dא-ת]{0,3}[׳']?(?=$|[\s,)])/g, '$1')
+    .replace(/(\d+)\s*\/\s*\d+[א-ת]?/g, '$1')
+    .replace(/^\s*(?:רחוב|רח[׳'])\s+/, '')
+    .split(',').map(s => s.replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean).join(', ');
+}
+const navQuery = j => [navAddress(j.address), String(j.city || '').trim()].filter(Boolean).join(', ');
+const townKey = t => cityKey(t).replace(/יי/g, 'י').replace(/וו/g, 'ו');
+const TOWN_ALIAS = [['תל אביב', 'תל אביב -יפו'], ['ת"א', 'תל אביב -יפו'], ['יפו', 'תל אביב -יפו'], ['פ"ת', 'פתח תקווה'], ['ר"ג', 'רמת גן'],
+                    ['ב"ב', 'בני ברק'], ['ראשל"צ', 'ראשון לציון'], ['מודיעין', 'מודיעין-מכבים-רעות']];
+let TOWNS = null;
+const townName = t => String(t || '').replace(/\s+/g, ' ').trim();
+function townLL(city) {
+  if (!TOWNS) {
+    TOWNS = { exact: new Map(), loose: new Map() };
+    String(self.ARDUDIM_TOWNS || '').split('|').forEach(s => {
+      const i = s.lastIndexOf(':'); if (i < 1) return;
+      const n = s.slice(0, i), v = s.slice(i + 1), k = townKey(n);
+      TOWNS.exact.set(townName(n), v);
+      TOWNS.loose.set(k, TOWNS.loose.has(k) ? '' : v); // two towns with one spelling (צוקים, צוקי ים): only the exact name counts
+    });
+    TOWN_ALIAS.forEach(([a, b]) => { const v = TOWNS.exact.get(b); if (v && !TOWNS.loose.has(townKey(a))) TOWNS.loose.set(townKey(a), v); });
+  }
+  return TOWNS.exact.get(townName(city)) || TOWNS.loose.get(townKey(city)) || '';
+}
+const wazeHref = j => {
+  const ll = townLL(j.city);
+  return `https://waze.com/ul?q=${encodeURIComponent(navQuery(j))}${ll ? '&ll=' + encodeURIComponent(ll) : ''}&navigate=yes`;
+};
 function areaOf(city) {
   const k = cityKey(city);
   if (!k) return '';
@@ -473,7 +506,7 @@ ${blk ? `<div class="dayoff" style="margin-top:10px">יום חופש${blk.reason
 ${cancelledN ? `<button type="button" class="btn sm ghost" style="margin-top:10px" data-act="toggle-cancelled">${S.showCancelled ? 'להסתיר את מה שבוטל' : `להציג ${cancelledN === 1 ? 'עבודה שבוטלה' : cancelledN + ' עבודות שבוטלו'}`}</button>` : ''}`;
 }
 function routeHref(list) {
-  const stops = list.filter(j => j.status === 'scheduled' || j.status === 'done').map(fullAddress).filter(Boolean);
+  const stops = list.filter(j => j.status === 'scheduled' || j.status === 'done').map(navQuery).filter(Boolean);
   if (!stops.length) return '#';
   const dest = stops[stops.length - 1], way = stops.slice(0, -1).slice(0, 8);
   return `https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=${encodeURIComponent(dest)}${way.length ? '&waypoints=' + encodeURIComponent(way.join('|')) : ''}`;

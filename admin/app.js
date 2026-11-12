@@ -82,17 +82,27 @@ const hm = ms => { const p = il(ms); return `${pad(p.h)}:${pad(p.mi)}`; };
 const toMin = t => { const m = /^(\d{1,2}):(\d{2})$/.exec(String(t || '').trim()); return m ? (+m[1]) * 60 + (+m[2]) : null; };
 const toHHMM = min => `${pad(Math.floor(min / 60))}:${pad(min % 60)}`;
 const range = (a, b) => `\u2066${a}–${b}\u2069`;
-const dayLong = key => { const [, m, d] = key.split('-').map(Number); return `יום ${WD[wdOf(key)]}, ${d} ב${MONTHS[m - 1]}`; };
-const dayShort = key => `${WDS[wdOf(key)]} ${dm(key)}`;
-const relDay = key => { const t = todayKey(); return key === t ? 'היום' : key === addDays(t, 1) ? 'מחר' : key === addDays(t, -1) ? 'אתמול' : dayShort(key); };
+// Russian (Iliya): the same dates in his language; WD and MONTHS stay Hebrew for the messages to customers
+const WD_RU = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+const WDS_RU = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+const MONTHS_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+const MONTHS_RU_OF = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+const lng = (he, ru) => S.lang === 'ru' ? ru : he;
+const AUTO = () => lng('', ' dir="auto"'); // a field for Hebrew details on the Russian screen follows what is typed in it
+const wdName = i => lng(WD[i], WD_RU[i].replace(/^./, c => c.toUpperCase()));
+const wdShort = i => lng(WDS[i], WDS_RU[i]);
+const monthName = m => lng(MONTHS[m - 1], MONTHS_RU[m - 1]);
+const dayLong = key => { const [, m, d] = key.split('-').map(Number); return lng(`יום ${WD[wdOf(key)]}, ${d} ב${MONTHS[m - 1]}`, `${wdName(wdOf(key))}, ${d} ${MONTHS_RU_OF[m - 1]}`); };
+const dayShort = key => `${wdShort(wdOf(key))} ${dm(key)}`;
+const relDay = key => { const t = todayKey(); return key === t ? lng('היום', 'сегодня') : key === addDays(t, 1) ? lng('מחר', 'завтра') : key === addDays(t, -1) ? lng('אתמול', 'вчера') : dayShort(key); };
 const weekStart = key => addDays(key, -wdOf(key));
 function ago(iso) {
   const s = (Date.now() - Date.parse(iso)) / 1000;
   if (!isFinite(s)) return '';
-  if (s < 90) return 'עכשיו';
-  if (s < 3600) return `לפני ${Math.round(s / 60)} דק׳`;
-  if (s < 86400) { const h = Math.round(s / 3600); return h === 1 ? 'לפני שעה' : h === 2 ? 'לפני שעתיים' : `לפני ${h} שעות`; }
-  const d = Math.round(s / 86400); return d === 1 ? 'אתמול' : `לפני ${d} ימים`;
+  if (s < 90) return lng('עכשיו', 'только что');
+  if (s < 3600) return lng(`לפני ${Math.round(s / 60)} דק׳`, `${Math.round(s / 60)} мин назад`);
+  if (s < 86400) { const h = Math.round(s / 3600); return lng(h === 1 ? 'לפני שעה' : h === 2 ? 'לפני שעתיים' : `לפני ${h} שעות`, h === 1 ? 'час назад' : `${h} ч назад`); }
+  const d = Math.round(s / 86400); return d === 1 ? lng('אתמול', 'вчера') : lng(`לפני ${d} ימים`, `${d} дн. назад`);
 }
 const jobKey = j => j.starts_at ? il(Date.parse(j.starts_at)).key : null;
 const jobTime = j => j.starts_at ? hm(Date.parse(j.starts_at)) : '';
@@ -199,8 +209,89 @@ const TITLES = ['מערכת מלאה 150 ליטר', 'מערכת מלאה 120 ל�
 const S = {
   session: null, me: null, admins: [], settings: {}, jobs: new Map(), blocks: [],
   loadedFrom: null, view: 'cal', day: todayKey(), showCancelled: false,
-  stack: [], ready: false, error: '', loginUser: null, loginBusy: false, loginErr: '',
+  stack: [], ready: false, error: '', loginUser: null, loginBusy: false, loginErr: '', lang: 'he',
 };
+
+// ======================================================================
+// language: Hebrew, or Russian (ru.js) for Iliya. The app writes Hebrew; in Russian every text that reaches the
+// screen goes through the dictionary as it appears (text, placeholder, aria-label, title, dialogs). Customer
+// details are marked translate="no" and stay as written, and so do the messages that go to customers.
+// ======================================================================
+const RU = self.ARDUDIM_RU || { words: {}, rules: [] };
+const LANG_KEY = 'ardudim_admin_lang';
+const lsGet = k => { try { return localStorage.getItem(k); } catch (_) { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (_) { /* private mode: the choice lasts this visit */ } };
+function trCore(n) {
+  const one = x => {
+    if (RU.words[x] != null) return RU.words[x];
+    for (const [re, to] of RU.rules) { const m = re.exec(x); if (m) return typeof to === 'function' ? to(m, trCore) : x.replace(re, to); }
+    return null;
+  };
+  if (RU.words[n] != null) return RU.words[n];
+  // a few sentences: each on its own ("מילאתי שם, טלפון. נשאר למלא: מה העבודה.")
+  if (/[.?!]\s/.test(n)) return n.split(/(?<=[.?!])\s+/).map(trCore).join(' ');
+  // the text without its final . ? ! : or a "·" before or after it (the dictionary keeps it without), then as it is
+  const e = /^((?:·\s*)?)(.*?)(\s*·|[.?!:]*)$/.exec(n);
+  let r = one(e[2]);
+  if (r != null) return e[1] + r + e[3];
+  if ((e[1] || e[3]) && (r = one(n)) != null) return r;
+  // "#1016 · כרומגן", "א.ר דודי שמש · אבא", "עבודה אחת · באזור": each part on its own
+  if (n.includes(' · ')) return n.split(' · ').map(trCore).join(' · ');
+  return n;
+}
+function tr(s) {
+  s = String(s == null ? '' : s);
+  if (S.lang !== 'ru' || !/[א-ת]/.test(s)) return s;
+  const m = /^(\s*)([\s\S]*?)(\s*)$/.exec(s), core = m[2].replace(/\s+/g, ' ');
+  const out = trCore(core);
+  return out === core ? s : m[1] + out + m[3];
+}
+const ask = m => confirm(tr(m));
+const TR_SKIP = new Set(['TEXTAREA', 'SCRIPT', 'STYLE']); // their text is not shown text (a textarea's text is its value)
+const TR_ATTRS = ['placeholder', 'aria-label', 'title', 'alt'];
+const keepAsIs = el => !!(el && el.closest && el.closest('[translate="no"]'));
+function trEl(el) {
+  if (keepAsIs(el)) return;
+  for (const a of TR_ATTRS) { const v = el.getAttribute(a); if (v && /[א-ת]/.test(v)) { const r = tr(v); if (r !== v) el.setAttribute(a, r); } }
+}
+function trText(t) {
+  const p = t.parentElement;
+  if (!p || TR_SKIP.has(p.tagName) || keepAsIs(p) || !/[א-ת]/.test(t.nodeValue)) return;
+  const r = tr(t.nodeValue);
+  if (r !== t.nodeValue) t.nodeValue = r;
+}
+function trTree(node) {
+  if (S.lang !== 'ru' || !node) return;
+  if (node.nodeType === 3) return trText(node);
+  if (node.nodeType !== 1 || keepAsIs(node)) return;
+  trEl(node);
+  const w = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
+    acceptNode: n => n.nodeType === 1 && n.getAttribute('translate') === 'no' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
+  });
+  for (let n = w.nextNode(); n; n = w.nextNode()) { if (n.nodeType === 3) trText(n); else trEl(n); }
+}
+new MutationObserver(ms => {
+  if (S.lang !== 'ru') return;
+  for (const m of ms) {
+    if (m.type === 'childList') m.addedNodes.forEach(trTree);
+    else if (m.type === 'characterData') trText(m.target);
+    else trEl(m.target);
+  }
+}).observe(document.documentElement, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: TR_ATTRS });
+function setLang(l, save) {
+  S.lang = l === 'ru' ? 'ru' : 'he';
+  document.documentElement.lang = S.lang;
+  document.documentElement.dir = S.lang === 'ru' ? 'ltr' : 'rtl';
+  document.title = S.lang === 'ru' ? 'Работы · א.ר דודי שמש' : 'עבודות · א.ר דודי שמש';
+  if (save) {
+    lsSet(LANG_KEY, S.lang);
+    const email = S.session && S.session.user && S.session.user.email;
+    if (email) lsSet(`${LANG_KEY}:${email}`, S.lang);
+  }
+}
+// the user's own choice on this phone, else Russian for Iliya (assets/jobs-config.js), else Hebrew
+const langOf = email => lsGet(`${LANG_KEY}:${email}`) || ((CFG.users || []).find(u => u.email === email) || {}).lang || 'he';
+setLang(lsGet(LANG_KEY) || 'he');
 let sb = null;
 const configured = () => /^https?:\/\/\S+$/.test(String(CFG.url || '')) && !!CFG.key && !/__SUPABASE_/.test(String(CFG.url) + String(CFG.key));
 if (window.supabase && configured()) {
@@ -642,7 +733,8 @@ function refresh() {
 }
 function topbarHTML() {
   return `<header class="topbar"><div class="brand"><img src="${LOGO}" alt=""><div><h1>עבודות</h1><small>א.ר דודי שמש${S.me ? ' · ' + esc(S.me.name) : ''}</small></div></div>
-<button type="button" class="tb-btn" data-act="search" aria-label="חיפוש עבודה">${ic('search')}</button></header>`;
+<div class="tb-actions"><button type="button" class="tb-btn tb-lang" data-act="lang" translate="no" lang="${lng('ru', 'he')}">${lng('Русский', 'עברית')}</button>
+<button type="button" class="tb-btn" data-act="search" aria-label="חיפוש עבודה">${ic('search')}</button></div></header>`;
 }
 function bannerHTML() {
   if (S.error) return `<div class="banner err" role="alert">${esc(S.error)} <button type="button" class="btn sm ghost" data-act="reload">${ic('refresh', 'sm')}נסו שוב</button></div>`;
@@ -674,7 +766,7 @@ function calendarHTML() {
   for (let i = 0; i < 7; i++) {
     const k = addDays(ws, i), n = activeOn(k).length, off = isBlocked(k) || !((S.settings.workDays || {})[wdOf(k)] || []).length;
     cells += `<button type="button" class="day${k === t ? ' today' : ''}${off ? ' off' : ''}" data-act="day" data-k="${k}" aria-pressed="${k === S.day}" aria-label="${esc(dayLong(k))}${n ? `, ${n} עבודות` : ''}">
-<span class="w">${WDS[i]}</span><span class="n">${Number(k.slice(8))}</span><span class="c">${n || ''}</span></button>`;
+<span class="w">${wdShort(i)}</span><span class="n">${Number(k.slice(8))}</span><span class="c">${n || ''}</span></button>`;
   }
   const list = jobsOn(S.day, S.showCancelled);
   const active = list.filter(j => j.status !== 'cancelled');
@@ -683,14 +775,14 @@ function calendarHTML() {
   const cities = [...new Set(active.map(j => j.city).filter(Boolean))];
   const routeOk = active.filter(j => fullAddress(j)).length >= 1;
   return `<div class="weeknav">
-<button type="button" class="iconbtn" data-act="week" data-d="-7" aria-label="שבוע קודם">${ic('right')}</button>
-<h2>${MONTHS[m - 1]} ${y}</h2>
+<button type="button" class="iconbtn" data-act="week" data-d="-7" aria-label="שבוע קודם">${ic(lng('right', 'left'))}</button>
+<h2>${monthName(m)} ${y}</h2>
 ${S.day !== t ? `<button type="button" class="btn sm ghost" data-act="day" data-k="${t}">היום</button>` : ''}
-<button type="button" class="iconbtn" data-act="week" data-d="7" aria-label="שבוע הבא">${ic('left')}</button>
+<button type="button" class="iconbtn" data-act="week" data-d="7" aria-label="שבוע הבא">${ic(lng('left', 'right'))}</button>
 </div>
 <div class="week">${cells}</div>
 <div class="dayhead"><div class="t"><h2>${esc(dayLong(S.day))}</h2>
-<div class="meta">${active.length ? `${active.length === 1 ? 'עבודה אחת' : active.length + ' עבודות'}${cities.length ? ' · ' + esc(cities.join(', ')) : ''}` : 'אין עבודות'}</div></div>
+<div class="meta">${active.length ? `${active.length === 1 ? 'עבודה אחת' : active.length + ' עבודות'}${cities.length ? ` · <span translate="no">${esc(cities.join(', '))}</span>` : ''}` : 'אין עבודות'}</div></div>
 ${routeOk ? `<a class="btn sm ghost" href="${esc(routeHref(active))}" target="_blank" rel="noopener">${ic('map', 'sm')}מסלול</a>` : ''}</div>
 ${blk ? `<div class="dayoff" style="margin-top:10px">יום חופש${blk.reason ? ': ' + esc(blk.reason) : ''}</div>` : ''}
 <div class="agenda">${list.length ? list.map(jobCardHTML).join('') : `<div class="empty"><b>היום הזה פנוי</b>אפשר להוסיף עבודה עם הכפתור הכתום</div>`}</div>
@@ -710,8 +802,8 @@ function jobCardHTML(j) {
   return `<button type="button" class="job src-${esc(j.source)}${j.status === 'done' ? ' is-done' : ''}${j.status === 'cancelled' ? ' is-cancelled' : ''}" data-act="open-job" data-id="${esc(j.id)}">
 <span class="time">${esc(jobTime(j))}<small>${esc(jobEnd(j))}</small></span>
 <span class="ttl">${esc(j.title || 'עבודה')}</span>
-<span class="where">${j.city ? `<b>${esc(j.city)}</b>` : ''}${j.address ? ' · ' + esc(j.address) : ''}</span>
-<span class="who">${j.name ? esc(j.name) : ''}${sourceTag(j)}${flags.join('')}</span>
+<span class="where" translate="no">${j.city ? `<b>${esc(j.city)}</b>` : ''}${j.address ? ' · ' + esc(j.address) : ''}</span>
+<span class="who">${j.name ? `<span translate="no">${esc(j.name)}</span>` : ''}${sourceTag(j)}${flags.join('')}</span>
 </button>`;
 }
 
@@ -737,9 +829,9 @@ function reqCardHTML(j) {
 <div class="head"><span class="num">#${esc(j.ref)}</span>${sourceTag(j)}<span>${esc(ago(j.created_at))}</span></div>
 <button type="button" class="linkbtn ttl" data-act="open-job" data-id="${esc(j.id)}">${esc(j.title || 'בקשה')}</button>
 ${j.price ? `<div class="price num">₪${fmtNum(j.price)}</div>` : ''}
-<div class="city">${j.city ? `<b>${esc(j.city)}</b>` : '<span class="muted">בלי יישוב</span>'}${area ? ` <span class="muted small">· ${esc(area)}</span>` : (j.city ? ' <span class="tag">מחוץ לרשימת האזורים</span>' : '')}</div>
+<div class="city">${j.city ? `<b translate="no">${esc(j.city)}</b>` : '<span class="muted">בלי יישוב</span>'}${area ? ` <span class="muted small" translate="no">· ${esc(area)}</span>` : (j.city ? ' <span class="tag">מחוץ לרשימת האזורים</span>' : '')}</div>
 ${prefsHTML(j)}
-<div class="small">${esc(j.name || '')}${j.phone ? ` · <a href="${esc(telHref(j.phone))}" class="ltr">${esc(showPhone(j.phone))}</a>` : ''}</div>
+<div class="small"><span translate="no">${esc(j.name || '')}</span>${j.phone ? ` · <a href="${esc(telHref(j.phone))}" class="ltr">${esc(showPhone(j.phone))}</a>` : ''}</div>
 <div class="row-btns req-btns"><button type="button" class="btn primary sm" data-act="schedule" data-id="${esc(j.id)}">${ic('cal', 'sm')}קביעת מועד</button>
 ${j.phone ? `<button type="button" class="btn wa sm" data-act="wa" data-id="${esc(j.id)}" data-tpl="${j.source === 'site' ? 'request' : 'free'}">${waIc('sm')}וואטסאפ</button>` : ''}
 <button type="button" class="btn ghost sm" data-act="open-job" data-id="${esc(j.id)}">פרטים</button></div>
@@ -750,12 +842,12 @@ ${j.phone ? `<button type="button" class="btn wa sm" data-act="wa" data-id="${es
 function tomorrowHTML() {
   const k = tomorrowKey(), list = jobsOn(k).filter(j => j.status === 'scheduled');
   const sent = list.filter(j => j.reminded_at).length;
-  return `<div class="sec-title" style="margin-top:2px"><h2>מחר, ${esc(dayLong(k).replace(/^יום /, ''))}</h2><span class="hint">${list.length ? `${sent}/${list.length} תזכורות נשלחו` : ''}</span></div>
+  return `<div class="sec-title" style="margin-top:2px"><h2>${lng('מחר, ', 'Завтра, ')}${esc(lng(dayLong(k).replace(/^יום /, ''), dayLong(k).replace(/^./, c => c.toLowerCase())))}</h2><span class="hint">${list.length ? `${sent}/${list.length} תזכורות נשלחו` : ''}</span></div>
 ${list.length && list.some(j => fullAddress(j)) ? `<a class="btn ghost block" style="margin-top:10px" href="${esc(routeHref(list))}" target="_blank" rel="noopener">${ic('map')}המסלול של מחר בגוגל מפות</a>` : ''}
 <div class="list">${list.length ? list.map(j => `<article class="tm">
 <div class="top"><span class="time">${esc(jobTime(j))}–${esc(jobEnd(j))}</span><div style="flex:1;min-width:0"><button type="button" class="linkbtn" data-act="open-job" data-id="${esc(j.id)}">${esc(j.title || 'עבודה')}</button>
-<div class="small">${j.city ? `<b>${esc(j.city)}</b>` : ''}${j.address ? ' · ' + esc(j.address) : ''}</div>
-<div class="small muted">${esc(j.name || '')} ${sourceTag(j)}${j.call_before ? ` <span class="flag">${ic('phone', 'sm')}חצי שעה לפני</span>` : ''}</div></div></div>
+<div class="small" translate="no">${j.city ? `<b>${esc(j.city)}</b>` : ''}${j.address ? ' · ' + esc(j.address) : ''}</div>
+<div class="small muted"><span translate="no">${esc(j.name || '')}</span> ${sourceTag(j)}${j.call_before ? ` <span class="flag">${ic('phone', 'sm')}חצי שעה לפני</span>` : ''}</div></div></div>
 <div class="row-btns">${j.phone ? (j.reminded_at
     ? `<span class="sent">${ic('check', 'sm')}תזכורת נשלחה</span><button type="button" class="btn ghost sm" data-act="wa" data-id="${esc(j.id)}" data-tpl="remind">שליחה שוב</button>`
     : `<button type="button" class="btn wa sm" data-act="wa" data-id="${esc(j.id)}" data-tpl="remind">${waIc('sm')}שליחת תזכורת</button>`)
@@ -767,9 +859,9 @@ ${j.phone ? `<a class="btn ghost sm" href="${esc(telHref(j.phone))}">${ic('phone
 // ---------- settings ----------
 function settingsHTML() {
   const st = S.settings, g = st.gcal || {}, n = st.notify || {};
-  const row = (act, title, sub, right) => `<button type="button" class="set-row" data-act="${act}"><span class="grow"><span class="ttl">${title}</span><span class="sub" style="display:block">${sub}</span></span>${right || ic('left', 'sm')}</button>`;
+  const row = (act, title, sub, right) => `<button type="button" class="set-row" data-act="${act}"><span class="grow"><span class="ttl">${title}</span><span class="sub" style="display:block">${sub}</span></span>${right || ic(lng('left', 'right'), 'sm')}</button>`;
   const wd = st.workDays || {};
-  const days = [0, 1, 2, 3, 4, 5, 6].filter(i => (wd[i] || []).length).map(i => WDS[i]).join(' ');
+  const days = [0, 1, 2, 3, 4, 5, 6].filter(i => (wd[i] || []).length).map(wdShort).join(' ');
   const futureBlocks = S.blocks.filter(b => (b.day_to || b.day_from) >= todayKey());
   return `<div class="set-group">
 ${row('set-notify', 'התראות לטלפון', pushState.text)}
@@ -778,10 +870,11 @@ ${row('set-gcal', 'העתק ליומן גוגל', g.enabled && g.url ? '<span cl
 <div class="set-group">
 ${row('set-hours', 'ימים ושעות באתר', `ימי עבודה: ${esc(days || '—')} · עד ${esc(st.maxPerDay || 4)} עבודות ביום · ${esc(st.daysAhead || 14)} ימים קדימה`)}
 ${row('set-blocks', 'ימי חופש', futureBlocks.length ? futureBlocks.map(b => esc(dm(b.day_from) + (b.day_to && b.day_to !== b.day_from ? '–' + dm(b.day_to) : ''))).join(', ') : 'אין ימי חופש קרובים')}
-${row('set-areas', 'אזורים ויישובים', esc((st.areas || []).map(a => a.name).join(' · ')))}
+${row('set-areas', 'אזורים ויישובים', `<span translate="no">${esc((st.areas || []).map(a => a.name).join(' · '))}</span>`)}
 ${row('set-tpls', 'נוסחי ההודעות בוואטסאפ', 'אישור מועד, תזכורת, בדרך, ביקורת')}
 </div>
 <div class="set-group">
+${row('lang', 'שפה', S.lang === 'ru' ? 'Русский' : 'עברית')}
 ${row('set-pass', 'שינוי סיסמה', `מחובר/ת בתור ${esc(S.me ? S.me.name : '')}`)}
 <button type="button" class="set-row" data-act="logout"><span class="grow"><span class="ttl">התנתקות</span></span>${ic('out', 'sm')}</button>
 </div>
@@ -865,9 +958,9 @@ SHEETS.job = spec => {
   const g = S.settings.gcal || {};
   const gc = !g.enabled ? '' : j.gcal_state === 'ok' ? `${ic('check', 'sm')} מופיע ביומן גוגל` : /^error/.test(j.gcal_state || '') ? `לא הועתק ליומן גוגל (${esc(j.gcal_state.replace(/^error:?\s*/, ''))})` : (j.status === 'scheduled' ? 'מועתק ליומן גוגל…' : '');
   const dl = [];
-  if (j.name) dl.push(['לקוח', esc(j.name)]);
+  if (j.name) dl.push(['לקוח', `<span translate="no">${esc(j.name)}</span>`]);
   if (j.phone) dl.push(['טלפון', `<a class="ltr" href="${esc(telHref(j.phone))}">${esc(showPhone(j.phone))}</a>`]);
-  if (j.city || j.address) dl.push(['כתובת', esc(fullAddress(j)) + (areaOf(j.city) ? ` <span class="muted small">· ${esc(areaOf(j.city))}</span>` : '')]);
+  if (j.city || j.address) dl.push(['כתובת', `<span translate="no">${esc(fullAddress(j))}</span>` + (areaOf(j.city) ? ` <span class="muted small" translate="no">· ${esc(areaOf(j.city))}</span>` : '')]);
   if (j.price != null) dl.push(['מחיר', `<span class="num">₪${fmtNum(j.price)}</span>`]);
   if (j.status === 'new' && j.pref_days && j.pref_days.length) dl.push(['ימים שהלקוח סימן', esc(j.pref_days.map(dayShort).join(', ')) + (j.pref_window ? ' · ' + esc(windowText(j)) : '')]);
   const links = [];
@@ -890,7 +983,7 @@ ${j.phone ? `<button type="button" class="btn wa" data-act="wa" data-id="${esc(j
 ${fullAddress(j) ? `<a class="btn ghost" href="${esc(wazeHref(j))}" target="_blank" rel="noopener">${ic('nav', 'sm')}ניווט</a>` : ''}
 </div>
 <dl class="kv">${dl.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
-${j.notes ? `<div class="notes">${esc(j.notes)}</div>` : ''}
+${j.notes ? `<div class="notes" translate="no" dir="auto">${esc(j.notes)}</div>` : ''}
 ${links.length ? `<div class="row-btns" style="margin-bottom:12px">${links.join('')}</div>` : ''}
 <div class="row-btns">${actions.join('')}</div>
 ${j.status !== 'cancelled' && j.status !== 'done' ? `<button type="button" class="btn danger block sm" style="margin-top:10px" data-act="set-status" data-id="${esc(j.id)}" data-s="cancelled">${ic('x', 'sm')}ביטול העבודה</button>` : ''}
@@ -929,18 +1022,18 @@ SHEETS.form = spec => {
   const srcs = spec.id && j.source === 'site' ? ['site'] : ['chromagen', 'contractor', 'private'].concat(!spec.id && d.source === 'site' ? ['site'] : []);
   return `${head(spec.id ? 'עריכת עבודה' : 'עבודה חדשה')}
 ${spec.id ? '' : `<div class="paste"><label class="lbl small" for="f-paste" style="font-weight:700;color:var(--muted)">${ic('paste', 'sm')} הדבקת הודעה</label>
-<textarea class="input" id="f-paste" rows="3" placeholder="הדביקו כאן כל הודעה עם פרטי לקוח: תיאום מכרומגן, בקשה מהאתר, או הודעה רגילה עם שם, טלפון וכתובת. הפרטים יתמלאו לבד"></textarea>
+<textarea class="input" id="f-paste"${AUTO()} rows="3" placeholder="הדביקו כאן כל הודעה עם פרטי לקוח: תיאום מכרומגן, בקשה מהאתר, או הודעה רגילה עם שם, טלפון וכתובת. הפרטים יתמלאו לבד"></textarea>
 <button type="button" class="btn navy sm block" style="margin-top:8px" data-act="parse">מילוי הפרטים מההודעה</button>
 ${spec.found ? `<div class="found" role="status">${esc(spec.found)}</div>` : ''}</div>`}
 <form data-form="job" novalidate>
 <div class="field"><span class="lbl">מקור</span><div class="chips" role="radiogroup" aria-label="מקור">${srcs.map(s => `<button type="button" class="chip" role="radio" data-act="src" data-s="${s}" aria-checked="${d.source === s}">${SOURCE[s]}</button>`).join('')}</div></div>
-<div class="field"${d.source === 'contractor' || d.source === 'chromagen' ? '' : ' hidden'} id="f-srcname-wrap"><label for="f-source_name">${d.source === 'contractor' ? 'שם הקבלן' : 'הערה למקור (למשל עמידר)'}</label><input class="input" id="f-source_name" name="source_name" value="${esc(d.source_name)}" maxlength="60"></div>
-<div class="field"><label for="f-title">מה העבודה</label><input class="input" id="f-title" name="title" list="titles" value="${esc(d.title)}" maxlength="120" placeholder="למשל: מחליף חום 120 ליטר"></div>
+<div class="field"${d.source === 'contractor' || d.source === 'chromagen' ? '' : ' hidden'} id="f-srcname-wrap"><label for="f-source_name">${d.source === 'contractor' ? 'שם הקבלן' : 'הערה למקור (למשל עמידר)'}</label><input class="input" id="f-source_name"${AUTO()} name="source_name" value="${esc(d.source_name)}" maxlength="60"></div>
+<div class="field"><label for="f-title">מה העבודה</label><input class="input" id="f-title"${AUTO()} name="title" list="titles" value="${esc(d.title)}" maxlength="120" placeholder="למשל: מחליף חום 120 ליטר"></div>
 <datalist id="titles">${TITLES.map(t => `<option value="${esc(t)}">`).join('')}</datalist>
-<div class="grid2"><div class="field"><label for="f-name">שם הלקוח</label><input class="input" id="f-name" name="name" value="${esc(d.name)}" maxlength="60" autocomplete="off"></div>
+<div class="grid2"><div class="field"><label for="f-name">שם הלקוח</label><input class="input" id="f-name"${AUTO()} name="name" value="${esc(d.name)}" maxlength="60" autocomplete="off"></div>
 <div class="field"><label for="f-phone">טלפון</label><input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" value="${esc(d.phone)}" maxlength="20" autocomplete="off"></div></div>
-<div class="grid2"><div class="field"><label for="f-city">יישוב</label><input class="input" id="f-city" name="city" list="cities" value="${esc(d.city)}" maxlength="40" autocomplete="off"></div>
-<div class="field"><label for="f-address">רחוב ומספר</label><input class="input" id="f-address" name="address" value="${esc(d.address)}" maxlength="120" autocomplete="off"></div></div>
+<div class="grid2"><div class="field"><label for="f-city">יישוב</label><input class="input" id="f-city"${AUTO()} name="city" list="cities" value="${esc(d.city)}" maxlength="40" autocomplete="off"></div>
+<div class="field"><label for="f-address">רחוב ומספר</label><input class="input" id="f-address"${AUTO()} name="address" value="${esc(d.address)}" maxlength="120" autocomplete="off"></div></div>
 <datalist id="cities">${allCities().map(c => `<option value="${esc(c)}">`).join('')}</datalist>
 <div class="field"><label for="f-date">תאריך</label><input class="input" id="f-date" name="date" type="date" value="${esc(d.date)}"></div>
 <div id="f-dayload">${dayLoadHTML(d.date, spec.id, d.city)}</div>
@@ -952,7 +1045,7 @@ ${timeChips('f')}
 <div class="field"><label for="f-sale_no">מספר מכירה</label><input class="input num" id="f-sale_no" name="sale_no" value="${esc(d.sale_no)}" maxlength="20" inputmode="numeric"></div></div>
 <div class="field"><label for="f-case_no">מספר פניה (אחריות)</label><input class="input num" id="f-case_no" name="case_no" value="${esc(d.case_no || '')}" maxlength="20" inputmode="numeric" placeholder="225153"></div>
 <label class="switch"><input type="checkbox" name="call_before"${d.call_before ? ' checked' : ''}> להתקשר ללקוח חצי שעה לפני ההגעה</label>
-<div class="field"><label for="f-notes">הערות ודגשים</label><textarea class="input" id="f-notes" name="notes" rows="4" maxlength="2000">${esc(d.notes)}</textarea></div>
+<div class="field"><label for="f-notes">הערות ודגשים</label><textarea class="input" id="f-notes"${AUTO()} name="notes" rows="4" maxlength="2000">${esc(d.notes)}</textarea></div>
 <div class="field"><label for="f-ext_link">קישור לעדכון אחרי ביקור (כרומגן)</label><input class="input" id="f-ext_link" name="ext_link" type="url" value="${esc(d.ext_link)}" maxlength="400" dir="ltr"></div>
 <div class="err" id="f-err" role="alert"></div>
 <button class="btn primary block" type="submit" style="margin-top:6px">${spec.id ? 'שמירה' : 'הוספת העבודה'}</button>
@@ -1003,8 +1096,8 @@ ${chips ? `<div class="field"><span class="lbl">הימים שהלקוח סימן
 <div class="grid2"><div class="field"><label for="s-from">משעה</label>${timeSel('id="s-from" name="from" required', v.from)}</div>
 <div class="field"><label for="s-to">עד שעה</label>${timeSel('id="s-to" name="to" required', v.to)}</div></div>
 ${timeChips('s')}
-<div class="grid2" style="margin-top:12px"><div class="field"><label for="s-city">יישוב</label><input class="input" id="s-city" name="city" list="cities2" value="${esc(v.city)}" maxlength="40"></div>
-<div class="field"><label for="s-address">רחוב ומספר</label><input class="input" id="s-address" name="address" value="${esc(v.address)}" maxlength="120"></div></div>
+<div class="grid2" style="margin-top:12px"><div class="field"><label for="s-city">יישוב</label><input class="input" id="s-city"${AUTO()} name="city" list="cities2" value="${esc(v.city)}" maxlength="40"></div>
+<div class="field"><label for="s-address">רחוב ומספר</label><input class="input" id="s-address"${AUTO()} name="address" value="${esc(v.address)}" maxlength="120"></div></div>
 <datalist id="cities2">${allCities().map(c => `<option value="${esc(c)}">`).join('')}</datalist>
 <div class="err" id="s-err" role="alert"></div>
 <button class="btn primary block" type="submit">שמירה${j.phone ? ' ושליחת אישור בוואטסאפ' : ''}</button>
@@ -1016,7 +1109,7 @@ SHEETS.wa = spec => {
   const j = S.jobs.get(spec.id);
   if (!j) return head('העבודה לא נמצאה');
   if (spec.text == null) spec.text = tplText(spec.tpl, j);
-  return `${head('הודעה בוואטסאפ', `${esc(j.name || '')} · <span class="ltr">${esc(showPhone(j.phone))}</span>`)}
+  return `${head('הודעה בוואטסאפ', `<span translate="no">${esc(j.name || '')}</span> · <span class="ltr">${esc(showPhone(j.phone))}</span>`)}
 <div class="chips" role="radiogroup" aria-label="סוג ההודעה">${TPLS.map(t => `<button type="button" class="chip" role="radio" data-act="tpl" data-k="${t.k}" aria-checked="${t.k === spec.tpl}">${t.label}</button>`).join('')}</div>
 <div class="field" style="margin-top:12px"><label for="wa-text">ההודעה (אפשר לערוך לפני השליחה)</label><textarea class="input tpl-preview" id="wa-text" rows="7">${esc(spec.text)}</textarea></div>
 ${(spec.tpl === 'confirm' || spec.tpl === 'remind') && !j.starts_at ? '<p class="err">לעבודה הזו עוד אין מועד.</p>' : ''}
@@ -1025,7 +1118,7 @@ ${(spec.tpl === 'confirm' || spec.tpl === 'remind') && !j.starts_at ? '<p class=
 
 // ---------- search ----------
 SHEETS.search = spec => `${head('חיפוש עבודה')}
-<input class="input" id="q" type="search" placeholder="שם, טלפון, יישוב, כתובת או מספר" value="${esc(spec.q || '')}" autofocus autocomplete="off">
+<input class="input" id="q"${AUTO()} type="search" placeholder="שם, טלפון, יישוב, כתובת או מספר" value="${esc(spec.q || '')}" autofocus autocomplete="off">
 <div class="search-res" id="q-res">${searchResultsHTML(spec)}</div>`;
 function searchResultsHTML(spec) {
   const q = String(spec.q || '').trim();
@@ -1036,8 +1129,8 @@ function searchResultsHTML(spec) {
   return list.slice(0, 40).map(j => `<button type="button" class="job src-${esc(j.source)}" data-act="open-job" data-id="${esc(j.id)}" style="grid-template-columns:auto 1fr">
 <span class="time">${j.starts_at ? esc(dm(jobKey(j))) : '—'}<small>${esc(jobTime(j))}</small></span>
 <span class="ttl">${esc(j.title || 'עבודה')} <span class="pill ${esc(j.status)}">${esc(statusLabel(j))}</span></span>
-<span class="where">${j.city ? `<b>${esc(j.city)}</b>` : ''}${j.address ? ' · ' + esc(j.address) : ''}</span>
-<span class="who">${esc(j.name || '')} · #${esc(j.ref)}</span></button>`).join('') + more;
+<span class="where" translate="no">${j.city ? `<b>${esc(j.city)}</b>` : ''}${j.address ? ' · ' + esc(j.address) : ''}</span>
+<span class="who"><span translate="no">${esc(j.name || '')}</span> · #${esc(j.ref)}</span></button>`).join('') + more;
 }
 function searchLocal(q) {
   const k = q.replace(/\s+/g, ' ').toLowerCase(), digits = q.replace(/\D/g, '');
@@ -1060,7 +1153,7 @@ SHEETS.hours = () => {
   return `${head('ימים ושעות באתר', 'מה הלקוחות יכולים לבחור במחשבון באתר')}
 <form data-form="hours">
 <div class="field"><span class="lbl">ימי עבודה</span>
-${[0, 1, 2, 3, 4, 5, 6].map(i => `<div style="display:flex;align-items:center;gap:8px;margin:4px 0"><b style="min-width:52px">${WD[i]}</b>
+${[0, 1, 2, 3, 4, 5, 6].map(i => `<div style="display:flex;align-items:center;gap:8px;margin:4px 0"><b style="min-width:52px">${wdName(i)}</b>
 <label class="chip"><input type="checkbox" name="wd-${i}-morning"${(wd[i] || []).includes('morning') ? ' checked' : ''}> בוקר</label>
 <label class="chip"><input type="checkbox" name="wd-${i}-noon"${(wd[i] || []).includes('noon') ? ' checked' : ''}> צהריים</label></div>`).join('')}</div>
 <div class="grid2"><div class="field"><label for="h-mf">בוקר משעה</label>${timeSel('id="h-mf" name="morning-from"', (w.morning || {}).from || '08:00')}</div>
@@ -1077,7 +1170,7 @@ ${[[0, 'היום'], [1, 'מחר'], [2, 'מחרתיים'], [3, 'בעוד 3 ימי
 SHEETS.blocks = spec => {
   const list = S.blocks.filter(b => (b.day_to || b.day_from) >= addDays(todayKey(), -1));
   return `${head('ימי חופש', 'בימים האלה האתר לא מציע מועדים')}
-${list.length ? `<div class="list" style="margin-top:0">${list.map(b => `<div class="set-row" style="border:1px solid var(--line);border-radius:12px"><span class="grow"><span class="ttl">${esc(dayShort(b.day_from))}${b.day_to && b.day_to !== b.day_from ? ' – ' + esc(dayShort(b.day_to)) : ''}</span><span class="sub" style="display:block">${esc(b.reason || '')}</span></span>
+${list.length ? `<div class="list" style="margin-top:0">${list.map(b => `<div class="set-row" style="border:1px solid var(--line);border-radius:12px"><span class="grow"><span class="ttl">${esc(dayShort(b.day_from))}${b.day_to && b.day_to !== b.day_from ? ' – ' + esc(dayShort(b.day_to)) : ''}</span><span class="sub" style="display:block" translate="no">${esc(b.reason || '')}</span></span>
 <button type="button" class="iconbtn" data-act="del-block" data-id="${esc(b.id)}" aria-label="מחיקת יום החופש">${ic('trash', 'sm')}</button></div>`).join('')}</div>` : '<p class="muted">אין ימי חופש קרובים.</p>'}
 <form data-form="block" class="box"><h3>הוספת יום חופש</h3>
 <div class="grid2"><div class="field"><label for="b-from">מתאריך</label><input class="input" id="b-from" type="date" name="from" required value="${esc(spec.from || '')}"></div>
@@ -1178,7 +1271,17 @@ const ACT = {
   'schedule': el => openSheet({ type: 'schedule', id: el.dataset.id }),
   'search': () => openSheet({ type: 'search', q: '' }),
   'sheet-close': () => closeSheet(),
-  'pick-user': el => { S.loginUser = Number(el.dataset.i); S.loginErr = ''; renderLogin(); },
+  'pick-user': el => {
+    S.loginUser = Number(el.dataset.i); S.loginErr = '';
+    const u = (CFG.users || [])[S.loginUser];
+    if (u) setLang(langOf(u.email));
+    renderLogin();
+  },
+  'lang': () => {
+    setLang(S.lang === 'ru' ? 'he' : 'ru', true);
+    refresh();
+    if (S.stack.length) renderSheet(false);
+  },
   'src': el => {
     const spec = S.stack[S.stack.length - 1];
     readForm(spec);
@@ -1225,14 +1328,14 @@ const ACT = {
       const left = [!v.title && 'מה העבודה', !v.date && 'תאריך'].filter(Boolean);
       const dateNote = !p.date && v.date ? ` התאריך לא כתוב בהודעה, כרגע ${dayShort(v.date)}.` : '';
       const ph = normPhone(v.phone), twin = ph.length >= 9 && [...S.jobs.values()].find(j => j.phone_norm === ph && (j.status === 'new' || j.status === 'scheduled'));
-      spec.found = `מילאתי ${got.join(', ')}.${left.length ? ` נשאר למלא: ${left.join(' ו')}.` : ''}${dateNote}${twin ? ` שימו לב: כבר יש עבודה פתוחה עם הטלפון הזה (#${twin.ref}).` : ''} כדאי לעבור על הפרטים לפני השמירה.`;
+      spec.found = `מילאתי ${got.join(', ')}.${left.length ? ` נשאר למלא: ${left.join(', ')}.` : ''}${dateNote}${twin ? ` שימו לב: כבר יש עבודה פתוחה עם הטלפון הזה (#${twin.ref}).` : ''} כדאי לעבור על הפרטים לפני השמירה.`;
     } else spec.found = `${c ? 'הודעת כרומגן' : 'הודעה מהאתר'}: מילאתי ${got.join(', ')}. כדאי לעבור על הפרטים לפני השמירה.`;
     renderSheet(false);
   },
   'set-status': async el => {
     const id = el.dataset.id, s = el.dataset.s, j = S.jobs.get(id);
     if (!j) return;
-    if (s === 'cancelled' && !confirm('לבטל את העבודה?' + (j.gcal_id ? ' היא תימחק גם מיומן גוגל.' : ''))) return;
+    if (s === 'cancelled' && !ask('לבטל את העבודה?' + (j.gcal_id ? ' היא תימחק גם מיומן גוגל.' : ''))) return;
     if (s === 'scheduled' && !j.starts_at) { openSheet({ type: 'schedule', id }); return; }
     try {
       await saveJob({ status: s }, id);
@@ -1240,13 +1343,13 @@ const ACT = {
       refresh();
       renderSheet(false);
       if (s === 'done' && j.phone && (S.settings.templates || {}).review) {
-        setTimeout(() => { if (confirm('לשלוח ללקוח בקשה לביקורת בגוגל?')) openSheet({ type: 'wa', id, tpl: 'review' }); }, 150);
+        setTimeout(() => { if (ask('לשלוח ללקוח בקשה לביקורת בגוגל?')) openSheet({ type: 'wa', id, tpl: 'review' }); }, 150);
       }
     } catch (e) { toast(errText(e)); }
   },
   'delete-job': async el => {
     const id = el.dataset.id;
-    if (!confirm('למחוק את העבודה לגמרי? אי אפשר לבטל את זה.')) return;
+    if (!ask('למחוק את העבודה לגמרי? אי אפשר לבטל את זה.')) return;
     const { data, error } = await sb.from('jobs').delete().eq('id', id).select('id');
     if (error) { toast(errText(error)); return; }
     if (!data || !data.length) { toast('העבודה כבר ביומן גוגל, אז מבטלים אותה במקום למחוק'); await reload(true); renderSheet(false); return; }
@@ -1291,7 +1394,7 @@ const ACT = {
   'set-tpls': () => openSheet({ type: 'tpls' }),
   'set-pass': () => openSheet({ type: 'pass' }),
   'del-block': async el => {
-    if (!confirm('למחוק את יום החופש?')) return;
+    if (!ask('למחוק את יום החופש?')) return;
     const { error } = await sb.from('blocks').delete().eq('id', el.dataset.id);
     if (error) { toast(errText(error)); return; }
     S.blocks = S.blocks.filter(b => b.id !== el.dataset.id);
@@ -1299,7 +1402,7 @@ const ACT = {
     refresh();
   },
   'logout': async () => {
-    if (!confirm('להתנתק?')) return;
+    if (!ask('להתנתק?')) return;
     try { await sb.auth.signOut(); } catch (_) { /* offline */ }
     location.reload();
   },
@@ -1332,7 +1435,7 @@ const ACT = {
     } catch (e) { toast(errText(e)); }
   },
   'gcal-off': async () => {
-    if (!confirm('להפסיק להעתיק עבודות ליומן גוגל? מה שכבר ביומן נשאר שם.')) return;
+    if (!ask('להפסיק להעתיק עבודות ליומן גוגל? מה שכבר ביומן נשאר שם.')) return;
     try { await mergeSettings({ gcal: Object.assign({}, S.settings.gcal, { enabled: false }) }); renderSheet(false); refresh(); } catch (e) { toast(errText(e)); }
   },
 };
@@ -1630,6 +1733,7 @@ async function start() {
     await loadAll();
     const uidNow = S.session && S.session.user && S.session.user.id;
     S.me = S.admins.find(a => a.user_id === uidNow) || { user_id: uidNow, name: (CFG.users || []).find(u => S.session.user.email === u.email)?.name || '' };
+    setLang(langOf(S.session.user.email), true);
     S.ready = true;
     S.error = '';
   } catch (e) {

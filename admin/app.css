@@ -282,6 +282,7 @@ html.simple .app{padding-bottom:calc(108px + var(--safe-b))}
 .wiz-grid.g3{grid-template-columns:repeat(3,1fr)}
 .wiz-grid.g4{grid-template-columns:repeat(4,1fr)}
 .wiz-grid:empty{display:none}
+.wiz-grid>.wiz-hint{grid-column:1/-1;margin:0}
 #w-town-res{margin-top:8px}
 .wiz-opt{border:2px solid var(--line);background:var(--surface);border-radius:14px;min-height:58px;min-width:0;padding:8px 6px;font-size:17px;font-weight:700;line-height:1.2;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--ink);overflow-wrap:break-word}
 .wiz-opt>*{max-width:100%}
@@ -300,7 +301,7 @@ html.simple .app{padding-bottom:calc(108px + var(--safe-b))}
 .wiz .field>label,.wiz .field>.lbl{font-size:15.5px}
 .wiz .switch{font-size:17px}
 .wiz-found{font-size:15px;background:var(--ok-soft);border-radius:12px;padding:10px 12px;margin:0 0 12px}
-.wiz-err{font-size:16px;margin-top:10px;min-height:1px}
+.wiz-err{font-size:16px;margin-top:10px;min-height:1px;scroll-margin:16px 0 calc(104px + var(--safe-b))}
 .wiz-sum{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:16px}
 .wiz-row{display:grid;grid-template-columns:1fr auto;gap:1px 10px;align-items:center;text-align:start;border:0;border-bottom:1px solid var(--line-2);background:var(--surface);padding:10px 12px;color:var(--ink)}
 .wiz-row:last-child{border-bottom:0}

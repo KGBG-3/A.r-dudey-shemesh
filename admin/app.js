@@ -1026,6 +1026,16 @@ function renderSheet(first) {
     if (f) setTimeout(() => f.focus({ preventScroll: true }), 60);
     if (spec.after) spec.after(spec);
   } else sheetEl.scrollTop = keepTop;
+  if (spec.type === 'wiz' && spec.err) wizErrShow();
+}
+// a step's message is under its last field, and the step's buttons stay over the bottom of the sheet:
+// bring the message up above them (its scroll-margin in the CSS is the height of the buttons)
+function wizErrShow() {
+  // on the next frame: in Russian the texts are swapped right after the change, and the lines get longer
+  requestAnimationFrame(() => {
+    const m = $('#w-err', inner);
+    if (m && m.textContent) m.scrollIntoView({ block: 'nearest' });
+  });
 }
 function hideSheet() {
   sheetEl.classList.remove('open');
@@ -1129,11 +1139,20 @@ const jobValues = j => ({
   call_before: !!j.call_before, notes: j.notes || '', quote_link: j.quote_link || '', quote_code: j.quote_code || '',
   pref_days: j.pref_days || [], pref_window: j.pref_window || '',
 });
+// The address goes to Waze as it was typed. Tried in Waze's own search (its live map, 13.11.2026), each time
+// with the town in Hebrew. A street in Hebrew: found. A street in Latin letters: found in most tries ("Sokolov 12",
+// also "Rotshild", "Byalik", "Herzel" as people spell them); missed when the spelling followed the Russian name
+// ("Gertsl" for Herzl, "Zhabotinski") and for a street whose full name is longer than the name in use (the first
+// result was the town itself). A street in Russian letters: not found in any of five tries (the town itself,
+// another town, or nothing). So an address is not saved in Russian letters.
+const ADDR_LETTERS = 'את הכתובת כותבים בעברית או באותיות אנגליות, למשל Sokolov 12. באותיות רוסיות וויז לא מוצא אותה';
+const badAddress = d => /[\u0400-\u04FF]/.test(`${d.address || ''} ${d.city || ''}`) ? ADDR_LETTERS : '';
 // those values as a database row; { error, step } when something is missing (step: where the steps ask for it)
 function jobRow(d, id) {
   const has = s => String(s || '').trim() !== '';
   if (!has(d.title) && !has(d.name)) return { error: 'צריך לפחות מה העבודה או שם הלקוח', step: 'job' };
   if (has(d.phone) && !/^0[2-9]\d{7,8}$|^[1-9]\d{9,14}$/.test(normPhone(d.phone))) return { error: 'מספר הטלפון לא נראה תקין', step: 'who' };
+  if (badAddress(d)) return { error: badAddress(d), step: 'where' };
   let starts = null, ends = null;
   if (has(d.date)) {
     const a = toMin(d.from), b = toMin(d.to);
@@ -1327,8 +1346,12 @@ function townSearch(q) {
 function townResHTML(spec) {
   const q = townName(spec.townQ || '');
   if (q.length < 2) return '';
-  return townSearch(q).map(c => townOptHTML(c, spec.values.city)).join('')
-    || `<button type="button" class="wiz-opt" data-act="wiz-town" data-c="${esc(q)}"><b translate="no">${esc(q)}</b><small>להשתמש כמו שכתוב</small></button>`;
+  const found = townSearch(q).map(c => townOptHTML(c, spec.values.city)).join('');
+  if (found) return found;
+  // not in the list: a name in Hebrew or Latin letters can be used as written, one in Russian letters cannot (Waze)
+  return badAddress({ city: q })
+    ? `<p class="wiz-hint">לא נמצא יישוב כזה. נסו לכתוב אחרת, או באותיות אנגליות</p>`
+    : `<button type="button" class="wiz-opt" data-act="wiz-town" data-c="${esc(q)}"><b translate="no">${esc(q)}</b><small>להשתמש כמו שכתוב</small></button>`;
 }
 SHEETS.wiz = spec => {
   const j = spec.id ? (S.jobs.get(spec.id) || {}) : {};
@@ -1364,7 +1387,7 @@ ${d.source === 'chromagen' ? `<div class="grid2"><div class="field"><label for="
 <div class="field"><span class="lbl">יישוב</span><div class="wiz-grid">${topTowns(d.city).map(c => townOptHTML(c, d.city)).join('')}</div></div>
 <div class="field"><label for="w-town">יישוב אחר</label><input class="input" id="w-town" dir="auto" autocomplete="off" value="${esc(spec.townQ || '')}" placeholder="תחילת השם, באיזו שפה שנוח">
 <div class="wiz-grid" id="w-town-res">${townResHTML(spec)}</div></div>
-<div class="field"><label for="w-address">רחוב ומספר בית</label><input class="input" id="w-address" dir="auto" name="address" value="${esc(d.address)}" maxlength="120" autocomplete="off" enterkeyhint="next" placeholder="${any}"></div>`;
+<div class="field"><label for="w-address">רחוב ומספר בית</label><input class="input" id="w-address" dir="auto" name="address" value="${esc(d.address)}" maxlength="120" autocomplete="off" enterkeyhint="next" placeholder="בעברית או באותיות אנגליות"></div>`;
   } else if (step === 'when') {
     const days = Array.from({ length: 7 }, (_, n) => addDays(t, n));
     const other = !!spec.otherDate || (!!d.date && !days.includes(d.date));
@@ -1865,6 +1888,12 @@ document.addEventListener('input', e => {
   }
   // a message under a step goes away once the answer is being changed
   if (spec.type === 'wiz' && spec.err) { spec.err = ''; const m = $('#w-err', inner); if (m) m.textContent = ''; }
+  // a street in Russian letters: said under the field at the first letter, and not after the whole street was typed
+  if (e.target.id === 'w-address' && spec.type === 'wiz' && badAddress({ address: e.target.value })) {
+    spec.err = ADDR_LETTERS;
+    const m = $('#w-err', inner);
+    if (m) { m.textContent = ADDR_LETTERS; wizErrShow(); }
+  }
   if ((e.target.id === 'f-date' || e.target.id === 'f-city') && spec.type === 'form') {
     $('#f-dayload', inner).innerHTML = dayLoadHTML(($('#f-date', inner) || {}).value, spec.id, ($('#f-city', inner) || {}).value);
   }
@@ -1925,6 +1954,7 @@ const FORMS = {
     if (step === 'who' && has(d.phone) && !/^0[2-9]\d{7,8}$|^[1-9]\d{9,14}$/.test(normPhone(d.phone))) return fail('מספר הטלפון לא נראה תקין');
     // a town was typed but not picked from the list under the field: say so, rather than go on without it
     if (step === 'where' && townName(spec.townQ || '').length >= 2) return fail('לוחצים על היישוב ברשימה שמתחת לשדה');
+    if (step === 'where' && badAddress(d)) return fail(badAddress(d));
     if (step === 'when' && spec.otherDate && !has(d.date)) return fail('בוחרים תאריך, או "בלי תאריך"');
     if (step === 'when' && has(d.date) && toMin(d.from) == null) return fail('בוחרים באיזו שעה מתחילים');
     if (step !== 'check') {
@@ -1955,6 +1985,7 @@ const FORMS = {
     const a = toMin(v.from), b = toMin(v.to);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(v.date || '')) { err.textContent = 'צריך לבחור תאריך'; return; }
     if (a == null || b == null || b <= a) { err.textContent = 'צריך שעת התחלה ושעת סיום אחריה'; return; }
+    if (badAddress(v)) { err.textContent = badAddress(v); return; }
     const row = { starts_at: new Date(zoned(v.date, a)).toISOString(), ends_at: new Date(zoned(v.date, b)).toISOString(),
                   city: String(v.city || '').trim(), address: String(v.address || '').trim() };
     if (j.status === 'new' || j.status === 'cancelled') row.status = 'scheduled';

@@ -1028,6 +1028,20 @@ function renderSheet(first) {
   } else sheetEl.scrollTop = keepTop;
   if (spec.type === 'wiz' && spec.err) wizErrShow();
 }
+// the field of a step that is filled next. With the keyboard open little of the sheet is left, so the field goes
+// to the top of it and what belongs to it (the streets found, the message) shows right under
+function wizFocus(id) {
+  const f = $('#' + id, inner);
+  if (!f) return;
+  f.focus({ preventScroll: true });
+  if (f.setSelectionRange && f.type !== 'number') try { f.setSelectionRange(f.value.length, f.value.length); } catch (_) { /* not a text field */ }
+}
+const wizFieldUp = f => { if (document.activeElement === f) (f.closest('.wiz-addr') || f).scrollIntoView({ block: 'start' }); };
+document.addEventListener('focusin', e => {
+  if (e.target.id !== 'w-street' && e.target.id !== 'w-house') return;
+  wizFieldUp(e.target);
+  setTimeout(() => wizFieldUp(e.target), 350); // again once the keyboard is up and the screen is shorter
+});
 // a step's message is under its last field, and the step's buttons stay over the bottom of the sheet:
 // bring the message up above them (its scroll-margin in the CSS is the height of the buttons)
 function wizErrShow() {
@@ -1135,7 +1149,7 @@ function timeChips(name) {
 const jobValues = j => ({
   source: j.source || 'private', source_name: j.source_name || '', title: j.title || '', name: j.name || '', phone: j.phone ? showPhone(j.phone) : '',
   city: j.city || '', address: j.address || '', date: j.starts_at ? jobKey(j) : (j.date || ''), from: j.starts_at ? jobTime(j) : (j.from || ''),
-  to: j.ends_at ? jobEnd(j) : (j.to || ''), price: j.price != null ? j.price : '', sale_no: j.sale_no || '', case_no: j.case_no || '', ext_link: j.ext_link || '',
+  to: j.ends_at ? jobEnd(j) : (j.to || ''), price: j.price != null ? String(j.price) : '', sale_no: j.sale_no || '', case_no: j.case_no || '', ext_link: j.ext_link || '',
   call_before: !!j.call_before, notes: j.notes || '', quote_link: j.quote_link || '', quote_code: j.quote_code || '',
   pref_days: j.pref_days || [], pref_window: j.pref_window || '',
 });
@@ -1264,6 +1278,11 @@ function wizRead(spec) {
   const form = $('form[data-form="wiz"]', inner);
   if (!form || !spec || !spec.values) return;
   for (const el of form.elements) if (el.name) spec.values[el.name] = el.type === 'checkbox' ? el.checked : el.value;
+  const house = $('#w-house', form);
+  if (house && spec.street) { // a street picked from the list: the address is its name and what is typed after it
+    spec.house = house.value.replace(/\s+/g, ' ').trim();
+    spec.values.address = [spec.street, spec.house].filter(Boolean).join(' ');
+  }
 }
 // a pasted message: fills the values and goes to the first step that still misses something
 function wizMessage(spec, raw) {
@@ -1353,6 +1372,218 @@ function townResHTML(spec) {
     ? `<p class="wiz-hint">לא נמצא יישוב כזה. נסו לכתוב אחרת, או באותיות אנגליות</p>`
     : `<button type="button" class="wiz-opt" data-act="wiz-town" data-c="${esc(q)}"><b translate="no">${esc(q)}</b><small>להשתמש כמו שכתוב</small></button>`;
 }
+// ---------- the street of a new job, picked from the town's list ----------
+// admin/streets/<town code>.txt is the town's official street list, with every name as on the street sign
+// (tools/build-streets.py). The street is found by the start of its name, typed in Hebrew, Latin or Russian
+// letters, and saved in Hebrew: that is the text Waze finds, and what Moshe reads. A town without a list, a street
+// that is not in it, or no network: the street is typed, as before.
+const STREETS_V = 1;
+const STREET_LISTS = new Map(); // town code → 'loading' | null (could not be read) | [{ n: name, x: other words, area }]
+let STREET_CODES = null;
+function streetCode(city) {
+  if (!STREET_CODES) {
+    STREET_CODES = new Map();
+    String(self.ARDUDIM_STREETS || '').split('|').forEach(s => { const i = s.lastIndexOf(':'); if (i > 0) STREET_CODES.set(townKey(s.slice(0, i)), s.slice(i + 1)); });
+  }
+  const n = townName(city);
+  if (!n) return '';
+  // the area lists write "יהוד-מונוסון" and "כוכב יאיר-צור יגאל", the street list "יהוד" and "כוכב יאיר"
+  return STREET_CODES.get(townKey(n)) || STREET_CODES.get(townKey(townOf(n))) || (/[-–־]/.test(n) && STREET_CODES.get(townKey(n.split(/\s*[-–־]\s*/)[0]))) || '';
+}
+function loadStreets(city) {
+  const code = streetCode(city);
+  if (!code || STREET_LISTS.has(code)) return;
+  STREET_LISTS.set(code, 'loading');
+  // a network that does not answer: after a few seconds the street is typed, and the list is kept if it comes later
+  const late = setTimeout(() => { if (STREET_LISTS.get(code) === 'loading') { STREET_LISTS.set(code, null); streetsArrived(code); } }, 7000);
+  fetch(`streets/${code}.txt?v=${STREETS_V}`).then(r => r.ok ? r.text() : Promise.reject(new Error(String(r.status))))
+    .then(t => t.split('\n').filter(Boolean).map(l => {
+      const area = l[0] === '~', i = l.indexOf('|');
+      return { n: (i < 0 ? l : l.slice(0, i)).slice(area ? 1 : 0), x: i < 0 ? '' : l.slice(i + 1), area };
+    }))
+    .then(list => { const waited = STREET_LISTS.get(code) === 'loading'; STREET_LISTS.set(code, list); return waited; }, () => { const waited = STREET_LISTS.get(code) === 'loading'; if (waited) STREET_LISTS.set(code, null); return waited; })
+    .then(waited => { clearTimeout(late); if (waited) streetsArrived(code); });
+}
+// the list of a town came, or did not: the step that waits for it is on the screen
+function streetsArrived(code) {
+  const spec = S.stack[S.stack.length - 1];
+  if (!spec || spec.type !== 'wiz' || spec.step !== 'where' || streetCode(spec.values.city) !== code) return;
+  const box = $('#w-street-res', inner);
+  if (!box) return;
+  if (STREET_LISTS.get(code)) { box.innerHTML = streetResHTML(spec); return; }
+  // no list after all: what was typed so far stays, in the field for a typed street
+  const had = document.activeElement && document.activeElement.id === 'w-street';
+  spec.values.address = String(spec.streetQ || '').replace(/\s+/g, ' ').trim();
+  spec.streetQ = '';
+  spec.err = badAddress(spec.values);
+  renderSheet(false);
+  if (had) wizFocus('w-address');
+}
+// a list that could not be read (no network on a roof) is asked for again the next time a job is opened
+function streetsRetry() { for (const [code, list] of STREET_LISTS) if (list === null) STREET_LISTS.delete(code); }
+// A street's word and a typed word are compared as skeletons of consonants, like the towns, with more care, since
+// a town has hundreds of streets and a few typed letters should already bring the right one up:
+// · a ו is a vowel or a v ("שוק" is shuk, "דוד" is david), so a word has both readings; a typed b is never a ו
+// · "הגפן" is found by "gefen" too
+// · "ch" is ח or a soft כ (chaim, michael), Russian г is ג or ה (Герцль), Latin j is ז', ג' or י
+// · words of one skeleton (דן, דון, דיין are all DN; סוקולוב and שקד both start SK) are put in order by their
+//   vowels: a typed y between vowels wants יי (dayan), an o or u wants a ו, the first vowel wants the second
+//   letter to agree (so: סו, bi: בי), and a word that starts with a vowel wants א or ע (amos: עמוס, not משה)
+const ST_TYPES = new Set(['שדרות', 'סמטת', 'כיכר', 'שכונת', 'שיכון', 'רחוב', 'דרך', 'מבוא', 'מעלה', 'שביל', 'רחבת', 'משעול', 'נתיב', 'מדרגות', 'הרב', 'רבי', 'ד"ר']);
+const Q_SKIP = new Set(['רחוב', 'רח', "רח'", 'רח׳', 'st', 'st.', 'street', 'rehov', 'rechov', 'ul', 'ul.', 'улица', 'ул', 'ул.']);
+const heBare = w => String(w).replace(/["'׳״.,()]/g, '').replace(/ך/g, 'כ').replace(/ם/g, 'מ').replace(/ן/g, 'נ').replace(/ף/g, 'פ').replace(/ץ/g, 'צ').replace(/יי/g, 'י').replace(/וו/g, 'ו');
+// the readings of a Hebrew word: { k: skeleton, o: a ו of it is a vowel, v1: its first vowel ('o' סו, 'i' בי, 'a' a
+// consonant comes second), st: how it starts ('v' א ע, 'y' י, 'c' a consonant, '' ה ו), far: 0.1 without its ה }
+function heSkels(word) {
+  const all = [...String(word).replace(/["'׳״.,()]/g, '').replace(/וו/g, 'W')], out = new Map();
+  const read = (cs, far) => {
+    for (const vav of [false, true]) {
+      const k = squeeze(cs.map((c, i) => c === 'W' ? 'W' : c === 'ו' ? (i === 0 || vav ? 'W' : '') : c === 'ה' ? (i < cs.length - 1 ? 'H' : '') : (SK_HE[c] || '')).join(''));
+      if (!k || out.has(k)) continue;
+      out.set(k, { k, far, o: !vav && cs.some((c, i) => c === 'ו' && i > 0),
+                   v1: cs.length < 2 || /[האע]/.test(cs[0]) ? '' : cs[1] === 'י' ? 'i' : cs[1] === 'ו' && !vav ? 'o' : 'a',
+                   st: /[אע]/.test(cs[0]) ? 'v' : cs[0] === 'י' ? 'y' : /[הוW]/.test(cs[0]) ? '' : 'c' });
+    }
+  };
+  read(all, 0);
+  if (all.length > 3 && all[0] === 'ה') read(all.slice(1), 0.1);
+  return [...out.values()];
+}
+// the readings of a word typed in Latin or Russian letters: [skeleton, how far from the plain reading]
+function typedSkels(word) {
+  const w = String(word).toLowerCase().replace(/zh/g, 'z').replace(/sch|sh/g, 'ш').replace(/([aeiou])h$/, '$1'), out = new Map();
+  const skel = (t, vw) => squeeze([...t.replace(/tz|ts|тс/g, 'z').replace(/ch|kh/g, 'h').replace(/ph/g, 'f').replace(/th/g, 't')].map(c => vw && /[vwв]/.test(c) ? 'W' : SK_XX[c] || '').join(''));
+  for (const g of (w.includes('г') ? ['', 'х'] : [''])) for (const j of (w.includes('j') ? ['z', 'g', 'y'] : [''])) for (const c of (/ch|kh|х/.test(w) || g ? ['', 'k'] : [''])) for (const vw of (/[vwв]/.test(w) ? [false, true] : [false])) {
+    let t = g ? w.replace(/г/g, g) : w;
+    if (j) t = t.replace(/j/g, j);
+    if (c) t = t.replace(/ch|kh/g, 'k').replace(/х/g, 'к');
+    const k = skel(t, vw), far = (g ? 0.3 : 0) + (c ? 0.1 : 0) + (j === 'y' ? 0.3 : 0);
+    if (k && !(out.get(k) <= far)) out.set(k, far);
+  }
+  return [...out];
+}
+const looseSkel = s => squeeze(s.replace(/^H/, '').replace(/H/g, 'K'));
+const stWord = w => ({ he: heBare(w), k: heSkels(w), yy: /יי/.test(w) });
+// a typed word, ready to be compared
+function typedWord(w) {
+  if (/^\d+$/.test(w)) return { he: w, k: [], num: true };
+  if (/[א-ת]/.test(w)) return { he: heBare(w), k: heSkels(w).map(r => [r.k, r.far]) };
+  const l = w.toLowerCase();
+  // the first vowel, when it comes right after the first consonant: ai and ei are י (haim, weizmann, dayan)
+  const m = /^(sch|sh|ch|kh|ts|tz|zh|th|ph|[^aeiouyаеёиоуыэюяй])([aeiouyаеёиоуыэюя])([iyйия]?)/.exec(l);
+  return { he: '', k: typedSkels(w), latin: true, n: l.length,
+           // "kuk" is one consonant twice: a whole short word. "bia" is one consonant once: too little to go by
+           twice: [...l.replace(/sch|sh|ch|kh|ts|tz|zh|th|ph/g, 'x')].filter(c => SK_XX[c]).length >= 2,
+           v1: !m ? '' : m[3] && /[aeаеэ]/.test(m[2]) ? 'i' : /[ouоуюё]/.test(m[2]) ? 'o' : /[iyиыя]/.test(m[2]) ? 'i' : 'a',
+           st: /^[aeouаэоуы]/.test(l) ? 'v' : /^[iи]/.test(l) ? 'iv' : /^[yйеёюя]/.test(l) ? 'y' : 'c',
+           yy: /[aeiouаеёиоуыэюя][yй][aeiouаеёиоуыэюя]|[aeiouаеёиоуыэюя][яюё]/.test(l), oo: /[ouоуюё]/.test(l) };
+}
+// how well a typed word fits a word of a street's name: 0 the word itself, up to 3 one letter off; 9 not at all.
+// The last typed word is usually not finished, so there the start of a word counts nearly as much as the whole word.
+function wordFit(q, word, last) {
+  if (q.he) {
+    if (word.he === q.he) return 0;
+    if (word.he.startsWith(q.he)) return 0.5;
+    if (q.num) return 9;
+  }
+  let best = 9;
+  for (const [a, far] of q.k) for (const r of word.k) {
+    const b = r.k;
+    // the vowels: only for Latin and Russian letters (a Hebrew word was compared letter by letter above)
+    const start = !q.latin || !r.st ? 0 : (q.st === 'c') !== (r.st === 'c') || (q.st === 'v' && r.st === 'y') || (q.st === 'y' && r.st === 'v') ? 0.5 : 0;
+    const v = q.latin && q.v1 && r.v1 && q.v1 !== r.v1 ? 0.2 : 0;
+    let f = 9;
+    if (b === a && (a.length >= 2 || q.twice || !q.latin || !last)) f = (q.latin ? Math.min(0.5, (q.yy && !word.yy ? 0.5 : 0) + (q.oo !== r.o ? 0.25 : 0) + v) + start : 1) + far + r.far;
+    else if (a.length >= 2 && b.startsWith(a)) f = (q.latin ? (last ? 0.6 : 1) + v + start : 1.5) + far + r.far;
+    // one consonant and its vowel ("bia", "дая"): the words that start with both
+    else if (a.length === 1 && last && q.v1 && q.n >= 3 && b[0] === a && r.v1 === q.v1 && !start) f = 0.8 + far + r.far;
+    else if (a.length >= 2) {
+      const la = looseSkel(a), lb = looseSkel(b);
+      if (la.length >= 2 && (lb === la || lb.startsWith(la))) f = 2;
+      else if (a.length >= 4 && (lev1(b, a) || lev1(b.slice(0, a.length), a) || lev1(b.slice(0, a.length + 1), a))) f = 3;
+    }
+    if (f < best) best = f;
+  }
+  return best;
+}
+// "sokolov 12": the street's name, and the house number when it was typed after it
+function typedStreet(text) {
+  const t = String(text || '').replace(/\s+/g, ' ').trim(), m = /^(.*?[^\d\s,])[\s,]+(\d+\s?[א-תa-zа-я]?)$/i.exec(t);
+  return m ? { name: m[1], house: m[2] } : { name: t, house: '' };
+}
+function streetSearch(text, list) {
+  const qs = typedStreet(text).name.split(/[\s\-־,]+/).filter(w => w && !Q_SKIP.has(w.toLowerCase())).map(typedWord);
+  // a single letter says too little, and so does a single consonant ("so"), unless it is a whole short word ("kuk")
+  // or comes with its vowel ("bia"): null, for "go on typing", is not the same as an empty list
+  if (!qs.length || !qs.some(q => q.num || q.he.length >= 2 || q.k.some(x => x[0].length >= 2) || q.twice || (q.v1 && q.n >= 3))) return null;
+  const res = [];
+  for (const it of list) {
+    if (!it.w) { // the words of the street, once
+      const names = it.n.split(/[\s\-־]+/).filter(Boolean);
+      it.w = names.map(stWord);
+      it.xw = it.x ? it.x.split(/[\s\-־]+/).filter(Boolean).map(stWord) : [];
+      // where the name itself starts: after שדרות, הרב and a person's initials
+      it.lead = Math.max(0, names.findIndex(w => !ST_TYPES.has(w) && !(/["׳״.]/.test(w) && w.replace(/["׳״.]/g, '').length <= 2)));
+    }
+    const used = new Set();
+    let score = 0, first = -1;
+    for (let qi = 0; qi < qs.length; qi++) {
+      let best = 9, at = -1;
+      const last = qi === qs.length - 1;
+      it.w.forEach((w, i) => { if (!used.has(i)) { const f = wordFit(qs[qi], w, last); if (f < best) { best = f; at = i; } } });
+      // one of the street's other names ("גורדון" for יל"ג): a step behind a word of the name itself
+      if (best > 0.5) it.xw.forEach((w, i) => { if (!used.has('x' + i)) { const f = wordFit(qs[qi], w, last) + 1; if (f < best) { best = f; at = 'x' + i; } } });
+      if (best >= 9) { score = 99; break; }
+      used.add(at); score += best;
+      if (qi === 0) first = at;
+    }
+    if (score >= 99) continue;
+    res.push([score + (first === it.lead ? 0 : 0.15) + (it.area ? 0.6 : 0), it]);
+  }
+  res.sort((a, b) => a[0] - b[0] || a[1].n.length - b[1].n.length || a[1].n.localeCompare(b[1].n, 'he'));
+  // with a good match on the list, the loose ones only get in the way
+  const good = res.length && res[0][0] < 2;
+  return res.filter(x => !good || x[0] < 3).slice(0, 8).map(x => x[1]);
+}
+// an address that is already written ("הרצל 7, דירה 3"): its street in the list, and the rest
+function splitStreet(address, list) {
+  const a = String(address || '').replace(/^\s*(?:רחוב|רח[׳'])\s+/, '').replace(/\s+/g, ' ').trim();
+  let best = '';
+  for (const it of list) if (it.n.length > best.length && (a === it.n || (a.startsWith(it.n) && /[\s,]/.test(a[it.n.length])))) best = it.n;
+  return best ? { street: best, house: a.slice(best.length).replace(/^[\s,]+/, '') } : null;
+}
+// how the "where" step asks for the street: 'search' (the town's list), 'picked', or 'typed'
+function wizStreetMode(spec) {
+  const d = spec.values, code = streetCode(d.city);
+  if (spec.stCode !== code) {
+    if (spec.stCode !== undefined && spec.street) { spec.street = ''; d.address = ''; } // the street was of the other town
+    spec.stCode = code; spec.typed = false;
+  }
+  if (!code) return 'typed';
+  loadStreets(d.city);
+  const list = STREET_LISTS.get(code);
+  if (!list) return 'typed';
+  if (spec.street) return 'picked';
+  if (spec.typed) return 'typed';
+  if (String(d.address || '').trim()) {
+    if (list === 'loading') return 'typed'; // an address that is already written is shown as it is
+    const sp = splitStreet(d.address, list);
+    if (sp) { spec.street = sp.street; spec.house = sp.house; return 'picked'; }
+    spec.typed = true;
+    return 'typed';
+  }
+  return 'search';
+}
+function streetResHTML(spec) {
+  const list = STREET_LISTS.get(streetCode(spec.values.city)), q = String(spec.streetQ || '').trim();
+  const typed = `<button type="button" class="wiz-link" data-act="wiz-street-typed">הרחוב לא ברשימה</button>`;
+  if (list === 'loading') return q ? `<p class="wiz-hint">טוען את רשימת הרחובות</p>${typed}` : '';
+  if (!Array.isArray(list) || q.length < 2) return '';
+  const found = streetSearch(q, list);
+  if (!found) return '';
+  return (found.length ? found.map(it => `<button type="button" class="wiz-opt wiz-st" dir="rtl" data-act="wiz-street" data-s="${esc(it.n)}"><b translate="no">${esc(it.n)}</b>${it.area ? '<small>שכונה או אזור</small>' : ''}</button>`).join('')
+    : `<p class="wiz-hint">לא נמצא רחוב כזה ברשימה</p>`) + typed;
+}
 SHEETS.wiz = spec => {
   const j = spec.id ? (S.jobs.get(spec.id) || {}) : {};
   const d = spec.values || (spec.values = jobValues(j));
@@ -1383,11 +1614,20 @@ ${d.source === 'contractor' ? `<div class="field" style="margin-top:12px"><label
 ${d.source === 'chromagen' ? `<div class="grid2"><div class="field"><label for="w-sale_no">מספר מכירה</label><input class="input num" id="w-sale_no" name="sale_no" value="${esc(d.sale_no)}" maxlength="20" inputmode="numeric"></div>
 <div class="field"><label for="w-case_no">מספר פניה (אחריות)</label><input class="input num" id="w-case_no" name="case_no" value="${esc(d.case_no || '')}" maxlength="20" inputmode="numeric"></div></div>` : ''}`;
   } else if (step === 'where') {
+    const tops = topTowns(d.city), mode = wizStreetMode(spec);
+    tops.forEach(loadStreets); // small files: the list is there by the time a town is tapped
+    const street = mode === 'picked' ? `<div class="wiz-addr"><div class="field"><span class="lbl">רחוב</span>
+<div class="wiz-picked"><b translate="no">${esc(spec.street)}</b><button type="button" class="wiz-chg" data-act="wiz-street-clear">שינוי</button></div></div>
+<div class="field"><label for="w-house">מספר בית</label><input class="input num" id="w-house" inputmode="numeric" value="${esc(spec.house || '')}" maxlength="60" autocomplete="off" enterkeyhint="next"></div></div>`
+      : mode === 'search' ? `<div class="field wiz-addr"><label for="w-street">רחוב</label><input class="input" id="w-street" dir="auto" value="${esc(spec.streetQ || '')}" maxlength="60" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" placeholder="תחילת שם הרחוב, באיזו שפה שנוח">
+<div class="wiz-streets" id="w-street-res">${streetResHTML(spec)}</div></div>`
+      : `<div class="field wiz-addr"><label for="w-address">רחוב ומספר בית</label><input class="input" id="w-address" dir="auto" name="address" value="${esc(d.address)}" maxlength="120" autocomplete="off" enterkeyhint="next" placeholder="בעברית או באותיות אנגליות">
+${Array.isArray(STREET_LISTS.get(streetCode(d.city))) ? `<button type="button" class="wiz-link" data-act="wiz-street-list">לבחור רחוב מהרשימה</button>` : ''}</div>`;
     body = `<p class="wiz-q">איפה העבודה?</p>
-<div class="field"><span class="lbl">יישוב</span><div class="wiz-grid">${topTowns(d.city).map(c => townOptHTML(c, d.city)).join('')}</div></div>
+<div class="field"><span class="lbl">יישוב</span><div class="wiz-grid">${tops.map(c => townOptHTML(c, d.city)).join('')}</div></div>
 <div class="field"><label for="w-town">יישוב אחר</label><input class="input" id="w-town" dir="auto" autocomplete="off" value="${esc(spec.townQ || '')}" placeholder="תחילת השם, באיזו שפה שנוח">
 <div class="wiz-grid" id="w-town-res">${townResHTML(spec)}</div></div>
-<div class="field"><label for="w-address">רחוב ומספר בית</label><input class="input" id="w-address" dir="auto" name="address" value="${esc(d.address)}" maxlength="120" autocomplete="off" enterkeyhint="next" placeholder="בעברית או באותיות אנגליות"></div>`;
+${street}`;
   } else if (step === 'when') {
     const days = Array.from({ length: 7 }, (_, n) => addDays(t, n));
     const other = !!spec.otherDate || (!!d.date && !days.includes(d.date));
@@ -1624,8 +1864,8 @@ const ACT = {
   },
   'toggle-cancelled': () => { S.showCancelled = !S.showCancelled; refresh(); },
   'open-job': el => openSheet({ type: 'job', id: el.dataset.id, live: true }),
-  'new-job': () => openSheet(S.simple ? { type: 'wiz', step: 'start' } : { type: 'form', draft: { date: S.view === 'cal' && S.day >= todayKey() ? S.day : '' } }),
-  'edit-job': el => openSheet(S.simple ? { type: 'wiz', id: el.dataset.id, step: 'check' } : { type: 'form', id: el.dataset.id }),
+  'new-job': () => { streetsRetry(); openSheet(S.simple ? { type: 'wiz', step: 'start' } : { type: 'form', draft: { date: S.view === 'cal' && S.day >= todayKey() ? S.day : '' } }); },
+  'edit-job': el => { streetsRetry(); openSheet(S.simple ? { type: 'wiz', id: el.dataset.id, step: 'check' } : { type: 'form', id: el.dataset.id }); },
   'simple-on': () => { setSimple(true, true); refresh(); window.scrollTo(0, 0); },
   'simple-off': () => { setSimple(false, true); S.view = 'cal'; S.day = todayKey(); refresh(); window.scrollTo(0, 0); },
   copy: async el => {
@@ -1711,7 +1951,36 @@ const ACT = {
     renderSheet(false);
   },
   'wiz-src': el => { const spec = S.stack[S.stack.length - 1]; wizRead(spec); spec.values.source = el.dataset.s; renderSheet(false); },
-  'wiz-town': el => { const spec = S.stack[S.stack.length - 1]; wizRead(spec); spec.values.city = el.dataset.c; spec.townQ = ''; renderSheet(false); },
+  // the town is tapped: the street is next, so the keyboard opens on it at once
+  'wiz-town': el => { const spec = S.stack[S.stack.length - 1]; wizRead(spec); spec.values.city = el.dataset.c; spec.townQ = ''; renderSheet(false); wizFocus('w-street'); },
+  'wiz-street': el => {
+    const spec = S.stack[S.stack.length - 1], typed = typedStreet(spec.streetQ);
+    wizRead(spec);
+    Object.assign(spec, { street: el.dataset.s, streetQ: '', house: typed.house || spec.house || '', err: '' });
+    spec.values.address = [spec.street, spec.house].filter(Boolean).join(' ');
+    renderSheet(false);
+    wizFocus('w-house');
+  },
+  'wiz-street-clear': () => { const spec = S.stack[S.stack.length - 1]; wizRead(spec); spec.street = ''; spec.values.address = ''; renderSheet(false); wizFocus('w-street'); },
+  // the street is not in the list: it is typed, with what was typed so far
+  'wiz-street-typed': () => {
+    const spec = S.stack[S.stack.length - 1];
+    wizRead(spec);
+    const t = typedStreet(spec.streetQ);
+    spec.values.address = [t.name, t.house || spec.house].filter(Boolean).join(' ');
+    Object.assign(spec, { typed: true, street: '', streetQ: '', err: badAddress(spec.values) });
+    renderSheet(false);
+    wizFocus('w-address');
+  },
+  'wiz-street-list': () => {
+    const spec = S.stack[S.stack.length - 1];
+    wizRead(spec);
+    const t = typedStreet(spec.values.address);
+    Object.assign(spec, { typed: false, street: '', streetQ: t.name, house: t.house || spec.house || '', err: '' });
+    spec.values.address = '';
+    renderSheet(false);
+    wizFocus('w-street');
+  },
   'wiz-date': el => {
     const spec = S.stack[S.stack.length - 1], k = el.dataset.k;
     wizRead(spec);
@@ -1886,6 +2155,11 @@ document.addEventListener('input', e => {
     spec.townQ = e.target.value;
     $('#w-town-res', inner).innerHTML = townResHTML(spec);
   }
+  if (e.target.id === 'w-street' && spec.type === 'wiz') {
+    spec.streetQ = e.target.value;
+    $('#w-street-res', inner).innerHTML = streetResHTML(spec);
+    wizFieldUp(e.target); // the streets found show under the field, above the step's buttons
+  }
   // a message under a step goes away once the answer is being changed
   if (spec.type === 'wiz' && spec.err) { spec.err = ''; const m = $('#w-err', inner); if (m) m.textContent = ''; }
   // a street in Russian letters: said under the field at the first letter, and not after the whole street was typed
@@ -1954,6 +2228,7 @@ const FORMS = {
     if (step === 'who' && has(d.phone) && !/^0[2-9]\d{7,8}$|^[1-9]\d{9,14}$/.test(normPhone(d.phone))) return fail('מספר הטלפון לא נראה תקין');
     // a town was typed but not picked from the list under the field: say so, rather than go on without it
     if (step === 'where' && townName(spec.townQ || '').length >= 2) return fail('לוחצים על היישוב ברשימה שמתחת לשדה');
+    if (step === 'where' && $('#w-street', inner) && String(spec.streetQ || '').trim()) return fail('לוחצים על הרחוב ברשימה שמתחת לשדה, או על "הרחוב לא ברשימה"');
     if (step === 'where' && badAddress(d)) return fail(badAddress(d));
     if (step === 'when' && spec.otherDate && !has(d.date)) return fail('בוחרים תאריך, או "בלי תאריך"');
     if (step === 'when' && has(d.date) && toMin(d.from) == null) return fail('בוחרים באיזו שעה מתחילים');

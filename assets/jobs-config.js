@@ -7,7 +7,9 @@ window.ARDUDIM_JOBS = {
   key: 'sb_publishable_-Lxhudphtha0zfVar7VDsw_6ykvdigu',
   users: [
     { name: 'משה', email: 'moshe@ardudim.co.il' },
-    { name: 'אבא', email: 'ilya@ardudim.co.il', lang: 'ru' }  // lang: the admin opens in Russian for him; he can switch
+    // lang: the admin opens in Russian for him. simple: it opens on the simple screen (one list, big buttons,
+    // a new job in short steps). He can switch both, and the choice is kept on his phone.
+    { name: 'אבא', email: 'ilya@ardudim.co.il', lang: 'ru', simple: true }
   ],
   zone: 'Asia/Jerusalem'
 };

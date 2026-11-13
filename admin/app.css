@@ -169,6 +169,7 @@ a{color:var(--blue-ink)}
 .input{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:11px 12px;font-size:16px;line-height:1.3}
 textarea.input{resize:vertical;min-height:70px}
 .input[type=tel],.input[type=date],.input[type=time],.input[type=number],.input[type=url]{direction:ltr;text-align:right}
+[dir=ltr] .input[type=tel],[dir=ltr] .input[type=date],[dir=ltr] .input[type=time],[dir=ltr] .input[type=number],[dir=ltr] .input[type=url]{text-align:left}
 select.input{-webkit-appearance:none;appearance:none;padding-inline-end:34px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235B6472' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 12px center;background-size:14px}
 [dir=ltr] select.input{background-position:right 12px center}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -224,3 +225,97 @@ select.input{-webkit-appearance:none;appearance:none;padding-inline-end:34px;cur
 .refnum-item b{font-size:24px;font-weight:800;letter-spacing:.5px;direction:ltr;unicode-bidi:isolate}
 .refnum-item .ico{color:var(--amber-ink)}
 .refnum-item:active{transform:scale(.98)}
+
+/* ---------- the simple screen (Iliya): one list instead of the tabs, a big card per job, big buttons ---------- */
+html.simple .app{padding-bottom:calc(108px + var(--safe-b))}
+.sim-sec{margin-top:26px}
+.sim-sec:first-child{margin-top:2px}
+.sim-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sim-h h2{font-size:27px}
+.sim-h .d{font-size:16px;color:var(--muted);font-weight:600}
+.sim-day{font-family:var(--body);font-weight:800;font-size:18px;margin:16px 0 0;color:var(--navy)}
+.sim-list{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.sim-empty{margin-top:12px;padding:18px 16px;font-size:17px}
+.sj{border:1px solid var(--line);border-inline-start:6px solid var(--blue);background:var(--surface);border-radius:16px;padding:14px 14px 8px;display:flex;flex-direction:column;gap:8px;scroll-margin:96px;transition:box-shadow .3s}
+.sj.src-chromagen{border-inline-start-color:var(--chromagen)}
+.sj.src-site{border-inline-start-color:var(--orange)}
+.sj.src-contractor{border-inline-start-color:var(--contractor)}
+.sj.is-done{border-inline-start-color:var(--ok)}
+.sj.is-done .sj-time,.sj.is-done .sj-ttl,.sj.is-done .sj-where,.sj.is-done .sj-who{opacity:.6}
+.sj.flash{box-shadow:0 0 0 4px var(--orange)}
+.sj-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sj-time{font-size:24px;font-weight:800;line-height:1.2}
+.sj-top .tag{font-size:13px;padding:3px 8px}
+.sj-top .pill{font-size:13.5px;padding:4px 11px}
+.sj-ttl{font-family:var(--body);font-weight:800;font-size:20px;line-height:1.3;overflow-wrap:anywhere}
+.sj-where{font-size:19px;line-height:1.35;overflow-wrap:anywhere}
+.sj-where b{font-weight:800}
+.sj-who{font-size:17px;color:var(--muted);overflow-wrap:anywhere}
+.sj-flag{font-size:15px}
+.sj-price{font-size:17px}
+.sj .notes{font-size:16.5px;margin:0}
+.sj .refnum,.sj .prefs{margin:0}
+.sj-btns{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;margin-top:4px}
+.btn.big{min-height:62px;flex-direction:column;gap:5px;padding:8px 4px;font-size:16px;border-radius:14px}
+.btn.big .ico{width:24px;height:24px}
+.sj .btn.ok.big{background:var(--ok);color:#fff}
+.sj-more{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sj-more .linkbtn{font-size:15px;font-weight:700;color:var(--blue-ink);padding:9px 2px;display:inline-flex;align-items:center;gap:5px}
+.sim-full{margin-top:30px}
+.sbar{position:fixed;inset-inline:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(10px + var(--safe-b))}
+.sbar .inner{max-width:608px;margin:0 auto}
+.sbar-add{width:100%;min-height:62px;font-size:20px;border-radius:16px}
+.sim-back{display:flex;align-items:center;gap:8px;width:calc(100% - 32px);max-width:608px;margin:12px auto 0;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 14px;font-weight:700;font-size:15.5px;color:var(--blue-ink)}
+
+/* ---------- a new job in short steps: one question on a screen, big buttons to choose from ---------- */
+.wiz{display:flex;flex-direction:column;min-height:min(72vh,620px)}
+.wiz form{display:flex;flex-direction:column;flex:1}
+.wiz-start{min-height:0}
+.sim-sec{scroll-margin-top:84px}
+.wiz-n{font-size:14px;font-weight:700;color:var(--muted);margin:-4px 0 6px}
+.wiz-prog{height:6px;border-radius:3px;background:var(--line-2);overflow:hidden;margin-bottom:14px}
+.wiz-prog i{display:block;height:100%;background:var(--orange);border-radius:3px}
+.wiz-q{font-family:var(--display);font-size:25px;line-height:1.2;margin:2px 0 14px}
+.wiz-sub{font-weight:800;font-size:17px;margin:16px 0 8px}
+.wiz-hint{font-size:15.5px;color:var(--muted);margin:14px 0 0;line-height:1.5}
+.wiz-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.wiz-grid.g3{grid-template-columns:repeat(3,1fr)}
+.wiz-grid.g4{grid-template-columns:repeat(4,1fr)}
+.wiz-grid:empty{display:none}
+.wiz-grid>.wiz-hint{grid-column:1/-1;margin:0}
+#w-town-res{margin-top:8px}
+.wiz-opt{border:2px solid var(--line);background:var(--surface);border-radius:14px;min-height:58px;min-width:0;padding:8px 6px;font-size:17px;font-weight:700;line-height:1.2;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--ink);overflow-wrap:break-word}
+.wiz-opt>*{max-width:100%}
+.wiz-grid.g4 .wiz-opt{min-height:54px}
+.wiz-opt b{font-weight:800}
+.wiz-opt small{font-size:13px;font-weight:600;color:var(--muted)}
+.wiz-opt.off{background:var(--surface-2)}
+.wiz-opt[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.wiz-opt[aria-pressed="true"] small{color:#C9D4E5}
+.wiz-opt:active,.wiz-big:active,.wiz-row:active{transform:scale(.98)}
+.wiz-big{width:100%;display:flex;align-items:center;gap:14px;text-align:start;border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:16px 14px;margin-bottom:12px;color:var(--ink)}
+.wiz-big .ico{width:30px;height:30px;color:var(--orange-ink)}
+.wiz-big b{display:block;font-size:20px;font-weight:800}
+.wiz-big small{display:block;font-size:15px;color:var(--muted);line-height:1.4;margin-top:3px}
+.wiz .input{font-size:19px;padding:14px}
+.wiz .field>label,.wiz .field>.lbl{font-size:15.5px}
+.wiz .switch{font-size:17px}
+.wiz-found{font-size:15px;background:var(--ok-soft);border-radius:12px;padding:10px 12px;margin:0 0 12px}
+.wiz-err{font-size:16px;margin-top:10px;min-height:1px;scroll-margin:16px 0 calc(104px + var(--safe-b))}
+.wiz-sum{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.wiz-row{display:grid;grid-template-columns:1fr auto;gap:1px 10px;align-items:center;text-align:start;border:0;border-bottom:1px solid var(--line-2);background:var(--surface);padding:10px 12px;color:var(--ink)}
+.wiz-row:last-child{border-bottom:0}
+.wiz-row .k{font-size:13.5px;font-weight:700;color:var(--muted)}
+.wiz-row .v{grid-column:1;font-size:17px;font-weight:700;overflow-wrap:anywhere;line-height:1.3}
+.wiz-chg{font-size:14.5px;font-weight:700;color:var(--blue-ink);border:1px solid var(--line);border-radius:10px;padding:7px 11px;background:var(--surface);white-space:nowrap}
+.wiz-row .wiz-chg{grid-column:2;grid-row:1 / span 2}
+.wiz-end{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:17px;color:var(--muted);font-weight:600}
+.wiz-end b{font-size:20px;color:var(--ink);font-weight:800}
+.wiz-end .wiz-chg{margin-inline-start:auto}
+.wiz-row .miss{color:var(--orange-ink)}
+.sheet:has(.wiz){padding-bottom:0}
+.wiz{padding-bottom:calc(20px + var(--safe-b))}
+.wiz:has(.wiz-foot){padding-bottom:0}
+.wiz-foot{position:sticky;bottom:0;z-index:2;margin-top:auto;padding:14px 0 calc(14px + var(--safe-b));display:flex;gap:10px;background:var(--surface);box-shadow:0 -12px 12px -14px rgba(10,31,61,.35)}
+.wiz-foot .btn{min-height:60px;font-size:19px;border-radius:14px;flex:1 1 0}
+.wiz-foot .wiz-prev{flex:0 0 auto;padding-inline:18px;font-size:17px}

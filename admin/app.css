@@ -284,6 +284,16 @@ html.simple .app{padding-bottom:calc(108px + var(--safe-b))}
 .wiz-grid:empty{display:none}
 .wiz-grid>.wiz-hint{grid-column:1/-1;margin:0}
 #w-town-res{margin-top:8px}
+/* the street: found in the town's list by the start of its name, then the house number */
+.wiz-addr{scroll-margin-top:8px}
+.wiz-streets{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.wiz-streets:empty{display:none}
+.wiz-streets .wiz-hint{margin:2px 0 0}
+.wiz-opt.wiz-st{flex-direction:row;justify-content:space-between;gap:10px;min-height:54px;padding:8px 14px;text-align:start}
+.wiz-opt.wiz-st b{font-size:18px}
+.wiz-picked{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:58px;border:2px solid var(--navy);border-radius:14px;background:var(--surface);padding-block:9px;padding-inline:14px 10px}
+.wiz-picked b{font-size:19px;font-weight:800;overflow-wrap:anywhere}
+.wiz-link{display:inline-block;border:0;background:none;padding:12px 2px 4px;font-size:16px;font-weight:700;color:var(--blue-ink);text-decoration:underline;text-underline-offset:3px}
 .wiz-opt{border:2px solid var(--line);background:var(--surface);border-radius:14px;min-height:58px;min-width:0;padding:8px 6px;font-size:17px;font-weight:700;line-height:1.2;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--ink);overflow-wrap:break-word}
 .wiz-opt>*{max-width:100%}
 .wiz-grid.g4 .wiz-opt{min-height:54px}

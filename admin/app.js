@@ -132,7 +132,7 @@ const fullAddress = j => [j.address, j.city].map(s => String(s || '').trim()).fi
 const cityKey = t => String(t || '').replace(/[\s\-–—־"״'׳`]/g, '');
 
 // ---------- navigation ----------
-// Waze searches for the text and drives to its first match: with "דירה 3" in it ("הבעל שם טוב 32, דירה 3, עמנואל") it
+// Waze searches for the text and drives to its first match: with "דירה 3" in it ("הרצל 32, דירה 3, אריאל") it
 // matched nothing and took a shop near the phone. So Waze gets the street, number and town only.
 // Never add `ll` unless it is the exact point of the address: with ll Waze drives to ll and ignores the text
 // (the town's centre as ll sent every job to the middle of its town, 13.11.2026).
@@ -207,7 +207,7 @@ const TITLES = ['מערכת מלאה 150 ליטר', 'מערכת מלאה 120 ל�
 const S = {
   session: null, me: null, admins: [], settings: {}, jobs: new Map(), blocks: [],
   loadedFrom: null, view: 'cal', day: todayKey(), showCancelled: false,
-  stack: [], ready: false, error: '', loginUser: null, loginBusy: false, loginErr: '', lang: 'he',
+  stack: [], ready: false, error: '', loginUser: null, loginBusy: false, loginErr: '', lang: 'he', simple: false,
 };
 
 // ======================================================================
@@ -290,6 +290,17 @@ function setLang(l, save) {
 // the user's own choice on this phone, else Russian for Iliya (assets/jobs-config.js), else Hebrew
 const langOf = email => lsGet(`${LANG_KEY}:${email}`) || ((CFG.users || []).find(u => u.email === email) || {}).lang || 'he';
 setLang(lsGet(LANG_KEY) || 'he');
+// the simple screen (simpleHTML, SHEETS.wiz): `simple: true` for the user in assets/jobs-config.js, then the user's
+// own choice on this phone
+const SIMPLE_KEY = 'ardudim_admin_simple';
+const myEmail = () => (S.session && S.session.user && S.session.user.email) || '';
+const cfgUser = email => (CFG.users || []).find(u => u.email === email) || {};
+const simpleOf = email => { const v = lsGet(`${SIMPLE_KEY}:${email}`); return v == null ? !!cfgUser(email).simple : v === '1'; };
+function setSimple(on, save) {
+  S.simple = !!on;
+  document.documentElement.classList.toggle('simple', S.simple);
+  if (save && myEmail()) lsSet(`${SIMPLE_KEY}:${myEmail()}`, S.simple ? '1' : '0');
+}
 let sb = null;
 const configured = () => /^https?:\/\/\S+$/.test(String(CFG.url || '')) && !!CFG.key && !/__SUPABASE_/.test(String(CFG.url) + String(CFG.key));
 if (window.supabase && configured()) {
@@ -539,7 +550,7 @@ function parseSiteMsg(raw) {
   return out;
 }
 
-// any other message, such as a customer's details forwarded on WhatsApp ("הכתובת אנדרסן 12 פתח תקווה / הלקוח הוא ... / 054...").
+// any other message, such as a customer's details forwarded on WhatsApp ("הכתובת הרצל 7 פתח תקווה / הלקוח הוא ... / 052...").
 // Each line goes to the field it fits; a line that fits none goes to the notes. The job itself is filled only when the
 // message names it (guessTitle), otherwise Moshe types it.
 const PHONE_RE = /(?<![\d+])(?:\+?972[-\s.]?|0)(?:5\d|7\d|[2-489])(?:[-\s.]?\d){7}(?!\d)/g;
@@ -551,7 +562,7 @@ const looksLikeName = (s, byPhone) => s.length <= 30 && /^[א-ת][א-ת'׳"״\-]
   && (!townOf(s) || (byPhone && !/\s/.test(s) && !allCities().some(c => townKey(c) === townKey(s))));
 const looksLikeStreet = s => /^(?:(?:ב?רחוב|ב?רח['׳]|ב?שד(?:רות|['׳])|ב?דרך|ב?סמטת|ב?כיכר)\s*)?[א-ת][א-ת'׳"״\-]*(?:\s+[א-ת'׳"״\-]+){0,4}\s+\d{1,4}[א-ת]?(?:\s*\/\s*\d{1,3})?(?=$|[\s,])/.test(s)
   && !/^(?:קומה|דירה|כניסה|בניין)/.test(s) && !/ליטר|₪|ש"ח|ש״ח|שקל|שעה|מחיר|דוד|מערכת|קולט|מחליף|(?:^|\s)(?:ב?יום|ב?תאריך|מועד|מחר|מחרתיים|היום)(?=$|\s)/.test(s);
-// the town of an address: it comes last ("אנדרסן 12 פתח תקווה") or first ("בפתח תקווה ברחוב אנדרסן 12"), never in the
+// the town of an address: it comes last ("הרצל 7 פתח תקווה") or first ("בפתח תקווה ברחוב הרצל 7"), never in the
 // middle, and never a street named after a town ("ירושלים 5"). Longest first: "בני ברק", not the moshav "ברק".
 const STREET_WORD = /^(?:רחוב|רח['׳]|שדרות|שד['׳]|דרך|סמטת|כיכר|שכונת)$/;
 function findTown(s) {
@@ -569,7 +580,7 @@ function findTown(s) {
   for (let n = Math.min(4, w.length - 1); n >= 1; n--) { const m = at(0, n); if (m && !/^\d/.test(w[n][0])) return m; }
   return null;
 }
-// street, number and town from "אנדרסן 12 פתח תקווה", "ברחוב אנדרסן 12 בפתח תקווה" or "פתח תקווה, אנדרסן 12"
+// street, number and town from "הרצל 7 פתח תקווה", "ברחוב הרצל 7 בפתח תקווה" or "פתח תקווה, הרצל 7"
 function splitAddress(s) {
   const tw = findTown(s);
   let addr = tw ? s.slice(0, tw.a) + ' ' + s.slice(tw.b) : s;
@@ -628,7 +639,7 @@ function parseFree(raw) {
       if (orig && (mine.length || /[א-תA-Za-z0-9]/.test(s)) && !GREETING.test(s)) lines.push({ s, ph: mine.length > 0, mine, orig, li });
     });
   });
-  // a piece right next to a phone on the same line ("ניר אהרון 054...") is the name before anything else, even a town's name (עדי)
+  // a piece right next to a phone on the same line ("דני כהן 052...") is the name before anything else, even a town's name (עדי)
   lines.forEach((ln, i) => { ln.byPhone = [lines[i - 1], lines[i + 1]].some(o => o && o.ph && o.li === ln.li); });
   const first = phones.length ? normPhone(phones[0]) : '', noted = new Set();
   const note = (text, li) => notes.push({ text, li });
@@ -716,6 +727,35 @@ function parseFree(raw) {
   return (out.phone || out.name || out.address || out.city || out.date) ? out : null;
 }
 
+// a pasted message into the values of a job (the form, or the steps of the simple screen): a Chromagen coordination,
+// a request from the site, or any other message. null when nothing was found; { existing } when that request from
+// the site is already saved; else { found }: the note that says what was filled and what is left.
+function applyMessage(raw, v) {
+  const c = parseChromagen(raw), s = c ? null : parseSiteMsg(raw), fr = c || s ? null : parseFree(raw);
+  const p = c || s || fr;
+  if (!p) return null;
+  if (s) {
+    const ph = normPhone(s.phone);
+    const ex = [...S.jobs.values()].find(j => (s.ref && j.ref === s.ref) || (ph.length >= 9 && j.source === 'site' && j.status === 'new' && j.phone_norm === ph));
+    if (ex) return { existing: ex };
+  }
+  // a second message adds to the notes of the first (the customer's details, then the day from Iliya)
+  if (fr && fr.notes && v.notes && !v.notes.includes(fr.notes)) fr.notes = `${v.notes}\n${fr.notes}`;
+  for (const k of ['source', 'source_name', 'title', 'name', 'phone', 'city', 'address', 'date', 'from', 'to', 'sale_no', 'case_no', 'ext_link', 'notes', 'quote_link', 'quote_code', 'pref_window']) {
+    if (p[k] != null && p[k] !== '') v[k] = p[k];
+  }
+  if (p.price != null) v.price = p.price;
+  if (p.call_before) v.call_before = true;
+  if (p.pref_days && p.pref_days.length) v.pref_days = p.pref_days;
+  const got = [p.name && 'שם', p.phone && 'טלפון', (p.city || p.address) && 'כתובת', p.date && (p.from ? 'תאריך ושעה' : 'תאריך'), !p.date && p.from && 'שעה',
+    p.sale_no && 'מספר מכירה', p.case_no && 'מספר פניה', p.title && 'עבודה', fr && p.price != null && 'מחיר', fr && p.call_before && 'להתקשר לפני', fr && p.notes && 'הערות'].filter(Boolean);
+  if (!fr) return { found: `${c ? 'הודעת כרומגן' : 'הודעה מהאתר'}: מילאתי ${got.join(', ')}. כדאי לעבור על הפרטים לפני השמירה.` };
+  const left = [!v.title && 'מה העבודה', !v.date && 'תאריך'].filter(Boolean);
+  const dateNote = !p.date && v.date ? ` התאריך לא כתוב בהודעה, כרגע ${dayShort(v.date)}.` : '';
+  const ph = normPhone(v.phone), twin = ph.length >= 9 && [...S.jobs.values()].find(j => j.phone_norm === ph && (j.status === 'new' || j.status === 'scheduled'));
+  return { found: `מילאתי ${got.join(', ')}.${left.length ? ` נשאר למלא: ${left.join(', ')}.` : ''}${dateNote}${twin ? ` שימו לב: כבר יש עבודה פתוחה עם הטלפון הזה (#${twin.ref}).` : ''} כדאי לעבור על הפרטים לפני השמירה.` };
+}
+
 // ======================================================================
 // rendering
 // ======================================================================
@@ -724,7 +764,8 @@ function refresh() {
   if (!S.session) return renderLogin();
   if (!S.ready) { root.innerHTML = `${topbarHTML()}<div class="loading">טוען…</div>`; return; }
   const y = window.scrollY;
-  root.innerHTML = topbarHTML() + bannerHTML() + `<main class="view" id="main">${viewHTML()}</main>` + tabbarHTML();
+  root.innerHTML = topbarHTML() + bannerHTML() + (S.simple ? `<main class="view" id="main">${simpleHTML()}</main>` + simpleBarHTML()
+    : backToSimpleHTML() + `<main class="view" id="main">${viewHTML()}</main>` + tabbarHTML());
   window.scrollTo(0, y);
   const top = S.stack[S.stack.length - 1];
   if (top && top.live) renderSheet(false);
@@ -732,7 +773,7 @@ function refresh() {
 function topbarHTML() {
   return `<header class="topbar"><div class="brand"><img src="${LOGO}" alt=""><div><h1>עבודות</h1><small>א.ר דודי שמש${S.me ? ' · ' + esc(S.me.name) : ''}</small></div></div>
 <div class="tb-actions"><button type="button" class="tb-btn tb-lang" data-act="lang" translate="no" lang="${lng('ru', 'he')}">${lng('Русский', 'עברית')}</button>
-<button type="button" class="tb-btn" data-act="search" aria-label="חיפוש עבודה">${ic('search')}</button></div></header>`;
+${S.simple ? '' : `<button type="button" class="tb-btn" data-act="search" aria-label="חיפוש עבודה">${ic('search')}</button>`}</div></header>`;
 }
 function bannerHTML() {
   if (S.error) return `<div class="banner err" role="alert">${esc(S.error)} <button type="button" class="btn sm ghost" data-act="reload">${ic('refresh', 'sm')}נסו שוב</button></div>`;
@@ -854,6 +895,67 @@ ${j.phone ? `<a class="btn ghost sm" href="${esc(telHref(j.phone))}">${ic('phone
 </article>`).join('') : `<div class="empty"><b>אין עבודות מחר</b>${requests().length ? 'יש בקשות שמחכות למועד בלשונית "בקשות"' : ''}</div>`}</div>`;
 }
 
+// ---------- the simple screen ----------
+// One list instead of the tabs: today, tomorrow, what waits for a date, the days after. Every job is a big card with
+// all of its details and its three buttons, so nothing has to be opened. The rest is one tap away (the full screen).
+function simpleHTML() {
+  const t = todayKey(), tm = tomorrowKey(), all = [...S.jobs.values()];
+  const byStart = (a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at) || (a.ref - b.ref);
+  const today = jobsOn(t).filter(j => j.status === 'scheduled' || j.status === 'done');
+  const tomorrow = jobsOn(tm).filter(j => j.status === 'scheduled');
+  const waiting = requests();
+  const later = all.filter(j => j.starts_at && j.status === 'scheduled' && jobKey(j) > tm).sort(byStart);
+  const missed = all.filter(j => j.starts_at && j.status === 'scheduled' && jobKey(j) < t && jobKey(j) >= addDays(t, -14)).sort(byStart);
+  const sec = (title, sub, body, id) => `<section class="sim-sec"${id ? ` id="${id}"` : ''}><div class="sim-h"><h2>${title}</h2>${sub ? `<span class="d">${sub}</span>` : ''}</div>${body}</section>`;
+  const cards = list => `<div class="sim-list">${list.map(simpleCardHTML).join('')}</div>`;
+  const byDay = list => [...new Set(list.map(jobKey))].map(k => `<h3 class="sim-day">${esc(dayLong(k))}</h3>${cards(list.filter(j => jobKey(j) === k))}`).join('');
+  const blk = isBlocked(t);
+  return sec('היום', esc(dayLong(t)), (blk ? `<div class="dayoff" style="margin-top:10px">יום חופש${blk.reason ? ': ' + esc(blk.reason) : ''}</div>` : '')
+      + (today.length ? cards(today) : `<div class="empty sim-empty">אין עבודות היום</div>`))
+    + sec('מחר', esc(dayLong(tm)), tomorrow.length ? cards(tomorrow) : `<div class="empty sim-empty">אין עבודות מחר</div>`, 'sim-tomorrow')
+    + (waiting.length ? sec('מחכות למועד', String(waiting.length), cards(waiting), 'sim-waiting') : '')
+    + (later.length ? sec('בהמשך', '', byDay(later)) : '')
+    + (missed.length ? sec('ימים קודמים', 'עוד לא סומנו', byDay(missed)) : '')
+    + `<button type="button" class="btn ghost block sim-full" data-act="simple-off">${ic('gear', 'sm')}כל האפשרויות (המסך המלא)</button>`;
+}
+function simpleCardHTML(j) {
+  const id = esc(j.id), done = j.status === 'done', isNew = j.status === 'new';
+  const btns = [];
+  if (String(j.address || '').trim()) btns.push(`<a class="btn navy big" href="${esc(wazeHref(j))}" target="_blank" rel="noopener">${ic('nav')}ניווט</a>`);
+  if (j.phone) btns.push(`<a class="btn ghost big" href="${esc(telHref(j.phone))}">${ic('phone')}חיוג</a>`);
+  if (isNew) btns.push(`<button type="button" class="btn primary big" data-act="schedule" data-id="${id}">${ic('cal')}קביעת מועד</button>`);
+  else if (!done && jobKey(j) <= todayKey()) btns.push(`<button type="button" class="btn ok big" data-act="set-status" data-id="${id}" data-s="done">${ic('check')}בוצע</button>`);
+  else if (!done) btns.push(`<button type="button" class="btn ghost big" data-act="schedule" data-id="${id}">${ic('clock')}שינוי מועד</button>`);
+  const refs = [['מספר מכירה', j.sale_no], ['מספר פניה', j.case_no]].filter(r => r[1]);
+  return `<article class="sj src-${esc(j.source)}${done ? ' is-done' : ''}" data-id="${id}">
+<div class="sj-top">${j.starts_at ? `<b class="sj-time ltr num">${esc(jobTime(j))}–${esc(jobEnd(j))}</b>` : `<span class="pill new">${esc(statusLabel(j))}</span>`}${done ? `<span class="pill done">בוצע</span>` : ''}${isNew && j.source === 'site' ? '' : sourceTag(j)}</div>
+<h3 class="sj-ttl">${esc(j.title || 'עבודה')}</h3>
+${j.city || j.address ? `<div class="sj-where" translate="no">${j.city ? `<b>${esc(j.city)}</b>` : ''}${j.city && j.address ? ' · ' : ''}${esc(j.address || '')}</div>` : ''}
+${j.name || j.phone ? `<div class="sj-who">${j.name ? `<span translate="no">${esc(j.name)}</span>` : ''}${j.name && j.phone ? ' · ' : ''}${j.phone ? `<span class="ltr num">${esc(showPhone(j.phone))}</span>` : ''}</div>` : ''}
+${j.call_before && j.status === 'scheduled' ? `<div class="flag sj-flag">${ic('phone', 'sm')}להתקשר ללקוח חצי שעה לפני ההגעה</div>` : ''}
+${isNew ? prefsHTML(j) : ''}
+${refs.length ? `<div class="refnum">${refs.map(([k, v]) => `<button type="button" class="refnum-item" data-act="copy" data-copy="${esc(v)}" aria-label="${k} ${esc(v)}. לחיצה מעתיקה"><span class="refnum-k">${k}</span><b class="num">${esc(v)}</b>${ic('copy', 'sm')}</button>`).join('')}</div>` : ''}
+${j.price != null ? `<div class="sj-price">מחיר: <b class="num">₪${fmtNum(j.price)}</b></div>` : ''}
+${j.notes ? `<div class="notes" translate="no" dir="auto">${esc(j.notes)}</div>` : ''}
+${btns.length ? `<div class="sj-btns">${btns.join('')}</div>` : ''}
+${!isNew && safeUrl(j.ext_link) ? `<a class="btn ghost block" href="${esc(safeUrl(j.ext_link))}" target="_blank" rel="noopener">${ic('link', 'sm')}עדכון אחרי ביקור (כרומגן)</a>` : ''}
+<div class="sj-more">${done ? `<button type="button" class="linkbtn" data-act="set-status" data-id="${id}" data-s="scheduled">${ic('undo', 'sm')}עוד לא בוצע</button>` : '<span></span>'}<button type="button" class="linkbtn" data-act="open-job" data-id="${id}">פרטים ושינויים</button></div>
+</article>`;
+}
+const simpleBarHTML = () => `<nav class="sbar" aria-label="עבודה חדשה"><div class="inner"><button type="button" class="btn primary sbar-add" data-act="new-job">${ic('plus', 'lg')}עבודה חדשה</button></div></nav>`;
+// in the full screen, for a user whose own screen is the simple one: the way back, on every tab
+const backToSimpleHTML = () => cfgUser(myEmail()).simple ? `<button type="button" class="sim-back" data-act="simple-on">${ic(lng('right', 'left'), 'sm')}חזרה למסך הפשוט</button>` : '';
+// a job that was just saved: brought into view and outlined for a moment, so it is clear where it went
+function flashJob(id) {
+  setTimeout(() => {
+    const el = $(`.sj[data-id="${id}"]`);
+    if (!el) return;
+    el.scrollIntoView({ block: 'center' });
+    el.classList.add('flash');
+    setTimeout(() => el.classList.remove('flash'), 2600);
+  }, 320);
+}
+
 // ---------- settings ----------
 function settingsHTML() {
   const st = S.settings, g = st.gcal || {}, n = st.notify || {};
@@ -872,6 +974,7 @@ ${row('set-areas', 'אזורים ויישובים', `<span translate="no">${esc(
 ${row('set-tpls', 'נוסחי ההודעות בוואטסאפ', 'אישור מועד, תזכורת, בדרך, ביקורת')}
 </div>
 <div class="set-group">
+${row('simple-on', 'מסך פשוט', 'רשימה אחת עם כפתורים גדולים, והוספת עבודה בשלבים קצרים')}
 ${row('lang', 'שפה', S.lang === 'ru' ? 'Русский' : 'עברית')}
 ${row('set-pass', 'שינוי סיסמה', `מחובר/ת בתור ${esc(S.me ? S.me.name : '')}`)}
 <button type="button" class="set-row" data-act="logout"><span class="grow"><span class="ttl">התנתקות</span></span>${ic('out', 'sm')}</button>
@@ -930,14 +1033,25 @@ function hideSheet() {
   setTimeout(() => { if (!S.stack.length) { sheetEl.hidden = true; inner.innerHTML = ''; } }, 260);
   if (lastFocus && lastFocus.focus) try { lastFocus.focus({ preventScroll: true }); } catch (_) { /* gone */ }
 }
+let closing = false; // the app itself is closing a sheet (not the phone's back button)
 function closeSheet(all) {
   const n = all ? S.stack.length : 1;
   if (!n) return;
-  if (history.state && history.state.s) history.go(-n);
+  if (history.state && history.state.s) { closing = true; history.go(-n); }
   else { S.stack.splice(-n, n); S.stack.length ? renderSheet(true) : hideSheet(); }
 }
 window.addEventListener('popstate', () => {
-  const depth = (history.state && history.state.s) || 0;
+  const depth = (history.state && history.state.s) || 0, mine = closing, top = S.stack[S.stack.length - 1];
+  closing = false;
+  // the phone's back button inside the steps of a job: one step back, and what was filled in stays
+  if (!mine && top && top.type === 'wiz' && S.stack.length > depth && top.step && top.step !== 'start' && !(top.id && top.step === 'check' && !top.ret)) {
+    try { history.pushState({ s: S.stack.length }, ''); } catch (_) { /* file:// */ }
+    wizRead(top);
+    const i = WIZ_STEPS.indexOf(top.step);
+    Object.assign(top, { step: top.ret ? 'check' : i > 0 ? WIZ_STEPS[i - 1] : 'start', ret: false, err: '', found: '' });
+    renderSheet(true);
+    return;
+  }
   if (S.stack.length > depth) {
     S.stack.length = depth;
     if (depth) renderSheet(true); else hideSheet();
@@ -975,7 +1089,7 @@ SHEETS.job = spec => {
   const refBox = refs.length ? `<div class="refnum">${refs.map(([k, v]) => `<button type="button" class="refnum-item" data-act="copy" data-copy="${esc(v)}" aria-label="${k} ${esc(v)}. לחיצה מעתיקה"><span class="refnum-k">${k}</span><b class="num">${esc(v)}</b>${ic('copy', 'sm')}</button>`).join('')}</div>` : '';
   return `${head(esc(j.title || 'עבודה'), `#${esc(j.ref)} · ${sourceTag(j)} <span class="pill ${esc(j.status)}">${esc(statusLabel(j))}</span>`)}
 ${refBox}<div class="box" style="margin-top:0"><b>${when}</b>${j.call_before && j.status === 'scheduled' ? `<div class="flag" style="margin-top:4px">${ic('phone', 'sm')}להתקשר ללקוח חצי שעה לפני ההגעה</div>` : ''}
-${L && L.list.length > 1 ? `<div class="small muted" style="margin-top:4px">באותו יום: ${L.list.filter(x => x.id !== j.id).map(x => `${esc(jobTime(x))} ${esc(x.city || x.title)}`).join(' · ')}</div>` : ''}</div>
+${L && L.list.length > 1 ? `<div class="small muted" style="margin-top:4px">באותו יום: ${L.list.filter(x => x.id !== j.id).map(x => `${esc(jobTime(x))} ${x.city ? `<span translate="no">${esc(x.city)}</span>` : esc(x.title)}`).join(' · ')}</div>` : ''}</div>
 <div class="row-btns" style="margin:12px 0">
 ${j.phone ? `<button type="button" class="btn wa" data-act="wa" data-id="${esc(j.id)}" data-tpl="${j.status === 'new' ? (j.source === 'site' ? 'request' : 'free') : j.status === 'done' ? 'review' : 'confirm'}">${waIc('sm')}וואטסאפ</button><a class="btn ghost" href="${esc(telHref(j.phone))}">${ic('phone', 'sm')}חיוג</a>` : ''}
 ${fullAddress(j) ? `<a class="btn ghost" href="${esc(wazeHref(j))}" target="_blank" rel="noopener">${ic('nav', 'sm')}ניווט</a>` : ''}
@@ -1007,15 +1121,50 @@ function timeChips(name) {
   const slots = [['08:00', '10:00'], ['10:00', '12:00'], ['12:00', '14:00'], ['14:00', '16:00']];
   return `<div class="chips" style="margin-top:6px">${slots.map(([a, b]) => `<button type="button" class="chip num" data-act="slot" data-f="${a}" data-t="${b}" data-n="${name}"><span class="ltr">${a}–${b}</span></button>`).join('')}</div>`;
 }
+// a job (or the draft of a new one) as the values the form and the steps edit
+const jobValues = j => ({
+  source: j.source || 'private', source_name: j.source_name || '', title: j.title || '', name: j.name || '', phone: j.phone ? showPhone(j.phone) : '',
+  city: j.city || '', address: j.address || '', date: j.starts_at ? jobKey(j) : (j.date || ''), from: j.starts_at ? jobTime(j) : (j.from || ''),
+  to: j.ends_at ? jobEnd(j) : (j.to || ''), price: j.price != null ? j.price : '', sale_no: j.sale_no || '', case_no: j.case_no || '', ext_link: j.ext_link || '',
+  call_before: !!j.call_before, notes: j.notes || '', quote_link: j.quote_link || '', quote_code: j.quote_code || '',
+  pref_days: j.pref_days || [], pref_window: j.pref_window || '',
+});
+// those values as a database row; { error, step } when something is missing (step: where the steps ask for it)
+function jobRow(d, id) {
+  const has = s => String(s || '').trim() !== '';
+  if (!has(d.title) && !has(d.name)) return { error: 'צריך לפחות מה העבודה או שם הלקוח', step: 'job' };
+  if (has(d.phone) && !/^0[2-9]\d{7,8}$|^[1-9]\d{9,14}$/.test(normPhone(d.phone))) return { error: 'מספר הטלפון לא נראה תקין', step: 'who' };
+  let starts = null, ends = null;
+  if (has(d.date)) {
+    const a = toMin(d.from), b = toMin(d.to);
+    if (a == null) return { error: 'חסרה שעת התחלה', step: 'when' };
+    const end = b == null ? a + 60 * (Number(S.settings.jobHours) || 2) : b;
+    if (end <= a) return { error: 'שעת הסיום צריכה להיות אחרי שעת ההתחלה', step: 'when' };
+    starts = new Date(zoned(d.date, a)).toISOString();
+    ends = new Date(zoned(d.date, end)).toISOString();
+  }
+  const old = id ? S.jobs.get(id) : null;
+  let status = old ? old.status : 'new';
+  if (starts && status === 'new') status = 'scheduled';
+  if (!starts && status === 'scheduled') status = 'new';
+  if (!starts && status === 'done') return { error: 'לעבודה שבוצעה צריך תאריך', step: 'when' };
+  const row = {
+    source: d.source, source_name: (d.source === 'contractor' || d.source === 'chromagen') ? String(d.source_name || '').trim() : '',
+    title: String(d.title || '').trim(), name: String(d.name || '').trim(), phone: has(d.phone) ? normPhone(d.phone) : '',
+    city: String(d.city || '').trim(), address: String(d.address || '').trim(), starts_at: starts, ends_at: ends, status,
+    price: has(d.price) ? Number(d.price) : null, sale_no: String(d.sale_no || '').trim(), ext_link: String(d.ext_link || '').trim(),
+    call_before: !!d.call_before, notes: String(d.notes || '').trim(),
+  };
+  const caseNo = String(d.case_no || '').replace(/\s+/g, '').trim();
+  if (S.caseCol) row.case_no = caseNo;
+  else if (caseNo && !row.notes.includes(caseNo)) row.notes = `מספר פניה: ${caseNo}` + (row.notes ? '\n' + row.notes : '');
+  if (row.ext_link && !safeUrl(row.ext_link)) return { error: 'הקישור צריך להתחיל ב-https://', step: 'check' };
+  if (!id) Object.assign(row, { quote_link: d.quote_link || '', quote_code: d.quote_code || '', pref_days: d.pref_days || [], pref_window: d.pref_window || '' });
+  return { row };
+}
 SHEETS.form = spec => {
   const j = spec.id ? (S.jobs.get(spec.id) || {}) : (spec.draft || {});
-  const d = spec.values || {
-    source: j.source || 'private', source_name: j.source_name || '', title: j.title || '', name: j.name || '', phone: j.phone ? showPhone(j.phone) : '',
-    city: j.city || '', address: j.address || '', date: j.starts_at ? jobKey(j) : (j.date || ''), from: j.starts_at ? jobTime(j) : (j.from || ''),
-    to: j.ends_at ? jobEnd(j) : (j.to || ''), price: j.price != null ? j.price : '', sale_no: j.sale_no || '', case_no: j.case_no || '', ext_link: j.ext_link || '',
-    call_before: !!j.call_before, notes: j.notes || '', quote_link: j.quote_link || '', quote_code: j.quote_code || '',
-    pref_days: j.pref_days || [], pref_window: j.pref_window || '',
-  };
+  const d = spec.values || jobValues(j);
   spec.values = d;
   const srcs = spec.id && j.source === 'site' ? ['site'] : ['chromagen', 'contractor', 'private'].concat(!spec.id && d.source === 'site' ? ['site'] : []);
   return `${head(spec.id ? 'עריכת עבודה' : 'עבודה חדשה')}
@@ -1057,7 +1206,7 @@ function dayLoadHTML(key, exceptId, city) {
   const parts = [];
   if (blk) parts.push(`יום חופש${blk.reason ? ' (' + esc(blk.reason) + ')' : ''}`);
   else if (closed) parts.push('יום שבדרך כלל לא עובדים בו');
-  parts.push(list.length ? `באותו יום כבר יש: ${list.map(j => `<span class="ltr num">${esc(jobTime(j))}</span> ${esc(j.city || j.title || '')}`).join(' · ')}` : 'אין עוד עבודות באותו יום');
+  parts.push(list.length ? `באותו יום כבר יש: ${list.map(j => `<span class="ltr num">${esc(jobTime(j))}</span> ${j.city ? `<span translate="no">${esc(j.city)}</span>` : esc(j.title || '')}`).join(' · ')}` : 'אין עוד עבודות באותו יום');
   if (city && list.some(j => areaOf(j.city) && areaOf(j.city) === areaOf(city))) parts.push('<b style="color:var(--ok)">יש עבודה באותו אזור</b>');
   return `<div class="dayload">${dayShort(key)}: ${parts.join('<br>')}</div>`;
 }
@@ -1071,6 +1220,199 @@ function readForm(spec) {
   if (form) Object.assign(spec.values, formValues(form));
   return spec.values;
 }
+
+// ---------- a new job in short steps (the simple screen) ----------
+// One question on a screen, big buttons to choose from, and as little typing as possible. What is typed (a name,
+// a street, notes) is saved as it was written, in any language. A pasted message fills the steps by itself.
+// An edit opens at the last step, which lists everything with a "change" button next to each part.
+const WIZ_STEPS = ['job', 'who', 'where', 'when', 'check'];
+const WIZ_KINDS = ['דוד שמש', 'דוד חשמל', 'מחליף חום', 'מערכת מלאה', 'קולט', 'החלפת גוף חימום', 'תיקון נזילה', 'החלפת צנרת', 'החלפת טרמוסטט', 'ביקור טכנאי'];
+const WIZ_SIZED = new Set(['דוד שמש', 'דוד חשמל', 'מחליף חום', 'מערכת מלאה']);
+const WIZ_SIZES = ['80', '120', '150', '200'];
+const WIZ_SRC = { private: 'לקוח פרטי', contractor: 'דרך קבלן', chromagen: 'כרומגן', site: 'מהאתר' };
+// which of the buttons a title is: "דוד שמש 150 ליטר" is { kind: 'דוד שמש', size: '150' }; anything else is "other"
+function wizKind(title) {
+  const t = String(title || '').trim();
+  for (const k of WIZ_KINDS) {
+    if (t === k) return { kind: k, size: '' };
+    const m = WIZ_SIZED.has(k) && t.startsWith(k + ' ') && /^(\d{2,3}) ליטר$/.exec(t.slice(k.length + 1));
+    if (m) return { kind: k, size: m[1] };
+  }
+  return { kind: '', size: '' };
+}
+// what is typed in the step on screen, into the values (before the step is drawn again, or left)
+function wizRead(spec) {
+  const form = $('form[data-form="wiz"]', inner);
+  if (!form || !spec || !spec.values) return;
+  for (const el of form.elements) if (el.name) spec.values[el.name] = el.type === 'checkbox' ? el.checked : el.value;
+}
+// a pasted message: fills the values and goes to the first step that still misses something
+function wizMessage(spec, raw) {
+  const r = applyMessage(raw, spec.values);
+  if (!r) { spec.manual = true; spec.raw = raw; spec.err = 'לא מצאתי בהודעה שם, טלפון או כתובת'; renderSheet(false); return; }
+  if (r.existing) { closeSheet(); setTimeout(() => openSheet({ type: 'job', id: r.existing.id, live: true }), 280); toast(`הבקשה #${r.existing.ref} כבר במערכת`); return; }
+  const d = spec.values;
+  spec.found = r.found; spec.err = ''; spec.ret = false;
+  spec.step = !String(d.title || '').trim() ? 'job' : !d.date ? 'when' : 'check';
+  renderSheet(true);
+}
+// the towns of the most jobs, in the order of the area lists so that every button keeps its place
+function topTowns(current) {
+  const mine = allCities(), n = new Map();
+  for (const j of S.jobs.values()) { const c = townOf(j.city); if (c) n.set(c, (n.get(c) || 0) + 1); }
+  const pos = c => { const i = mine.indexOf(c); return i < 0 ? 999 : i; };
+  const top = [...n.entries()].sort((a, b) => b[1] - a[1] || pos(a[0]) - pos(b[0])).map(e => e[0]);
+  const list = [...new Set([...top, ...mine])].slice(0, 8).sort((a, b) => pos(a) - pos(b));
+  if (current && !list.some(c => townKey(c) === townKey(current))) { list.pop(); list.unshift(current); }
+  return list;
+}
+const ruNorm = s => String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я]/g, '');
+let RU_TOWNS = null;
+function townRu(c) {
+  if (!RU_TOWNS) { RU_TOWNS = new Map(); for (const [he, ru] of Object.entries(RU.towns || {})) RU_TOWNS.set(townKey(he), ru); }
+  return RU_TOWNS.get(townKey(c)) || '';
+}
+const townOptHTML = (c, cur) => `<button type="button" class="wiz-opt" data-act="wiz-town" data-c="${esc(c)}" aria-pressed="${!!cur && townKey(cur) === townKey(c)}">${S.lang === 'ru' && townRu(c) ? `<b translate="no">${esc(townRu(c))}</b><small translate="no">${esc(c)}</small>` : `<b translate="no">${esc(c)}</b>`}</button>`;
+// a town typed in Latin or Russian letters. Hebrew is written without vowels, so both sides become a skeleton of
+// consonant classes: "petah tikva", "петах тиква" and "פתח תקווה" are all PTHTKB. The result is a short list to
+// pick from, so a loose match is fine.
+const SK_HE = { 'ב': 'B', 'ג': 'G', 'ד': 'D', 'ז': 'Z', 'ח': 'H', 'ט': 'T', 'כ': 'K', 'ך': 'K', 'ל': 'L', 'מ': 'M', 'ם': 'M', 'נ': 'N', 'ן': 'N', 'ס': 'S', 'פ': 'P', 'ף': 'P', 'צ': 'Z', 'ץ': 'Z', 'ק': 'K', 'ר': 'R', 'ש': 'S', 'ת': 'T' };
+const SK_XX = { b: 'B', v: 'B', w: 'B', p: 'P', f: 'P', g: 'G', d: 'D', z: 'Z', h: 'H', t: 'T', k: 'K', q: 'K', c: 'K', l: 'L', m: 'M', n: 'N', r: 'R', s: 'S', x: 'KS',
+  'б': 'B', 'в': 'B', 'п': 'P', 'ф': 'P', 'г': 'G', 'д': 'D', 'з': 'Z', 'ж': 'Z', 'ц': 'Z', 'х': 'H', 'т': 'T', 'к': 'K', 'л': 'L', 'м': 'M', 'н': 'N', 'р': 'R', 'с': 'S', 'ш': 'S', 'щ': 'S', 'ч': 'H' };
+const squeeze = s => s.replace(/(.)\1+/g, '$1');
+// ה is heard at the start and in the middle of a word (הוד, יהוד), not at its end (תקווה); וו is v
+const skelHe = name => squeeze(String(name).split(/[\s\-־]+/).map(w => { const cs = [...w.replace(/וו/g, 'ב')]; return cs.map((c, i) => c === 'ה' ? (i < cs.length - 1 ? 'H' : '') : (SK_HE[c] || '')).join(''); }).join(''));
+const skelOf = q => squeeze([...String(q).toLowerCase().replace(/sch|sh/g, 's').replace(/tz|ts|тс/g, 'z').replace(/ch|kh/g, 'h').replace(/ph/g, 'f').replace(/th/g, 't')].map(c => SK_XX[c] || '').join(''));
+// at most one letter changed, added or missing
+function lev1(a, b) {
+  if (a === b) return true;
+  if (Math.abs(a.length - b.length) > 1) return false;
+  let i = 0, x = a.length - 1, y = b.length - 1;
+  while (i <= x && i <= y && a[i] === b[i]) i++;
+  while (x >= i && y >= i && a[x] === b[y]) { x--; y--; }
+  return x - i < 1 && y - i < 1;
+}
+const SKEL = new Map();
+function townSearch(q) {
+  q = townName(q);
+  if (q.length < 2) return [];
+  const mine = allCities(), seen = new Map();
+  for (const c of [...mine, ...towns().names.values()]) { const k = townKey(c); if (!seen.has(k)) seen.set(k, c); }
+  const pos = c => { const i = mine.indexOf(c); return i < 0 ? 999 : i; };
+  let score;
+  if (/[א-ת]/.test(q)) {
+    const k = townKey(q);
+    score = c => { const n = townKey(c); return n.startsWith(k) ? 0 : n.includes(k) ? 1 : 9; };
+  } else {
+    const s = skelOf(q), s0 = s.replace(/H/g, ''), r = ruNorm(q);
+    score = c => {
+      const ru = ruNorm(townRu(c));
+      if (ru && r.length >= 2 && ru.startsWith(r)) return 0;
+      if (s.length < 2) return 9;
+      if (!SKEL.has(c)) SKEL.set(c, skelHe(c));
+      const h = SKEL.get(c), h0 = h.replace(/H/g, '');
+      if (h === s) return 1;
+      if (h.startsWith(s)) return 2;
+      if (h0 === s0 || (s0.length >= 2 && h0.startsWith(s0))) return 3;
+      if (s.length >= 4 && (lev1(h, s) || lev1(h.slice(0, s.length), s) || lev1(h.slice(0, s.length + 1), s))) return 4;
+      return 9;
+    };
+  }
+  // a town of the area lists, or one big enough to have its Russian name here, comes before a small place that
+  // only happens to fit better ("petah": פתח תקווה before the moshav יפתח)
+  const known = c => pos(c) < 999 || !!townRu(c);
+  return [...seen.values()].map(c => [score(c), c]).filter(x => x[0] < 9).map(([n, c]) => [n + (known(c) ? 0 : 1.5), c])
+    .sort((a, b) => a[0] - b[0] || pos(a[1]) - pos(b[1]) || a[1].length - b[1].length || a[1].localeCompare(b[1], 'he')).slice(0, 6).map(x => x[1]);
+}
+function townResHTML(spec) {
+  const q = townName(spec.townQ || '');
+  if (q.length < 2) return '';
+  return townSearch(q).map(c => townOptHTML(c, spec.values.city)).join('')
+    || `<button type="button" class="wiz-opt" data-act="wiz-town" data-c="${esc(q)}"><b translate="no">${esc(q)}</b><small>להשתמש כמו שכתוב</small></button>`;
+}
+SHEETS.wiz = spec => {
+  const j = spec.id ? (S.jobs.get(spec.id) || {}) : {};
+  const d = spec.values || (spec.values = jobValues(j));
+  if (!spec.orig) spec.orig = JSON.stringify(d);
+  const step = spec.step || 'start', i = WIZ_STEPS.indexOf(step), t = todayKey();
+  const opt = (act, data, on, label, cls) => `<button type="button" class="wiz-opt${cls ? ' ' + cls : ''}" data-act="${act}" ${data} aria-pressed="${!!on}">${label}</button>`;
+  const any = 'אפשר לכתוב באיזו שפה שנוח';
+  let body = '';
+  if (step === 'start') {
+    body = `<p class="wiz-q">איך להוסיף את העבודה?</p>
+<button type="button" class="wiz-big" data-act="wiz-paste">${ic('paste', 'lg')}<span><b>הדבקת הודעה</b><small>מעתיקים בוואטסאפ את ההודעה של הלקוח או של כרומגן, ואז לוחצים כאן</small></span></button>
+<button type="button" class="wiz-big" data-act="wiz-step" data-s="job">${ic('edit', 'lg')}<span><b>מילוי לבד</b><small>כמה שאלות קצרות, אחת בכל פעם</small></span></button>
+${spec.manual ? `<div class="field" style="margin-top:16px"><label for="w-paste">ההודעה</label><textarea class="input" id="w-paste" dir="auto" rows="5" placeholder="נגיעה ארוכה כאן, ואז הדבקה">${esc(spec.raw || '')}</textarea></div>
+<button type="button" class="btn navy block" data-act="wiz-read">קריאת ההודעה</button>` : ''}`;
+  } else if (step === 'job') {
+    const K = wizKind(d.title), other = !!spec.other || (!K.kind && String(d.title || '').trim() !== '');
+    body = `<p class="wiz-q">מה העבודה?</p>
+<div class="wiz-grid">${WIZ_KINDS.map(k => opt('wiz-kind', `data-k="${esc(k)}"`, !other && K.kind === k, k)).join('')}${opt('wiz-kind', 'data-k=""', other, 'משהו אחר')}</div>
+${!other && WIZ_SIZED.has(K.kind) ? `<p class="wiz-sub">כמה ליטר?</p><div class="wiz-grid g4">${WIZ_SIZES.map(z => opt('wiz-size', `data-z="${z}"`, K.size === z, `<span class="num">${z}</span>`)).join('')}</div>` : ''}
+${other ? `<div class="field" style="margin-top:14px"><label for="w-title">מה צריך לעשות?</label><input class="input" id="w-title" dir="auto" name="title" value="${esc(d.title)}" maxlength="120" autocomplete="off" enterkeyhint="next" placeholder="${any}"></div>` : ''}`;
+  } else if (step === 'who') {
+    const srcs = spec.id && j.source === 'site' ? ['site'] : ['private', 'contractor', 'chromagen'].concat(d.source === 'site' ? ['site'] : []);
+    body = `<p class="wiz-q">מי הלקוח?</p>
+<div class="wiz-grid g3" role="radiogroup" aria-label="מקור">${srcs.map(x => opt('wiz-src', `data-s="${x}"`, d.source === x, WIZ_SRC[x])).join('')}</div>
+${d.source === 'contractor' ? `<div class="field" style="margin-top:12px"><label for="w-source_name">שם הקבלן</label><input class="input" id="w-source_name" dir="auto" name="source_name" value="${esc(d.source_name)}" maxlength="60" autocomplete="off"></div>` : ''}
+<div class="field" style="margin-top:12px"><label for="w-phone">טלפון</label><input class="input num" id="w-phone" name="phone" type="tel" inputmode="tel" value="${esc(d.phone)}" maxlength="20" autocomplete="off" enterkeyhint="next"></div>
+<div class="field"><label for="w-name">שם הלקוח</label><input class="input" id="w-name" dir="auto" name="name" value="${esc(d.name)}" maxlength="60" autocomplete="off" enterkeyhint="next" placeholder="${any}"></div>
+${d.source === 'chromagen' ? `<div class="grid2"><div class="field"><label for="w-sale_no">מספר מכירה</label><input class="input num" id="w-sale_no" name="sale_no" value="${esc(d.sale_no)}" maxlength="20" inputmode="numeric"></div>
+<div class="field"><label for="w-case_no">מספר פניה (אחריות)</label><input class="input num" id="w-case_no" name="case_no" value="${esc(d.case_no || '')}" maxlength="20" inputmode="numeric"></div></div>` : ''}`;
+  } else if (step === 'where') {
+    body = `<p class="wiz-q">איפה העבודה?</p>
+<div class="field"><span class="lbl">יישוב</span><div class="wiz-grid">${topTowns(d.city).map(c => townOptHTML(c, d.city)).join('')}</div></div>
+<div class="field"><label for="w-town">יישוב אחר</label><input class="input" id="w-town" dir="auto" autocomplete="off" value="${esc(spec.townQ || '')}" placeholder="תחילת השם, באיזו שפה שנוח">
+<div class="wiz-grid" id="w-town-res">${townResHTML(spec)}</div></div>
+<div class="field"><label for="w-address">רחוב ומספר בית</label><input class="input" id="w-address" dir="auto" name="address" value="${esc(d.address)}" maxlength="120" autocomplete="off" enterkeyhint="next" placeholder="${any}"></div>`;
+  } else if (step === 'when') {
+    const days = Array.from({ length: 7 }, (_, n) => addDays(t, n));
+    const other = !!spec.otherDate || (!!d.date && !days.includes(d.date));
+    const dayOpt = k => {
+      const n = activeOn(k).filter(x => x.id !== spec.id).length, blk = isBlocked(k), closed = !((S.settings.workDays || {})[wdOf(k)] || []).length;
+      const near = k === t || k === addDays(t, 1);
+      const sub = blk ? 'יום חופש' : n ? (n === 1 ? 'עבודה אחת' : n + ' עבודות') : near ? esc(dm(k)) : '';
+      return opt('wiz-date', `data-k="${k}"`, !other && d.date === k, `<b>${k === t ? 'היום' : near ? 'מחר' : `${esc(lng(WD[wdOf(k)], WDS_RU[wdOf(k)].replace(/^./, c => c.toUpperCase())))} <span class="num">${esc(dm(k))}</span>`}</b>${sub ? `<small>${sub}</small>` : ''}`, blk || closed ? 'off' : '');
+    };
+    const from = toMin(d.from) == null ? '' : toHHMM(toMin(d.from));
+    const hours = Array.from({ length: 12 }, (_, n) => toHHMM((7 + n) * 60));
+    if (from && !hours.includes(from)) { hours.push(from); hours.sort(); } // a time like 12:15 from a message keeps its own button
+    body = `<p class="wiz-q">מתי?</p>
+<div class="wiz-grid g3">${days.map(dayOpt).join('')}${opt('wiz-date', 'data-k="other"', other, '<b>תאריך אחר</b>')}${opt('wiz-date', 'data-k=""', !other && !d.date, '<b>בלי תאריך</b><small>עוד לא ידוע</small>')}</div>
+${other ? `<div class="field" style="margin-top:12px"><label for="w-date">תאריך</label><input class="input" id="w-date" name="date" type="date" value="${esc(d.date)}"></div>` : ''}
+${d.date ? `<div id="w-dayload" style="margin-top:12px">${dayLoadHTML(d.date, spec.id, d.city)}</div>` : ''}
+${d.date || other ? `<p class="wiz-sub">באיזו שעה מתחילים?</p>
+<div class="wiz-grid g4">${hours.map(h => opt('wiz-from', `data-t="${h}"`, from === h, `<span class="num ltr">${h}</span>`)).join('')}</div>
+${!from ? '' : spec.endOpen ? `<div class="field" style="margin-top:12px"><label for="w-to">עד שעה</label>${timeSel('id="w-to" name="to"', d.to, true)}</div>`
+      : `<div class="wiz-end"><span>עד שעה</span> <b class="num ltr" id="w-end">${esc(d.to || '')}</b><button type="button" class="wiz-chg" data-act="wiz-end">שינוי</button></div>`}`
+      : `<p class="wiz-hint">בלי תאריך העבודה נשמרת ברשימה "מחכות למועד", ואפשר לקבוע לה מועד אחר כך.</p>`}`;
+  } else {
+    const row = (st, k, v) => `<button type="button" class="wiz-row" data-act="wiz-step" data-s="${st}" data-ret="1"><span class="k">${k}</span><span class="v">${v}</span><span class="wiz-chg">שינוי</span></button>`;
+    const miss = '<span class="miss">חסר</span>';
+    const who = [d.name ? `<span translate="no">${esc(d.name)}</span>` : '', d.phone ? `<span class="ltr num">${esc(d.phone)}</span>` : ''].filter(Boolean).join(' · ');
+    const src = d.source && d.source !== 'private' ? ` <span class="tag ${esc(d.source)}">${esc(SOURCE[d.source] || '')}${d.source_name ? ' · ' + esc(d.source_name) : ''}</span>` : '';
+    body = `<p class="wiz-q">בדיקה ושמירה</p>
+<div class="wiz-sum">
+${row('job', 'מה העבודה', String(d.title || '').trim() ? esc(d.title) : miss)}
+${row('who', 'לקוח', (who || miss) + src)}
+${row('where', 'כתובת', d.city || d.address ? `<span translate="no">${esc([d.address, d.city].map(x => String(x || '').trim()).filter(Boolean).join(', '))}</span>` : miss)}
+${row('when', 'מתי', d.date ? `${esc(dayLong(d.date))} · <span class="ltr num">${esc(d.from || '')}${d.from && d.to ? '–' + esc(d.to) : ''}</span>` : 'עוד בלי תאריך')}
+</div>
+<div class="field"><label for="w-price">מחיר (₪)</label><input class="input num" id="w-price" name="price" type="number" inputmode="decimal" min="0" step="1" value="${esc(d.price)}"></div>
+<label class="switch"><input type="checkbox" name="call_before"${d.call_before ? ' checked' : ''}> להתקשר ללקוח חצי שעה לפני ההגעה</label>
+<div class="field"><label for="w-notes">הערות ודגשים</label><textarea class="input" id="w-notes" dir="auto" name="notes" rows="3" maxlength="2000" placeholder="${any}">${esc(d.notes)}</textarea></div>
+${d.source === 'chromagen' || d.ext_link ? `<div class="field"><label for="w-ext_link">קישור לעדכון אחרי ביקור (כרומגן)</label><input class="input" id="w-ext_link" name="ext_link" type="url" value="${esc(d.ext_link)}" maxlength="400" dir="ltr"></div>` : ''}`;
+  }
+  const back = `<button type="button" class="btn ghost wiz-prev" data-act="wiz-back">${ic(lng('right', 'left'), 'sm')}חזרה</button>`;
+  const foot = step === 'start' ? ''
+    : step === 'check' ? `<div class="wiz-foot">${spec.id ? '' : back}<button class="btn primary" type="submit">${spec.id ? 'שמירה' : 'הוספת העבודה'}</button></div>`
+    : spec.ret ? `<div class="wiz-foot"><button class="btn primary" type="submit">חזרה לבדיקה</button></div>`
+    : `<div class="wiz-foot">${back}<button class="btn primary" type="submit">המשך</button></div>`;
+  return `<div class="wiz wiz-${step}"><div class="sheet-head"><h2 id="sheetTitle">${spec.id ? 'עריכת עבודה' : 'עבודה חדשה'}</h2><button type="button" class="closebtn" data-act="sheet-close" aria-label="סגירה">${ic('x')}</button></div>
+${i >= 0 ? `<div class="wiz-n">שלב ${i + 1} מתוך ${WIZ_STEPS.length}</div><div class="wiz-prog" aria-hidden="true"><i style="width:${(i + 1) * 100 / WIZ_STEPS.length}%"></i></div>` : ''}
+${spec.found ? `<div class="found wiz-found" role="status">${esc(spec.found)}</div>` : ''}
+<form data-form="wiz" novalidate>${body}<div class="err wiz-err" id="w-err" role="alert">${esc(spec.err || '')}</div>${foot}</form></div>`;
+};
 
 // ---------- schedule a request ----------
 SHEETS.schedule = spec => {
@@ -1086,7 +1428,7 @@ SHEETS.schedule = spec => {
     const L = dayLoad(k, j.city);
     return `<button type="button" class="chip" data-act="pick-date" data-k="${k}" aria-pressed="${v.date === k}">${esc(dayShort(k))}${L.near ? ' · באזור' : L.n ? ` · ${L.n}` : ''}</button>`;
   }).join('');
-  return `${head(j.starts_at ? 'שינוי מועד' : 'קביעת מועד', `#${esc(j.ref)} · ${esc(j.title || '')}${j.city ? ' · ' + esc(j.city) : ''}`)}
+  return `${head(j.starts_at ? 'שינוי מועד' : 'קביעת מועד', `#${esc(j.ref)} · ${esc(j.title || '')}${j.city ? ` · <span translate="no">${esc(j.city)}</span>` : ''}`)}
 <form data-form="schedule" novalidate>
 ${chips ? `<div class="field"><span class="lbl">הימים שהלקוח סימן${j.pref_window ? ' · ' + esc(windowText(j)) : ''}</span><div class="chips">${chips}</div></div>` : ''}
 <div class="field"><label for="s-date">תאריך</label><input class="input" id="s-date" name="date" type="date" value="${esc(v.date)}" required></div>
@@ -1259,8 +1601,10 @@ const ACT = {
   },
   'toggle-cancelled': () => { S.showCancelled = !S.showCancelled; refresh(); },
   'open-job': el => openSheet({ type: 'job', id: el.dataset.id, live: true }),
-  'new-job': () => openSheet({ type: 'form', draft: { date: S.view === 'cal' && S.day >= todayKey() ? S.day : '' } }),
-  'edit-job': el => openSheet({ type: 'form', id: el.dataset.id }),
+  'new-job': () => openSheet(S.simple ? { type: 'wiz', step: 'start' } : { type: 'form', draft: { date: S.view === 'cal' && S.day >= todayKey() ? S.day : '' } }),
+  'edit-job': el => openSheet(S.simple ? { type: 'wiz', id: el.dataset.id, step: 'check' } : { type: 'form', id: el.dataset.id }),
+  'simple-on': () => { setSimple(true, true); refresh(); window.scrollTo(0, 0); },
+  'simple-off': () => { setSimple(false, true); S.view = 'cal'; S.day = todayKey(); refresh(); window.scrollTo(0, 0); },
   copy: async el => {
     const v = el.dataset.copy || '';
     try { await navigator.clipboard.writeText(v); toast('הועתק: ' + v); }
@@ -1268,7 +1612,15 @@ const ACT = {
   },
   'schedule': el => openSheet({ type: 'schedule', id: el.dataset.id }),
   'search': () => openSheet({ type: 'search', q: '' }),
-  'sheet-close': () => closeSheet(),
+  'sheet-close': el => {
+    const spec = S.stack[S.stack.length - 1];
+    if (spec && spec.type === 'wiz') {
+      if (el.id === 'backdrop') return; // a tap outside the steps is not "close": what was filled in would be lost
+      wizRead(spec);
+      if (spec.orig && JSON.stringify(spec.values) !== spec.orig && !ask('לסגור בלי לשמור?')) return;
+    }
+    closeSheet();
+  },
   'pick-user': el => {
     S.loginUser = Number(el.dataset.i); S.loginErr = '';
     const u = (CFG.users || [])[S.loginUser];
@@ -1302,34 +1654,75 @@ const ACT = {
     const spec = S.stack[S.stack.length - 1];
     const raw = ($('#f-paste', inner) || {}).value || '';
     readForm(spec);
-    const c = parseChromagen(raw), s = c ? null : parseSiteMsg(raw), fr = c || s ? null : parseFree(raw);
-    const p = c || s || fr;
-    if (!p) { spec.found = 'לא מצאתי בהודעה שם, טלפון או כתובת. אפשר למלא את הפרטים ידנית.'; renderSheet(false); return; }
-    if (s) {
-      // the same request was already saved from the site: open it instead of adding it again
-      const ph = normPhone(s.phone);
-      const ex = [...S.jobs.values()].find(j => (s.ref && j.ref === s.ref) || (ph.length >= 9 && j.source === 'site' && j.status === 'new' && j.phone_norm === ph));
-      if (ex) { closeSheet(); setTimeout(() => openSheet({ type: 'job', id: ex.id, live: true }), 280); toast(`הבקשה #${ex.ref} כבר במערכת`); return; }
-    }
-    const v = spec.values;
-    // a second message adds to the notes of the first (the customer's details, then the day from Iliya)
-    if (fr && fr.notes && v.notes && !v.notes.includes(fr.notes)) fr.notes = `${v.notes}\n${fr.notes}`;
-    for (const k of ['source', 'source_name', 'title', 'name', 'phone', 'city', 'address', 'date', 'from', 'to', 'sale_no', 'case_no', 'ext_link', 'notes', 'quote_link', 'quote_code', 'pref_window']) {
-      if (p[k] != null && p[k] !== '') v[k] = p[k];
-    }
-    if (p.price != null) v.price = p.price;
-    if (p.call_before) v.call_before = true;
-    if (p.pref_days && p.pref_days.length) v.pref_days = p.pref_days;
-    const got = [p.name && 'שם', p.phone && 'טלפון', (p.city || p.address) && 'כתובת', p.date && (p.from ? 'תאריך ושעה' : 'תאריך'), !p.date && p.from && 'שעה',
-      p.sale_no && 'מספר מכירה', p.case_no && 'מספר פניה', p.title && 'עבודה', fr && p.price != null && 'מחיר', fr && p.call_before && 'להתקשר לפני', fr && p.notes && 'הערות'].filter(Boolean);
-    if (fr) {
-      const left = [!v.title && 'מה העבודה', !v.date && 'תאריך'].filter(Boolean);
-      const dateNote = !p.date && v.date ? ` התאריך לא כתוב בהודעה, כרגע ${dayShort(v.date)}.` : '';
-      const ph = normPhone(v.phone), twin = ph.length >= 9 && [...S.jobs.values()].find(j => j.phone_norm === ph && (j.status === 'new' || j.status === 'scheduled'));
-      spec.found = `מילאתי ${got.join(', ')}.${left.length ? ` נשאר למלא: ${left.join(', ')}.` : ''}${dateNote}${twin ? ` שימו לב: כבר יש עבודה פתוחה עם הטלפון הזה (#${twin.ref}).` : ''} כדאי לעבור על הפרטים לפני השמירה.`;
-    } else spec.found = `${c ? 'הודעת כרומגן' : 'הודעה מהאתר'}: מילאתי ${got.join(', ')}. כדאי לעבור על הפרטים לפני השמירה.`;
+    const r = applyMessage(raw, spec.values);
+    if (!r) { spec.found = 'לא מצאתי בהודעה שם, טלפון או כתובת. אפשר למלא את הפרטים ידנית.'; renderSheet(false); return; }
+    if (r.existing) { closeSheet(); setTimeout(() => openSheet({ type: 'job', id: r.existing.id, live: true }), 280); toast(`הבקשה #${r.existing.ref} כבר במערכת`); return; }
+    spec.found = r.found;
     renderSheet(false);
   },
+  'wiz-step': el => {
+    const spec = S.stack[S.stack.length - 1];
+    wizRead(spec);
+    Object.assign(spec, { step: el.dataset.s, ret: !!el.dataset.ret, err: '', found: '' });
+    renderSheet(true);
+  },
+  'wiz-back': () => {
+    const spec = S.stack[S.stack.length - 1], i = WIZ_STEPS.indexOf(spec.step);
+    wizRead(spec);
+    Object.assign(spec, { step: i > 0 ? WIZ_STEPS[i - 1] : 'start', err: '', found: '' });
+    renderSheet(true);
+  },
+  'wiz-kind': el => {
+    const spec = S.stack[S.stack.length - 1], d = spec.values, k = el.dataset.k, was = wizKind(d.title);
+    wizRead(spec);
+    if (!k) { spec.other = true; if (was.kind) d.title = ''; }
+    else { spec.other = false; d.title = WIZ_SIZED.has(k) && was.size ? `${k} ${was.size} ליטר` : k; }
+    spec.err = '';
+    renderSheet(false);
+    if (!k) { const f = $('#w-title', inner); if (f) f.focus(); }
+  },
+  'wiz-size': el => {
+    const spec = S.stack[S.stack.length - 1], d = spec.values, K = wizKind(d.title), z = el.dataset.z;
+    if (!K.kind) return;
+    d.title = K.size === z ? K.kind : `${K.kind} ${z} ליטר`;
+    renderSheet(false);
+  },
+  'wiz-src': el => { const spec = S.stack[S.stack.length - 1]; wizRead(spec); spec.values.source = el.dataset.s; renderSheet(false); },
+  'wiz-town': el => { const spec = S.stack[S.stack.length - 1]; wizRead(spec); spec.values.city = el.dataset.c; spec.townQ = ''; renderSheet(false); },
+  'wiz-date': el => {
+    const spec = S.stack[S.stack.length - 1], k = el.dataset.k;
+    wizRead(spec);
+    if (k === 'other') spec.otherDate = true; else { spec.otherDate = false; spec.values.date = k; }
+    spec.err = '';
+    renderSheet(false);
+  },
+  'wiz-end': () => { const spec = S.stack[S.stack.length - 1]; wizRead(spec); spec.endOpen = true; renderSheet(false); },
+  // a new start keeps the length the job had (two hours when it had none)
+  'wiz-from': el => {
+    const spec = S.stack[S.stack.length - 1], d = spec.values;
+    wizRead(spec);
+    const was = toMin(d.from), end = toMin(d.to), a = toMin(el.dataset.t);
+    const len = was != null && end > was ? end - was : 60 * (Number(S.settings.jobHours) || 2);
+    d.from = el.dataset.t;
+    d.to = toHHMM(Math.min(a + len, 23 * 60 + 30));
+    spec.err = '';
+    renderSheet(false);
+  },
+  // the copied message straight from the phone's clipboard; when the phone does not allow it, a box to paste into
+  'wiz-paste': async () => {
+    const spec = S.stack[S.stack.length - 1];
+    let text = '';
+    try { text = await navigator.clipboard.readText(); } catch (_) { text = ''; }
+    if (S.stack[S.stack.length - 1] !== spec) return;
+    if (!String(text || '').trim()) {
+      Object.assign(spec, { manual: true, err: '' });
+      renderSheet(false);
+      const f = $('#w-paste', inner); if (f) f.focus();
+      return;
+    }
+    wizMessage(spec, text);
+  },
+  'wiz-read': () => { const spec = S.stack[S.stack.length - 1]; wizMessage(spec, ($('#w-paste', inner) || {}).value || ''); },
   'set-status': async el => {
     const id = el.dataset.id, s = el.dataset.s, j = S.jobs.get(id);
     if (!j) return;
@@ -1466,6 +1859,12 @@ document.addEventListener('input', e => {
     const j = S.jobs.get(spec.id), a = $('#wa-go', inner);
     if (a && j) a.href = waHref(j.phone, spec.text);
   }
+  if (e.target.id === 'w-town' && spec.type === 'wiz') {
+    spec.townQ = e.target.value;
+    $('#w-town-res', inner).innerHTML = townResHTML(spec);
+  }
+  // a message under a step goes away once the answer is being changed
+  if (spec.type === 'wiz' && spec.err) { spec.err = ''; const m = $('#w-err', inner); if (m) m.textContent = ''; }
   if ((e.target.id === 'f-date' || e.target.id === 'f-city') && spec.type === 'form') {
     $('#f-dayload', inner).innerHTML = dayLoadHTML(($('#f-date', inner) || {}).value, spec.id, ($('#f-city', inner) || {}).value);
   }
@@ -1477,6 +1876,7 @@ document.addEventListener('input', e => {
 document.addEventListener('change', e => {
   const id = e.target.id;
   if (id === 'f-date' || id === 's-date') e.target.dispatchEvent(new Event('input', { bubbles: true }));
+  if (id === 'w-date') { const spec = S.stack[S.stack.length - 1]; if (spec && spec.type === 'wiz') { wizRead(spec); renderSheet(false); } }
   // a start at or after the end (or no end yet): the end moves to the usual length of a job, so there is one less list to open
   if (id === 'f-from' || id === 's-from') {
     const to = $(`#${id[0]}-to`, inner), a = toMin(e.target.value);
@@ -1502,47 +1902,51 @@ const FORMS = {
     start();
   },
   async job(form, spec) {
-    const v = formValues(form), err = $('#f-err', inner);
-    Object.assign(spec.values, v);
-    const d = spec.values;
-    const has = s => String(s || '').trim() !== '';
-    if (!has(d.title) && !has(d.name)) { err.textContent = 'צריך לפחות מה העבודה או שם הלקוח'; return; }
-    if (has(d.phone) && !/^0[2-9]\d{7,8}$|^[1-9]\d{9,14}$/.test(normPhone(d.phone))) { err.textContent = 'מספר הטלפון לא נראה תקין'; return; }
-    let starts = null, ends = null;
-    if (has(d.date)) {
-      const a = toMin(d.from), b = toMin(d.to);
-      if (a == null) { err.textContent = 'חסרה שעת התחלה'; return; }
-      const end = b == null ? a + 60 * (Number(S.settings.jobHours) || 2) : b;
-      if (end <= a) { err.textContent = 'שעת הסיום צריכה להיות אחרי שעת ההתחלה'; return; }
-      starts = new Date(zoned(d.date, a)).toISOString();
-      ends = new Date(zoned(d.date, end)).toISOString();
-    }
-    const old = spec.id ? S.jobs.get(spec.id) : null;
-    let status = old ? old.status : 'new';
-    if (starts && status === 'new') status = 'scheduled';
-    if (!starts && status === 'scheduled') status = 'new';
-    if (!starts && status === 'done') { err.textContent = 'לעבודה שבוצעה צריך תאריך'; return; }
-    const row = {
-      source: d.source, source_name: (d.source === 'contractor' || d.source === 'chromagen') ? String(d.source_name || '').trim() : '',
-      title: String(d.title || '').trim(), name: String(d.name || '').trim(), phone: has(d.phone) ? normPhone(d.phone) : '',
-      city: String(d.city || '').trim(), address: String(d.address || '').trim(), starts_at: starts, ends_at: ends, status,
-      price: has(d.price) ? Number(d.price) : null, sale_no: String(d.sale_no || '').trim(), ext_link: String(d.ext_link || '').trim(),
-      call_before: !!d.call_before, notes: String(d.notes || '').trim(),
-    };
-    const caseNo = String(d.case_no || '').replace(/\s+/g, '').trim();
-    if (S.caseCol) row.case_no = caseNo;
-    else if (caseNo && !row.notes.includes(caseNo)) row.notes = `מספר פניה: ${caseNo}` + (row.notes ? '\n' + row.notes : '');
-    if (row.ext_link && !safeUrl(row.ext_link)) { err.textContent = 'הקישור צריך להתחיל ב-https://'; return; }
-    if (!spec.id) Object.assign(row, { quote_link: d.quote_link || '', quote_code: d.quote_code || '', pref_days: d.pref_days || [], pref_window: d.pref_window || '' });
+    const err = $('#f-err', inner);
+    Object.assign(spec.values, formValues(form));
+    const r = jobRow(spec.values, spec.id);
+    if (r.error) { err.textContent = r.error; return; }
     const btn = $('button[type=submit]', form);
     btn.disabled = true;
     try {
-      const saved = await saveJob(row, spec.id);
+      const saved = await saveJob(r.row, spec.id);
       closeSheet(!spec.id); // an edit returns to the job, a new job closes everything
       if (saved.starts_at) { S.day = jobKey(saved); if (S.view !== 'cal') S.view = 'cal'; }
       refresh();
       toast(spec.id ? 'נשמר' : `נוספה עבודה #${saved.ref}`);
     } catch (e) { err.textContent = errText(e); btn.disabled = false; }
+  },
+  async wiz(form, spec) {
+    wizRead(spec);
+    const d = spec.values, step = spec.step, has = x => String(x || '').trim() !== '';
+    const fail = msg => { spec.err = msg; renderSheet(false); };
+    spec.err = '';
+    if (step === 'job' && !has(d.title)) return fail('בוחרים מה העבודה, או כותבים אותה ב"משהו אחר"');
+    if (step === 'who' && has(d.phone) && !/^0[2-9]\d{7,8}$|^[1-9]\d{9,14}$/.test(normPhone(d.phone))) return fail('מספר הטלפון לא נראה תקין');
+    // a town was typed but not picked from the list under the field: say so, rather than go on without it
+    if (step === 'where' && townName(spec.townQ || '').length >= 2) return fail('לוחצים על היישוב ברשימה שמתחת לשדה');
+    if (step === 'when' && spec.otherDate && !has(d.date)) return fail('בוחרים תאריך, או "בלי תאריך"');
+    if (step === 'when' && has(d.date) && toMin(d.from) == null) return fail('בוחרים באיזו שעה מתחילים');
+    if (step !== 'check') {
+      Object.assign(spec, { step: spec.ret ? 'check' : WIZ_STEPS[WIZ_STEPS.indexOf(step) + 1], ret: false, found: '' });
+      return renderSheet(true);
+    }
+    const r = jobRow(d, spec.id);
+    if (r.error) {
+      spec.err = r.error;
+      if (r.step && r.step !== 'check') Object.assign(spec, { step: r.step, ret: true });
+      return renderSheet(true);
+    }
+    const btn = $('button[type=submit]', form);
+    btn.disabled = true;
+    try {
+      const saved = await saveJob(r.row, spec.id);
+      closeSheet(!spec.id); // an edit returns to the job, a new job closes everything
+      if (saved.starts_at) { S.day = jobKey(saved); S.view = 'cal'; }
+      refresh();
+      toast(spec.id ? 'נשמר' : `נוספה עבודה #${saved.ref}`);
+      if (S.simple) flashJob(saved.id);
+    } catch (e) { spec.err = errText(e); renderSheet(false); }
   },
   async schedule(form, spec) {
     const j = S.jobs.get(spec.id), err = $('#s-err', inner);
@@ -1710,8 +2114,11 @@ function openFromHash(h) {
   if (m) {
     const go1 = () => { if (S.jobs.has(m[1])) openSheet({ type: 'job', id: m[1], live: true }); else toast('העבודה לא נמצאה'); };
     S.jobs.has(m[1]) ? go1() : reload(true).then(go1);
-  } else if (/#requests/.test(hash)) go('req');
-  else if (/#tomorrow/.test(hash)) go('tom');
+  } else if (/#requests|#tomorrow/.test(hash)) {
+    go(/#requests/.test(hash) ? 'req' : 'tom');
+    const sec = S.simple && $(/#requests/.test(hash) ? '#sim-waiting' : '#sim-tomorrow');
+    if (sec) sec.scrollIntoView();
+  }
   if (hash) try { history.replaceState(history.state, '', location.pathname + location.search); } catch (_) { /* file:// */ }
 }
 
@@ -1720,6 +2127,7 @@ function openFromHash(h) {
 // ======================================================================
 async function start() {
   S.ready = false;
+  if (myEmail()) { setLang(langOf(myEmail())); setSimple(simpleOf(myEmail())); }
   refresh();
   try {
     const { data: ok, error } = await sb.rpc('is_admin');
@@ -1732,6 +2140,7 @@ async function start() {
     const uidNow = S.session && S.session.user && S.session.user.id;
     S.me = S.admins.find(a => a.user_id === uidNow) || { user_id: uidNow, name: (CFG.users || []).find(u => S.session.user.email === u.email)?.name || '' };
     setLang(langOf(S.session.user.email), true);
+    setSimple(simpleOf(S.session.user.email));
     S.ready = true;
     S.error = '';
   } catch (e) {
@@ -1751,7 +2160,7 @@ async function boot() {
   if (!sb) return renderLogin();
   try { const { data } = await sb.auth.getSession(); S.session = data && data.session; } catch (_) { S.session = null; }
   sb.auth.onAuthStateChange((ev, session) => {
-    if (ev === 'SIGNED_OUT') { S.session = null; S.ready = false; refresh(); }
+    if (ev === 'SIGNED_OUT') { S.session = null; S.ready = false; setSimple(false); refresh(); }
     else if (session) S.session = session;
   });
   if (!S.session) return renderLogin();

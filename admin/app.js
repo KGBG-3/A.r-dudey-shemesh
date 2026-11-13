@@ -132,8 +132,10 @@ const fullAddress = j => [j.address, j.city].map(s => String(s || '').trim()).fi
 const cityKey = t => String(t || '').replace(/[\s\-–—־"״'׳`]/g, '');
 
 // ---------- navigation ----------
-// Waze searches near the phone and takes the first match: "הבעל שם טוב 32, דירה 3, עמנואל" sent Moshe to a shop
-// in Tel Aviv. So Waze gets the street, number and town only, plus the town's centre (towns.js) to search around.
+// Waze searches for the text and drives to its first match: with "דירה 3" in it ("הבעל שם טוב 32, דירה 3, עמנואל") it
+// matched nothing and took a shop near the phone. So Waze gets the street, number and town only.
+// Never add `ll` unless it is the exact point of the address: with ll Waze drives to ll and ignores the text
+// (the town's centre as ll sent every job to the middle of its town, 13.11.2026).
 function navAddress(a) {
   return String(a || '')
     .replace(/(^|[\s,(])(?:מספר\s+)?(?:דירה|דיר[׳']|קומה|כניסה)\s*[:.]?\s*[\dא-ת]{0,3}[׳']?(?=$|[\s,)])/g, '$1')
@@ -164,7 +166,6 @@ function towns() {
   }
   return TOWNS;
 }
-const townLL = city => { const T = towns(); return T.exact.get(townName(city)) || T.loose.get(townKey(city)) || ''; };
 // the town's name as Moshe's area lists write it, else as the CBS list does; '' when it is not a town
 function townOf(s) {
   const T = towns(), n = townName(s), k = townKey(n);
@@ -174,10 +175,7 @@ function townOf(s) {
   if (T.exact.has(n)) return n.replace(/\s+-/g, '-');
   return T.loose.get(k) ? T.names.get(k) : '';
 }
-const wazeHref = j => {
-  const ll = townLL(j.city);
-  return `https://waze.com/ul?q=${encodeURIComponent(navQuery(j))}${ll ? '&ll=' + encodeURIComponent(ll) : ''}&navigate=yes`;
-};
+const wazeHref = j => `https://waze.com/ul?q=${encodeURIComponent(navQuery(j))}&navigate=yes`;
 function areaOf(city) {
   const k = cityKey(city);
   if (!k) return '';

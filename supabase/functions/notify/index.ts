@@ -372,7 +372,11 @@ const bare = (s: unknown) => String(s || '').replace(/["״'׳`.,()]/g, '').repla
 const NAME_EXTRAS = new Set(['רחוב', 'רח', 'שדרות', 'שדרה', 'שד', 'סמטת', 'סמטה', 'סמ', 'דרך', 'כיכר', 'ככר', 'מבוא', 'מעלה',
   'שביל', 'משעול', 'רחבת', 'נתיב', 'הרב', 'רבי', 'דר', 'דוקטור', 'פרופ', 'פרופסור']);
 const nameWords = (s: unknown) => bare(String(s || '').replace(/\d+/g, ' ')).split(' ').filter((w) => w && !NAME_EXTRAS.has(w));
-const sameWord = (a: string, b: string) => a === b || a === 'ה' + b || b === 'ה' + a; // העצמאות = עצמאות
+// One word in two spellings: the letters ו and י come and go (דוד = דויד, שמחי = שימחי, מולדובסקי = מולודובסקי:
+// Google's own answers, 15.11.2026), and so does a ה at the start (העצמאות = עצמאות). A word that is left with
+// fewer than two letters without them (לוי) is compared as written.
+const lean = (w: string) => { const x = w.replace(/[וי]/g, ''); return x.length >= 2 ? x : w; };
+const sameWord = (a: string, b: string) => { const x = lean(a), y = lean(b); return x === y || x === 'ה' + y || y === 'ה' + x; };
 // the same street: every word of the shorter name is in the longer one ("זוננפלד" and "הרב זוננפלד",
 // "רימלט" and "אלימלך רימלט"). "דוד רזיאל" and "דוד המלך" are two streets.
 export function sameStreet(asked: unknown, got: unknown): boolean {

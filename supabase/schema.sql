@@ -85,6 +85,10 @@ create table if not exists public.jobs (
   gcal_hash text,
   gcal_state text not null default '',
   gcal_at timestamptz,
+  lat double precision,                        -- the exact point of the address (Google's geocoder, through the calendar script):
+  lng double precision,                        -- the navigation button drives to it instead of searching for the text
+  geo_q text not null default '',              -- the address the point was looked up for: "address|city" ('' = not looked up yet)
+  geo_at timestamptz,                          -- when it was looked up: a point is kept for 30 days at most
   created_by uuid default auth.uid(),
   updated_by uuid,
   created_at timestamptz not null default now(),
@@ -96,6 +100,10 @@ alter sequence public.jobs_ref_seq owned by public.jobs.ref;
 alter table public.jobs add column if not exists client_key text;
 alter table public.jobs add column if not exists ip_hash text;
 alter table public.jobs add column if not exists case_no text not null default '';  -- added 10.11.2026
+alter table public.jobs add column if not exists lat double precision;               -- added 15.11.2026
+alter table public.jobs add column if not exists lng double precision;
+alter table public.jobs add column if not exists geo_q text not null default '';
+alter table public.jobs add column if not exists geo_at timestamptz;
 create index if not exists jobs_starts_at on public.jobs (starts_at);
 create index if not exists jobs_status on public.jobs (status);
 create index if not exists jobs_phone_norm on public.jobs (phone_norm);
@@ -133,11 +141,30 @@ create table if not exists public.server_kv (
 -- ---------- row upkeep ----------
 create or replace function public.jobs_touch() returns trigger
 language plpgsql set search_path = '' as $$
+declare
+  -- what the server function notes on a job by itself: the calendar copy, the point of the address, the alert
+  -- (phone_norm is worked out from phone after this trigger, so it is left out as well)
+  own constant text[] := array['gcal_id', 'gcal_hash', 'gcal_state', 'gcal_at', 'lat', 'lng', 'geo_q', 'geo_at',
+                               'notified_at', 'updated_at', 'updated_by', 'phone_norm'];
+  spot constant text := btrim(new.address) || '|' || btrim(new.city);
 begin
-  new.updated_at := now();
-  new.updated_by := coalesce(auth.uid(), new.updated_by);
+  -- "עודכן ע״י ... לפני ..." is about what a person changed: the server's own notes are not an edit
+  if (to_jsonb(new) - own) is distinct from (to_jsonb(old) - own) then
+    new.updated_at := now();
+    new.updated_by := coalesce(auth.uid(), new.updated_by);
+  end if;
   if new.status = 'done' and old.status is distinct from 'done' then new.done_at := now(); end if;
   if new.status <> 'done' then new.done_at := null; end if;
+  -- the point belongs to the address it was looked up for
+  if new.geo_q is distinct from spot then
+    if new.geo_q <> '' and old.geo_q = spot then
+      -- a late answer, for the address the job had before: the point of the address it has now stays
+      new.lat := old.lat; new.lng := old.lng; new.geo_q := old.geo_q; new.geo_at := old.geo_at;
+    else
+      -- the address is another one now (or the point is being dropped): no point, the look-up is made again
+      new.lat := null; new.lng := null; new.geo_q := ''; new.geo_at := null;
+    end if;
+  end if;
   return new;
 end $$;
 drop trigger if exists jobs_touch on public.jobs;

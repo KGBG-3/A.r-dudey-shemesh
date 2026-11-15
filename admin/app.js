@@ -175,7 +175,11 @@ function townOf(s) {
   if (T.exact.has(n)) return n.replace(/\s+-/g, '-');
   return T.loose.get(k) ? T.names.get(k) : '';
 }
-const wazeHref = j => `https://waze.com/ul?q=${encodeURIComponent(navQuery(j))}&navigate=yes`;
+// The exact point of the address, when the server found one (Google's geocoder, see "the exact point of the address"
+// in supabase/functions/notify): the button drives to the point itself, and Waze's own search has no say.
+const pointOf = j => j && typeof j.lat === 'number' && typeof j.lng === 'number' && isFinite(j.lat) && isFinite(j.lng) ? `${j.lat},${j.lng}` : '';
+const wazeHref = j => pointOf(j) ? `https://waze.com/ul?ll=${encodeURIComponent(pointOf(j))}&navigate=yes`
+  : `https://waze.com/ul?q=${encodeURIComponent(navQuery(j))}&navigate=yes`;
 function areaOf(city) {
   const k = cityKey(city);
   if (!k) return '';
@@ -327,6 +331,7 @@ async function loadAll() {
   S.jobs = new Map();
   (jb.data || []).forEach(setJob);
   S.caseCol = (jb.data || []).some(r => 'case_no' in r);
+  S.geoCol = (jb.data || []).some(r => 'geo_q' in r);
   S.loadedFrom = from;
 }
 async function ensureFrom(key) {
@@ -360,6 +365,28 @@ async function callServer(body) {
     throw new Error(detail || error.message || 'server');
   }
   return data || {};
+}
+// The points of the coming jobs that have none yet: the jobs from before the look-up existed, and the ones whose
+// look-up did not get through. Asked once each time the app opens; the points arrive like any other change.
+let pointsAsked = false;
+function pointsCatchUp() {
+  const g = S.settings.gcal || {};
+  if (pointsAsked || !S.geoCol || !g.url) return;
+  const waiting = [...S.jobs.values()].some(j => (j.status === 'new' || (j.status === 'scheduled' && jobKey(j) >= todayKey()))
+    && !j.geo_q && /\d/.test(navAddress(j.address)) && String(j.city || '').trim());
+  if (!waiting) return;
+  pointsAsked = true;
+  callServer({ op: 'gcal', sub: 'points' }).catch(() => { /* the next opening asks again */ });
+}
+// does the script in Google look addresses up? One from before 15.11.2026 does not, and the sheet says how to update it
+async function gcalGeoCheck(spec) {
+  const g = S.settings.gcal || {};
+  if (!g.url || !S.geoCol) return;
+  try {
+    const r = await callServer({ op: 'gcal', sub: 'geo' });
+    spec.geo = r.ok ? 'ok' : r.error === 'op' ? 'old' : '';
+  } catch (_) { spec.geo = ''; }
+  if (spec.geo && S.stack[S.stack.length - 1] === spec) renderSheet(false);
 }
 let channel = null;
 function listen() {
@@ -828,7 +855,7 @@ ${blk ? `<div class="dayoff" style="margin-top:10px">יום חופש${blk.reason
 ${cancelledN ? `<button type="button" class="btn sm ghost" style="margin-top:10px" data-act="toggle-cancelled">${S.showCancelled ? 'להסתיר את מה שבוטל' : `להציג ${cancelledN === 1 ? 'עבודה שבוטלה' : cancelledN + ' עבודות שבוטלו'}`}</button>` : ''}`;
 }
 function routeHref(list) {
-  const stops = list.filter(j => j.status === 'scheduled' || j.status === 'done').map(navQuery).filter(Boolean);
+  const stops = list.filter(j => j.status === 'scheduled' || j.status === 'done').map(j => pointOf(j) || navQuery(j)).filter(Boolean);
   if (!stops.length) return '#';
   const dest = stops[stops.length - 1], way = stops.slice(0, -1).slice(0, 8);
   return `https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=${encodeURIComponent(dest)}${way.length ? '&waypoints=' + encodeURIComponent(way.join('|')) : ''}`;
@@ -1093,6 +1120,10 @@ SHEETS.job = spec => {
   const L = j.starts_at ? dayLoad(jobKey(j), j.city) : null;
   const g = S.settings.gcal || {};
   const gc = !g.enabled ? '' : j.gcal_state === 'ok' ? `${ic('check', 'sm')} מופיע ביומן גוגל` : /^error/.test(j.gcal_state || '') ? `לא הועתק ליומן גוגל (${esc(j.gcal_state.replace(/^error:?\s*/, ''))})` : (j.status === 'scheduled' ? 'מועתק ליומן גוגל…' : '');
+  // where the navigation button drives to: the point Google found for the address, or Waze's own search for the text
+  const pt = !fullAddress(j) || (j.status !== 'new' && j.status !== 'scheduled') ? ''
+    : pointOf(j) ? `${ic('nav', 'sm')} הניווט מגיע לנקודה המדויקת של הכתובת (Google Maps)`
+    : j.geo_q ? 'לא נמצאה נקודה מדויקת: וויז יחפש את הכתובת לפי הטקסט' : '';
   const dl = [];
   if (j.name) dl.push(['לקוח', `<span translate="no">${esc(j.name)}</span>`]);
   if (j.phone) dl.push(['טלפון', `<a class="ltr" href="${esc(telHref(j.phone))}">${esc(showPhone(j.phone))}</a>`]);
@@ -1124,7 +1155,7 @@ ${links.length ? `<div class="row-btns" style="margin-bottom:12px">${links.join(
 <div class="row-btns">${actions.join('')}</div>
 ${j.status !== 'cancelled' && j.status !== 'done' ? `<button type="button" class="btn danger block sm" style="margin-top:10px" data-act="set-status" data-id="${esc(j.id)}" data-s="cancelled">${ic('x', 'sm')}ביטול העבודה</button>` : ''}
 ${(j.status === 'cancelled' || j.status === 'new') && !j.gcal_id ? `<button type="button" class="btn ghost block sm" style="margin-top:8px" data-act="delete-job" data-id="${esc(j.id)}">${ic('trash', 'sm')}מחיקה לגמרי</button>` : ''}
-<div class="meta-line">${gc ? gc + '<br>' : ''}${by ? `נוסף ע״י ${esc(by)} · ` : ''}${esc(ago(j.created_at))}${upd && j.updated_at !== j.created_at ? ` · עודכן ע״י ${esc(upd)} ${esc(ago(j.updated_at))}` : ''}</div>`;
+<div class="meta-line">${[gc, pt].filter(Boolean).map(x => x + '<br>').join('')}${by ? `נוסף ע״י ${esc(by)} · ` : ''}${esc(ago(j.created_at))}${upd && j.updated_at !== j.created_at ? ` · עודכן ע״י ${esc(upd)} ${esc(ago(j.updated_at))}` : ''}</div>`;
 };
 
 // ---------- new / edit ----------
@@ -1811,7 +1842,9 @@ ${[17, 18, 19, 20, 21, 22].map(h => `<option value="${h}"${Number(n.eveningHour 
 SHEETS.gcal = spec => {
   const g = S.settings.gcal || {};
   return `${head('העתק ליומן גוגל', 'כל עבודה שנקבעת, משתנה או מתבטלת כאן, מתעדכנת גם ביומן "עבודות דודים"')}
-<div class="box"><b>${g.enabled && g.url ? '<span class="ok-dot"></span> מחובר' : '<span class="off-dot"></span> לא מחובר'}</b>${spec.test ? `<div class="small" style="margin-top:6px">${esc(spec.test)}</div>` : ''}</div>
+<div class="box"><b>${g.enabled && g.url ? '<span class="ok-dot"></span> מחובר' : '<span class="off-dot"></span> לא מחובר'}</b>${spec.test ? `<div class="small" style="margin-top:6px">${esc(spec.test)}</div>` : ''}${
+  spec.geo === 'ok' ? `<div class="small" style="margin-top:6px">${ic('check', 'sm')} הניווט מקבל מגוגל את הנקודה המדויקת של הכתובת</div>`
+  : spec.geo === 'old' ? `<div class="small" style="margin-top:6px"><b>נשאר עדכון אחד, מהמחשב:</b> כדי שהניווט יגיע לנקודה המדויקת של הכתובת, מחליפים את הקוד בגוגל בקוד החדש. לוחצים למטה על "העתקת הקוד", ובפרויקט ב-script.google.com מדביקים אותו במקום הקוד הישן ושומרים. אחר כך Deploy ← Manage deployments ← העיפרון ← Version: New version ← Deploy. הכתובת (URL) נשארת אותה כתובת.</div>` : ''}</div>
 <h3 style="margin:14px 0 6px">חיבור (פעם אחת, מהמחשב)</h3>
 <ol class="steps-list">
 <li>פותחים את <a href="https://script.google.com/home/projects/create" target="_blank" rel="noopener">script.google.com</a> בחשבון שבו נמצא היומן "עבודות דודים", ונפתח פרויקט חדש.</li>
@@ -2070,7 +2103,7 @@ const ACT = {
     $('#q-res', inner).innerHTML = searchResultsHTML(spec);
   },
   'set-notify': () => { pushCheck().then(() => openSheet({ type: 'notify', live: true })); },
-  'set-gcal': () => openSheet({ type: 'gcal' }),
+  'set-gcal': () => { const spec = { type: 'gcal' }; openSheet(spec); gcalGeoCheck(spec); },
   'set-hours': () => openSheet({ type: 'hours' }),
   'set-blocks': () => openSheet({ type: 'blocks', live: true }),
   'set-areas': () => openSheet({ type: 'areas' }),
@@ -2102,7 +2135,7 @@ const ACT = {
     try {
       // the script keeps the password the system sends first, so the copied code holds no password
       const g = S.settings.gcal || {};
-      const res = await fetch('gcal-script.txt?v=2', { cache: 'no-store' });
+      const res = await fetch('gcal-script.txt?v=3', { cache: 'no-store' });
       const q = v => String(v || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
       const code = (await res.text()).replace('__CALENDAR__', q(g.calendar)).replace('__CALENDAR_NAME__', q(g.calendarName || 'עבודות דודים'));
       await navigator.clipboard.writeText(code);
@@ -2351,6 +2384,7 @@ const FORMS = {
       spec.test = r.ok ? `מחובר ליומן "${r.name || ''}"` : `החיבור לא עבד (${r.error || 'שגיאה'}). כדאי לבדוק שהקוד הודבק כולו ושנבחר Anyone.`;
       renderSheet(false);
       refresh();
+      if (r.ok) gcalGeoCheck(spec);
     } catch (e) { spec.test = errText(e); renderSheet(false); }
   },
 };
@@ -2455,6 +2489,7 @@ async function start() {
   }
   refresh();
   listen();
+  if (S.ready && !S.error) pointsCatchUp();
   pushCheck().then(() => { if (S.view === 'set') refresh(); });
   openFromHash();
 }

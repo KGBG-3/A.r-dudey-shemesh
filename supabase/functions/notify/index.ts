@@ -4,7 +4,7 @@
 //   the database, after every saved change to a job      {op: 'job', id}
 //   the database, every hour (pg_cron)                    {op: 'hourly'}
 //   the admin screen                                      {op: 'key'}, {op: 'test', endpoint},
-//                                                         {op: 'gcal', sub: 'ping' | 'resync'} (admins only)
+//                                                         {op: 'gcal', sub: 'ping' | 'resync' | 'geo' | 'points'} (admins only)
 //
 // What it does:
 //   • a phone alert (Web Push) for every new request from the site, once per request
@@ -13,10 +13,12 @@
 //   • keeps a copy of every scheduled job in the Google Calendar "עבודות דודים", through a small
 //     Google Apps Script that runs in Moshe's Google account (its address and password are kept in
 //     settings.gcal, which only the admins can read)
+//   • asks the same script for the exact point of a job's address (Google's geocoder) and keeps it on the job,
+//     so that the Waze button drives to the point instead of searching for the text
 //
 // Deploy with "Verify JWT" turned off. Every request is limited here instead:
 //   job     only reads the job from the database and acts on what is stored there, so a stray call changes nothing;
-//           the new-job alert goes out once (notified_at), only while the job is fresh
+//           the new-job alert goes out once (notified_at), only while the job is fresh; an address is looked up once
 //   hourly  acts only at the evening hour, once a day
 //   test    only to a phone that is already registered, at most once every 20 seconds
 //   gcal    only for a logged-in admin (checked with the caller's own login)
@@ -336,6 +338,107 @@ async function gcalSync(id: string, g: any, force = false): Promise<string> {
   }
 }
 
+// ---------- the exact point of the address ----------
+// The navigation button sends the address as text, and Waze drives to its first match for it. Its street names are
+// not always the registry's: of 30 addresses picked from the street lists (13.11.2026), 4 went to another street or
+// another town. So the address is looked up once in Google's geocoder, by the calendar script that already runs in
+// Moshe's Google account. When the answer is the house itself, on the street and in the town of the job, its point
+// is kept on the job (lat, lng) and the button drives to the point. Any other answer keeps no point, and Waze
+// searches for the text as before: a wrong point is worse than a search.
+// geo_q is the address the look-up was made for (the database drops the point when the address is another one),
+// geo_at is when: a point is kept for 30 days at most, the time Google allows its geocoder's answers to be kept.
+const geoKey = (j: Job) => `${String(j.address || '').replace(/^ +| +$/g, '')}|${String(j.city || '').replace(/^ +| +$/g, '')}`;
+// street and number, the same cleaning as the Waze text (navAddress in admin/app.js)
+const geoStreet = (j: Job) => String(j.address || '')
+  .replace(/(^|[\s,(])(?:מספר\s+)?(?:דירה|דיר[׳']|קומה|כניסה)\s*[:.]?\s*[\dא-ת]{0,3}[׳']?(?=$|[\s,)])/g, '$1')
+  .replace(/(\d+)\s*\/\s*\d+[א-ת]?/g, '$1')
+  .replace(/^\s*(?:רחוב|רח[׳'])\s+/, '')
+  .split(',').map((s) => s.replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean).join(', ');
+// what the geocoder is asked. '' when there is no house number or no town: the house cannot be found then
+export function geoText(j: Job): string {
+  const street = geoStreet(j), city = String(j.city || '').trim();
+  return /\d/.test(street) && city ? `${street}, ${city}, ישראל` : '';
+}
+// the house number that was asked for: "סוקולוב 12" → 12, "הרצל 12א" → 12, "הרצל 12-14" → 12
+export function askedNumber(street: string): string {
+  const first = street.split(',')[0];
+  const m = /(\d+)(?:\s*[-–]\s*\d+)?\s*[א-ת]?[׳']?\s*$/.exec(first) || /(\d+)/.exec(first);
+  return m ? m[1] : '';
+}
+// a name without what differs between one writing and another: קריית אונו = קרית אונו, ז'בוטינסקי = זבוטינסקי
+const bare = (s: unknown) => String(s || '').replace(/["״'׳`.,()]/g, '').replace(/[-–—־]/g, ' ')
+  .replace(/יי/g, 'י').replace(/וו/g, 'ו').replace(/\s+/g, ' ').trim();
+// the words that say what kind of street it is, or who the person was: maps add or drop them freely
+const NAME_EXTRAS = new Set(['רחוב', 'רח', 'שדרות', 'שדרה', 'שד', 'סמטת', 'סמטה', 'סמ', 'דרך', 'כיכר', 'ככר', 'מבוא', 'מעלה',
+  'שביל', 'משעול', 'רחבת', 'נתיב', 'הרב', 'רבי', 'דר', 'דוקטור', 'פרופ', 'פרופסור']);
+const nameWords = (s: unknown) => bare(String(s || '').replace(/\d+/g, ' ')).split(' ').filter((w) => w && !NAME_EXTRAS.has(w));
+const sameWord = (a: string, b: string) => a === b || a === 'ה' + b || b === 'ה' + a; // העצמאות = עצמאות
+// the same street: every word of the shorter name is in the longer one ("זוננפלד" and "הרב זוננפלד",
+// "רימלט" and "אלימלך רימלט"). "דוד רזיאל" and "דוד המלך" are two streets.
+export function sameStreet(asked: unknown, got: unknown): boolean {
+  const a = nameWords(asked), b = nameWords(got);
+  if (!a.length || !b.length) return false;
+  const [few, many] = a.length <= b.length ? [a, b] : [b, a];
+  return few.every((w) => many.some((x) => sameWord(w, x)));
+}
+// the same town: the same words, or the first words of a longer name ("תל אביב" and "תל אביב-יפו",
+// "מודיעין" and "מודיעין-מכבים-רעות"). "מודיעין" and "מודיעין עילית" are two towns.
+export function sameTown(asked: unknown, got: unknown): boolean {
+  const a = bare(asked).split(' ').filter(Boolean), b = bare(got).split(' ').filter(Boolean);
+  if (!a.length || !b.length) return false;
+  const [few, many] = a.length <= b.length ? [a, b] : [b, a];
+  if (!few.every((w, i) => w === many[i])) return false;
+  return !many.slice(few.length).some((w) => w === 'עילית' || w === 'עלית' || w === 'תחתית');
+}
+// A match is a point to drive to only when it is the house itself (not the street or the town), with the house
+// number that was asked for, on that street, in the town of the job, inside Israel.
+// deno-lint-ignore no-explicit-any
+function housePoint(r: any, j: Job): { lat: number; lng: number } | null {
+  if (!r) return null;
+  const lat = Number(r.lat), lng = Number(r.lng);
+  if (!(lat > 29.4 && lat < 33.4 && lng > 34.2 && lng < 35.95)) return null;
+  if (r.kind !== 'ROOFTOP' && r.kind !== 'RANGE_INTERPOLATED') return null;
+  const types: string[] = Array.isArray(r.types) ? r.types : [];
+  if (!types.some((t) => t === 'street_address' || t === 'premise' || t === 'subpremise')) return null;
+  const street = geoStreet(j).split(',')[0], asked = askedNumber(street);
+  if (!asked || String(r.number || '').replace(/\D.*$/, '') !== asked) return null;
+  if (!sameTown(j.city, r.town)) return null;
+  // a street typed in English letters cannot be compared with Google's Hebrew name: Google's own word for it then
+  if (/[א-ת]/.test(street) && nameWords(street).length ? !sameStreet(street, r.street) : !!r.partial) return null;
+  return { lat: Math.round(lat * 1e6) / 1e6, lng: Math.round(lng * 1e6) / 1e6 };
+}
+// the point of the script's answer: Google's first match, or one of the next two (the script sends up to three)
+// when the first is not the house
+// deno-lint-ignore no-explicit-any
+export function exactPoint(r: any, j: Job): { lat: number; lng: number } | null {
+  if (!r || !r.ok || !r.found) return null;
+  for (const x of Array.isArray(r.list) && r.list.length ? r.list.slice(0, 3) : [r]) {
+    const p = housePoint(x, j);
+    if (p) return p;
+  }
+  return null;
+}
+// one look-up for an address; again only when the address is another one.
+// 'point' | 'no-point' | 'same' (looked up already) | 'none' (nothing to look up) | 'old-script' | 'error'
+// deno-lint-ignore no-explicit-any
+async function geoStep(j: Job, g: any): Promise<string> {
+  const text = geoText(j), key = geoKey(j);
+  // nothing to look up: no house number or no town, a job that is over, or a database from before the point was added
+  if (!text || (j.status !== 'new' && j.status !== 'scheduled') || !('geo_q' in j)) return 'none';
+  if (j.geo_q === key) return 'same';
+  const r = await script(g, { op: 'geocode', address: text });
+  // a script from before the look-up was added, or one that could not answer: nothing is kept, the next change asks again
+  if (!r || !r.ok) return r && r.error === 'op' ? 'old-script' : 'error';
+  const p = exactPoint(r, j);
+  await patchJob(j.id, { lat: p ? p.lat : null, lng: p ? p.lng : null, geo_q: key, geo_at: new Date().toISOString() });
+  return p ? 'point' : 'no-point';
+}
+// after 30 days the point goes (the database drops it together with the address it was looked up for)
+async function dropOldPoints() {
+  const before = new Date(Date.now() - 30 * 24 * 3600e3 + 2 * 3600e3).toISOString();
+  await rest(`jobs?geo_at=lt.${before}`, { method: 'PATCH', body: { geo_q: '' }, prefer: 'return=minimal' });
+}
+
 // the alert for a job added in the system: what, from where, when, where, and who added it
 const PUSH_SOURCE: Record<string, string> = { chromagen: 'כרומגן', contractor: 'קבלן', private: 'פרטי', site: 'מהאתר' };
 export function addedPush(j: Job, by: string) {
@@ -399,10 +502,13 @@ async function onJob(id: string) {
 
   const g = st.gcal || {};
   if (g.enabled && g.url && g.token) out.gcal = await gcalSync(id, g);
+  // the point of the address: after the calendar, which is what the admins wait for
+  if (g.url && g.token) out.geo = await geoStep(j, g);
   return out;
 }
 
 async function onHourly() {
+  try { await dropOldPoints(); } catch (e) { console.error('points', String(e).slice(0, 200)); }
   const pref = prefs(await settings());
   // requests that arrived during a burst and were not announced yet
   const gate = await kvGet('site-push');
@@ -470,6 +576,32 @@ async function onGcal(input: any, req: Request) {
     let done = 0;
     for (const r of rows) { if ((await gcalSync(r.id, g, true)) === 'synced') done++; }
     return { ok: true, done, of: rows.length };
+  }
+  // does the script look addresses up? (a script from before 15.11.2026 answers "op"). With an address and a town
+  // it also says what Google answered for them and whether that is a point to drive to: for checking the rules above
+  if (input.sub === 'geo') {
+    const j: Job = { address: String(input.address || 'דיזנגוף 50').slice(0, 120), city: String(input.city || 'תל אביב-יפו').slice(0, 60) };
+    const r = await script(g, { op: 'geocode', address: geoText(j) || `${j.address}, ${j.city}, ישראל` });
+    if (!r || !r.ok) return { ok: false, error: (r && r.error) || 'unknown' };
+    return { ok: true, found: !!r.found, point: exactPoint(r, j), answer: input.address ? r : undefined };
+  }
+  // the points of the coming jobs that were not looked up yet: the jobs from before the look-up existed, and the
+  // ones whose look-up did not get through. Up to 40 seconds at a time; the admin screen asks again another time.
+  if (input.sub === 'points') {
+    const t0 = Date.now(), from = new Date(t0 - 24 * 3600e3).toISOString();
+    const rows: Job[] = [
+      ...await rest(`jobs?select=*&geo_q=eq.&address=neq.&status=eq.scheduled&starts_at=gte.${from}&order=starts_at&limit=25`),
+      ...await rest('jobs?select=*&geo_q=eq.&address=neq.&status=eq.new&order=created_at.desc&limit=10'),
+    ];
+    let points = 0, asked = 0;
+    for (const j of rows) {
+      if (Date.now() - t0 > 40e3) return { ok: true, points, asked, more: true };
+      const res = await geoStep(j, g);
+      if (res === 'old-script' || res === 'error') return { ok: false, error: res, points, asked };
+      if (res === 'point' || res === 'no-point') asked++;
+      if (res === 'point') points++;
+    }
+    return { ok: true, points, asked };
   }
   return { ok: false, error: 'sub' };
 }

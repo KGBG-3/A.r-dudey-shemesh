@@ -1,6 +1,7 @@
 // א.ר דודי שמש · העתק של מערכת העבודות ליומן "עבודות דודים" בגוגל
 // הקוד רץ בחשבון הגוגל שלך. הוא מקבל עדכונים רק ממערכת העבודות, ויכול רק להוסיף, לעדכן ולמחוק
 // אירועים ביומן אחד: היומן שכתוב למטה.
+// בנוסף הוא מאתר בגוגל את הנקודה המדויקת של כתובת של עבודה, בשביל כפתור הניווט. הוא רק עונה: כאן לא נשמר דבר.
 // הסיסמה בין המערכת לקוד נקבעת לבד: בפנייה הראשונה של המערכת היא נשמרת כאן, ומאז רק היא מתקבלת.
 // אף אחד לא צריך להעתיק אותה. לחיבור מחדש מאפס: Project Settings ← Script Properties ← מוחקים את token.
 const CALENDAR_ID = '__CALENDAR__';          // אפשר להשאיר ריק: אז היומן נמצא לפי השם
@@ -14,6 +15,7 @@ function doPost(e) {
   lock.waitLock(25000);
   try {
     if (!body || !tokenOk(body.token)) return out({ ok: false, error: 'token' });
+    if (body.op === 'geocode') return out(geocode(body.address));
     const cal = CALENDAR_ID ? CalendarApp.getCalendarById(CALENDAR_ID) : (CalendarApp.getCalendarsByName(CALENDAR_NAME)[0] || null);
     if (!cal) return out({ ok: false, error: 'calendar' });
     if (body.op === 'ping') return out({ ok: true, name: cal.getName() });
@@ -55,6 +57,41 @@ function tokenOk(t) {
   const known = props.getProperty('token');
   if (!known) { props.setProperty('token', t); return true; }
   return t === known;
+}
+
+// the exact point of an address, from Google's geocoder. It only looks up and answers: nothing is kept here.
+// What counts as a point to drive to is decided by the system (exactPoint in the notify function), so the
+// answer says what Google found and how sure it is: the first match, and the next two after it in "list".
+function geocode(address) {
+  if (typeof address !== 'string' || !address || address.length > 200) return { ok: false, error: 'address' };
+  let res;
+  try {
+    res = Maps.newGeocoder().setLanguage('he').setRegion('il').geocode(address);
+  } catch (err) {
+    return { ok: false, error: ('maps: ' + err).slice(0, 120) };
+  }
+  const status = (res && res.status) || '';
+  if (status === 'ZERO_RESULTS') return { ok: true, found: false };
+  const list = (status === 'OK' && res.results ? res.results : [])
+    .filter(function (r) { return r && r.geometry && r.geometry.location; }).slice(0, 3).map(place);
+  if (!list.length) return { ok: false, error: 'maps: ' + (status || 'empty') };
+  return Object.assign({ ok: true, found: true, list: list }, list[0]);
+}
+function place(r) {
+  const part = function (type) {
+    const c = (r.address_components || []).filter(function (x) { return (x.types || []).indexOf(type) >= 0; })[0];
+    return c ? c.long_name : '';
+  };
+  return {
+    lat: r.geometry.location.lat, lng: r.geometry.location.lng, kind: r.geometry.location_type || '',
+    types: r.types || [], partial: !!r.partial_match,
+    number: part('street_number'), street: part('route'), town: part('locality'), text: r.formatted_address || '',
+  };
+}
+
+// לבדיקה מתוך העורך: בוחרים למעלה את testGeocode ולוחצים Run. התשובה מופיעה ב-Execution log.
+function testGeocode() {
+  Logger.log(JSON.stringify(geocode('דיזנגוף 50, תל אביב-יפו, ישראל')));
 }
 
 function doGet() {

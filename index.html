@@ -1957,6 +1957,25 @@ body.a11y-high-contrast .jb-day[aria-pressed="true"],body.a11y-high-contrast .jb
 body.a11y-high-contrast .jb-send{background:#fff !important;color:#000 !important}
 @media (min-width:520px){.jb-two{grid-template-columns:1fr 1fr}}
 @media (max-width:360px){.jb-day{font-size:14px}}
+/* The larger text modes enlarge every button, span and link (1.18em / 1.4em). Inside the card's head, its send button,
+   the privacy note and a day, the text is a span or a link inside one of those: it stays that size instead of being
+   enlarged twice
+   (the "1.12" of a new month reached 45px in a 32px day). A day is a seventh of the card, so its number, the first
+   of a month and the day names grow only up to what that seventh holds (cqi: a hundredth of the week's width). */
+.jb-week{container-type:inline-size}
+.jb-day .jb-m1{font-size:min(.78em,5.8cqi)}
+body.a11y-text-large .jb-head .jb-t,body.a11y-text-xlarge .jb-head .jb-t,body.a11y-text-large .jb-head .jb-title,body.a11y-text-xlarge .jb-head .jb-title,body.a11y-text-large .jb-send span,body.a11y-text-xlarge .jb-send span{font-size:1em !important}
+body.a11y-text-large .jb-head .jb-sub,body.a11y-text-xlarge .jb-head .jb-sub{font-size:.85em !important}
+body.a11y-text-large .jb-priv a,body.a11y-text-xlarge .jb-priv a{font-size:1em !important}
+/* a word longer than the line ("конфиденциальности" on a small phone) breaks onto the next line instead of spilling out;
+   a day's number never breaks */
+body.a11y-text-large .jb,body.a11y-text-xlarge .jb{hyphens:auto;overflow-wrap:anywhere}
+body.a11y-text-large .jb-week,body.a11y-text-xlarge .jb-week{hyphens:manual;overflow-wrap:normal}
+body.a11y-text-large .jb-day{font-size:min(1.18em,9.2cqi) !important}
+body.a11y-text-xlarge .jb-day{font-size:min(1.4em,9.2cqi) !important}
+body.a11y-text-large .jb-day .jb-m1,body.a11y-text-xlarge .jb-day .jb-m1{font-size:min(.78em,5.8cqi) !important}
+body.a11y-text-large .jb-wd{font-size:min(1.18em,7.2cqi) !important}
+body.a11y-text-xlarge .jb-wd{font-size:min(1.4em,7.2cqi) !important}
 @media print{.jb,.jb-cue{display:none}}
 </style>
 

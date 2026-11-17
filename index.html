@@ -27,7 +27,8 @@
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow" />
   <meta name="author" content="א.ר דודי שמש" />
-  <meta name="theme-color" content="#0a1f3d" />
+  <meta name="theme-color" content="#0a1f3d" media="(min-width: 860px)" />
+  <meta name="theme-color" content="#cfe9f8" media="(max-width: 859px)" />
   <meta name="format-detection" content="telephone=yes" />
 
   <link rel="canonical" href="https://ardudim.co.il/" />
@@ -1978,6 +1979,56 @@ body.a11y-text-large .jb-wd{font-size:min(1.18em,7.2cqi) !important}
 body.a11y-text-xlarge .jb-wd{font-size:min(1.4em,7.2cqi) !important}
 @media print{.jb,.jb-cue{display:none}}
 </style>
+<style id="ardudim-hero-light-css">
+/* PHONE HERO, LIGHT (17.11.2026) — a sunny morning in the colours of the hot/cold quotes: sky to cream, suns in the corner as at the
+   top of a quote, the four-colour stripe beside "בפתח תקווה והמרכז", dark text. Phones only: the desktop hero does not change.
+   High contrast keeps its own black-and-white hero, and a quote link (body.q-mode) has no hero and keeps its navy top bar. */
+@media(max-width:859px){
+  body:not(.a11y-high-contrast) .hero{background:linear-gradient(180deg,#CFE9F8 0,#E4F3FB 34%,#F4F3EC 68%,#FBF6EE 100%)}
+  body:not(.a11y-high-contrast) .hero::before{background-image:radial-gradient(circle at 24px -36px,var(--q-amber) 0 97px,rgba(251,191,36,0) 98px),radial-gradient(circle at 24px -36px,var(--q-orange) 0 149px,rgba(249,115,22,0) 150px),radial-gradient(circle at calc(100% + 30px) 58%,rgba(125,211,252,0) 0 118px,rgba(125,211,252,.5) 119px 121px,rgba(125,211,252,0) 122px 166px,rgba(125,211,252,.36) 167px 169px,rgba(125,211,252,0) 170px 214px,rgba(125,211,252,.24) 215px 217px,rgba(125,211,252,0) 218px) !important;background-size:100% 100% !important;background-position:0 0 !important;background-repeat:no-repeat !important}
+  html[lang="ru"] body:not(.a11y-high-contrast) .hero::before{background-image:radial-gradient(circle at calc(100% - 24px) -36px,var(--q-amber) 0 97px,rgba(251,191,36,0) 98px),radial-gradient(circle at calc(100% - 24px) -36px,var(--q-orange) 0 149px,rgba(249,115,22,0) 150px),radial-gradient(circle at -30px 58%,rgba(125,211,252,0) 0 118px,rgba(125,211,252,.5) 119px 121px,rgba(125,211,252,0) 122px 166px,rgba(125,211,252,.36) 167px 169px,rgba(125,211,252,0) 170px 214px,rgba(125,211,252,.24) 215px 217px,rgba(125,211,252,0) 218px) !important}
+  body:not(.a11y-high-contrast) .hero::after,body:not(.a11y-high-contrast) .hero-vignette{display:none}
+  body:not(.a11y-high-contrast) .hero h1{color:var(--q-navy);text-shadow:none}
+  body:not(.a11y-high-contrast) .hero h1 .h1-hot{color:#D9480F}
+  body:not(.a11y-high-contrast) .hero .hero-sticker-in{box-shadow:0 14px 28px -14px rgba(10,31,61,.45)}
+  body:not(.a11y-high-contrast) .hero-content .hero-season{background:#fff;border:1.5px solid #BFE3F7;color:var(--q-navy);text-shadow:none;box-shadow:0 10px 22px -14px rgba(10,31,61,.45)}
+  body:not(.a11y-high-contrast) .hero-content .hero-season:hover{background:#F2F9FE}
+  body:not(.a11y-high-contrast) .hero-content .hero-season.is-winter i{background:#DBEFFC;color:#1D4ED8}
+  body:not(.a11y-high-contrast) .hero-content .hero-season.is-winter b{color:#1D4ED8}
+  body:not(.a11y-high-contrast) .hero-content .hero-season.is-summer{border-color:#FED7AA}
+  body:not(.a11y-high-contrast) .hero-content .hero-season.is-summer b{color:#C2410C}
+  /* the stripe: the cold half on the start side, the hot half on the side of the suns */
+  body:not(.a11y-high-contrast) .hero .hms-line{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--q-sky) 0 50%,var(--q-blue) 50%)}
+  body:not(.a11y-high-contrast) .hero .hms-line:last-child{background:linear-gradient(90deg,var(--q-orange) 0 50%,var(--q-amber) 50%)}
+  html[lang="ru"] body:not(.a11y-high-contrast) .hero .hms-line{background:linear-gradient(90deg,var(--q-blue) 0 50%,var(--q-sky) 50%)}
+  html[lang="ru"] body:not(.a11y-high-contrast) .hero .hms-line:last-child{background:linear-gradient(90deg,var(--q-amber) 0 50%,var(--q-orange) 50%)}
+  body:not(.a11y-high-contrast) .hero .hms-text{color:#B23A0A;text-shadow:none}
+  body:not(.a11y-high-contrast) .hero .hero-mobile-tags{color:#24364F;text-shadow:none}
+  body:not(.a11y-high-contrast) .hero .hmt-dot{color:#C2410C}
+  /* white on this orange is 2.8:1, so the text is navy (5.9:1) */
+  body:not(.a11y-high-contrast) .hero .hero-btns .btn-quote{background:var(--q-orange);color:var(--q-navy);box-shadow:0 12px 26px -12px rgba(234,88,12,.65)}
+  body:not(.a11y-high-contrast) .hero .hero-btns .btn-quote:hover{background:#EA580C}
+  body:not(.a11y-high-contrast) .hero .hero-btns .btn-wa,body:not(.a11y-high-contrast) .hero .hero-btns .hero-call-mobile{background:#fff;color:var(--q-navy);border:1.5px solid #CADBEA;box-shadow:0 10px 22px -14px rgba(10,31,61,.4)}
+  body:not(.a11y-high-contrast) .hero .hero-btns .btn-wa svg{color:#128C4B}
+  body:not(.a11y-high-contrast) .hero .hero-btns .hero-call-mobile svg{color:#1D4ED8}
+  body:not(.a11y-high-contrast) .hero .hero-fix-link{color:#2E4560;text-shadow:none}
+  body:not(.a11y-high-contrast) .hero .hero-fix-link u{color:var(--q-navy)}
+  body:not(.a11y-high-contrast) .hero .hero-mobile-features{background:#fff;border:1px solid var(--q-hair);box-shadow:0 14px 30px -20px rgba(10,31,61,.35)}
+  body:not(.a11y-high-contrast) .hero .hmf-icon{background:#FFF1E6;color:#C2410C}
+  body:not(.a11y-high-contrast) .hero .hmf-item:nth-child(even) .hmf-icon{background:#E0F2FE;color:#1D4ED8}
+  body:not(.a11y-high-contrast) .hero .hmf-text{color:var(--q-navy);text-shadow:none}
+  /* the top bar before scrolling: dark on the light sky ("התקשר" stays solid blue) */
+  body:not(.a11y-high-contrast):not(.q-mode) nav:not(.nav-scrolled) .logo-text{color:var(--q-navy);text-shadow:none}
+  body:not(.a11y-high-contrast):not(.q-mode) nav:not(.nav-scrolled) .nav-hamburger span{background:var(--q-navy) !important}
+  body:not(.a11y-high-contrast):not(.q-mode) nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,.75);border-color:rgba(10,31,61,.3);color:var(--q-navy)}
+}
+</style>
+<script id="ardudim-hero-light-js">
+/* the phone's browser bar matches the light hero (meta theme-color); a quote link opens on the navy quote, so it keeps the navy bar */
+document.addEventListener('DOMContentLoaded', function () {
+  if (document.body.classList.contains('q-mode')) document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.content = '#0a1f3d'; });
+});
+</script>
 
   <!-- Language: the saved choice (ardudim_lang, shared with the subpages) sets the Russian layout and font before the first paint; the text switches at the end of the page -->
   <script id="ardudim-lang-boot">
@@ -2158,7 +2209,7 @@ body.a11y-text-xlarge .jb-wd{font-size:min(1.4em,7.2cqi) !important}
   <div class="hero-sticker"><div class="hero-sticker-in"><img src="images/logo-2026.webp" alt="א.ר דודי שמש" width="552" height="468"></div></div>
   <button type="button" class="hero-season" hidden></button>
   <div class="hero-desktop-eyebrow"><span class="hde-line"></span><span class="hde-text">שירות מהיר בכל גוש דן והמרכז</span><span class="hde-line"></span></div>
-  <h1><span class="h1-main">תיקון והתקנת דודי שמש</span><br class="h1-br1"/><span class="h1-place">בפתח תקווה והמרכז</span><br/><span class="accent">במהירות, באמינות ובמחיר הוגן</span></h1>
+  <h1><span class="h1-main">תיקון והתקנת <span class="h1-hot">דודי שמש</span></span><br class="h1-br1"/><span class="h1-place">בפתח תקווה והמרכז</span><br/><span class="accent">במהירות, באמינות ובמחיר הוגן</span></h1>
   <div class="hero-mobile-sub">
     <span class="hms-line"></span>
     <span class="hms-text">בפתח תקווה והמרכז</span>

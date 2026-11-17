@@ -3206,7 +3206,7 @@ body.a11y-text-xlarge .jb-wd{font-size:min(1.4em,7.2cqi) !important}
 <script>
 // ============================================================
 // כרומגן Super — מערכת סגורה (מחליף חום), 150 ליטר, כרומגן בלבד
-// המחיר כולל מע"מ, כולל התקנה על גג שטוח (רעפים +ROOF_SURCHARGE כרגיל). לעדכן כאן בלבד.
+// המחיר כולל מע"מ, כולל התקנה על גג שטוח (בגג רעפים +ROOF_SURCHARGE ועוד TILE_STAND_ADD.super). לעדכן כאן בלבד.
 // ============================================================
 const SUPER_PRICE = 6800;
 
@@ -3295,10 +3295,11 @@ const INCLUDES = {
 };
 
 
-// Super — the equipment lines depend on the roof: flat roof = horizontal tank on a stand, tile roof = vertical tank
+// Super — the equipment lines depend on the roof: flat roof = horizontal tank on a stand, tile roof = vertical tank on a tile-roof stand
 const SUPER_INCLUDES = {
   tank: { flat:'דוד שמש Super 150 ליטר אופקי עם מחליף חום מובנה', tile:'דוד שמש Super 150 ליטר אנכי עם מחליף חום מובנה', any:'דוד שמש Super 150 ליטר עם מחליף חום מובנה' },
   stand: 'מעמד לדוד',
+  tileStand: 'מעמד לגג רעפים',
   rest: ['קולט שמש Super בתפוקה גבוהה (7,700 קק״ל ביממה)','מעגל סגור — נוזל החימום מופרד ממי הבית, הקולט מוגן מאבנית','קיט אביזרים סולארי מקורי של כרומגן','נוזל מונע קפיאה','מערבל מים',
          'התקנה מקצועית','פינוי המערכת הישנה','מילוי המעגל הסגור ושחרור אוויר','בדיקה כוללת למערכת בסוף העבודה',
          'שסתום אל-חוזר וביטחון חדשים','ברז חדש (לפי הצורך)','מקשרים מותאמים חדשים','צינור אלומיניום עליון + בידוד','רקורדים וגומיות חדשים','חוט שיזור לתפיסת הקולט',
@@ -3306,11 +3307,12 @@ const SUPER_INCLUDES = {
 };
 function superIncludes(roofType) {
   const cfg = roofType === 'flat' ? 'flat' : (roofType === 'tile' ? 'tile' : 'any');
-  return [SUPER_INCLUDES.tank[cfg]].concat(cfg === 'flat' ? [SUPER_INCLUDES.stand] : []).concat(SUPER_INCLUDES.rest);
+  const stand = cfg === 'flat' ? SUPER_INCLUDES.stand : (cfg === 'tile' ? SUPER_INCLUDES.tileStand : null);
+  return [SUPER_INCLUDES.tank[cfg]].concat(stand ? [stand] : []).concat(SUPER_INCLUDES.rest);
 }
 // the tank configuration, as a short fact for the quote
 function superConfigLabel(roofType) {
-  return roofType === 'flat' ? 'דוד אופקי עם מעמד' : (roofType === 'tile' ? 'דוד אנכי' : 'לפי סוג הגג');
+  return roofType === 'flat' ? 'דוד אופקי עם מעמד' : (roofType === 'tile' ? 'דוד אנכי עם מעמד לרעפים' : 'לפי סוג הגג');
 }
 
 // "4 שנים" as one phrase, so Russian gets the right form (4 года / 5 лет); any other length falls back to the old form
@@ -3329,6 +3331,16 @@ const EXTRAS = {
   system_std: ['תוספת צנרת מים וחשמל – ₪70 למטר כולל מע"מ'],
   solar:      ['מעמד מגולוון חדש – ₪350 כולל מע"מ (אם נדרש)'],
 };
+// the stand line by roof: on a tile roof the stand costs ₪450; roof not known yet = both prices
+const STAND_BY_ROOF = {
+  system: { tile:'מעמד לגג רעפים – ₪450 כולל מע"מ', any:'מעמד מגולוון חדש – ₪350 כולל מע"מ (בגג רעפים ₪450)' },
+  solar:  { tile:'מעמד לגג רעפים – ₪450 כולל מע"מ (אם נדרש)', any:'מעמד מגולוון חדש – ₪350 כולל מע"מ (אם נדרש, בגג רעפים ₪450)' },
+};
+function extrasFor(key, roofType) {
+  const list = EXTRAS[key], alt = STAND_BY_ROOF[key];
+  if (!list || !alt || (roofType && roofType !== 'tile')) return list;
+  return list.map(x => x.indexOf('מעמד') === 0 ? alt[roofType === 'tile' ? 'tile' : 'any'] : x);
+}
 
 const BRAND_INFO = {
   yardan:        { label:'ירדן',     tier:'חסכוני',      cls:'brand-eco',  logo:'images/logo-yardan.webp',    bestTag:'🔥 הכי נמכר',     pos:'פתרון טוב למי שמחפש מחיר נגיש',   hdr:'linear-gradient(135deg,#15803d,#16a34a)' },
@@ -3351,6 +3363,11 @@ const VOL_ICON    = {30:VOL_P[1],45:VOL_P[1],60:VOL_P[2],80:VOL_P[2],120:VOL_P[3
 const VOL_POPULAR = {solar:150, electric:80, boiler:150, kolat_copper:'large', kolat_iron:'small', system:150, super:150};
 
 const ROOF_SURCHARGE   = { flat:0, tile_inside:200, tile_outside:200, indoor:0 }; // ₪ כולל מע"מ
+const TILE_STAND_ADD = { system_std:100, super:150 }; // ₪ כולל מע"מ: בגג רעפים המעמד עולה ₪450 במקום המעמד שכבר כלול
+// the tile-roof surcharge of a product (inside or outside the tiles): the usual one, plus the tile stand where a stand is in the price
+function tileSurcharge(product, isStd) {
+  return ROOF_SURCHARGE.tile_inside + (TILE_STAND_ADD[(product === 'system' && isStd) ? 'system_std' : product] || 0);
+}
 const ACCESS_SURCHARGE = { ladder:0, key:0, none:0 };
 
 let sel = { product:null, sysType:null, kolatType:null, volume:null, roofType:null, tilePos:null, access:new Set(), brand:null };
@@ -3913,7 +3930,7 @@ function populateTiers() {
     const featKey = (isKolat && bKey === 'yardan') ? 'yardan_kolat' : bKey;
     const featsRaw = FEATURES[featKey];
     const feats = (Array.isArray(featsRaw) ? featsRaw : (typeof featsRaw === 'object' ? FEATURES['amisragaz'] : FEATURES['amisragaz'])) || FEATURES['amisragaz'];
-    const roofAdd = getRoofSurcharge();
+    const roofAdd = getRoofSurcharge(sel.product, bKey.includes('_std'));
     const basePrice = data.price + roofAdd;
     const displayPrice = basePrice;
     const isKolatProduct = (sel.product === 'kolat_copper' || sel.product === 'kolat_iron');
@@ -4106,8 +4123,8 @@ function getRoofLabel() {
   if (sel.roofType === 'tile' && sel.tilePos === 'outside') return t('גג רעפים — מחוץ לרעפים') || (t('גג רעפים') + ' — ' + t('מחוץ לרעפים'));
   return '';
 }
-function getRoofSurcharge() {
-  if (sel.roofType === 'tile') return ROOF_SURCHARGE.tile_inside;
+function getRoofSurcharge(product, isStd) {
+  if (sel.roofType === 'tile') return tileSurcharge(product, isStd);
   return 0;
 }
 function getAccessSurcharge() { return 0; }
@@ -4134,7 +4151,7 @@ function showResult() {
   const isStd = brand.includes('_std');
   const inclKey = (product === 'system' && isStd) ? 'system_std' : product;
 
-  const roofSurcharge = getRoofSurcharge();
+  const roofSurcharge = getRoofSurcharge(product, isStd);
   const basePrice     = data.price + roofSurcharge;
   const totalPrice    = basePrice;
 
@@ -4148,7 +4165,7 @@ function showResult() {
   if (product === 'kolat_copper' && (brand === 'yardan' || brand === 'yardan_kolat')) {
     incList = incList.filter(item => item !== 'ציפוי מגן מאלומיניום');
   }
-  const extras = EXTRAS[inclKey];
+  const extras = extrasFor(inclKey, sel.roofType);
 
   const roofLabel   = getRoofLabel();
   const accessLabel = getAccessLabel();
@@ -4231,6 +4248,7 @@ const TRANSLATIONS = {
   'דוד שמש Super 150 ליטר אנכי עם מחליף חום מובנה': 'Солнечный бойлер Super 150 л, вертикальный, со встроенным теплообменником',
   'דוד שמש Super 150 ליטר עם מחליף חום מובנה': 'Солнечный бойлер Super 150 л со встроенным теплообменником',
   'מעמד לדוד': 'Подставка для бойлера',
+  'מעמד לגג רעפים': 'Держатель для черепичной крыши',
   'קולט שמש Super בתפוקה גבוהה (7,700 קק״ל ביממה)': 'Коллектор Super повышенной производительности (7 700 ккал в сутки)',
   'מעגל סגור — נוזל החימום מופרד ממי הבית, הקולט מוגן מאבנית': 'Закрытый контур — теплоноситель отделён от воды дома, коллектор защищён от накипи',
   'קיט אביזרים סולארי מקורי של כרומגן': 'Оригинальный комплект солнечных аксессуаров Chromagen',
@@ -4243,6 +4261,7 @@ const TRANSLATIONS = {
   'השדרוג של כרומגן למים קשים ולאזורים קרים': 'Улучшение Chromagen для жёсткой воды и холодных районов',
   'דוד אופקי עם מעמד': 'Горизонтальный бойлер на подставке',
   'דוד אנכי': 'Вертикальный бойлер',
+  'דוד אנכי עם מעמד לרעפים': 'Вертикальный бойлер с держателем для черепицы',
   'לפי סוג הגג': 'По типу крыши',
   'חזור לבחירת הגג': 'Назад к выбору крыши',
   'מה התפקיד שלו?': 'Для чего он нужен?',
@@ -4668,6 +4687,11 @@ const TRANSLATIONS = {
   'תוספת צנרת מים וחשמל – ₪70 למטר כולל מע"מ': 'Доплата за трубы и кабель – ₪70/м вкл. НДС',
   'מעמד מגולוון חדש – ₪350 כולל מע"מ': 'Новый оцинкованный держатель – ₪350 вкл. НДС',
   'מעמד מגולוון חדש – ₪350 כולל מע"מ (אם נדרש)': 'Новый держатель – ₪350 вкл. НДС (если нужно)',
+  'מעמד לגג רעפים – ₪450 כולל מע"מ': 'Держатель для черепичной крыши – ₪450 вкл. НДС',
+  'מעמד לגג רעפים – ₪450 כולל מע"מ (אם נדרש)': 'Держатель для черепичной крыши – ₪450 вкл. НДС (если нужно)',
+  'מעמד מגולוון חדש – ₪350 כולל מע"מ (בגג רעפים ₪450)': 'Новый оцинкованный держатель – ₪350 вкл. НДС (на черепичной крыше ₪450)',
+  'מעמד מגולוון חדש – ₪350 כולל מע"מ (אם נדרש, בגג רעפים ₪450)': 'Новый оцинкованный держатель – ₪350 вкл. НДС (если нужно, на черепичной крыше ₪450)',
+  'כולל מעמד לרעפים': 'включая держатель для черепицы',
   '💳 אמצעי תשלום': '💳 Способы оплаты',
   'מזומן': 'Наличные',
   'ביט': 'Bit',
@@ -6176,7 +6200,7 @@ function qModel(spec) {
     const order = std ? ['yardan_std', 'chromagen_std', 'amisragaz_std']
       : kc ? ['yardan', 'amisragaz', 'chromagen'] : ['yardan', 'chromagen', 'amisragaz'];
     const featuredKey = std ? 'chromagen_std' : (kc ? 'amisragaz' : 'chromagen');
-    const roofAdd = spec.roof ? getRoofSurcharge() : 0;
+    const roofAdd = spec.roof ? getRoofSurcharge(p, std) : 0;
     const brands = order.filter(k => row[k] && BRAND_INFO[k]).map(k => {
       const base = k.replace('_std', ''), info = BRAND_INFO[k], price = row[k].price + roofAdd;
       // Super: Chromagen only — its own positioning line and ribbon text
@@ -6186,8 +6210,8 @@ function qModel(spec) {
     if (!brands.length) return null;
     const inclKey = p === 'system' ? (std ? 'system_std' : 'system') : p;
     return { spec, product: p, volume: v, std, kolatType: spec.kolatType || null, brands,
-             includes: p === 'super' ? superIncludes(sel.roofType) : (INCLUDES[inclKey] || []).slice(), extras: EXTRAS[inclKey] || null,
-             roofAdd, tileAdd: ROOF_SURCHARGE.tile_inside, roofLabel: spec.roof ? getRoofLabel() : '' };
+             includes: p === 'super' ? superIncludes(sel.roofType) : (INCLUDES[inclKey] || []).slice(), extras: extrasFor(inclKey, sel.roofType) || null,
+             roofAdd, tileAdd: tileSurcharge(p, std), tileStand: !!TILE_STAND_ADD[inclKey], roofLabel: spec.roof ? getRoofLabel() : '' };
   });
 }
 
@@ -6243,7 +6267,7 @@ function qRoofBase(m, lang) {
   return qTr(['electric', 'boiler'].includes(m.product) ? 'המחירים להתקנה בתוך הבית או על גג שטוח' : 'המחירים לגג שטוח', lang);
 }
 function qRoofNote(m, lang) {
-  return `${qRoofBase(m, lang)} · ${qTr('בגג רעפים תוספת', lang)} ₪${qn(m.tileAdd)}`;
+  return `${qRoofBase(m, lang)} · ${qTr('בגג רעפים תוספת', lang)} ₪${qn(m.tileAdd)}${m.tileStand ? ` (${qTr('כולל מעמד לרעפים', lang)})` : ''}`;
 }
 // includes for one chosen brand (Yarden has no aluminium coating on copper collectors)
 function qIncludesFor(m, b) {
@@ -6262,7 +6286,7 @@ function qExtras(m, withRoof) {
     const tr = t(s), i = tr.indexOf(' – ');
     return { icon: s.indexOf('צנרת') !== -1 ? 'pipe' : 'stand', label: i > 0 ? tr.slice(0, i) : tr, price: i > 0 ? tr.slice(i + 3) : '' };
   });
-  if (withRoof) out.push({ icon: 'roof', label: qt('התקנה על גג רעפים'), price: `₪${qn(m.tileAdd)}` });
+  if (withRoof) out.push({ icon: 'roof', label: qt('התקנה על גג רעפים') + (m.tileStand ? ', ' + qt('כולל מעמד לרעפים') : ''), price: `₪${qn(m.tileAdd)}` });
   return out;
 }
 function qFileName(m, b) {

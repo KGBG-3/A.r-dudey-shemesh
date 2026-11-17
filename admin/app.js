@@ -1232,9 +1232,10 @@ SHEETS.form = spec => {
   spec.values = d;
   const srcs = spec.id && j.source === 'site' ? ['site'] : ['chromagen', 'contractor', 'private'].concat(!spec.id && d.source === 'site' ? ['site'] : []);
   return `${head(spec.id ? 'עריכת עבודה' : 'עבודה חדשה')}
-${spec.id ? '' : `<div class="paste"><label class="lbl small" for="f-paste" style="font-weight:700;color:var(--muted)">${ic('paste', 'sm')} הדבקת הודעה</label>
-<textarea class="input" id="f-paste"${AUTO()} rows="3" placeholder="הדביקו כאן כל הודעה עם פרטי לקוח: תיאום מכרומגן, בקשה מהאתר, או הודעה רגילה עם שם, טלפון וכתובת. הפרטים יתמלאו לבד"></textarea>
-<button type="button" class="btn navy sm block" style="margin-top:8px" data-act="parse">מילוי הפרטים מההודעה</button>
+${spec.id ? '' : `<div class="form-paste">
+<button type="button" class="btn ghost sm" data-act="form-paste">${ic('paste', 'sm')}${spec.found ? 'הדבקת הודעה נוספת' : 'הדבקת הודעה'}</button>
+${spec.manual ? `<div class="paste"><textarea class="input" id="f-paste"${AUTO()} rows="3" placeholder="הדביקו כאן כל הודעה עם פרטי לקוח: תיאום מכרומגן, בקשה מהאתר, או הודעה רגילה עם שם, טלפון וכתובת. הפרטים יתמלאו לבד">${esc(spec.raw || '')}</textarea>
+<button type="button" class="btn navy sm block" style="margin-top:8px" data-act="parse">מילוי הפרטים מההודעה</button></div>` : ''}
 ${spec.found ? `<div class="found" role="status">${esc(spec.found)}</div>` : ''}</div>`}
 <form data-form="job" novalidate>
 <div class="field"><span class="lbl">מקור</span><div class="chips" role="radiogroup" aria-label="מקור">${srcs.map(s => `<button type="button" class="chip" role="radio" data-act="src" data-s="${s}" aria-checked="${d.source === s}">${SOURCE[s]}</button>`).join('')}</div></div>
@@ -1322,8 +1323,20 @@ function wizMessage(spec, raw) {
   if (r.existing) { closeSheet(); setTimeout(() => openSheet({ type: 'job', id: r.existing.id, live: true }), 280); toast(`הבקשה #${r.existing.ref} כבר במערכת`); return; }
   const d = spec.values;
   spec.found = r.found; spec.err = ''; spec.ret = false;
+  // the full screen: its one form, filled from the message
+  if (spec.type === 'start') { Object.assign(spec, { type: 'form', manual: false, raw: '' }); renderSheet(true); return; }
   spec.step = !String(d.title || '').trim() ? 'job' : !d.date ? 'when' : 'check';
   renderSheet(true);
+}
+// a message read into the full form that is already open (a second message, with the day for example):
+// it adds to what the form has
+function formMessage(spec, raw) {
+  readForm(spec);
+  const r = applyMessage(raw, spec.values);
+  if (r && r.existing) { closeSheet(); setTimeout(() => openSheet({ type: 'job', id: r.existing.id, live: true }), 280); toast(`הבקשה #${r.existing.ref} כבר במערכת`); return; }
+  if (r) Object.assign(spec, { found: r.found, manual: false, raw: '' });
+  else Object.assign(spec, { found: 'לא מצאתי בהודעה שם, טלפון או כתובת. אפשר למלא את הפרטים ידנית.', manual: true, raw });
+  renderSheet(false);
 }
 // the towns of the most jobs, in the order of the area lists so that every button keeps its place
 function topTowns(current) {
@@ -1615,6 +1628,23 @@ function streetResHTML(spec) {
   return (found.length ? found.map(it => `<button type="button" class="wiz-opt wiz-st" dir="rtl" data-act="wiz-street" data-s="${esc(it.n)}"><b translate="no">${esc(it.n)}</b>${it.area ? '<small>שכונה או אזור</small>' : ''}</button>`).join('')
     : `<p class="wiz-hint">לא נמצא רחוב כזה ברשימה</p>`) + typed;
 }
+// The first question of a new job, on both screens: paste a message, or fill it in by hand. fill is the second
+// button: the short steps on the simple screen, the one form on the full screen. When the phone does not give the
+// copied text (or there is none), a box to paste into opens under the buttons.
+const startBody = (spec, fill) => `<p class="wiz-q">איך להוסיף את העבודה?</p>
+<button type="button" class="wiz-big" data-act="wiz-paste">${ic('paste', 'lg')}<span><b>הדבקת הודעה</b><small>מעתיקים בוואטסאפ את ההודעה של הלקוח או של כרומגן, ואז לוחצים כאן</small></span></button>
+${fill}
+${spec.manual ? `<div class="field" style="margin-top:16px"><label for="w-paste">ההודעה</label><textarea class="input" id="w-paste" dir="auto" rows="5" placeholder="נגיעה ארוכה כאן, ואז הדבקה">${esc(spec.raw || '')}</textarea></div>
+<button type="button" class="btn navy block" data-act="wiz-read">קריאת ההודעה</button>` : ''}`;
+// "new job" on the full screen: the same first question. Either way the one form comes after it, filled from the
+// message or empty (with the day picked in the calendar, as before)
+SHEETS.start = spec => {
+  if (!spec.values) spec.values = jobValues(spec.draft || {});
+  return `<div class="wiz wiz-start"><div class="sheet-head"><h2 id="sheetTitle">עבודה חדשה</h2><button type="button" class="closebtn" data-act="sheet-close" aria-label="סגירה">${ic('x')}</button></div>
+${startBody(spec, `<button type="button" class="wiz-big" data-act="form-open">${ic('edit', 'lg')}<span><b>מילוי לבד</b><small>כל הפרטים בטופס אחד</small></span></button>`)}
+<div class="err wiz-err" id="w-err" role="alert">${esc(spec.err || '')}</div></div>`;
+};
+
 SHEETS.wiz = spec => {
   const j = spec.id ? (S.jobs.get(spec.id) || {}) : {};
   const d = spec.values || (spec.values = jobValues(j));
@@ -1624,11 +1654,7 @@ SHEETS.wiz = spec => {
   const any = 'אפשר לכתוב באיזו שפה שנוח';
   let body = '';
   if (step === 'start') {
-    body = `<p class="wiz-q">איך להוסיף את העבודה?</p>
-<button type="button" class="wiz-big" data-act="wiz-paste">${ic('paste', 'lg')}<span><b>הדבקת הודעה</b><small>מעתיקים בוואטסאפ את ההודעה של הלקוח או של כרומגן, ואז לוחצים כאן</small></span></button>
-<button type="button" class="wiz-big" data-act="wiz-step" data-s="job">${ic('edit', 'lg')}<span><b>מילוי לבד</b><small>כמה שאלות קצרות, אחת בכל פעם</small></span></button>
-${spec.manual ? `<div class="field" style="margin-top:16px"><label for="w-paste">ההודעה</label><textarea class="input" id="w-paste" dir="auto" rows="5" placeholder="נגיעה ארוכה כאן, ואז הדבקה">${esc(spec.raw || '')}</textarea></div>
-<button type="button" class="btn navy block" data-act="wiz-read">קריאת ההודעה</button>` : ''}`;
+    body = startBody(spec, `<button type="button" class="wiz-big" data-act="wiz-step" data-s="job">${ic('edit', 'lg')}<span><b>מילוי לבד</b><small>כמה שאלות קצרות, אחת בכל פעם</small></span></button>`);
   } else if (step === 'job') {
     const K = wizKind(d.title), other = !!spec.other || (!K.kind && String(d.title || '').trim() !== '');
     body = `<p class="wiz-q">מה העבודה?</p>
@@ -1897,7 +1923,7 @@ const ACT = {
   },
   'toggle-cancelled': () => { S.showCancelled = !S.showCancelled; refresh(); },
   'open-job': el => openSheet({ type: 'job', id: el.dataset.id, live: true }),
-  'new-job': () => { streetsRetry(); openSheet(S.simple ? { type: 'wiz', step: 'start' } : { type: 'form', draft: { date: S.view === 'cal' && S.day >= todayKey() ? S.day : '' } }); },
+  'new-job': () => { streetsRetry(); openSheet(S.simple ? { type: 'wiz', step: 'start' } : { type: 'start', draft: { date: S.view === 'cal' && S.day >= todayKey() ? S.day : '' } }); },
   'edit-job': el => { streetsRetry(); openSheet(S.simple ? { type: 'wiz', id: el.dataset.id, step: 'check' } : { type: 'form', id: el.dataset.id }); },
   'simple-on': () => { setSimple(true, true); refresh(); window.scrollTo(0, 0); },
   'simple-off': () => { setSimple(false, true); S.view = 'cal'; S.day = todayKey(); refresh(); window.scrollTo(0, 0); },
@@ -1946,16 +1972,25 @@ const ACT = {
     $$('[data-act="pick-date"]', inner).forEach(c => c.setAttribute('aria-pressed', String(c === el)));
     if (spec.values) spec.values.date = el.dataset.k;
   },
-  'parse': () => {
+  'parse': () => { const spec = S.stack[S.stack.length - 1]; formMessage(spec, ($('#f-paste', inner) || {}).value || ''); },
+  // the copied message straight from the phone's clipboard into the open form; when the phone does not allow it,
+  // the box to paste into
+  'form-paste': async () => {
     const spec = S.stack[S.stack.length - 1];
-    const raw = ($('#f-paste', inner) || {}).value || '';
-    readForm(spec);
-    const r = applyMessage(raw, spec.values);
-    if (!r) { spec.found = 'לא מצאתי בהודעה שם, טלפון או כתובת. אפשר למלא את הפרטים ידנית.'; renderSheet(false); return; }
-    if (r.existing) { closeSheet(); setTimeout(() => openSheet({ type: 'job', id: r.existing.id, live: true }), 280); toast(`הבקשה #${r.existing.ref} כבר במערכת`); return; }
-    spec.found = r.found;
-    renderSheet(false);
+    let text = '';
+    try { text = await navigator.clipboard.readText(); } catch (_) { text = ''; }
+    if (S.stack[S.stack.length - 1] !== spec) return;
+    if (!String(text || '').trim()) {
+      readForm(spec);
+      Object.assign(spec, { manual: true, found: '' });
+      renderSheet(false);
+      const f = $('#f-paste', inner); if (f) f.focus();
+      return;
+    }
+    formMessage(spec, text);
   },
+  // "fill it in by hand" on the full screen: the one form, in the same sheet
+  'form-open': () => { const spec = S.stack[S.stack.length - 1]; Object.assign(spec, { type: 'form', manual: false, raw: '', err: '' }); renderSheet(true); },
   'wiz-step': el => {
     const spec = S.stack[S.stack.length - 1];
     wizRead(spec);

@@ -78,6 +78,7 @@
       var cv = 'denied';
       try { if (localStorage.getItem('cookiesAccepted') === '1') cv = 'granted'; } catch(e) {}
       gtag('consent', 'default', {ad_storage: cv, ad_user_data: cv, ad_personalization: 'denied', analytics_storage: cv});
+      gtag('set', 'ads_data_redaction', true);
     })();
   </script>
   <!-- Google tag (gtag.js) - Google Ads -->

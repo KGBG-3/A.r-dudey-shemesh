@@ -5015,7 +5015,26 @@ const ATTR_RU = {
   'פתח כלי נגישות': 'Открыть инструменты доступности',
   'הודעה על עוגיות': 'Уведомление о файлах cookie',
   'סמל הנגישות': 'значок доступности',
-  'דירוג 5 מתוך 5 כוכבים': 'Оценка 5 из 5 звёзд'
+  'דירוג 5 מתוך 5 כוכבים': 'Оценка 5 из 5 звёзд',
+  // image descriptions (alt) that have no TRANSLATIONS entry of their own
+  'מתקין מורשה כרומגן': 'Авторизованный монтажник Chromagen',
+  'מערכת Super של כרומגן — מערכת סגורה מוגנת מאבנית': 'Система Super от Chromagen — закрытая система с защитой от накипи',
+  '120 ליטר צר וארוך': '120 л, узкий длинный',
+  '150 ליטר צר וארוך': '150 л, узкий длинный',
+  'שני קולטים שטוחים ודודי כרומגן חדשים על גג, באמצע ההתקנה': 'Два плоских коллектора и новые бойлеры Chromagen на крыше, в процессе установки',
+  'דוד אמישראגז על מעמד מגולוון עם קולט שמש, על גג שטוח': 'Бойлер Amisragaz на оцинкованной подставке с солнечным коллектором, на плоской крыше',
+  'מחליף חום כרומגן תלוי על קיר, מחובר בצינור גמיש לברז': 'Теплообменник Chromagen на стене, подключён к крану гибким шлангом',
+  'המתקין על שפת הגג של בניין, עם מקדחה ביד': 'Монтажник на краю крыши здания, с дрелью в руке',
+  'חיבורי צנרת מקצועיים תחת דוד שמש': 'Профессиональное подключение труб под солнечным бойлером',
+  'התקנת דוד אמישראגז עם קולט שמש על גג': 'Установка бойлера Amisragaz с солнечным коллектором на крыше',
+  'התקנת דוד שמש עם קולט גדול על גג': 'Установка солнечного бойлера с большим коллектором на крыше',
+  'התקנת דוד אמישראגז עם קולט בפתח תקווה': 'Установка бойлера Amisragaz с коллектором в Петах-Тикве',
+  'מתקין מקצועי עובד על דוד כרומגן סולארי': 'Монтажник работает с солнечным бойлером Chromagen',
+  'התקנת מחליף חום כרומגן': 'Установка теплообменника Chromagen',
+  'דוד חשמל מותקן בשירותי מרפסת': 'Электробойлер, установленный в подсобном помещении на балконе',
+  'חיבורי שסתומים וצנרת מקצועית מתחת לדוד': 'Профессиональное подключение клапанов и труб под бойлером',
+  'התקנת מחליף חום כרומגן במרפסת שירות': 'Установка теплообменника Chromagen на хозяйственном балконе',
+  'הצוות של א.ר דודי שמש על גג בפתח תקווה בשעת שקיעה': 'Команда А.Р Дудей Шемеш на крыше в Петах-Тикве на закате'
 };
 function attrRu(he) {
   if (Object.prototype.hasOwnProperty.call(ATTR_RU, he)) return ATTR_RU[he];
@@ -5024,24 +5043,47 @@ function attrRu(he) {
   if (m) return 'Отзыв ' + m[1] + ' из ' + m[2];
   return null;
 }
-// the Hebrew original is kept in data-he-aria-label / data-he-title and put back in Hebrew mode
-function translateAttrs(toLang) {
-  ['aria-label', 'title'].forEach(name => {
+// the Hebrew original is kept in data-he-aria-label / data-he-title / data-he-alt and put back in Hebrew mode
+const TRANSLATED_ATTRS = ['aria-label', 'title', 'alt'];
+function translateElAttrs(el, toLang) {
+  TRANSLATED_ATTRS.forEach(name => {
+    if (!el.hasAttribute(name)) return;
     const keep = 'data-he-' + name;
-    document.querySelectorAll('[' + name + ']').forEach(el => {
-      if (toLang === 'ru') {
-        const he = el.hasAttribute(keep) ? el.getAttribute(keep) : el.getAttribute(name);
-        const ru = attrRu(he);
-        if (ru === null) return;
-        el.setAttribute(keep, he);
-        el.setAttribute(name, ru);
-      } else if (el.hasAttribute(keep)) {
-        // put the Hebrew back unless a script changed the label meanwhile
-        if (el.getAttribute(name) === attrRu(el.getAttribute(keep))) el.setAttribute(name, el.getAttribute(keep));
-        el.removeAttribute(keep);
-      }
-    });
+    if (toLang === 'ru') {
+      const he = el.hasAttribute(keep) ? el.getAttribute(keep) : el.getAttribute(name);
+      const ru = attrRu(he);
+      if (ru === null) return;
+      el.setAttribute(keep, he);
+      el.setAttribute(name, ru);
+    } else if (el.hasAttribute(keep)) {
+      // put the Hebrew back unless a script changed the label meanwhile
+      if (el.getAttribute(name) === attrRu(el.getAttribute(keep))) el.setAttribute(name, el.getAttribute(keep));
+      el.removeAttribute(keep);
+    }
   });
+}
+// the whole page; content built later in Russian mode gets its attributes through translateNodes(container, 'ru')
+function translateAttrs(toLang) {
+  document.querySelectorAll(TRANSLATED_ATTRS.map(n => '[' + n + ']').join(',')).forEach(el => translateElAttrs(el, toLang));
+  translateDoc(toLang);
+}
+
+// the page title and description: Russian texts in Russian mode, the exact Hebrew originals back in Hebrew.
+// A quote view sets its own title (qRenderTop, rebuilt in the new language), so only the page's own title is swapped.
+const DOC_RU = {
+  title: 'Ремонт и установка солнечных бойлеров в Петах-Тикве и центре страны | А.Р Дудей Шемеш',
+  desc: 'Установка и ремонт солнечных бойлеров в Петах-Тикве и центре страны. Авторизованные монтажники Chromagen, более 17 лет опыта. Узнайте полную цену меньше чем за минуту в калькуляторе на сайте.'
+};
+const DOC_HE = { title: document.title, desc: (document.querySelector('meta[name="description"]') || {}).content };
+function translateDoc(toLang) {
+  const meta = document.querySelector('meta[name="description"]');
+  if (toLang === 'ru') {
+    if (document.title === DOC_HE.title) document.title = DOC_RU.title;
+    if (meta) meta.setAttribute('content', DOC_RU.desc);
+  } else {
+    if (document.title === DOC_RU.title) document.title = DOC_HE.title;
+    if (meta && DOC_HE.desc != null) meta.setAttribute('content', DOC_HE.desc);
+  }
 }
 
 function toggleLang() {
@@ -5135,6 +5177,7 @@ function translateNodes(node, toLang, remember) {
     }
     return;
   }
+  if (node.nodeType === Node.ELEMENT_NODE) translateElAttrs(node, toLang);   // alt / aria-label / title of content built later
   if (['SCRIPT','STYLE','svg','path','BUTTON'].includes(node.nodeName)) {
     // For buttons, still translate text nodes inside
     if (node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE' && node.nodeName !== 'svg' && node.nodeName !== 'path') {

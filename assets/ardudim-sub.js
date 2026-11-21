@@ -40,7 +40,7 @@
     ui_a11y_cursor: { he: 'סמן גדול', ru: 'Крупный курсор' },
     ui_a11y_reset: { he: 'איפוס הגדרות נגישות', ru: 'Сбросить настройки доступности' },
     ui_a11y_statement: { he: 'הצהרת נגישות', ru: 'Декларация доступности' },
-    ui_cookie_label: { he: 'עוגיות', ru: 'Файлы cookie' },
+    ui_cookie_label: { he: 'הודעה על עוגיות', ru: 'Уведомление о файлах cookie' },
     ui_cookie_text: { he: 'האתר משתמש בעוגיות בסיסיות לתפקוד האתר, ובעוגיות של Google Ads למדידת פניות שמגיעות מהמודעות שלנו. אפשר לסרב לעוגיות המדידה.', ru: 'Сайт использует базовые файлы cookie для работы и файлы cookie Google Ads для учёта обращений, пришедших из нашей рекламы. От файлов cookie для учёта можно отказаться.' },
     ui_cookie_more: { he: 'לפרטים נוספים ראו את <a href="#privacy" data-open="privacy">מדיניות הפרטיות</a> שלנו.', ru: 'Подробнее в нашей <a href="#privacy" data-open="privacy">политике конфиденциальности</a>.' },
     ui_cookie_accept: { he: 'הבנתי, אני מסכים', ru: 'Понятно, согласен' },
@@ -51,7 +51,42 @@
     ui_ft_guf: { he: 'החלפת גוף חימום', ru: 'Замена ТЭНа' },
     ui_ft_chromagen: { he: 'מתקין מורשה כרומגן', ru: 'Монтажник Chromagen' },
     ui_ft_areas: { he: 'אזורי שירות', ru: 'Зоны обслуживания' },
-    ui_ft_sanan: { he: 'סנן אבנית לדוד שמש', ru: 'Фильтр от накипи для бойлера' }
+    ui_ft_sanan: { he: 'סנן אבנית לדוד שמש', ru: 'Фильтр от накипи для бойлера' },
+    // the full privacy policy (ui_pv_*), the full accessibility statement (ui_st_*), the footer's identity line and cookie link:
+    // made by script from index.html's dialogs in both languages; on the subpages the privacy phone is a plain tel: link and
+    // the menu's feature list has the large cursor too. The Hebrew is also written in each page's HTML, word for word.
+    ui_pv_title: { he: 'מדיניות פרטיות — א.ר דודי שמש', ru: 'Политика конфиденциальности — А.Р Дудей Шемеш' },
+    ui_pv_1: { he: '<strong>מי אחראי על המידע?</strong><br> האתר ardudim.co.il מופעל על ידי א.ר דודי שמש — איליה ריים, השיקמה 3, פתח תקווה. אנחנו בעל השליטה במידע שנמסר דרך האתר.', ru: '<strong>Кто отвечает за данные?</strong><br> Сайтом ardudim.co.il управляет «А.Р Дудей Шемеш» — Илья Рейм, ул. Ха-Шикма, 3, Петах-Тиква. Мы — владелец базы данных, в которую попадает информация, переданная через сайт.' },
+    ui_pv_2: { he: '<strong>איזה מידע נאסף, ולמה?</strong><br> מידע שאתם מוסרים: בבקשה לתיאום מועד במחשבון — שם, טלפון, יישוב, הימים והשעות שבחרתם וההצעה שבניתם. בפנייה בוואטסאפ או בטלפון — מספר הטלפון ותוכן הפנייה. המידע משמש לתיאום העבודה, להצעת מחיר, לביצוע השירות ולאחריות.<br> מידע שנאסף אוטומטית: בזמן טעינת האתר, ספקי האחסון והגופנים (GitHub ו-Google) מקבלים את כתובת ה-IP ואת סוג הדפדפן, כמו בכל אתר. אם הסכמתם לעוגיות המדידה, Google Ads מקבל גם מזהה שמאפשר לדעת שפנייה הגיעה ממודעה שלנו.', ru: '<strong>Какие данные собираются и зачем?</strong><br> Данные, которые вы сообщаете сами: в заявке на согласование даты в калькуляторе — имя, телефон, населённый пункт, выбранные дни и время, а также составленное вами предложение. При обращении в WhatsApp или по телефону — номер телефона и содержание обращения. Эти данные нужны, чтобы согласовать работу, рассчитать цену, выполнить заказ и обеспечить гарантию.<br> Данные, которые собираются автоматически: при загрузке сайта хостинг и сервис шрифтов (GitHub и Google) получают IP-адрес и тип браузера — как на любом сайте. Если вы согласились на файлы cookie для учёта, Google Ads получает также идентификатор, по которому видно, что обращение пришло из нашей рекламы.' },
+    ui_pv_3: { he: '<strong>האם חייבים למסור מידע?</strong><br> אין חובה חוקית למסור לנו מידע; המסירה תלויה ברצונכם ובהסכמתכם. אפשר לראות מחירים ולבנות הצעה במחשבון בלי להשאיר פרטים. בלי שם וטלפון לא נוכל לתאם איתכם מועד.', ru: '<strong>Обязательно ли сообщать данные?</strong><br> По закону вы не обязаны сообщать нам данные — это зависит только от вашего желания и согласия. Посмотреть цены и составить предложение в калькуляторе можно, не оставляя данных. Без имени и телефона мы не сможем согласовать с вами дату.' },
+    ui_pv_4: { he: '<strong>עוגיות (Cookies) ומדידה</strong><br> האתר שומר בדפדפן שלכם הגדרות שנחוצות לפעולתו: שפה, הגדרות נגישות, בחירת העוגיות וההצעה שבניתם. בנוסף, האתר מודד פניות שהגיעו ממודעות Google Ads (לחיצה על טלפון או על וואטסאפ) בעזרת עוגיות של Google. המדידה פועלת רק אחרי שלחצתם "הבנתי, אני מסכים" בהודעת העוגיות. אפשר לשנות את הבחירה בכל רגע בקישור "הגדרות עוגיות" בתחתית כל דף.', ru: '<strong>Файлы cookie и учёт обращений</strong><br> Сайт сохраняет в вашем браузере настройки, необходимые для его работы: язык, настройки доступности, ваш выбор по файлам cookie и составленное вами предложение. Кроме того, сайт учитывает обращения, пришедшие из рекламы Google Ads (нажатие на телефон или WhatsApp), с помощью файлов cookie Google. Этот учёт включается только после того, как вы нажали «Понятно, согласен» в уведомлении о cookie. Изменить выбор можно в любой момент по ссылке «Настройки cookie» внизу каждой страницы.' },
+    ui_pv_5: { he: '<strong>למי המידע מועבר?</strong><br> אנחנו לא מוכרים מידע ולא מעבירים אותו לאחרים לצורכי שיווק. המידע נשמר ומעובד אצל ספקי שירות שפועלים עבורנו: Supabase (מסד הנתונים של מערכת התיאום), Google (יומן העבודות ומדידת המודעות), WhatsApp (כשפונים אלינו בוואטסאפ) ו-GitHub (אחסון האתר). ייתכן שהשרתים שלהם נמצאים מחוץ לישראל.', ru: '<strong>Кому передаются данные?</strong><br> Мы не продаём данные и не передаём их другим для их маркетинга. Данные хранятся и обрабатываются у поставщиков услуг, которые работают для нас: Supabase (база данных системы согласования), Google (рабочий календарь и учёт рекламы), WhatsApp (когда вы пишете нам в WhatsApp) и GitHub (хостинг сайта). Их серверы могут находиться за пределами Израиля.' },
+    ui_pv_6: { he: '<strong>כמה זמן נשמר המידע?</strong><br> כל עוד הוא נחוץ לתיאום העבודה, לאחריות ולחובות הנהלת החשבונות.', ru: '<strong>Как долго хранятся данные?</strong><br> Пока они нужны для согласования работы, гарантии и ведения бухгалтерского учёта.' },
+    ui_pv_7: { he: '<strong>הזכויות שלכם</strong><br> לפי חוק הגנת הפרטיות, התשמ"א-1981, אתם זכאים לעיין במידע שנשמר עליכם, ולבקש לתקן או למחוק מידע שאינו נכון, שלם, ברור או מעודכן. לפנייה — בפרטים שלמטה.', ru: '<strong>Ваши права</strong><br> Согласно Закону о защите частной жизни (1981), вы вправе ознакомиться с данными, которые хранятся о вас, и попросить исправить или удалить данные, если они неверны, неполны, неясны или устарели. Для обращения используйте контакты ниже.' },
+    ui_pv_8: { he: '<strong>יצירת קשר בנושא פרטיות</strong><br> טלפון: <a href="tel:+972545642426">054-564-2426</a> · דוא"ל: <a href="mailto:moshereym1@gmail.com">moshereym1@gmail.com</a>', ru: '<strong>Контакт по вопросам конфиденциальности</strong><br> Телефон: <a href="tel:+972545642426">054-564-2426</a> · Эл. почта: <a href="mailto:moshereym1@gmail.com">moshereym1@gmail.com</a>' },
+    ui_pv_updated: { he: 'עדכון אחרון: נובמבר 2026', ru: 'Последнее обновление: ноябрь 2026' },
+    ui_st_1: { he: 'המחויבות שלנו לנגישות', ru: 'Наши обязательства по доступности' },
+    ui_st_2: { he: 'בא.ר דודי שמש אנו רואים בנגישות האתר ערך חשוב, ומאמינים שכל אדם זכאי לקבל מידע על השירותים שלנו באופן שווה ועצמאי, ללא תלות במגבלות פיזיות, חושיות או קוגניטיביות. אנו פועלים להנגיש את האתר באופן שוטף בהתאם להוראות תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013, ולתקן הישראלי ת"י 5568 לנגישות תכנים באינטרנט ברמה AA.', ru: 'В А.Р Дудей Шемеш мы считаем доступность сайта важной ценностью и верим, что каждый человек имеет право получать информацию о наших услугах равным и независимым образом, независимо от физических, сенсорных или когнитивных ограничений. Мы постоянно работаем над доступностью сайта в соответствии с положениями Постановления о равных правах для людей с инвалидностью (Адаптация доступности к услугам) 2013 года и израильским стандартом IS 5568 по доступности интернет-контента уровня AA.' },
+    ui_st_3: { he: 'אופן ההנגשה של האתר', ru: 'Как сайт сделан доступным' },
+    ui_st_4: { he: 'האתר נבנה תוך הקפדה על עקרונות הנגישות, וכולל בין היתר:', ru: 'Сайт построен с соблюдением принципов доступности и включает, в частности:' },
+    ui_st_5: { he: '<li>תמיכה בניווט מלא באמצעות מקלדת (מקש Tab) עם סימוני פוקוס ברורים</li> <li>מבנה כותרות סמנטי (H1, H2, H3) לקריאה נוחה בקוראי מסך</li> <li>תיאורי טקסט חלופיים (alt) לתמונות משמעותיות</li> <li>קישור "דלג לתוכן הראשי" המופיע בעת ניווט במקלדת</li> <li>ניגודיות צבעים תקינה בין טקסט לרקע</li> <li>תמיכה בהקטנת אנימציות עבור משתמשים עם רגישות לתנועה (prefers-reduced-motion)</li> <li>תמיכה בעברית (RTL) וברוסית (LTR) באתר דו-לשוני</li> <li>כפתורי קריאה לפעולה (טלפון, וואטסאפ) בגדלים נוחים ללחיצה</li>', ru: '<li>Поддержка полной навигации с клавиатуры (клавиша Tab) с чёткой индикацией фокуса</li> <li>Семантическая структура заголовков (H1, H2, H3) для удобного чтения программами чтения с экрана</li> <li>Альтернативные текстовые описания (alt) для значимых изображений</li> <li>Ссылка "Перейти к основному содержанию", появляющаяся при навигации с клавиатуры</li> <li>Корректная контрастность цветов между текстом и фоном</li> <li>Поддержка уменьшения анимаций для пользователей с чувствительностью к движению (prefers-reduced-motion)</li> <li>Поддержка иврита (RTL) и русского (LTR) на двуязычном сайте</li> <li>Кнопки призыва к действию (телефон, WhatsApp) удобного размера для нажатия</li>' },
+    ui_st_6: { he: 'סרגל כלי הנגישות באתר', ru: 'Панель инструментов доступности сайта' },
+    ui_st_7: { he: 'בפינה הימנית התחתונה של האתר מופיע סמל נגישות <span style="white-space:nowrap">(<svg class="a11y-inline-ic" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="סמל הנגישות" style="width:1.15em;height:1.15em;vertical-align:-.2em"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2zM12 7.5c-2.5 0-3 1.5-3 1.5l-.5-1.7s1.4-1.3 3.5-1.3 3.5 1.3 3.5 1.3l-.5 1.7s-.5-1.5-3-1.5z"></path></svg>).</span> לחיצה עליו פותחת סרגל המאפשר:', ru: 'В правом нижнем углу сайта находится значок доступности <span style="white-space:nowrap">(<svg class="a11y-inline-ic" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="значок доступности" style="width:1.15em;height:1.15em;vertical-align:-.2em"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2zM12 7.5c-2.5 0-3 1.5-3 1.5l-.5-1.7s1.4-1.3 3.5-1.3 3.5 1.3 3.5 1.3l-.5 1.7s-.5-1.5-3-1.5z"></path></svg>).</span> Нажатие на него открывает панель, позволяющую:' },
+    ui_st_8: { he: '<li><strong>הגדלת גודל הטקסט</strong> בשתי רמות (115% ו-130%)</li> <li><strong>החלפה לגופן קריא</strong> (Arial) עם ריווח אותיות מוגדל</li> <li><strong>מצב ניגודיות גבוהה</strong> (רקע שחור, טקסט לבן, קישורים בצהוב)</li> <li><strong>הדגשת קישורים</strong> בצבע ובקו תחתי בולט</li> <li><strong>עצירת אנימציות</strong> ותנועות באתר</li> <li><strong>סמן גדול</strong> — סמן עכבר מוגדל</li> <li><strong>איפוס</strong> ההגדרות לברירת המחדל</li>', ru: '<li><strong>Увеличить размер текста</strong> на двух уровнях (115% и 130%)</li> <li><strong>Переключиться на читаемый шрифт</strong> (Arial) с увеличенным интервалом между буквами</li> <li><strong>Режим высокой контрастности</strong> (чёрный фон, белый текст, жёлтые ссылки)</li> <li><strong>Подсветка ссылок</strong> цветом и заметным подчёркиванием</li> <li><strong>Остановка анимаций</strong> и движений на сайте</li> <li><strong>Крупный курсор</strong> — увеличенный указатель мыши</li> <li><strong>Сброс</strong> настроек к значениям по умолчанию</li>' },
+    ui_st_9: { he: 'ההעדפות שלך נשמרות בדפדפן ויחולו אוטומטית בביקוריך הבאים.', ru: 'Ваши предпочтения сохраняются в браузере и автоматически применяются при следующих посещениях.' },
+    ui_st_10: { he: 'חלקים שעדיין לא נגישים במלואם', ru: 'Разделы, ещё не полностью доступные' },
+    ui_st_11: { he: 'אנו עובדים באופן שוטף לשיפור הנגישות. נכון להיום ייתכן ויימצאו באתר רכיבים שאינם נגישים במלואם, ביניהם:', ru: 'Мы постоянно работаем над улучшением доступности. На сегодняшний день на сайте могут быть элементы, не полностью доступные, в том числе:' },
+    ui_st_12: { he: '<li>קובץ ה-PDF של הצעת המחיר נשמר כתמונה של ההצעה, בלי שכבת טקסט, ולכן אינו נגיש לקוראי מסך. כל המידע שבו מופיע גם על המסך.</li> <li>תכנים של צד שלישי — ביקורות מ-Google ושיחות בוואטסאפ — מוצגים כפי שהם במערכות של הספקים.</li>', ru: '<li>PDF-файл с предложением сохраняется как изображение, без текстового слоя, поэтому он недоступен для программ чтения с экрана. Вся информация из него есть и на экране.</li> <li>Сторонние материалы — отзывы из Google и переписка в WhatsApp — отображаются так, как они представлены в системах этих сервисов.</li>' },
+    ui_st_13: { he: 'במקרה של קושי בגישה לתוכן מסוים, נשמח לסייע באמצעי חלופי — שיחת טלפון, הודעת וואטסאפ או דוא"ל.', ru: 'В случае трудностей с доступом к определённому содержанию мы будем рады помочь альтернативным способом — по телефону, в WhatsApp или по электронной почте.' },
+    ui_st_14: { he: 'הסדרי נגישות חלופיים', ru: 'Альтернативные средства доступа' },
+    ui_st_15: { he: 'לעסק אין משרד או אולם תצוגה לקבלת קהל. השירות ניתן בטלפון, בוואטסאפ ובהגעה של בעל העסק לבית הלקוח. נשמח לקבל פניות בערוצים הבאים:', ru: 'У компании нет офиса или шоурума для приёма посетителей. Мы работаем по телефону, в WhatsApp и с выездом владельца компании к клиенту на дом. Будем рады обращениям по следующим каналам:' },
+    ui_st_16: { he: '<li><strong>שיחת טלפון:</strong> 054-564-2426</li> <li><strong>וואטסאפ:</strong> 055-997-6041 (ניתן לשלוח גם הודעות קוליות)</li> <li><strong>דוא"ל:</strong> moshereym1@gmail.com</li>', ru: '<li><strong>Звонок по телефону:</strong> 054-564-2426</li> <li><strong>WhatsApp:</strong> 055-997-6041 (можно отправлять и голосовые сообщения)</li> <li><strong>Эл. почта:</strong> moshereym1@gmail.com</li>' },
+    ui_st_17: { he: 'פנייה בנושא נגישות', ru: 'Обращение по вопросам доступности' },
+    ui_st_18: { he: 'נתקלת בבעיית נגישות באתר? יש לך הצעה לשיפור? נשמח לשמוע ולטפל בכך בהקדם.', ru: 'Столкнулись с проблемой доступности на сайте? Есть предложение по улучшению? Мы будем рады услышать и оперативно отреагировать.' },
+    ui_st_19: { he: '<p><strong>רכז נגישות:</strong> משה ריים</p> <p><strong>טלפון:</strong> <a href="tel:+972559976041">055-997-6041</a></p> <p><strong>דוא"ל:</strong> <a href="mailto:moshereym1@gmail.com">moshereym1@gmail.com</a></p> <p><strong>זמן מענה:</strong> נשתדל להגיב לפניות נגישות בתוך 5 ימי עסקים.</p>', ru: '<p><strong>Координатор по доступности:</strong> Моше Рейм</p> <p><strong>Телефон:</strong> <a href="tel:+972559976041">055-997-6041</a></p> <p><strong>Эл. почта:</strong> <a href="mailto:moshereym1@gmail.com">moshereym1@gmail.com</a></p> <p><strong>Время ответа:</strong> Мы постараемся ответить на обращения по доступности в течение 5 рабочих дней.</p>' },
+    ui_st_date: { he: 'תאריך עדכון אחרון: נובמבר 2026', ru: 'Дата последнего обновления: ноябрь 2026' },
+    ui_ft_ident: { he: 'א.ר דודי שמש · איליה ריים · מספר עוסק 321576191 · השיקמה 3, פתח תקווה (אין קבלת קהל)', ru: 'А.Р Дудей Шемеш · Илья Рейм · рег. номер 321576191 · ул. Ха-Шикма, 3, Петах-Тиква (без приёма посетителей)' },
+    ui_ft_cookies: { he: 'הגדרות עוגיות', ru: 'Настройки cookie' }
   };
   var PAGE = window.I18N || {};
   function str(key, lang) {
@@ -61,6 +96,15 @@
 
   var curLang = 'he';
   var isRu = function () { return curLang === 'ru'; };
+
+  // the language button says in its own language which language it switches to (it shows "RU" in Hebrew, "HE" in Russian)
+  var LANG_BTN = { he: { label: 'Русский — переключить язык', lang: 'ru' }, ru: { label: 'עברית — החלפת שפה', lang: 'he' } };
+  function syncLangBtn() {
+    var b = document.getElementById('lang-btn');
+    if (!b) return;
+    b.setAttribute('aria-label', LANG_BTN[curLang].label);
+    b.setAttribute('lang', LANG_BTN[curLang].lang);
+  }
 
   /* @src index.html #ardudim-design-js · Rubik for the Russian headings */
   // Secular One has no Russian letters → in Russian the headings take them from Rubik Bold,
@@ -124,6 +168,12 @@
         if (v !== null) el.setAttribute(p[0].trim(), v);
       });
     });
+    // the page's title and description, when its I18N has them
+    var t = str('doc_title', curLang);
+    if (t !== null) document.title = t;
+    var d = str('doc_desc', curLang), md = document.querySelector('meta[name="description"]');
+    if (d !== null && md) md.setAttribute('content', d);
+    syncLangBtn();
     mark();
     ensureRuFont();
     try { localStorage.setItem(LANG_KEY, curLang); } catch (e) {}
@@ -329,7 +379,7 @@
     if (!el) return;
     if (panel && isOpen(panel)) closeDialog(panel);
     if (links && isOpen(links)) closeMenu();
-    openDialog(el, { lock: true, fallback: a11yToggle });
+    openDialog(el, { lock: true, fallback: a11yToggle, focus: name === 'privacy' ? '#privacy-title' : null });
   }
   function closeModal(name) { if (MODALS[name]) closeDialog(MODALS[name]); }
   [statement, privacy].forEach(function (el) {
@@ -358,11 +408,51 @@
   }
   function acceptCookies() { setCookieConsent(true); }
   function declineCookies() { setCookieConsent(false); }
+
+  // The cookie banner is a fixed bar (it never adds page height). showCookieBanner() shows it and keeps --cookie-h in step
+  // with its height, for the floating buttons above it. Safe to call again: one resize listener, one ResizeObserver.
+  let cookieBannerSync = null;
+  let cookieSettingsOpener = null;
+  function showCookieBanner() {
+    const b = document.getElementById('cookie-banner');
+    if (!b) return null;
+    b.classList.add('show');
+    if (!cookieBannerSync) {
+      cookieBannerSync = () => {
+        if (!b.classList.contains('show')) return;
+        document.body.style.setProperty('--cookie-h', b.offsetHeight + 'px');
+        document.body.classList.add('cookie-open');
+      };
+      window.addEventListener('resize', cookieBannerSync);
+      if (window.ResizeObserver) { new ResizeObserver(cookieBannerSync).observe(b); }
+      // a choice made after "הגדרות עוגיות" opened the banner: the buttons' own handlers run first and hide it,
+      // then the focus goes back to that link
+      b.addEventListener('click', (e) => {
+        const opener = cookieSettingsOpener;
+        if (!opener || !e.target.closest('.cookie-accept, .cookie-decline')) return;
+        cookieSettingsOpener = null;
+        opener.focus();
+      });
+    }
+    cookieBannerSync();
+    return b;
+  }
+  // "הגדרות עוגיות" (footer): the banner shows again, also when a choice is already saved, and takes the focus
+  function openCookieSettings(opener) {
+    const b = showCookieBanner();
+    if (!b) return;
+    cookieSettingsOpener = opener || null;
+    b.focus();
+  }
   /* @end-src */
   var cAccept = document.querySelector('.cookie-accept'), cDecline = document.querySelector('.cookie-decline');
   function focusMain() { var m = document.getElementById('main-content'); if (m) m.focus({ preventScroll: true }); }
   if (cAccept) cAccept.addEventListener('click', function () { acceptCookies(); focusMain(); });
   if (cDecline) cDecline.addEventListener('click', function () { declineCookies(); focusMain(); });
+  // footer link "הגדרות עוגיות" (no onclick on the subpages)
+  document.querySelectorAll('[data-cookie-settings]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); openCookieSettings(a); });
+  });
 
   // ---------- language button ----------
   var langBtn = document.getElementById('lang-btn');
@@ -373,7 +463,7 @@
   syncMotion();
   var saved = null;
   try { saved = localStorage.getItem(LANG_KEY); } catch (e) {}
-  if (saved === 'ru' || html.lang === 'ru') applyLang('ru'); else mark();
+  if (saved === 'ru' || html.lang === 'ru') applyLang('ru'); else { syncLangBtn(); mark(); }
   menuInert();
 
   // subpage-only: keep the floating buttons hidden until the hero entrance and the web fonts have settled
@@ -422,21 +512,11 @@
   /* @end-src */
 
   /* @src index.html · cookie banner shows until a choice is saved */
+  // First visit (no choice saved yet): the banner shows by itself, without taking the focus
   (function initCookieBanner() {
-    const b = document.getElementById('cookie-banner');
-    if (!b) return;
-    let accepted = false;
-    try { accepted = !!localStorage.getItem('cookiesAccepted'); } catch(e) {}
-    if (accepted) return;
-    b.classList.add('show');
-    const syncHeight = () => {
-      if (!b.classList.contains('show')) return;
-      document.body.style.setProperty('--cookie-h', b.offsetHeight + 'px');
-      document.body.classList.add('cookie-open');
-    };
-    syncHeight();
-    window.addEventListener('resize', syncHeight);
-    if (window.ResizeObserver) { new ResizeObserver(syncHeight).observe(b); }
+    let chosen = false;
+    try { chosen = !!localStorage.getItem('cookiesAccepted'); } catch(e) {}
+    if (!chosen) showCookieBanner();
   })();
   /* @end-src */
 
@@ -513,4 +593,5 @@
   window.toggleA11yPanel = toggleA11yPanel;
   window.acceptCookies = acceptCookies;
   window.declineCookies = declineCookies;
+  window.openCookieSettings = openCookieSettings;
 })();

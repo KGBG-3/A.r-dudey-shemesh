@@ -14,11 +14,46 @@
 <meta property="og:url" content="https://ardudim.co.il/azorey-sherut.html" />
 <meta property="og:image" content="https://ardudim.co.il/og-image-2026.jpg" />
 <meta property="og:image:alt" content="א.ר דודי שמש - תיקון והתקנת דודי שמש בפתח תקווה" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "דף הבית", "item": "https://ardudim.co.il/" },
+        { "@type": "ListItem", "position": 2, "name": "אזורי שירות", "item": "https://ardudim.co.il/azorey-sherut.html" }
+      ]
+    },
+    {
+      "@type": "Service",
+      "name": "תיקון והתקנת דודי שמש בפתח תקווה והמרכז",
+      "serviceType": "תיקון והתקנת דודי שמש",
+      "url": "https://ardudim.co.il/azorey-sherut.html",
+      "provider": { "@type": "LocalBusiness", "@id": "https://ardudim.co.il/#business", "name": "א.ר דודי שמש" },
+      "areaServed": [
+        { "@type": "City", "name": "פתח תקווה" },
+        { "@type": "City", "name": "תל אביב" },
+        { "@type": "City", "name": "רמת גן" },
+        { "@type": "City", "name": "גבעתיים" },
+        { "@type": "City", "name": "בני ברק" },
+        { "@type": "City", "name": "חולון" },
+        { "@type": "City", "name": "בת ים" },
+        { "@type": "City", "name": "ראשון לציון" },
+        { "@type": "City", "name": "רחובות" },
+        { "@type": "City", "name": "נס ציונה" },
+        { "@type": "City", "name": "יהוד" },
+        { "@type": "City", "name": "אור יהודה" }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Secular+One&display=swap" />
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Secular+One&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/ardudim-sub.css?v=20261016b" />
+<link rel="stylesheet" href="assets/ardudim-sub.css?v=20261117a" />
 <!-- Before the first paint, as on index.html: the saved language (Russian layout + Rubik) and the motion classes -->
 <script id="ardudim-lang-boot">
     (function () {
@@ -33,15 +68,17 @@
       } catch (e) {}
     })();
   </script>
-<link rel="preload" as="script" href="assets/ardudim-sub.js?v=20261016b" />
-  <!-- Cookie consent: the choice saved by the cookie banner applies before the Google tag loads ('1' = granted, '0' = denied) -->
+<link rel="preload" as="script" href="assets/ardudim-sub.js?v=20261117a" />
+  <!-- Cookie consent: Google's measurement cookies stay off until the visitor accepts in the cookie banner ('1' = accepted; anything else = denied). Ad personalisation (remarketing) is never granted: the business does not use it. -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    try {
-      var cc = localStorage.getItem('cookiesAccepted');
-      if (cc === '0' || cc === '1') { var cv = cc === '1' ? 'granted' : 'denied'; gtag('consent', 'default', {ad_storage: cv, ad_user_data: cv, ad_personalization: cv, analytics_storage: cv}); }
-    } catch(e) {}
+    (function () {
+      var cv = 'denied';
+      try { if (localStorage.getItem('cookiesAccepted') === '1') cv = 'granted'; } catch(e) {}
+      gtag('consent', 'default', {ad_storage: cv, ad_user_data: cv, ad_personalization: 'denied', analytics_storage: cv});
+      gtag('set', 'ads_data_redaction', true);
+    })();
   </script>
   <!-- Google tag (gtag.js) - Google Ads -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18109334445"></script>
@@ -123,7 +160,7 @@
   </div>
   <div class="nav-menu-overlay" id="nav-menu-overlay"></div>
   <div class="lang-wrapper">
-    <button type="button" class="lang-switcher" id="lang-btn"><span id="lang-label" data-i18n="langlabel">RU</span></button>
+    <button type="button" class="lang-switcher" id="lang-btn" aria-label="Русский — переключить язык" lang="ru"><span id="lang-label" data-i18n="langlabel">RU</span></button>
   </div>
   <a href="tel:+972545642426" class="nav-call">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.06 7.94a16 16 0 006 6l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
@@ -215,14 +252,15 @@
     <a href="sanan-avnit.html" data-i18n="ui_ft_sanan">סנן אבנית לדוד שמש</a>
   </div>
   <div class="ft-legal">
+    <span class="ft-ident" data-i18n="ui_ft_ident">א.ר דודי שמש · איליה ריים · מספר עוסק 321576191 · השיקמה 3, פתח תקווה (אין קבלת קהל)</span><br/>
     <span data-i18n="ft_rights">© 2026 א.ר דודי שמש. כל הזכויות שמורות.</span><br/>
-    <a href="#privacy" data-open="privacy" data-i18n="ft_privacy">מדיניות פרטיות</a> · <a href="#accessibility" data-open="a11y" data-i18n="ft_a11y">הצהרת נגישות</a><br/>
+    <a href="#privacy" data-open="privacy" data-i18n="ft_privacy">מדיניות פרטיות</a> · <a href="#accessibility" data-open="a11y" data-i18n="ft_a11y">הצהרת נגישות</a> · <a href="#cookie-settings" data-cookie-settings data-i18n="ui_ft_cookies">הגדרות עוגיות</a><br/>
     <a href="https://ardudim.co.il/" class="ft-back"><span data-i18n="ft_back">חזרה לאתר הראשי</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
   </div>
 </footer>
 
 <!-- Cookie banner (as on index.html) -->
-<div class="cookie-banner" id="cookie-banner" role="region" aria-label="עוגיות" data-i18n-attr="aria-label:ui_cookie_label">
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="הודעה על עוגיות" tabindex="-1" data-i18n-attr="aria-label:ui_cookie_label">
   <p><span data-i18n="ui_cookie_text">האתר משתמש בעוגיות בסיסיות לתפקוד האתר, ובעוגיות של Google Ads למדידת פניות שמגיעות מהמודעות שלנו. אפשר לסרב לעוגיות המדידה.</span>
     <span data-i18n="ui_cookie_more">לפרטים נוספים ראו את <a href="#privacy" data-open="privacy">מדיניות הפרטיות</a> שלנו.</span></p>
   <div class="cookie-btns">
@@ -258,16 +296,32 @@
 <div class="a11y-modal" id="a11y-modal" role="dialog" aria-modal="true" aria-labelledby="a11y-modal-title" aria-hidden="true">
   <div class="a11y-modal-box">
     <div class="a11y-modal-header">
-      <h3 id="a11y-modal-title"><span class="a11y-modal-header-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2zM12 7.5c-2.5 0-3 1.5-3 1.5l-.5-1.7s1.4-1.3 3.5-1.3 3.5 1.3 3.5 1.3l-.5 1.7s-.5-1.5-3-1.5z"/></svg></span> <span data-i18n="a11y_st_title">הצהרת נגישות</span></h3>
+      <h3 id="a11y-modal-title"><span class="a11y-modal-header-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2zM12 7.5c-2.5 0-3 1.5-3 1.5l-.5-1.7s1.4-1.3 3.5-1.3 3.5 1.3 3.5 1.3l-.5 1.7s-.5-1.5-3-1.5z"/></svg></span> <span data-i18n="ui_a11y_statement">הצהרת נגישות</span></h3>
       <button type="button" class="a11y-modal-close" data-close aria-label="סגירה" data-i18n-attr="aria-label:ui_close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
     <div class="a11y-modal-body">
-      <p data-i18n="a11y_st_p1">אנו ב-א.ר דודי שמש רואים חשיבות רבה בהנגשת האתר לכלל המשתמשים, כולל אנשים עם מוגבלות.</p>
-      <p data-i18n="a11y_st_p2"><strong>אמצעי נגישות באתר:</strong> תפריט הנגישות מאפשר הגדלת טקסט, ניגודיות גבוהה, גופן קריא, הדגשת קישורים, עצירת אנימציות וסמן עכבר מוגדל.</p>
-      <p data-i18n="a11y_st_p3">האתר נבנה בהתאם להנחיות הנגישות המקובלות ונעשה מאמץ מתמשך לשפר את הנגישות.</p>
-      <p data-i18n="a11y_st_p4"><strong>נתקלתם בבעיית נגישות?</strong> נשמח לדעת ולתקן. צרו קשר בטלפון 054-564-2426.</p>
+      <h4 data-i18n="ui_st_1">המחויבות שלנו לנגישות</h4>
+      <p data-i18n="ui_st_2">בא.ר דודי שמש אנו רואים בנגישות האתר ערך חשוב, ומאמינים שכל אדם זכאי לקבל מידע על השירותים שלנו באופן שווה ועצמאי, ללא תלות במגבלות פיזיות, חושיות או קוגניטיביות. אנו פועלים להנגיש את האתר באופן שוטף בהתאם להוראות תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013, ולתקן הישראלי ת"י 5568 לנגישות תכנים באינטרנט ברמה AA.</p>
+      <h4 data-i18n="ui_st_3">אופן ההנגשה של האתר</h4>
+      <p data-i18n="ui_st_4">האתר נבנה תוך הקפדה על עקרונות הנגישות, וכולל בין היתר:</p>
+      <ul data-i18n="ui_st_5"><li>תמיכה בניווט מלא באמצעות מקלדת (מקש Tab) עם סימוני פוקוס ברורים</li> <li>מבנה כותרות סמנטי (H1, H2, H3) לקריאה נוחה בקוראי מסך</li> <li>תיאורי טקסט חלופיים (alt) לתמונות משמעותיות</li> <li>קישור "דלגו לתוכן הראשי" המופיע בעת ניווט במקלדת</li> <li>ניגודיות צבעים תקינה בין טקסט לרקע</li> <li>תמיכה בהקטנת אנימציות עבור משתמשים עם רגישות לתנועה (prefers-reduced-motion)</li> <li>תמיכה בעברית (RTL) וברוסית (LTR) באתר דו-לשוני</li> <li>כפתורי קריאה לפעולה (טלפון, וואטסאפ) בגדלים נוחים ללחיצה</li></ul>
+      <h4 data-i18n="ui_st_6">סרגל כלי הנגישות באתר</h4>
+      <p data-i18n="ui_st_7">בפינה הימנית התחתונה של האתר מופיע סמל נגישות <span style="white-space:nowrap">(<svg class="a11y-inline-ic" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="סמל הנגישות" style="width:1.15em;height:1.15em;vertical-align:-.2em"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2zM12 7.5c-2.5 0-3 1.5-3 1.5l-.5-1.7s1.4-1.3 3.5-1.3 3.5 1.3 3.5 1.3l-.5 1.7s-.5-1.5-3-1.5z"></path></svg>).</span> לחיצה עליו פותחת סרגל המאפשר:</p>
+      <ul data-i18n="ui_st_8"><li><strong>הגדלת גודל הטקסט</strong> בשתי רמות</li> <li><strong>החלפה לגופן קריא</strong> (Arial) עם ריווח אותיות מוגדל</li> <li><strong>מצב ניגודיות גבוהה</strong> (רקע שחור, טקסט לבן, קישורים בצהוב)</li> <li><strong>הדגשת קישורים</strong> בצבע ובקו תחתי בולט</li> <li><strong>עצירת אנימציות</strong> ותנועות באתר</li> <li><strong>סמן גדול</strong> — סמן עכבר מוגדל</li> <li><strong>איפוס</strong> ההגדרות לברירת המחדל</li></ul>
+      <p data-i18n="ui_st_9">ההעדפות שלך נשמרות בדפדפן ויחולו אוטומטית בביקוריך הבאים.</p>
+      <h4 data-i18n="ui_st_10">חלקים שעדיין לא נגישים במלואם</h4>
+      <p data-i18n="ui_st_11">אנו עובדים באופן שוטף לשיפור הנגישות. נכון להיום ייתכן ויימצאו באתר רכיבים שאינם נגישים במלואם, ביניהם:</p>
+      <ul data-i18n="ui_st_12"><li>קובץ ה-PDF של הצעת המחיר נשמר כתמונה של ההצעה, בלי שכבת טקסט, ולכן אינו נגיש לקוראי מסך. כל המידע שבו מופיע גם על המסך.</li> <li>תכנים של צד שלישי — ביקורות מ-Google ושיחות בוואטסאפ — מוצגים כפי שהם במערכות של הספקים.</li></ul>
+      <p data-i18n="ui_st_13">במקרה של קושי בגישה לתוכן מסוים, נשמח לסייע באמצעי חלופי — שיחת טלפון, הודעת וואטסאפ או דוא"ל.</p>
+      <h4 data-i18n="ui_st_14">הסדרי נגישות חלופיים</h4>
+      <p data-i18n="ui_st_15">לעסק אין משרד או אולם תצוגה לקבלת קהל. השירות ניתן בטלפון, בוואטסאפ ובהגעה של בעל העסק לבית הלקוח. נשמח לקבל פניות בערוצים הבאים:</p>
+      <ul data-i18n="ui_st_16"><li><strong>שיחת טלפון:</strong> 054-564-2426</li> <li><strong>וואטסאפ:</strong> 055-997-6041 (ניתן לשלוח גם הודעות קוליות)</li> <li><strong>דוא"ל:</strong> moshereym1@gmail.com</li></ul>
+      <h4 data-i18n="ui_st_17">פנייה בנושא נגישות</h4>
+      <p data-i18n="ui_st_18">נתקלת בבעיית נגישות באתר? יש לך הצעה לשיפור? נשמח לשמוע ולטפל בכך בהקדם.</p>
+      <div class="a11y-contact-box" data-i18n="ui_st_19"><p><strong>רכז נגישות:</strong> משה ריים</p> <p><strong>טלפון:</strong> <a href="tel:+972559976041">055-997-6041</a></p> <p><strong>דוא"ל:</strong> <a href="mailto:moshereym1@gmail.com">moshereym1@gmail.com</a></p> <p><strong>זמן מענה:</strong> נשתדל להגיב לפניות נגישות בתוך 5 ימי עסקים.</p></div>
     </div>
     <div class="a11y-modal-footer">
+      <div class="a11y-modal-footer-meta" data-i18n="ui_st_date">תאריך עדכון אחרון: נובמבר 2026</div>
       <button type="button" class="a11y-modal-footer-btn" data-close data-i18n="modal_close">סגירה</button>
     </div>
   </div>
@@ -276,29 +330,26 @@
 <!-- Privacy policy -->
 <div class="privacy-modal" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title" aria-hidden="true">
   <div class="privacy-box">
-    <h3 id="privacy-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10.5" rx="2.5"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg><span data-i18n="privacy_title">מדיניות פרטיות</span></h3>
-    <p data-i18n="privacy_p1">אתר זה של א.ר דודי שמש נועד להציג מידע על שירותינו ולאפשר יצירת קשר. איננו אוספים מידע אישי באופן יזום.</p>
-    <p data-i18n="privacy_p2"><strong>יצירת קשר:</strong> כאשר אתם פונים אלינו בטלפון או בוואטסאפ, פרטיכם משמשים אך ורק למתן מענה לפנייתכם ולא מועברים לצד שלישי.</p>
-    <p data-i18n="privacy_p3"><strong>מדידה ופרסום:</strong> האתר מודד המרות של Google Ads (פניות בטלפון ובוואטסאפ שמגיעות מהמודעות שלנו) באמצעות עוגיות של Google. אפשר לסרב לעוגיות האלה בבאנר העוגיות, והבחירה נשמרת בדפדפן.</p>
-    <p data-i18n="privacy_p4">לשאלות בנושא פרטיות ניתן ליצור קשר בטלפון 054-564-2426.</p>
+    <h3 id="privacy-title" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10.5" rx="2.5"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg><span data-i18n="ui_pv_title">מדיניות פרטיות — א.ר דודי שמש</span></h3>
+    <p data-i18n="ui_pv_1"><strong>מי אחראי על המידע?</strong><br> האתר ardudim.co.il מופעל על ידי א.ר דודי שמש — איליה ריים, השיקמה 3, פתח תקווה. אנחנו בעל השליטה במידע שנמסר דרך האתר.</p>
+    <p data-i18n="ui_pv_2"><strong>איזה מידע נאסף, ולמה?</strong><br> מידע שאתם מוסרים: בבקשה לתיאום מועד במחשבון — שם, טלפון, יישוב, הימים והשעות שבחרתם וההצעה שבניתם. בפנייה בוואטסאפ או בטלפון — מספר הטלפון ותוכן הפנייה. המידע משמש לתיאום העבודה, להצעת מחיר, לביצוע השירות ולאחריות.<br> מידע שנאסף אוטומטית: בזמן טעינת האתר, ספקי האחסון, הגופנים ותג המדידה (GitHub ו-Google) מקבלים את כתובת ה-IP ואת סוג הדפדפן, כמו בכל אתר. כשפותחים את כרטיס קביעת המועד במחשבון, גם Supabase מקבל אותם. עם בקשה לתיאום מועד נשמרים גם שפת האתר, קוד אקראי שנוצר בדפדפן שלכם וקוד מגובב (hash) של כתובת ה-IP, כדי שתוכלו לעדכן את הבקשה וכדי למנוע שליחות חוזרות. אם הסכמתם לעוגיות המדידה, Google Ads מקבל גם מזהה שמאפשר לדעת שפנייה הגיעה ממודעה שלנו.</p>
+    <p data-i18n="ui_pv_3"><strong>האם חייבים למסור מידע?</strong><br> אין חובה חוקית למסור לנו מידע; המסירה תלויה ברצונכם ובהסכמתכם. אפשר לראות מחירים ולבנות הצעה במחשבון בלי להשאיר פרטים. בלי שם וטלפון לא נוכל לתאם איתכם מועד.</p>
+    <p data-i18n="ui_pv_4"><strong>עוגיות (Cookies) ומדידה</strong><br> האתר שומר בדפדפן שלכם הגדרות שנחוצות לפעולתו: שפה, הגדרות נגישות ובחירת העוגיות, ובמהלך הביקור גם סימון שכבר ראיתם מחיר או בחרתם בוואטסאפ, וקוד אקראי של בקשת התיאום. בנוסף, האתר מודד פניות שהגיעו ממודעות Google Ads (לחיצה על טלפון או על וואטסאפ) בעזרת עוגיות של Google. עוגיות המדידה נשמרות רק אחרי שלחצתם "הבנתי, אני מסכים" בהודעת העוגיות. בלי הסכמה Google מקבל רק אות על הביקור ועל הפנייה, בלי עוגיות ובלי מזהה אישי. אפשר לשנות את הבחירה בכל רגע בקישור "הגדרות עוגיות" בתחתית כל דף.</p>
+    <p data-i18n="ui_pv_5"><strong>למי המידע מועבר?</strong><br> אנחנו לא מוכרים מידע ולא מעבירים אותו לאחרים לצורכי שיווק. המידע נשמר ומעובד אצל ספקי שירות שפועלים עבורנו: Supabase (מסד הנתונים של מערכת התיאום), Google (יומן העבודות, איתור הכתובת לניווט, גופני האתר ומדידת המודעות), WhatsApp (כשפונים אלינו בוואטסאפ) ו-GitHub (אחסון האתר). ייתכן שהשרתים שלהם נמצאים מחוץ לישראל.</p>
+    <p data-i18n="ui_pv_6"><strong>כמה זמן נשמר המידע?</strong><br> כל עוד הוא נחוץ לתיאום העבודה, לאחריות ולחובות הנהלת החשבונות.</p>
+    <p data-i18n="ui_pv_7"><strong>הזכויות שלכם</strong><br> לפי חוק הגנת הפרטיות, התשמ"א-1981, אתם זכאים לעיין במידע שנשמר עליכם, ולבקש לתקן או למחוק מידע שאינו נכון, שלם, ברור או מעודכן. לפנייה — בפרטים שלמטה.</p>
+    <p data-i18n="ui_pv_8"><strong>יצירת קשר בנושא פרטיות</strong><br> טלפון: <a href="tel:+972545642426">054-564-2426</a> · דוא"ל: <a href="mailto:moshereym1@gmail.com">moshereym1@gmail.com</a></p>
+    <p class="privacy-updated" data-i18n="ui_pv_updated">עדכון אחרון: נובמבר 2026</p>
     <button type="button" class="privacy-close" data-close data-i18n="modal_close">סגירה</button>
   </div>
 </div>
 
 <script>
 var I18N = {
+  doc_title:{he:'אזורי שירות – דוד שמש בפתח תקווה והמרכז | א.ר דודי שמש',ru:'Зоны обслуживания – солнечные бойлеры в Петах-Тикве и центре | А.Р Дудей Шемеш'},
+  doc_desc:{he:'א.ר דודי שמש נותנים שירות תיקון והתקנת דודי שמש בפתח תקווה, תל אביב, רמת גן, גבעתיים, בני ברק, חולון, בת ים, ראשון לציון ועוד. הגעה באותו יום, בכפוף לזמינות.',ru:'А.Р Дудей Шемеш — ремонт и установка солнечных бойлеров в Петах-Тикве, Тель-Авиве, Рамат-Гане, Гиватаиме, Бней-Браке, Холоне, Бат-Яме, Ришон-ле-Ционе и других городах. Приезд в тот же день, по доступности.'},
   langlabel:{he:'RU',ru:'HE'},
   logo_sub:{he:'תיקון · התקנה · תחזוקה',ru:'Ремонт · Монтаж · Обслуживание'},
-  privacy_title:{he:'מדיניות פרטיות',ru:'Политика конфиденциальности'},
-  privacy_p1:{he:'אתר זה של א.ר דודי שמש נועד להציג מידע על שירותינו ולאפשר יצירת קשר. איננו אוספים מידע אישי באופן יזום.',ru:'Этот сайт А.Р Дудей Шемеш предназначен для информации о наших услугах и связи. Мы не собираем личные данные по своей инициативе.'},
-  privacy_p2:{he:'<strong>יצירת קשר:</strong> כאשר אתם פונים אלינו בטלפון או בוואטסאפ, פרטיכם משמשים אך ורק למתן מענה לפנייתכם ולא מועברים לצד שלישי.',ru:'<strong>Связь:</strong> когда вы обращаетесь к нам по телефону или WhatsApp, ваши данные используются только для ответа и не передаются третьим лицам.'},
-  privacy_p3:{he:'<strong>מדידה ופרסום:</strong> האתר מודד המרות של Google Ads (פניות בטלפון ובוואטסאפ שמגיעות מהמודעות שלנו) באמצעות עוגיות של Google. אפשר לסרב לעוגיות האלה בבאנר העוגיות, והבחירה נשמרת בדפדפן.',ru:'<strong>Аналитика и реклама:</strong> сайт учитывает конверсии Google Ads (звонки и сообщения в WhatsApp, пришедшие из нашей рекламы) с помощью файлов cookie Google. От этих файлов cookie можно отказаться в баннере cookie, и ваш выбор сохраняется в браузере.'},
-  privacy_p4:{he:'לשאלות בנושא פרטיות ניתן ליצור קשר בטלפון 054-564-2426.',ru:'По вопросам конфиденциальности звоните 054-564-2426.'},
-  a11y_st_title:{he:'הצהרת נגישות',ru:'Декларация доступности'},
-  a11y_st_p1:{he:'אנו ב-א.ר דודי שמש רואים חשיבות רבה בהנגשת האתר לכלל המשתמשים, כולל אנשים עם מוגבלות.',ru:'Мы в А.Р Дудей Шемеш придаём большое значение доступности сайта для всех, включая людей с инвалидностью.'},
-  a11y_st_p2:{he:'<strong>אמצעי נגישות באתר:</strong> תפריט הנגישות מאפשר הגדלת טקסט, ניגודיות גבוהה, גופן קריא, הדגשת קישורים, עצירת אנימציות וסמן עכבר מוגדל.',ru:'<strong>Средства доступности:</strong> меню позволяет увеличить текст, включить высокий контраст, читаемый шрифт, выделение ссылок, остановку анимаций и крупный курсор.'},
-  a11y_st_p3:{he:'האתר נבנה בהתאם להנחיות הנגישות המקובלות ונעשה מאמץ מתמשך לשפר את הנגישות.',ru:'Сайт создан в соответствии с принятыми рекомендациями по доступности, и мы постоянно работаем над улучшением.'},
-  a11y_st_p4:{he:'<strong>נתקלתם בבעיית נגישות?</strong> נשמח לדעת ולתקן. צרו קשר בטלפון 054-564-2426.',ru:'<strong>Столкнулись с проблемой доступности?</strong> Сообщите нам. Звоните 054-564-2426.'},
   modal_close:{he:'סגירה',ru:'Закрыть'},
   nav_call:{he:'התקשרו',ru:'Позвонить'},
   btn_wa:{he:'וואטסאפ',ru:'WhatsApp'},
@@ -338,6 +389,6 @@ var I18N = {
   btn_calc:{he:'מחשבון מחירים לדודי שמש',ru:'Калькулятор цен на солнечные бойлеры'}
 };
 </script>
-<script src="assets/ardudim-sub.js?v=20261016b"></script>
+<script src="assets/ardudim-sub.js?v=20261117a"></script>
 </body>
 </html>

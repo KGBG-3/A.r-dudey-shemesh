@@ -39,7 +39,7 @@ html[lang="ru"] footer{text-align:center}
 /* Buttons */
 html[lang="ru"] .hero-btns{direction:ltr}
 /* Floating WhatsApp and call buttons */
-.sticky-wa{position:fixed;bottom:90px;right:20px;z-index:9997;display:flex;align-items:center;justify-content:center;background:var(--whatsapp);color:white;text-decoration:none;width:54px;height:54px;border-radius:50%;box-shadow:0 4px 16px rgba(37,211,102,0.5);animation:pulse-wa 2.5s ease-in-out infinite;transition:transform .2s,box-shadow .2s;padding:0}
+.sticky-wa{position:fixed;bottom:90px;right:20px;z-index:9997;display:flex;align-items:center;justify-content:center;background:var(--whatsapp);color:#0A1F3D;text-decoration:none;width:54px;height:54px;border-radius:50%;box-shadow:0 4px 16px rgba(37,211,102,0.5);animation:pulse-wa 2.5s ease-in-out infinite;transition:transform .2s,box-shadow .2s;padding:0}
 .sticky-wa:hover{transform:scale(1.08);box-shadow:0 6px 22px rgba(37,211,102,0.65)}
 .sticky-wa svg{width:28px;height:28px;flex-shrink:0}
 @keyframes pulse-wa{0%,100%{box-shadow:0 4px 16px rgba(37,211,102,0.5)}50%{box-shadow:0 4px 24px rgba(37,211,102,0.8),0 0 0 6px rgba(37,211,102,0.12)}}
@@ -79,7 +79,7 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
 .nav-call svg{width:18px;height:18px}
 /* Buttons */
 .hero-btns{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center}
-.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--whatsapp) 0,#1eb353 100%);color:white;text-decoration:none;padding:17px 24px;border-radius:var(--radius);font-size:17px;font-weight:700;box-shadow:0 8px 24px rgba(37,211,102,0.35),inset 0 1px 0 rgba(255,255,255,0.2);transition:all .3s cubic-bezier(.2,.8,.2,1);position:relative;overflow:hidden}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--whatsapp) 0,#1eb353 100%);color:#0A1F3D;text-decoration:none;padding:17px 24px;border-radius:var(--radius);font-size:17px;font-weight:700;box-shadow:0 8px 24px rgba(37,211,102,0.35),inset 0 1px 0 rgba(255,255,255,0.2);transition:all .3s cubic-bezier(.2,.8,.2,1);position:relative;overflow:hidden}
 .btn-wa::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 0,rgba(255,255,255,0.15) 50%,transparent 100%);transform:translateX(-100%);transition:transform .6s}
 .btn-wa:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(37,211,102,0.45),inset 0 1px 0 rgba(255,255,255,0.25)}
 .btn-wa:hover::before{transform:translateX(100%)}
@@ -88,8 +88,8 @@ nav:not(.nav-scrolled) .lang-switcher{background:rgba(255,255,255,0.15);border-c
 .btn-call{display:flex;align-items:center;justify-content:center;gap:10px;background:white;color:var(--blue-dark);text-decoration:none;padding:16px 24px;border-radius:var(--radius);font-size:17px;font-weight:700;transition:all .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 4px 14px rgba(10,31,61,0.08),inset 0 0 0 1.5px rgba(255,255,255,0.9)}
 .btn-call:hover{background:var(--blue-soft);transform:translateY(-3px);box-shadow:0 10px 26px rgba(10,31,61,0.15)}
 .btn-call svg{width:22px;height:22px;color:var(--blue-mid)}
-.btn-quote{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--orange);color:white;text-decoration:none;padding:16px 22px;border-radius:var(--radius);font-size:16px;font-weight:800;transition:all .2s;box-shadow:var(--shadow-orange);position:relative;overflow:hidden}
-.btn-quote:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 10px 24px rgba(249,115,22,0.45)}
+.btn-quote{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--orange-cta);color:white;text-decoration:none;padding:16px 22px;border-radius:var(--radius);font-size:16px;font-weight:800;transition:all .2s;box-shadow:var(--shadow-orange);position:relative;overflow:hidden}
+.btn-quote:hover{background:var(--orange-cta-hover);transform:translateY(-2px);box-shadow:0 10px 24px rgba(249,115,22,0.45)}
 .btn-quote-wide{font-size:15px;gap:6px;padding:16px 20px;letter-spacing:.01em}
 /* Floating cards (the white section cards and the dark contact card) */
 .repairs{background:rgba(255,255,255,0.90);padding:48px 16px}
@@ -511,7 +511,7 @@ body.hero-btns-on .sticky-wa,body.hero-btns-on .sticky-call,html.sticky-wait .st
   .nav-menu-foot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--q-hair)}
   .nav-links .nav-menu-foot a{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 10px;border:0;border-radius:14px;font-size:16px;font-weight:800;text-decoration:none !important;text-align:center}
   .nav-links .nav-menu-foot a svg{width:20px;height:20px;flex-shrink:0}
-  .nav-links .nav-menu-foot .nmf-wa{background:var(--whatsapp);color:#fff !important}
+  .nav-links .nav-menu-foot .nmf-wa{background:var(--whatsapp);color:#0A1F3D !important}
   .nav-links .nav-menu-foot .nmf-call{background:var(--q-amber);color:var(--q-navy) !important}
   .nav-links .nav-menu-foot a:hover{background:var(--whatsapp)}
   .nav-links .nav-menu-foot .nmf-call:hover{background:#F9B312}

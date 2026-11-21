@@ -2555,6 +2555,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       <!-- the designed quote is rendered here (qRenderResult) -->
       <div id="q-result-slot"></div>
+      <!-- one sentence for screen readers when the quote appears (#ardudim-polish-js) -->
+      <div id="calc-live" class="jb-vh" aria-live="polite"></div>
 
       <div class="result-note">
         <strong>שים לב:</strong> כל המחירים באתר כוללים מע"מ. המחיר כולל את כל החלקים והעבודה; בהתאם לתנאי ההתקנה בפועל ייתכנו תוספות — תמיד בתיאום ואישור מול הלקוח לפני הביצוע.<br/>
@@ -4049,6 +4051,7 @@ function setTabStates(activeStep) {
   tabOrder.forEach((tabId, i) => {
     const tab = document.getElementById(tabId);
     if (!tab) return;
+    if (i === activeIdx) tab.setAttribute('aria-current', 'step'); else tab.removeAttribute('aria-current');
     // Hide sys + kolat tabs if not a system product
     if ((tabId === 'tab-sys' || tabId === 'tab-kolat') && !isSystem) { tab.style.display = 'none'; return; }
     // Super has no volume step and no company step
@@ -6098,14 +6101,47 @@ function navGoto(id){
   var SEL = '.prod-card,.sys-type-card,.vol-card,.roof-card,.roof-sub-card,.access-card';
   var root = document.getElementById('calculator');
   if (!root) return;
+  // aria-pressed follows the class "selected" (every place that sets or clears it: the cards, Back, a reset, qJumpToCalc)
+  function pressed(el) { el.setAttribute('aria-pressed', el.classList.contains('selected') ? 'true' : 'false'); }
   function arm() {
     root.querySelectorAll(SEL).forEach(function (el) {
       if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
       if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+      pressed(el);
+    });
+    root.querySelectorAll('.step-title').forEach(function (h) { if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '-1'); });
+    labelCards(root);
+  }
+  // the company cards' buttons: their visible text + the company name ("לבחירת החבילה של כרומגן", "מה עוד כלול במחיר — כרומגן"),
+  // read from the card as shown, so the label is in the page's language (the texts come from t() / qt())
+  function labelCards(box) {
+    if (!box) return;
+    box.querySelectorAll('.q-card').forEach(function (card) {
+      var nm = card.querySelector('.q-card-name');
+      var brand = nm ? nm.textContent.replace(/\s+/g, ' ').trim() : '';
+      if (!brand) return;
+      card.querySelectorAll('.q-select,.q-more').forEach(function (b) {
+        var vis = (b.querySelector('.more-label') || b).textContent.replace(/\s+/g, ' ').trim().replace(/\?$/, '');
+        if (!vis) return;
+        var label = vis + (currentLang !== 'ru' && /^לבחירת /.test(vis) ? ' של ' : ' — ') + brand;
+        if (b.getAttribute('aria-label') !== label) b.setAttribute('aria-label', label);
+      });
     });
   }
+  var qTop = document.getElementById('q-top');
   arm();
-  if ('MutationObserver' in window) new MutationObserver(function () { arm(); }).observe(root, { childList: true, subtree: true });
+  labelCards(qTop);
+  if ('MutationObserver' in window) {
+    new MutationObserver(function (recs) {
+      var built = false;
+      recs.forEach(function (r) {
+        if (r.type === 'childList') built = true;
+        else if (r.target.matches && r.target.matches(SEL)) pressed(r.target);
+      });
+      if (built) arm();
+    }).observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+    if (qTop) new MutationObserver(function () { labelCards(qTop); }).observe(qTop, { childList: true, subtree: true });
+  }
   root.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     var el = e.target && e.target.closest ? e.target.closest(SEL) : null;
@@ -6113,6 +6149,79 @@ function navGoto(id){
     e.preventDefault();
     el.click();
   });
+
+  // focus after a step change the visitor caused (a card, Next, Back, the info dialogs' "אישור והמשך", the quote's buttons):
+  // to the new step's heading, or to the quote's heading. Page load, a ?q= / ?p= link and a language switch move nothing.
+  var userAt = 0;
+  function stamp(e) {
+    if (!e.isTrusted || (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ')) return;
+    var el = e.target && e.target.closest ? e.target.closest('#calculator,.kolat-modal-overlay') : null;
+    if (el) userAt = Date.now();
+  }
+  document.addEventListener('click', stamp, true);
+  document.addEventListener('keydown', stamp, true);
+  function byUser() { var u = Date.now() - userAt < 1500; userAt = 0; return u; }
+  function focusQuiet(el) {
+    if (!el) return;
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }   // the steps' own scrolling stays as it was
+  }
+  var go = window.goStep;
+  if (typeof go === 'function') {
+    window.goStep = function (n) {
+      var r = go.apply(this, arguments);
+      if (byUser()) {
+        var step = document.getElementById(n === 'sys' ? 'step-sys' : n === 'kolat' ? 'step-kolat' : 'step-' + n);
+        focusQuiet(step && step.querySelector('.step-title'));
+      }
+      return r;
+    };
+  }
+  // the quote: one polite sentence (product, company, final price incl. VAT, from the quote model — not the count-up's frames)
+  var live = document.getElementById('calc-live'), liveT = 0;
+  function announce(res) {
+    if (!live) return;
+    var text = '';
+    try {
+      var m = qModel(window.__qResultSpec), b = m && m.brands.find(function (x) { return x.key === sel.brand; });
+      if (b) text = qt('הצעת מחיר') + ': ' + qTitle(m) + ', ' + t(b.name) + ' — ₪' + Number(b.price).toLocaleString() + ' ' + t('כולל מע"מ');
+    } catch (e) { text = ''; }
+    if (!text) { var h = res.querySelector('.qw-title'); text = h ? h.textContent.replace(/\s+/g, ' ').trim() : ''; }
+    live.textContent = '';
+    clearTimeout(liveT);
+    liveT = setTimeout(function () { live.textContent = text; }, 150);
+  }
+  var show = window.showResult;
+  if (typeof show === 'function') {
+    window.showResult = function () {
+      var user = byUser();
+      var r = show.apply(this, arguments);
+      var res = document.getElementById('calc-result');
+      if (res && res.classList.contains('visible')) {
+        document.querySelectorAll('#calculator .csl[aria-current]').forEach(function (c) { c.removeAttribute('aria-current'); });
+        var h = res.querySelector('#q-result-slot .qw-title');
+        if (h) h.setAttribute('tabindex', '-1');
+        if (user) focusQuiet(h);
+        announce(res);
+      }
+      return r;
+    };
+  }
+  // a language switch: the cards' labels in the new language; the sentence is not said again
+  var upd = window.updateDynamicLang;
+  if (typeof upd === 'function') {
+    window.updateDynamicLang = function () {
+      var was = document.activeElement && document.activeElement.matches && document.activeElement.matches('#q-result-slot .qw-title');
+      var r = upd.apply(this, arguments);
+      clearTimeout(liveT);
+      if (live) live.textContent = '';
+      var h = document.querySelector('#q-result-slot .qw-title');
+      if (h) h.setAttribute('tabindex', '-1');
+      if (was && h && document.activeElement !== h) focusQuiet(h);   // the heading was rebuilt: the focus stays where it was
+      labelCards(root); labelCards(qTop);
+      return r;
+    };
+  }
 })();
 /* Escape closes the mobile menu */
 document.addEventListener('keydown', function (e) {

@@ -7,7 +7,9 @@
    in their usual places (macOS /Applications, Linux /usr/bin).
 
    It serves the repo itself on a free local port (like GitHub Pages: a missing path gets 404.html with status 404),
-   so cookies, localStorage, root-absolute paths and fetch all behave as on the live site. Every run uses a fresh browser profile.
+   so cookies, localStorage, root-absolute paths and fetch all behave as on the live site. Every run uses a fresh browser profile
+   in the system temp folder; at the end (also on a timeout, an error or Ctrl-C) Chromium's whole process group is killed and,
+   once it has exited, the profile is removed.
 
    node tools/cdp.js --page index.html [options]      (run from the repo root)
      --root DIR          folder to serve (default: the current directory)
@@ -100,19 +102,37 @@ const server = http.createServer((req, res) => {
 
 const KEYS = { Tab: 9, Enter: 13, Escape: 27, Space: 32, ' ': 32, ArrowDown: 40, ArrowUp: 38, ArrowLeft: 37, ArrowRight: 39, Home: 36, End: 35, Backspace: 8 };
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+let cleanup = null;   // set once Chromium runs: stops it and removes its profile (also after an error)
 
 (async () => {
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   const port = server.address().port;
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'cdp-prof-'));
   const chrome = spawn(CHROME, ['--headless=new', '--remote-debugging-port=0', '--user-data-dir=' + profile, '--no-first-run', '--no-default-browser-check',
-    '--disable-gpu', '--hide-scrollbars', '--mute-audio', `--window-size=${opt.width},${opt.height}`, 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'] });
-  let done = false;
-  const finish = (code) => { if (done) return; done = true; try { chrome.kill('SIGKILL'); } catch (e) {} server.close(); try { fs.rmSync(profile, { recursive: true, force: true }); } catch (e) {} process.exit(code); };
+    '--disable-gpu', '--hide-scrollbars', '--mute-audio', '--disable-breakpad', '--disable-crash-reporter', `--window-size=${opt.width},${opt.height}`, 'about:blank'],
+    { stdio: ['ignore', 'ignore', 'pipe'], detached: true });
+  // Chromium runs in its own process group, so one kill stops it with all its helpers (renderers, crashpad)
+  const killChrome = () => { try { process.kill(-chrome.pid, 'SIGKILL'); } catch (e) { try { chrome.kill('SIGKILL'); } catch (e2) {} } };
+  cleanup = (code) => finish(code);
+  let done = false, chromeExited = false;
+  chrome.on('exit', () => { chromeExited = true; });
+  // the profile is removed only after Chromium (and its crashpad helper) stopped writing to it, else it is partly recreated
+  const finish = async (code) => {
+    if (done) return; done = true;
+    killChrome();
+    server.close();
+    for (let i = 0; i < 40 && !chromeExited; i++) await sleep(50);
+    for (let i = 0; i < 5; i++) {
+      try { fs.rmSync(profile, { recursive: true, force: true }); } catch (e) {}
+      await sleep(i ? 200 : 100);
+      if (!fs.existsSync(profile)) break;
+    }
+    process.exit(code);
+  };
   const hardStop = setTimeout(() => { console.error('cdp.js: timeout'); finish(3); }, Number(opt.timeout || 150) * 1000);
   // never leave a headless browser behind: also when this script is interrupted or killed by a shell timeout
   ['SIGINT', 'SIGTERM', 'SIGHUP'].forEach(sig => process.on(sig, () => finish(130)));
-  process.on('exit', () => { try { chrome.kill('SIGKILL'); } catch (e) {} });
+  process.on('exit', killChrome);
 
   const wsUrl = await new Promise((res, rej) => {
     let buf = '';
@@ -201,4 +221,4 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   clearTimeout(hardStop);
   process.stdout.write(JSON.stringify(opt.net.length ? { url, status, results, errors, cookies, requests } : { url, status, results, errors, cookies }, null, 1) + '\n');
   finish(0);
-})().catch(e => { console.error('cdp.js failed: ' + e.message); process.exit(1); });
+})().catch(e => { console.error('cdp.js failed: ' + e.message); if (cleanup) cleanup(1); else process.exit(1); });
